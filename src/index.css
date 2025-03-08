@@ -1,0 +1,476 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-color: #242424;
+  --dark-text-color: rgba(255, 255, 255, 0.87);
+}
+
+.light {
+  --text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --border-color: rgb(6 78 59);
+  /* emerald-900 */
+  --bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --barra-bg-color: rgb(6 78 59);
+  /* emerald-900 */
+  --barra-text-color: rgb(255 255 255);
+  /* white */
+  --barra-item-hover-color: rgb(52 211 153);
+  /* emerald-400 */
+  --barra-item-active-color: rgb(16 185 129);
+  /* emerald-500 */
+  --title-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --section-bg-color: rgb(243 244 246);
+  /* gray-100 */
+  --item-fechacompra-text-color: rgb(156 163 175);
+  /* gray-400 */
+  --item-bg-color: rgb(255 255 255);
+  /* white */
+  --item-hover-bg-color: rgb(209 250 229);
+  /* emerald-100 */
+  --item-button-hover-text-color: rgb(52 211 153);
+  /* emerald-400 */
+  --item-button-add-hover-text-color: rgb(4 120 87);
+  /* emerald-700 */
+  --item-button-remove-hover-text-color: rgb(185 28 28);
+  /* red-600 */
+  --task-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --task-divider-color: rgb(6 78 59 / 0.5);
+  /* emerald-900/50 */
+  --item-counter-bg-color: rgb(229 231 235);
+  /* gray-200 */
+  --tag-bg-color: rgb(255 255 255);
+  /* white */
+  --tag-hover-bg-color: rgb(209 213 219);
+  /* gray-300 */
+  --tag-selected-bg-color: rgb(5 150 105);
+  /* emerald-600 */
+  --tag-selected-text-color: rgb(255 255 255);
+  /* white */
+  --tag-selected-hover-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --modal-backdrop-color: rgb(2 44 34 / 0.8);
+  /* emerald-900/80 */
+  --modal-bg-color: rgb(243 244 246);
+  /* gray-100 */
+  --modal-input-bg-color: rgb(229 231 235);
+  /* gray-200 */
+  --modal-button-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --modal-button-text-color: rgb(255 255 255);
+  /* white */
+  --context-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --context-no-content-bg-color: rgb(156 163 175);
+  /* gray-400 */
+  --context-hover-bg-color: rgb(5 150 105);
+  /* emerald-600 */
+  --floating-button-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --floating-button-text-color: rgb(255 255 255);
+  /* white */
+  --floating-button-hover-bg-color: rgb(5 150 105);
+  /* emerald-600 */
+  --selector-tienda-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --selector-tienda-text-color: rgb(255 255 255);
+  /* white */
+}
+
+.dark {
+  --text-color: rgb(77, 77, 77);
+  /* gray-100 */
+  --border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
+  /* gray-300 */
+  --bg-color: rgb(31 41 55);
+  /* gray-800 */
+  --barra-bg-color: rgb(17 24 39);
+  /* gray-900 */
+  --barra-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --barra-item-hover-color: rgb(75 85 99);
+  /* gray-600 */
+  --barra-item-active-color: rgb(107 114 128);
+  /* gray-500 */
+  --title-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --section-bg-color: rgb(31 41 55);
+  /* gray-800 */
+  --item-fechacompra-text-color: rgb(156 163 175);
+  /* gray-400 */
+  --item-bg-color: rgb(55 65 81);
+  /* gray-700 */
+  --item-hover-bg-color: rgb(75 85 99);
+  /* gray-600 */
+  --item-button-hover-text-color: rgb(31 41 55);
+  /* gray-800 */
+  --item-button-add-hover-text-color: rgb(52 211 153);
+  /* emerald-400 */
+  --item-button-remove-hover-text-color: rgb(220 38 38);
+  /* red-600 */
+  --task-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --task-divider-color: rgb(243 244 246 / 0.5);
+  /* gray-100/50 */
+  --item-counter-bg-color: rgb(229 231 235);
+  /* gray-200 */
+  --tag-bg-color: rgb(55 65 81);
+  /* gray-700 */
+  --tag-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --tag-hover-bg-color: rgb(107 114 128);
+  /* gray-500 */
+  --tag-selected-bg-color: rgb(52 211 153);
+  /* emerald-400 */
+  --tag-selected-hover-bg-color: rgb(16 185 129);
+  /* emerald-500 */
+  --modal-backdrop-color: rgb(17 24 39 / 0.9);
+  /* gray-900/80 */
+  --modal-bg-color: rgb(31 41 55);
+  /* gray-800 */
+  --modal-input-bg-color: rgb(55 65 81);
+  /* gray-700 */
+  --modal-button-bg-color: rgb(75 85 99);
+  /* gray-600 */
+  --modal-button-hover-bg-color: rgb(107 114 128);
+  /* gray-500 */
+  --modal-button-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --context-bg-color: rgb(31 41 55);
+  /* gray-800 */
+  --context-no-content-bg-color: rgb(107 114 128);
+  /* gray-500 */
+  --context-hover-bg-color: rgb(52 211 153);
+  /* emerald-400 */
+  --floating-button-bg-color: rgb(75 85 99);
+  /* gray-600 */
+  --floating-button-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --floating-button-hover-bg-color: rgb(52 211 153);
+  /* emerald-400 */
+  --selector-tienda-bg-color: rgb(75 85 99);
+  /* gray-600 */
+  --selector-tienda-text-color: rgb(243 244 246);
+  /* gray-100 */
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+@layer components {
+  .floatingButton {
+    @apply p-2 absolute right-5 bg-[var(--floating-button-bg-color)] text-[var(--floating-button-text-color)] border border-[var(--border-color)] rounded-full transition-all duration-200 hover:bg-[var(--floating-button-hover-bg-color)] cursor-pointer;
+  }
+  .seccionTienda {
+    @apply sm:left-[75px] md:left-[29%] xl:left-[360px] flex justify-start items-center;
+  }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  .selectorTienda {
+    @apply p-2 bg-[var(--selector-tienda-bg-color)] text-[var(--selector-tienda-text-color)] text-xs border border-[var(--border-color)] rounded-md transition-all duration-200 shadow-md cursor-pointer;
+  }
+  .selectorTienda option {
+    @apply bg-[var(--selector-tienda-bg-color)] text-[var(--selector-tienda-text-color)] text-xs;
+  }
+  .iconoTienda {
+    @apply w-9 h-9 bg-none text-[var(--selector-tienda-bg-color)] text-xs m-2 border border-[var(--border-color)] rounded-md transition-all duration-200 shadow-md;
+  }
+  .seccionBotones {
+    @apply flex justify-between items-center absolute bottom-0 w-full min-h-10;
+  }
+
+  /* ********************* */
+  /* CONTEXT */
+  /* ********************* */
+
+  .customContextMenu,
+  .customContextMenu>ul>li>ul {
+    @apply w-32 p-0 m-0 border border-[var(--border-color)] rounded-lg shadow-lg bg-[var(--context-bg-color)] text-xs transition-all duration-200;
+    animation: rollIn 0.2s ease-in-out;
+  }
+  .customContextMenu li:not(:last-child) {
+    @apply cursor-pointer h-auto border-b border-[var(--border-color)] transition-all duration-200 hover:bg-[var(--context-hover-bg-color)];
+  }
+  .customContextMenu a {
+    @apply p-2 py-3;
+  }
+  .sinContenido {
+    @apply text-sm text-[var(--context-no-content-bg-color)];
+  }
+
+  /* ********************* */
+  /* MODAL */
+  /* ********************* */
+
+  .modal {
+    @apply backdrop:bg-[var(--modal-backdrop-color)] bg-[var(--modal-bg-color)] text-[var(--text-color)] fixed top-10 left-14 z-[1000] p-10 rounded-md shadow-md;
+  }
+  .modalTitulo {
+    @apply text-2xl font-bold mb-8;
+  }
+  .modalInput {
+    @apply w-96 p-2 mb-4 bg-[var(--modal-input-bg-color)] text-sm border border-[var(--border-color)] rounded-md text-[var(--modal-button-text-color)] transition-all duration-200;
+  }
+  .modalSelect {
+    @apply w-96 p-2 mb-4 text-sm border border-[var(--border-color)] rounded-md text-[var(--text-color)] transition-all duration-200;
+  }
+  .modalLabel {
+    @apply text-sm font-bold mb-2;
+  }
+  .modalBoton {
+    @apply bg-[var(--modal-button-bg-color)] text-[var(--modal-button-text-color)] py-3 px-6 rounded-md transition-all duration-200 hover:bg-[var(--modal-button-hover-bg-color)] cursor-pointer;
+  }
+  .modalLabel {
+    @apply text-sm font-bold mb-2 me-3;
+  }
+  .modalCerrar {
+    @apply absolute w-7 h-6 top-4 right-4 text-[var(--text-color)] cursor-pointer text-2xl;
+  }
+  dialog {
+    overflow: visible;
+  }
+
+  /* ********************* */
+  /* BARRA LATERAL */
+  /* ********************* */
+  .barraLateral {
+    @apply bg-[var(--barra-bg-color)] fixed top-0 left-0
+    md:w-1/4 xl:w-80 h-screen shadow-[rgba(30,58,138,0.5)_3px_0px_3px_0px]
+    transition-all duration-200;
+  }
+  .tituloBarraLateral {
+    @apply flex justify-center text-[var(--barra-text-color)] text-3xl font-bold p-4 my-6 mt-2 md:mt-6;
+  }
+  .logoBarraLateral {
+    @apply md:mr-2 md:mt-1 w-6 h-8 transition-all duration-200;
+  }
+  .iconoBarraLateral {
+    @apply md:mr-2 md:mt-1 w-4 h-4 transition-all duration-200;
+  }
+  .itemBarraLateral {
+    @apply flex justify-center md:justify-start text-[var(--barra-text-color)] p-2 m-2 rounded-md transition-all duration-200 hover:bg-[var(--barra-item-hover-color)] hover:shadow-md hover:scale-105 cursor-pointer;
+  }
+  .itemBarraLateralActive {
+    @apply bg-[var(--barra-item-active-color)] shadow-md scale-100;
+  }
+  .toggleMode {
+    @apply absolute bottom-0 left-0 p-2 m-2 text-[var(--barra-text-color)] text-xs cursor-pointer;
+  }
+  .toggleModeLight,
+  .toggleModeDark {
+    @apply w-6 h-6 rounded-md transition-all duration-200;
+  }
+  
+  .toggleModeLight.animate,
+  .toggleModeDark.animate {
+    animation: spinFade 0.3s ease-in-out;
+  }
+
+  /* ********************* */
+  /* SECCIÓN PRINCIPAL */
+  /* ********************* */
+  .seccionPrincipal {
+    @apply md:w-3/4 w-full xl:w-full h-screen max-h-screen ml-12 md:ml-[25%] xl:ml-80 px-5 pb-5 md:p-10 md:pt-0 bg-[var(--section-bg-color)] text-[var(--title-text-color)] transition-all duration-200;
+  }
+  .tituloSeccion {
+    @apply z-50 text-2xl md:text-4xl font-bold max-w-5xl sticky top-0 pt-5 bg-[var(--section-bg-color)] border-b-2 border-[var(--border-color)] transition-all duration-200;
+  }
+  .contenidoPrincipal {
+    @apply max-w-5xl h-[94%] max-h-[94%] md:h-[97%] md:max-h-[97%] relative z-[500] overflow-auto sm:scrollbar-hide;
+  }
+  .contenidoPrincipal::-webkit-scrollbar {
+    display: none;
+  }
+  .h1Seccion {
+    @apply text-xl font-bold mb-5;
+  }
+
+  /* ********************* */
+  /* TAREAS */
+  /* ********************* */
+  .tarea {
+    @apply shadow-md rounded-md text-sm hover:shadow-xl hover:bg-[var(--item-hover-bg-color)] transition-all duration-200 text-[var(--task-text-color)] border border-transparent;
+  }
+  .tituloTarea {
+    @apply flex justify-between font-bold text-sm text-[var(--task-text-color)] ;
+  }
+  .descTarea {
+    @apply text-xs mt-2 md:flex justify-between transition-all duration-200 text-[var(--task-text-color)] ;
+  }
+  .descTareaHide {
+    @apply h-0 overflow-hidden transition-all duration-200;
+  }
+  .descTareaShow {
+    @apply h-auto transition-all duration-200;
+  }
+  .botonTarea {
+    @apply me-4 text-base hover:text-[var(--item-button-hover-text-color)] transition-all duration-200;
+  }
+  .hrSeccion {
+    @apply border-b-0 border-[var(--task-divider-color)] my-6;
+  }
+  .tareas {
+    @apply h-[94%] max-h-[94%] relative;
+  }
+  .tareasAbiertas,
+  .tareasCerradas {
+    @apply h-[40%] max-h-[40%] overflow-auto sm:scrollbar-hide;
+  }
+
+
+  /* ********************* */
+  /* PRODUCTOS */
+  /* ********************* */
+  .producto {
+    @apply flex justify-between bg-[var(--item-bg-color)] shadow-md rounded-md text-xs md:text-sm p-2 mb-1 border border-transparent transition-all duration-200;
+  }
+  .producto:hover {
+    @apply shadow-xl bg-[var(--item-hover-bg-color)] border-[var(--border-color)] cursor-default;
+  }
+  .drag-handle {
+    @apply h-6 cursor-grab;
+  }
+  .drag-handle:active {
+    @apply cursor-grabbing;
+  }
+  .productoName {
+    @apply w-3/4 pt-[.15rem]
+  }
+  .fechaCompra {
+    @apply w-1/4 text-right text-[var(--item-fechacompra-text-color)];
+  }
+  .contador {
+    @apply flex justify-between align-middle items-center gap-2;
+  }
+  .botonContador {
+    @apply w-5 h-5 md:w-6 md:h-6 pb-1 p-1 rounded-lg cursor-pointer bg-transparent transition-all duration-200;
+  }
+  .botonAdd {
+    @apply hover:bg-[var(--item-button-add-hover-text-color)] hover:text-[var(--item-button-hover-text-color)];
+  }
+  .botonRemove {
+    @apply hover:bg-[var(--item-button-remove-hover-text-color)] hover:text-[var(--item-button-hover-text-color)];
+  }
+  .amount {
+    @apply w-5 h-5 md:w-6 md:h-6 font-bold bg-[var(--item-counter-bg-color)] text-[var(--text-color)] text-center flex justify-center items-center align-middle border border-[var(--border-color)] rounded-md cursor-text;
+  }
+  .botonComprar {
+    @apply bg-emerald-[var(--item-button-hover-text-color)] md:ms-4 p-1 w-5 h-5 md:w-6 md:h-6 rounded-md transition-all duration-200 cursor-pointer;
+  }
+  .productoDesc {
+    @apply text-xs md:text-sm transition-all duration-200;
+  }
+  .iconoDesc {
+    @apply w-4 h-4 rotate-0 transition-all duration-200;
+  }
+  .rotated {
+    @apply transform rotate-180 transition-all duration-200;
+  }
+  .despensa,
+  .listaCompra {
+    @apply h-[84%] max-h-[84%] overflow-auto sm:scrollbar-hide relative;
+  }
+  .iconoScrollBottom,
+  .iconoScrollTop {
+    @apply flex w-6 h-6 sticky left-[45%] cursor-pointer animate-bounce transition-all duration-200;
+  }
+  .iconoScrollTop {
+    @apply top-2;
+  }
+  .iconoScrollBottom {
+    @apply bottom-0;
+  }
+
+  /* ********************* */
+  /* ETIQUETAS */
+  /* ********************* */
+  .etiquetas {
+    @apply flex flex-wrap gap-2 mb-2 z-50 mt-2 max-h-[3.8rem] overflow-auto sm:scrollbar-hide bg-[var(--section-bg-color)]
+    bg-opacity-100 top-16 md:top-[4.2rem] items-center transition-all duration-200;
+  }
+  .etiqueta {
+    @apply p-1 px-2 bg-[var(--tag-bg-color)] text-[var(--tag-text-color)] text-[.65rem] border border-[var(--border-color)] rounded-xl cursor-pointer;
+  }
+  .etiqueta:hover {
+    @apply bg-[var(--tag-hover-bg-color)] shadow-md transition-all duration-200;
+  }
+  .etiquetaSeleccionada {
+    @apply font-bold bg-[var(--tag-selected-bg-color)] text-[var(--tag-selected-text-color)] text-[.65rem] border border-[var(--border-color)] rounded-xl cursor-pointer;
+  }
+  .etiquetaSeleccionada:hover {
+    @apply bg-[var(--tag-selected-hover-bg-color)] shadow-md transition-all duration-200;
+  }
+  .etiquetaAdd {
+    @apply p-1 px-2 bg-[var(--tag-selected-hover-bg-color)] text-[var(--tag-selected-text-color)] text-[.65rem] border border-[var(--border-color)] rounded-xl cursor-pointer;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes rollIn {
+  0% {
+    transform: translateX(-100%) rotate3d(0, 1, 0, -180deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0) rotate3d(0, 0, 1, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes spinFade {
+  0% {
+    opacity: 0;
+    transform: rotate(0deg) scale(1.2);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(180deg) scale(.8);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(360deg) scale(0.3);
+  }
+}
