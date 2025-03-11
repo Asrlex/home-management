@@ -6,6 +6,7 @@ import {
   FaArrowAltCircleUp,
   FaArrowAltCircleDown,
 } from "react-icons/fa";
+import { IoIosRefresh } from "react-icons/io";
 import { InView } from "react-intersection-observer";
 import {
   DndContext,
@@ -43,6 +44,7 @@ export default function ShoppingList({ type }) {
   const { products } = useContext(ProductContext);
   const {
     shoppingListItems,
+    setShoppingListItems,
     addShoppingListItem,
     removeShoppingListItem,
     modifyShoppingListItemAmount,
@@ -50,17 +52,21 @@ export default function ShoppingList({ type }) {
   } = useContext(ShoppingListContext);
   const {
     stockItems,
+    setStockItems,
     addStockItem,
     removeStockItem,
     modifyStockItemAmount,
     addOrRemoveTag,
     reorderStockItems,
   } = useContext(StockContext);
-  const productoDialog = useRef();
+  const productoDialogRef = useRef();
   const amountRef = useRef(0);
   const lastRef = useRef();
   const firstRef = useRef();
 
+  /**
+   * Custom hook to handle drag and drop events
+   */
   const sensors = useSensors(
     useSensor(MouseSensor),
     useSensor(TouchSensor, {
@@ -70,6 +76,15 @@ export default function ShoppingList({ type }) {
       },
     })
   );
+
+  /**
+   * Handles the end of a drag event
+   * @param {object} event The drag event
+   * @param {object} event.active The active element
+   * @param {object} event.over The element over which the active element is
+   * @param {object} event.active.id The ID of the active element
+   * @param {object} event.over.id The ID of the element over which the active element is
+   */
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
@@ -103,6 +118,12 @@ export default function ShoppingList({ type }) {
         : reorderStockItems(newItems);
     }
   };
+
+  /**
+   * Adds a product to the list
+   * @param {number} id The product ID
+   * @param {number} amount The amount of the product
+   */
   const handleAdd = (id, amount) => {
     const apiUrl =
       type === 'lista-compra'
@@ -132,6 +153,11 @@ export default function ShoppingList({ type }) {
       }
     );
   };
+
+  /**
+   * Deletes a product from the list
+   * @param {number} id The product ID
+   */
   const handleEliminar = (id) => {
     const confirmacion = window.confirm(
       "¿Estás seguro de eliminar este producto?"
@@ -159,8 +185,13 @@ export default function ShoppingList({ type }) {
       );
     }
   };
+
+  /**
+   * Modifies the amount of a product
+   * @param {number} id The product ID
+   * @param {number} amount The new amount
+   */
   const handleAmount = (id, amount) => {
-    console.log("handleAmount", id, amount);
     const apiUrl =
       type === 'lista-compra'
         ? `${api_config.lista_compra.modifyAmount}${id}`
@@ -184,6 +215,11 @@ export default function ShoppingList({ type }) {
       }
     );
   };
+
+  /**
+   * Moves a product from one list to the other
+   * @param {number} id The product ID
+   */
   const handleMover = (id) => {
     const apiUrl =
       type === 'lista-compra'
@@ -210,17 +246,54 @@ export default function ShoppingList({ type }) {
     );
   };
 
+  /**
+   * Fetches the data from the API and sets the state accordingly
+   */
+  const fetchData = async () => {
+    const apiUrl = type === 'lista-compra' ? api_config.lista_compra.all : api_config.despensa.all;
+    toast.promise(
+      axiosRequest("GET", apiUrl)
+        .then((response) => {
+          if (type === 'lista-compra') {
+            setShoppingListItems(response);
+          } else {
+            setStockItems(response);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        }),
+      {
+        loading: "Cargando productos...",
+        success: "Productos cargados",
+        error: (err) => `Error al cargar productos: ${err}`,
+      }
+    );
+  };
+
+  /**
+   * Handles the submit event of the modal
+   * @param {object} e The submit event 
+   */
   const modalSubmit = (e) => {
     e.preventDefault();
     const handleAmount = parseInt(amountRef.current.value);
     handleAdd(selectedProduct.value, handleAmount);
-    productoDialog.current.close();
+    productoDialogRef.current.close();
     amountRef.current.value = 0;
   };
+
+  /**
+   * Options for the Select component
+   */
   const productOptions = products.map((product) => ({
     value: product.productID,
     label: product.productName,
   }));
+
+  /**
+   * Custom styles for the Select component
+   */
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -254,8 +327,12 @@ export default function ShoppingList({ type }) {
       },
     }),
   };
+
+  /**
+   * The modal to add a product
+   */
   const popupProducto = (
-    <Modal ref={productoDialog}>
+    <Modal ref={productoDialogRef}>
       <h2 className="modalTitulo">Añadir producto</h2>
       <form>
         <Select
@@ -410,7 +487,8 @@ export default function ShoppingList({ type }) {
       </div>
       <div className="seccionBotones">
         <SelectorTienda />
-        <FAB icon={<FaPlus />} action={() => productoDialog.current.open()} />
+        <FAB icon={<IoIosRefresh />} action={fetchData} classes='refreshButton'/>
+        <FAB icon={<FaPlus />} action={() => productoDialogRef.current.open()} classes='floatingButton'/>
       </div>
     </>
   );

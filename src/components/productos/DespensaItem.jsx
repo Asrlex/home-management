@@ -17,7 +17,7 @@ const DespensaItem = forwardRef(({ producto, handleEliminar, handleAmount, handl
   const nombre = producto.product.productName;
   const fecha = new Date(producto.product.productDateLastBought);
   const fechaCompraFormat = `${fecha.getDate()}/${fecha.getMonth() + 1}/${fecha.getFullYear()}`;
-  const contextManuRef = useRef(null);
+  const contextMenuRef = useRef(null);
 
   const addOrRemoveEtiqueta = (etiqueta_id) => {
     if (producto.etiquetas?.some((prodEtiqueta) => prodEtiqueta.tagID === etiqueta_id)) {
@@ -69,14 +69,16 @@ const DespensaItem = forwardRef(({ producto, handleEliminar, handleAmount, handl
     {
       label: 'Etiquetas',
       icon: <FaTag className="me-2 w-3 h-3" />,
-      items: etiquetas.map((etiqueta) => ({
-        label:
-          producto.product.tags?.some((prodEtiqueta) => prodEtiqueta.tagID === etiqueta.tagID) ?
-            `${etiqueta.tagName} ✅` : `${etiqueta.tagName}`
-        ,
-        icon: <FaTag className="me-2 w-3 h-3" />,
-        command: () => addOrRemoveEtiqueta(etiqueta.id)
-      }))
+      items: etiquetas
+        .filter((etiqueta) => etiqueta.tagType === 'Product')
+        .map((etiqueta) => ({
+          label:
+            producto.product.tags?.some((prodEtiqueta) => prodEtiqueta.tagID === etiqueta.tagID) ?
+              `${etiqueta.tagName} ✅` : `${etiqueta.tagName}`
+          ,
+          icon: <FaTag className="me-2 w-3 h-3" />,
+          command: () => addOrRemoveEtiqueta(etiqueta.id)
+        }))
     }
   ];
 
@@ -87,13 +89,13 @@ const DespensaItem = forwardRef(({ producto, handleEliminar, handleAmount, handl
           <ContextMenu
             className="customContextMenu"
             model={contextModel}
-            ref={contextManuRef}
+            ref={contextMenuRef}
           />
           <div
             className="producto"
             onContextMenu={(e) => {
               e.preventDefault();
-              contextManuRef.current.show(e);
+              contextMenuRef.current.show(e);
             }}
             ref={innerRef}
           >

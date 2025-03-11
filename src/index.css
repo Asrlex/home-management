@@ -60,10 +60,14 @@
   /* gray-100 */
   --modal-input-bg-color: rgb(229 231 235);
   /* gray-200 */
+  --modal-input-text-color: rgb(6 78 59);
+  /* emerald-900 */
   --modal-button-bg-color: rgb(6 95 70);
   /* emerald-800 */
   --modal-button-text-color: rgb(255 255 255);
   /* white */
+  --modal-button-hover-bg-color: rgb(16 185 129);
+  /* emerald-500 */
   --context-bg-color: rgb(6 95 70);
   /* emerald-800 */
   --context-no-content-bg-color: rgb(156 163 175);
@@ -80,6 +84,13 @@
   /* emerald-800 */
   --selector-tienda-text-color: rgb(255 255 255);
   /* white */
+  --recipe-title-color: rgb(6 78 59);
+  /* emerald-900 */
+  --recipe-section-title-color: rgb(6 78 59);
+  /* emerald-900 */
+  --recipe-section-content-color: rgb(4 120 87);
+  /* emerald-900 */
+
 }
 
 .dark {
@@ -129,12 +140,16 @@
   /* emerald-400 */
   --tag-selected-hover-bg-color: rgb(16 185 129);
   /* emerald-500 */
+  --modal-title-text-color: rgb(243 244 246);
+  /* gray-100 */
   --modal-backdrop-color: rgb(17 24 39 / 0.9);
   /* gray-900/80 */
   --modal-bg-color: rgb(31 41 55);
   /* gray-800 */
   --modal-input-bg-color: rgb(55 65 81);
   /* gray-700 */
+  --modal-input-text-color: rgb(243 244 246);
+  /* gray-100 */
   --modal-button-bg-color: rgb(75 85 99);
   /* gray-600 */
   --modal-button-hover-bg-color: rgb(107 114 128);
@@ -157,6 +172,12 @@
   /* gray-600 */
   --selector-tienda-text-color: rgb(243 244 246);
   /* gray-100 */
+  --recipe-title-color: rgb(243 244 246);
+  /* gray-100 */
+  --recipe-section-title-color: rgb(243 244 246);
+  /* gray-100 */
+  --recipe-section-content-color: rgb(52 211 153);
+  /* emerald-400 */
 }
 
 body {
@@ -166,7 +187,10 @@ body {
 
 @layer components {
   .floatingButton {
-    @apply p-2 absolute right-5 bg-[var(--floating-button-bg-color)] text-[var(--floating-button-text-color)] border border-[var(--border-color)] rounded-full transition-all duration-200 hover:bg-[var(--floating-button-hover-bg-color)] cursor-pointer;
+    @apply p-2 absolute right-0 bg-[var(--floating-button-bg-color)] text-[var(--floating-button-text-color)] border border-[var(--border-color)] rounded-full transition-all duration-200 hover:bg-[var(--floating-button-hover-bg-color)] cursor-pointer;
+  }
+  .refreshButton {
+    @apply p-2 absolute right-10 bg-[var(--floating-button-bg-color)] text-[var(--floating-button-text-color)] border border-[var(--border-color)] rounded-full transition-all duration-200 hover:bg-[var(--floating-button-hover-bg-color)] cursor-pointer;
   }
   .seccionTienda {
     @apply sm:left-[75px] md:left-[29%] xl:left-[360px] flex justify-start items-center;
@@ -187,6 +211,18 @@ body {
   }
   .seccionBotones {
     @apply flex justify-between items-center absolute bottom-0 w-full min-h-10;
+  }
+  .scrollableTextarea {
+    @apply resize-none overflow-auto max-h-16 md:max-h-32 overflow-y-auto;
+  }
+  .scrollableTextarea::-webkit-scrollbar {
+    display: none;
+  }
+  .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
 
   /* ********************* */
@@ -213,25 +249,52 @@ body {
   /* ********************* */
 
   .modal {
-    @apply backdrop:bg-[var(--modal-backdrop-color)] bg-[var(--modal-bg-color)] text-[var(--text-color)] fixed top-10 left-14 z-[1000] p-10 rounded-md shadow-md;
+    @apply backdrop:bg-[var(--modal-backdrop-color)] bg-[var(--modal-bg-color)] text-[var(--text-color)] fixed z-[1000] p-10 rounded-md shadow-md;
   }
   .modalTitulo {
-    @apply text-2xl font-bold mb-8;
+    @apply md:text-2xl text-xl font-bold mb-4 text-[var(--modal-title-text-color)];
+  }
+  .modalSubtitulo {
+    @apply text-lg md:text-xl font-bold mb-3 text-[var(--modal-title-text-color)];
+  }
+  .modalSubSubtitulo {
+    @apply md:text-base text-sm font-bold mb-3 text-[var(--modal-title-text-color)];
+  }
+  .modalSection {
+    @apply mb-2;
+  }
+  .modalSeparator {
+    @apply mb-1 flex flex-col justify-between items-center;
+  }
+  .modalDivider {
+    @apply border-b-0 border-[var(--task-divider-color)] md:my-4 my-2;
   }
   .modalInput {
-    @apply w-96 p-2 mb-4 bg-[var(--modal-input-bg-color)] text-sm border border-[var(--border-color)] rounded-md text-[var(--modal-button-text-color)] transition-all duration-200;
+    @apply w-60 md:w-96 p-2 mb-2 bg-[var(--modal-input-bg-color)] text-sm border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200 md:max-h-10 max-h-9;
+  }
+  .modalInputSmall {
+    @apply w-28 md:w-40 p-2 me-2 mb-3 bg-[var(--modal-input-bg-color)] text-sm border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200 md:max-h-10 max-h-9;
+  }
+  .modalTextArea {
+    @apply text-xs md:max-h-none;
   }
   .modalSelect {
-    @apply w-96 p-2 mb-4 text-sm border border-[var(--border-color)] rounded-md text-[var(--text-color)] transition-all duration-200;
+    @apply w-60 md:w-96 p-2 mb-3 text-sm border border-[var(--border-color)] rounded-md text-[var(--text-color)] transition-all duration-200;
   }
   .modalLabel {
     @apply text-sm font-bold mb-2;
   }
   .modalBoton {
-    @apply bg-[var(--modal-button-bg-color)] text-[var(--modal-button-text-color)] py-3 px-6 rounded-md transition-all duration-200 hover:bg-[var(--modal-button-hover-bg-color)] cursor-pointer;
+    @apply bg-[var(--modal-button-bg-color)] text-[var(--modal-button-text-color)] py-2 px-4 rounded-md transition-all duration-200 hover:bg-[var(--modal-button-hover-bg-color)] cursor-pointer text-base;
   }
   .modalLabel {
     @apply text-sm font-bold mb-2 me-3;
+  }
+  .modalLista {
+    @apply w-60 md:w-96 p-2 my-3 bg-[var(--modal-input-bg-color)] text-xs border rounded-md text-[var(--modal-input-text-color)] transition-all duration-200;
+  }
+  .modalListItem {
+    @apply flex justify-between items-center;
   }
   .modalCerrar {
     @apply absolute w-7 h-6 top-4 right-4 text-[var(--text-color)] cursor-pointer text-2xl;
@@ -344,7 +407,7 @@ body {
     @apply cursor-grabbing;
   }
   .productoName {
-    @apply w-3/4 pt-[.15rem]
+    @apply w-3/4 sm:w-[85%] md:w-4/5 pt-[.20rem]
   }
   .fechaCompra {
     @apply w-1/4 text-right text-[var(--item-fechacompra-text-color)];
@@ -412,6 +475,37 @@ body {
   }
   .etiquetaAdd {
     @apply p-1 px-2 bg-[var(--tag-selected-hover-bg-color)] text-[var(--tag-selected-text-color)] text-[.65rem] border border-[var(--border-color)] rounded-xl cursor-pointer;
+  }
+
+  /* ********************* */
+  /* RECETAS */
+  /* ********************* */
+  .recetas {
+    @apply h-[94%] max-h-[94%] relative pt-4 rounded-md;
+  }
+  .receta {
+    @apply justify-between bg-[var(--item-bg-color)] shadow-md rounded-md p-2 border border-transparent transition-all duration-200;
+  }
+  .tituloReceta {
+    @apply border-b-2 border-[var(--border-color)];
+  }
+  .recetaName {
+    @apply text-[var(--recipe-title-color)]  text-xl font-bold;
+  }
+  .recetaDesc {
+    @apply text-[var(--item-fechacompra-text-color)] text-sm cursor-default mb-1;
+  }
+  .tagPill {
+    @apply me-2 my-2 p-0 text-xs;
+  }
+  .tagPill:hover {
+    @apply bg-[var(--tag-hover-bg-color)] shadow-md transition-all duration-200 cursor-default;
+  }
+  .tituloSeccionReceta {
+    @apply text-[var(--recipe-section-title-color)] text-lg font-bold mb-5 cursor-default;
+  }
+  .contenidoSeccionReceta {
+    @apply text-[var(--recipe-section-content-color)] text-sm py-2 cursor-default;
   }
 }
 

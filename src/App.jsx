@@ -7,7 +7,7 @@ import MainContent from "./components/menu/MainContent";
 import ListaCompra from "./components/productos/ListaCompra";
 import Despensa from "./components/productos/Despensa";
 import Tareas from "./components/Tareas";
-import Recetas from "./components/Recetas";
+import Recetas from "./components/recipes/Recetas";
 import ControlGastos from "./components/ControlGastos";
 import Configuracion from "./components/Configuracion";
 import { TiendaContextProvider } from "./store/tienda-context";

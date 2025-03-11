@@ -20,7 +20,7 @@ export default function ContadorProducto({ producto, handleEliminar, handleAmoun
             handleAmount(id, parseInt(inputValue));
           }
           previousValue.current = inputValue;
-        }, 500);
+        }, 200);
 
         return () => {
           clearTimeout(handler);
@@ -31,21 +31,30 @@ export default function ContadorProducto({ producto, handleEliminar, handleAmoun
     }
   }, [inputValue, id, handleEliminar, handleAmount]);
 
+  useEffect(() => {
+    setInputValue(amount);
+  }, [amount]);
+
+  const handleDecrement = () => {
+    if (amount === 1) {
+      handleEliminar(id);
+      return;
+    }
+    setInputValue(amount - 1);
+  };
+
+  const handleIncrement = () => {
+    setInputValue(amount + 1);
+  };
+
   return (
     <div className="contador" data-no-dnd="true">
-      <CartButton
-        onClick={() => {
-          if (amount === 1) {
-            handleEliminar(id);
-            return;
-          }
-          handleAmount(id, amount - 1)
-        }}
-      >
-        {amount === 1 ?
-          <RiDeleteBinLine className="botonContador botonRemove" /> :
+      <CartButton onClick={handleDecrement}>
+        {amount === 1 ? (
+          <RiDeleteBinLine className="botonContador botonRemove" />
+        ) : (
           <RiSubtractLine className="botonContador botonRemove" />
-        }
+        )}
       </CartButton>
       <div>
         <input
@@ -56,16 +65,12 @@ export default function ContadorProducto({ producto, handleEliminar, handleAmoun
           onChange={(e) => setInputValue(e.target.value)}
         />
       </div>
-      <CartButton
-        onClick={() => handleAmount(id, amount + 1)}
-      >
+      <CartButton onClick={handleIncrement}>
         <RiAddLine className="botonContador botonAdd" />
       </CartButton>
-      <CartButton
-        onClick={() => handleMover(id)}
-      >
+      <CartButton onClick={() => handleMover(id)}>
         {icono}
       </CartButton>
     </div>
-  )
+  );
 }

@@ -105,6 +105,7 @@ export default function Tareas() {
       }
     );
   };
+
   const modalSubmit = (e) => {
     e.preventDefault();
     const titulo = tituloRef.current.value;
@@ -136,7 +137,6 @@ export default function Tareas() {
       }
     );
   };
-
   const popup = (
     <Modal ref={dialog}>
       <h2 className="modalTitulo">Crear tarea</h2>
