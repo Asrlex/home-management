@@ -151,7 +151,7 @@ export default function NuevaRecetaModal({ crearReceta }) {
         </div>
         {ingredients.length > 0 && (
           <>
-            <p className="modalSubSubtitulo">Lista de ingredientes</p>
+            <div className="modalSubSubtitulo">Lista de ingredientes</div>
             <ul className="modalLista scrollableTextarea">
               {ingredients.map((ingredient, index) => (
                 <li key={index} className="modalListaItem">
@@ -188,7 +188,7 @@ export default function NuevaRecetaModal({ crearReceta }) {
         </div>
         {steps.length > 0 && (
           <>
-            <p className="modalSubSubtitulo">Lista de pasos</p>
+            <div className="modalSubSubtitulo">Lista de pasos</div>
             <ol className="modalLista scrollableTextarea">
               {steps.map((step, index) => (
                 <li key={index} className="modalListaItem">

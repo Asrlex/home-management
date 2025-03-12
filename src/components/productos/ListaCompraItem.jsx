@@ -108,7 +108,7 @@ const ListaCompraItem = forwardRef(
               <span ref={setActivatorNodeRef} {...attributes} {...listeners}>
                 <BsThreeDotsVertical className="drag-handle" />
               </span>
-              <p className="productoName">{producto.product.productName}</p>
+              <div className="productoName">{producto.product.productName}</div>
               <ContadorProducto
                 producto={producto}
                 handleEliminar={handleEliminar}

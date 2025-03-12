@@ -480,6 +480,9 @@ body {
   /* ********************* */
   /* RECETAS */
   /* ********************* */
+  .recetaDiv {
+    @apply mb-1 hover:bg-[var(--item-hover-bg-color)] shadow-md rounded-md p-1 border border-transparent transition-all duration-200;
+  }
   .recetas {
     @apply h-[94%] max-h-[94%] relative pt-4 rounded-md;
   }

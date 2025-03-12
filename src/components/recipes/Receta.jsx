@@ -71,7 +71,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   ];
 
   return (
-    <>
+    <div className="recetaDiv">
       <ContextMenu
         className="customContextMenu"
         model={contextModel}
@@ -88,6 +88,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
       >
         <AccordionSummary
           className="tituloReceta"
+          component={"div"}
           expandIcon={<ExpandMoreIcon />}
           aria-controls={`${receta.recipeID}-content`}
           id={`${receta.recipeID}-header`}
@@ -99,18 +100,9 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
             ".MuiAccordionSummary-content": { margin: 0 },
           }}
         >
-          <Typography
-            component="span"
-            classes={{ root: "flex items-center" }}
-            sx={{
-              backgroundColor: "var(--item-bg-color)",
-              padding: "0.5rem 0",
-            }}
-          >
-            <span className="recetaName">{receta.recipeName}</span>
-          </Typography>
+          <span className="recetaName">{receta.recipeName}</span>
         </AccordionSummary>
-        <AccordionDetails sx={{ padding: "0.5rem" }}>
+        <AccordionDetails sx={{ padding: "0.5rem" }} component={"div"}>
           <div className={`recetaDesc`}>{receta.recipeDescription}</div>
           <div className="recetaTags">
             {receta.tags.map((tag) => (
@@ -130,37 +122,37 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
           </div>
           <div className="recetaIngredients">
             <span className="tituloSeccionReceta">Ingredientes</span>
-            <ul className="contenidoSeccionReceta">
+            <div className="contenidoSeccionReceta">
               {receta.ingredients.map((ingrediente) => (
-                <li key={ingrediente.recipeIngredientID}>
+                <div key={ingrediente.recipeIngredientID}>
                   <span>
                     <strong>{ingrediente.product.productName}</strong>:{" "}
                     {ingrediente.recipeIngredientAmount}{" "}
                     {ingrediente.recipeIngredientUnit}
                     {ingrediente.recipeIngredientIsOptional && " (opcional)"}
                   </span>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
           <div className="recetaSteps">
             <span className="tituloSeccionReceta">Pasos</span>
-            <ol className="contenidoSeccionReceta">
+            <div className="contenidoSeccionReceta">
               {receta.steps
                 .sort((a, b) => a.recipeStepOrder - b.recipeStepOrder)
                 .map((paso) => (
-                  <li key={paso.recipeStepID}>
+                  <div key={paso.recipeStepID}>
                     <strong>
                       {paso.recipeStepOrder}. {paso.recipeStepName}
                     </strong>
                     : {paso.recipeStepDescription}
-                  </li>
+                  </div>
                 ))}
-            </ol>
+            </div>
           </div>
         </AccordionDetails>
       </Accordion>
-    </>
+    </div>
   );
 }
 

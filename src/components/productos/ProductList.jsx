@@ -368,10 +368,10 @@ export default function ShoppingList({ type }) {
       <ListaEtiquetas tipo="Product" />
       <div className={type === 'lista-compra' ? "listaCompra" : "despensa"}>
         {Array.isArray(items) && items.length === 0 && (
-          <p className="text-center">
+          <div className="text-center">
             No hay productos en la{" "}
             {type === 'lista-compra' ? "lista de compra" : "despensa"}
-          </p>
+          </div>
         )}
         <span
           onClick={() => {

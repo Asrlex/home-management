@@ -102,9 +102,9 @@ const DespensaItem = forwardRef(({ producto, handleEliminar, handleAmount, handl
             <span ref={setActivatorNodeRef} {...attributes} {...listeners}>
               <BsThreeDotsVertical className="drag-handle" />
             </span>
-            <p className="productoName">
+            <div className="productoName">
               {nombre} <span className="fechaCompra">{fechaCompraFormat}</span>
-            </p>
+            </div>
             <ContadorProducto
               producto={producto}
               handleEliminar={handleEliminar}
