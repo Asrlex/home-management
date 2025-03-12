@@ -1,9 +1,8 @@
 import React, { useState, useRef, useContext } from "react";
 import Select from "react-select";
 import { ProductContext } from "../../store/product-context";
-import { max } from "class-validator";
 
-export default function NuevaRecetaModal({ crearReceta }) {
+export default function NuevaRecetaModal({ crearReceta, closeModal }) {
   const [ingredients, setIngredients] = useState([]);
   const [steps, setSteps] = useState([]);
   const [stepOrder, setStepOrder] = useState(1);
@@ -100,6 +99,8 @@ export default function NuevaRecetaModal({ crearReceta }) {
     setIngredients([]);
     setSteps([]);
     setStepOrder(1);
+    setSelectedProduct(null);
+    closeModal();
   };
 
   return (
@@ -156,7 +157,8 @@ export default function NuevaRecetaModal({ crearReceta }) {
               {ingredients.map((ingredient, index) => (
                 <li key={index} className="modalListaItem">
                   <strong>{ingredient.productID.label}</strong>{" "}
-                  {ingredient.recipeIngredientAmount} {ingredient.recipeIngredientUnit}
+                  {ingredient.recipeIngredientAmount}{" "}
+                  {ingredient.recipeIngredientUnit}
                 </li>
               ))}
             </ul>

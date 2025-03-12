@@ -79,7 +79,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
       />
       <Accordion
         key={receta.recipeID}
-        sx={{ backgroundColor: "var(--item-bg-color)", padding: "0.75rem" }}
+        sx={{ backgroundColor: "var(--item-bg-color)"}}
         className="receta"
         onContextMenu={(e) => {
           e.preventDefault();

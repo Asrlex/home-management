@@ -81,7 +81,7 @@ export default function Recetas() {
 
   const popupReceta = (
     <Modal ref={recetaDialogRef}>
-      <NuevaRecetaModal />
+      <NuevaRecetaModal crearReceta={crearReceta} closeModal={() => recetaDialogRef.current.close()} />
     </Modal>
   );
 
