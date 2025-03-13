@@ -43,6 +43,7 @@ const api_config = {
     recetas: {
       base: `${base_url}/recipes`,
       all: `${base_url}/recipes/all`,
+      names: `${base_url}/recipes/names`,
       byID: `${base_url}/recipes/id/`,
     },
     gastos: {

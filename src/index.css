@@ -293,7 +293,7 @@ body {
   .modalLista {
     @apply w-60 md:w-96 p-2 my-3 bg-[var(--modal-input-bg-color)] text-xs border rounded-md text-[var(--modal-input-text-color)] transition-all duration-200;
   }
-  .modalListItem {
+  .modalListaItem {
     @apply flex justify-between items-center;
   }
   .modalCerrar {

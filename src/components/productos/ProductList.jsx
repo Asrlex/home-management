@@ -33,6 +33,7 @@ import DespensaItem from "./DespensaItem";
 import SelectorTienda from "../generic/SelectorTienda";
 import api_config from "../../config/apiconfig";
 import { axiosRequest } from "../../utils/axiosUtils";
+import { customStyles } from "../generic/ModalStyle";
 
 export default function ShoppingList({ type }) {
   const [prodInView, setProdInView] = useState({
@@ -89,31 +90,27 @@ export default function ShoppingList({ type }) {
     const { active, over } = event;
     if (active.id !== over.id) {
       const oldIndex = (
-        type === 'lista-compra' ? shoppingListItems : stockItems
+        type === "lista-compra" ? shoppingListItems : stockItems
       ).findIndex(
         (item) =>
           item[
-            type === 'lista-compra'
-              ? "shoppingListProductID"
-              : "stockProductID"
+            type === "lista-compra" ? "shoppingListProductID" : "stockProductID"
           ] === active.id
       );
       const newIndex = (
-        type === 'lista-compra' ? shoppingListItems : stockItems
+        type === "lista-compra" ? shoppingListItems : stockItems
       ).findIndex(
         (item) =>
           item[
-            type === 'lista-compra'
-              ? "shoppingListProductID"
-              : "stockProductID"
+            type === "lista-compra" ? "shoppingListProductID" : "stockProductID"
           ] === over.id
       );
       const newItems = arrayMove(
-        type === 'lista-compra' ? shoppingListItems : stockItems,
+        type === "lista-compra" ? shoppingListItems : stockItems,
         oldIndex,
         newIndex
       );
-      type === 'lista-compra'
+      type === "lista-compra"
         ? reorderShoppingListItems(newItems)
         : reorderStockItems(newItems);
     }
@@ -126,20 +123,26 @@ export default function ShoppingList({ type }) {
    */
   const handleAdd = (id, amount) => {
     const apiUrl =
-      type === 'lista-compra'
+      type === "lista-compra"
         ? api_config.lista_compra.base
         : api_config.despensa.base;
     const addItem =
-      type === 'lista-compra' ? addShoppingListItem : addStockItem;
+      type === "lista-compra" ? addShoppingListItem : addStockItem;
     toast.promise(
-      axiosRequest("POST", apiUrl, {}, {
-        [type === 'lista-compra'
-          ? "shoppingListAmount"
-          : "stockProductAmount"]: amount,
-        storeID: 2,
-        [type === 'lista-compra' ? "shoppingListProductID" : "stockProductID"]:
-          id,
-      })
+      axiosRequest(
+        "POST",
+        apiUrl,
+        {},
+        {
+          [type === "lista-compra"
+            ? "shoppingListAmount"
+            : "stockProductAmount"]: amount,
+          storeID: 2,
+          [type === "lista-compra"
+            ? "shoppingListProductID"
+            : "stockProductID"]: id,
+        }
+      )
         .then((response) => {
           addItem(response);
         })
@@ -164,11 +167,11 @@ export default function ShoppingList({ type }) {
     );
     if (confirmacion) {
       const apiUrl =
-        type === 'lista-compra'
+        type === "lista-compra"
           ? `${api_config.lista_compra.base}/${id}`
           : `${api_config.despensa.base}/${id}`;
       const removeItem =
-        type === 'lista-compra' ? removeShoppingListItem : removeStockItem;
+        type === "lista-compra" ? removeShoppingListItem : removeStockItem;
       toast.promise(
         axiosRequest("DELETE", apiUrl)
           .then(() => {
@@ -193,11 +196,11 @@ export default function ShoppingList({ type }) {
    */
   const handleAmount = (id, amount) => {
     const apiUrl =
-      type === 'lista-compra'
+      type === "lista-compra"
         ? `${api_config.lista_compra.modifyAmount}${id}`
         : `${api_config.despensa.modifyAmount}${id}`;
     const modifyItemAmount =
-      type === 'lista-compra'
+      type === "lista-compra"
         ? modifyShoppingListItemAmount
         : modifyStockItemAmount;
     toast.promise(
@@ -222,13 +225,13 @@ export default function ShoppingList({ type }) {
    */
   const handleMover = (id) => {
     const apiUrl =
-      type === 'lista-compra'
+      type === "lista-compra"
         ? `${api_config.lista_compra.buy}${id}`
         : `${api_config.despensa.toList}${id}`;
     const removeItem =
-      type === 'lista-compra' ? removeShoppingListItem : removeStockItem;
+      type === "lista-compra" ? removeShoppingListItem : removeStockItem;
     const addItem =
-      type === 'lista-compra' ? addStockItem : addShoppingListItem;
+      type === "lista-compra" ? addStockItem : addShoppingListItem;
     toast.promise(
       axiosRequest("PUT", apiUrl)
         .then((response) => {
@@ -250,11 +253,14 @@ export default function ShoppingList({ type }) {
    * Fetches the data from the API and sets the state accordingly
    */
   const fetchData = async () => {
-    const apiUrl = type === 'lista-compra' ? api_config.lista_compra.all : api_config.despensa.all;
+    const apiUrl =
+      type === "lista-compra"
+        ? api_config.lista_compra.all
+        : api_config.despensa.all;
     toast.promise(
       axiosRequest("GET", apiUrl)
         .then((response) => {
-          if (type === 'lista-compra') {
+          if (type === "lista-compra") {
             setShoppingListItems(response);
           } else {
             setStockItems(response);
@@ -273,7 +279,7 @@ export default function ShoppingList({ type }) {
 
   /**
    * Handles the submit event of the modal
-   * @param {object} e The submit event 
+   * @param {object} e The submit event
    */
   const modalSubmit = (e) => {
     e.preventDefault();
@@ -290,43 +296,6 @@ export default function ShoppingList({ type }) {
     value: product.productID,
     label: product.productName,
   }));
-
-  /**
-   * Custom styles for the Select component
-   */
-  const customStyles = {
-    control: (provided) => ({
-      ...provided,
-      backgroundColor: "var(--modal-input-bg-color)",
-      borderColor: "var(--border-color)",
-      color: "var(--text-color)",
-      boxShadow: "none",
-      "&:hover": { borderColor: "var(--border-color)" },
-    }),
-    input: (provided) => ({ ...provided, color: "var(--text-color)" }),
-    placeholder: (provided) => ({ ...provided, color: "var(--modal-button-text-color)" }),
-    singleValue: (provided) => ({ ...provided, color: "var(--modal-button-text-color)" }),
-    menu: (provided) => ({
-      ...provided,
-      zIndex: 10500,
-      maxHeight: "350px",
-      overflowY: "auto",
-      backgroundColor: "var(--modal-button-bg-color)",
-      color: "var(--modal-button-text-color)",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isSelected
-        ? "var(--modal-button-bg-color)"
-        : state.isFocused
-        ? "var(--modal-button-hover-bg-color)"
-        : "var(--modal-button-bg-color)",
-      color: "var(--modal-button-text-color)",
-      "&:hover": {
-        backgroundColor: "var(--modal-button-hover-bg-color)",
-      },
-    }),
-  };
 
   /**
    * The modal to add a product
@@ -358,19 +327,19 @@ export default function ShoppingList({ type }) {
     </Modal>
   );
 
-  const items = type === 'lista-compra' ? shoppingListItems : stockItems;
+  const items = type === "lista-compra" ? shoppingListItems : stockItems;
   const ItemComponent =
-    type === 'lista-compra' ? ListaCompraItem : DespensaItem;
+    type === "lista-compra" ? ListaCompraItem : DespensaItem;
 
   return (
     <>
       {popupProducto}
       <ListaEtiquetas tipo="Product" />
-      <div className={type === 'lista-compra' ? "listaCompra" : "despensa"}>
+      <div className={type === "lista-compra" ? "listaCompra" : "despensa"}>
         {Array.isArray(items) && items.length === 0 && (
           <div className="text-center">
             No hay productos en la{" "}
-            {type === 'lista-compra' ? "lista de compra" : "despensa"}
+            {type === "lista-compra" ? "lista de compra" : "despensa"}
           </div>
         )}
         <span
@@ -393,7 +362,7 @@ export default function ShoppingList({ type }) {
                 ? items.map(
                     (item) =>
                       item[
-                        type === 'lista-compra'
+                        type === "lista-compra"
                           ? "shoppingListProductID"
                           : "stockProductID"
                       ]
@@ -416,7 +385,7 @@ export default function ShoppingList({ type }) {
                   <Fragment
                     key={
                       producto[
-                        type === 'lista-compra'
+                        type === "lista-compra"
                           ? "shoppingListProductID"
                           : "stockProductID"
                       ]
@@ -487,8 +456,16 @@ export default function ShoppingList({ type }) {
       </div>
       <div className="seccionBotones">
         <SelectorTienda />
-        <FAB icon={<IoIosRefresh />} action={fetchData} classes='refreshButton'/>
-        <FAB icon={<FaPlus />} action={() => productoDialogRef.current.open()} classes='floatingButton'/>
+        <FAB
+          icon={<IoIosRefresh />}
+          action={fetchData}
+          classes="refreshButton"
+        />
+        <FAB
+          icon={<FaPlus />}
+          action={() => productoDialogRef.current.open()}
+          classes="floatingButton"
+        />
       </div>
     </>
   );

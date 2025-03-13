@@ -26,7 +26,7 @@ const BarraLateral = ({ onSelectSection, section }) => {
           section={section}
         />
         <BarraLateralItem
-          texto="Tareas"
+          texto="Tareas pendientes"
           icono={<FaCheckSquare className="iconoBarraLateral" />}
           selectSection={onSelectSection}
           section={section}

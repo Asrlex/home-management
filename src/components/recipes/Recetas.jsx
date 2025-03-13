@@ -19,7 +19,7 @@ export default function Recetas() {
   const recetaDialogRef = useRef();
 
   useEffect(() => {
-    axiosRequest("GET", api_config.recetas.all)
+    axiosRequest("GET", api_config.recetas.names)
       .then((response) => {
         setRecetas(response);
         setIsLoading(false);
@@ -81,7 +81,10 @@ export default function Recetas() {
 
   const popupReceta = (
     <Modal ref={recetaDialogRef}>
-      <NuevaRecetaModal crearReceta={crearReceta} closeModal={() => recetaDialogRef.current.close()} />
+      <NuevaRecetaModal
+        crearReceta={crearReceta}
+        closeModal={() => recetaDialogRef.current.close()}
+      />
     </Modal>
   );
 
@@ -106,7 +109,6 @@ export default function Recetas() {
               <Receta
                 key={receta.recipeID}
                 receta={receta}
-                crearReceta={crearReceta}
                 handleEliminar={handleEliminar}
                 addOrRemoveTag={handleEtiquetas}
               />

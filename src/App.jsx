@@ -1,7 +1,13 @@
 import "primereact/resources/themes/md-dark-deeppurple/theme.css";
 import { useState, useEffect } from "react";
 import { PrimeReactProvider } from "primereact/api";
-import { Routes, Route, useNavigate, Navigate, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import BarraLateral from "./components/menu/BarraLateral";
 import MainContent from "./components/menu/MainContent";
 import ListaCompra from "./components/productos/ListaCompra";
@@ -38,10 +44,10 @@ function App() {
     <>
       <ThemeContextProvider>
         <PrimeReactProvider>
-          <StockContextProvider>
-            <ShoppingListContextProvider>
-              <ProductContextProvider>
-                <EtiquetaContextProvider>
+          <ProductContextProvider>
+            <EtiquetaContextProvider>
+              <StockContextProvider>
+                <ShoppingListContextProvider>
                   <TiendaContextProvider>
                     <main className="flex">
                       <BarraLateral
@@ -55,7 +61,7 @@ function App() {
                             element={<ListaCompra />}
                           />
                           <Route path="/despensa" element={<Despensa />} />
-                          <Route path="/tareas" element={<Tareas />} />
+                          <Route path="/tareas-pendientes" element={<Tareas />} />
                           <Route path="/recetas" element={<Recetas />} />
                           <Route path="/gastos" element={<ControlGastos />} />
                           <Route path="/ajustes" element={<Configuracion />} />
@@ -71,10 +77,10 @@ function App() {
                       </MainContent>
                     </main>
                   </TiendaContextProvider>
-                </EtiquetaContextProvider>
-              </ProductContextProvider>
-            </ShoppingListContextProvider>
-          </StockContextProvider>
+                </ShoppingListContextProvider>
+              </StockContextProvider>
+            </EtiquetaContextProvider>
+          </ProductContextProvider>
         </PrimeReactProvider>
       </ThemeContextProvider>
     </>
