@@ -7,6 +7,7 @@ const api_config = {
       all: `${base_url}/tasks/all`,
       completed: `${base_url}/tasks/completitud`,
       byID: `${base_url}/tasks/id/`,
+      home: `${base_url}/tasks/home/`,
     },
     tiendas: {
       base: `${base_url}/stores`,

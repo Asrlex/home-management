@@ -1,16 +1,18 @@
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import Tarea from "./Tarea";
-import Modal from "./generic/Modal";
-import FAB from "./generic/FloatingButton";
+import Modal from "../generic/Modal";
+import FAB from "../generic/FloatingButton";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
-import api_config from "../config/apiconfig";
-import { axiosRequest } from "../utils/axiosUtils";
+import api_config from "../../config/apiconfig";
+import { axiosRequest } from "../../utils/axiosUtils";
 
 export default function Tareas() {
   const [tareas, setTareas] = useState([]);
   const [expanded, setExpanded] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [currentTaskId, setCurrentTaskId] = useState(null);
   const dialog = useRef();
   const tituloRef = useRef();
   const descripcionRef = useRef();
@@ -31,7 +33,9 @@ export default function Tareas() {
 
   const toggleCompletada = (id, completada) => {
     toast.promise(
-      axiosRequest("PATCH", `${api_config.tareas.base}/${id}`, { taskCompleted: !completada })
+      axiosRequest("PATCH", `${api_config.tareas.base}/${id}`, {
+        taskCompleted: !completada,
+      })
         .then(() => {
           setTareas(
             tareas.map((tarea) => {
@@ -52,6 +56,7 @@ export default function Tareas() {
       }
     );
   };
+
   const handleEliminar = (id) => {
     const confirmacion = window.confirm(
       "¿Estás seguro de eliminar esta tarea?"
@@ -73,93 +78,101 @@ export default function Tareas() {
       );
     }
   };
+
   const handleEditar = (id) => {
-    const titulo = prompt("Nuevo título");
-    const descripcion = prompt("Nueva descripción");
-    if (!titulo || !descripcion) {
-      return;
+    const tarea = tareas.find((t) => t.taskID === id);
+    if (tarea) {
+      setIsEditMode(true);
+      setCurrentTaskId(id);
+      tituloRef.current.value = tarea.taskTitle;
+      descripcionRef.current.value = tarea.taskDescription;
+      dialog.current.open();
     }
-    toast.promise(
-      axios
-        .patch(`http://localhost:3002/api/tareas/${id}`, {
-          titulo,
-          descripcion,
-        })
-        .then(() => {
-          axios
-            .get("http://localhost:3002/api/tareas")
-            .then((response) => {
-              setTareas(response.data);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        })
-        .catch((error) => {
-          console.error(error);
-        }),
-      {
-        loading: "Actualizando tarea...",
-        success: "Tarea actualizada",
-        error: (err) => `Error al actualizar tarea: ${err}`,
-      }
-    );
   };
 
   const modalSubmit = (e) => {
     e.preventDefault();
-    const titulo = tituloRef.current.value;
-    const descripcion = descripcionRef.current.value;
+    const taskTitle = tituloRef.current.value;
+    const taskDescription = descripcionRef.current.value;
 
-    toast.promise(
-      axios
-        .post("http://localhost:3002/api/tareas", { titulo, descripcion })
-        .then((response) => {
-          axios
-            .get("http://localhost:3002/api/tareas")
-            .then((response) => {
-              setTareas(response.data);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-          dialog.current.close();
-          tituloRef.current.value = "";
-          descripcionRef.current.value = "";
+    if (isEditMode) {
+      toast.promise(
+        axiosRequest("PUT", `${api_config.tareas.base}/${currentTaskId}`, {}, {
+          taskID: currentTaskId,
+          taskTitle,
+          taskDescription,
         })
-        .catch((error) => {
-          console.error(error);
-        }),
-      {
-        loading: "Creando tarea...",
-        success: "Tarea creada",
-        error: (err) => `Error al crear tarea: ${err}`,
-      }
-    );
+          .then((response) => {
+            setTareas([...tareas.filter((t) => t.taskID !== currentTaskId), response]);
+            dialog.current.close();
+            tituloRef.current.value = "";
+            descripcionRef.current.value = "";
+            setIsEditMode(false);
+            setCurrentTaskId(null);
+          })
+          .catch((error) => {
+            console.error(error);
+          }),
+        {
+          loading: "Actualizando tarea...",
+          success: "Tarea actualizada",
+          error: (err) => `Error al actualizar tarea: ${err}`,
+        }
+      );
+    } else {
+      toast.promise(
+        axiosRequest(
+          "POST",
+          api_config.tareas.base,
+          {},
+          {
+            taskTitle,
+            taskDescription,
+          }
+        )
+          .then((response) => {
+            setTareas([response, ...tareas]);
+            dialog.current.close();
+            tituloRef.current.value = "";
+            descripcionRef.current.value = "";
+          })
+          .catch((error) => {
+            console.error(error);
+          }),
+        {
+          loading: "Creando tarea...",
+          success: "Tarea creada",
+          error: (err) => `Error al crear tarea: ${err}`,
+        }
+      );
+    }
   };
+
   const popup = (
     <Modal ref={dialog}>
-      <h2 className="modalTitulo">Crear tarea</h2>
+      <h2 className="modalTitulo">
+        {isEditMode ? "Editar tarea" : "Crear tarea"}
+      </h2>
       <form>
         <div className="mb-3">
-          <label htmlFor="titulo" className="modalLabel">
-            Título
-          </label>
-          <input className="modalInput" id="titulo" ref={tituloRef} />
+          <input
+            className="modalInput"
+            id="titulo"
+            ref={tituloRef}
+            placeholder="Título"
+          />
         </div>
         <div className="mb-3">
-          <label htmlFor="descripcion" className="modalLabel">
-            Descripción
-          </label>
           <textarea
-            className="modalInput"
+            className="modalInput modalTextArea"
             id="descripcion"
             ref={descripcionRef}
+            placeholder="Descripción"
           />
         </div>
         <div className="flex justify-center">
           <button type="submit" className="modalBoton" onClick={modalSubmit}>
-            Crear
+            {isEditMode ? "Actualizar" : "Crear"}
           </button>
         </div>
       </form>
@@ -211,7 +224,17 @@ export default function Tareas() {
         </div>
       </div>
       <div className="seccionBotones">
-        <FAB icon={<FaPlus />} action={() => dialog.current.open()} />
+        <FAB
+          icon={<FaPlus />}
+          action={() => {
+            setIsEditMode(false);
+            setCurrentTaskId(null);
+            tituloRef.current.value = "";
+            descripcionRef.current.value = "";
+            dialog.current.open();
+          }}
+          classes="floatingButton"
+        />
       </div>
     </>
   );

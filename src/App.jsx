@@ -12,7 +12,8 @@ import BarraLateral from "./components/menu/BarraLateral";
 import MainContent from "./components/menu/MainContent";
 import ListaCompra from "./components/productos/ListaCompra";
 import Despensa from "./components/productos/Despensa";
-import Tareas from "./components/Tareas";
+import Tareas from "./components/tareas/Tareas";
+import TareasCasa from "./components/tareas/TareasCasa";
 import Recetas from "./components/recipes/Recetas";
 import ControlGastos from "./components/ControlGastos";
 import Configuracion from "./components/Configuracion";
@@ -61,7 +62,11 @@ function App() {
                             element={<ListaCompra />}
                           />
                           <Route path="/despensa" element={<Despensa />} />
-                          <Route path="/tareas-pendientes" element={<Tareas />} />
+                          <Route
+                            path="/tareas-pendientes"
+                            element={<Tareas />}
+                          />
+                          <Route path="/tareas-casa" element={<TareasCasa />} />
                           <Route path="/recetas" element={<Recetas />} />
                           <Route path="/gastos" element={<ControlGastos />} />
                           <Route path="/ajustes" element={<Configuracion />} />

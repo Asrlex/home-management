@@ -2,6 +2,7 @@ import BarraLateralItem from './BarraLateralItem';
 import { FaHome, FaCheckSquare, FaShoppingCart, FaUtensils, FaDollarSign, FaCog } from 'react-icons/fa';
 import { PiCookingPotFill } from "react-icons/pi";
 import ToggleMode from './ToggleMode';
+import { MdAddHome } from "react-icons/md";
 
 const BarraLateral = ({ onSelectSection, section }) => {
   return (
@@ -28,6 +29,12 @@ const BarraLateral = ({ onSelectSection, section }) => {
         <BarraLateralItem
           texto="Tareas pendientes"
           icono={<FaCheckSquare className="iconoBarraLateral" />}
+          selectSection={onSelectSection}
+          section={section}
+        />
+        <BarraLateralItem
+          texto="Tareas casa"
+          icono={<MdAddHome className="iconoBarraLateral" />}
           selectSection={onSelectSection}
           section={section}
         />
