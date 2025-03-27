@@ -10,10 +10,10 @@ import {
 } from "react-router-dom";
 import BarraLateral from "./components/menu/BarraLateral";
 import MainContent from "./components/menu/MainContent";
-import ListaCompra from "./components/productos/ListaCompra";
-import Despensa from "./components/productos/Despensa";
-import Tareas from "./components/tareas/Tareas";
-import TareasCasa from "./components/tareas/TareasCasa";
+import ListaCompra from "./components/products/ListaCompra";
+import Despensa from "./components/products/Despensa";
+import Tareas from "./components/tasks/Tareas";
+import TareasCasa from "./components/tasks/TareasCasa";
 import Recetas from "./components/recipes/Recetas";
 import ControlGastos from "./components/ControlGastos";
 import Configuracion from "./components/Configuracion";
