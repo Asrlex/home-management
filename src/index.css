@@ -358,13 +358,14 @@ body {
   /* SECCIÓN PRINCIPAL */
   /* ********************* */
   .seccionPrincipal {
-    @apply md:w-3/4 w-full xl:w-full h-screen max-h-screen ml-12 md:ml-[25%] xl:ml-80 px-5 pb-5 md:p-10 md:pt-0 bg-[var(--section-bg-color)] text-[var(--title-text-color)] transition-all duration-200;
+    @apply md:w-3/4 w-full lg:w-full h-screen max-h-screen ml-12 md:ml-[25%] xl:ml-80 px-5 pb-5 md:p-10 md:pt-0 bg-[var(--section-bg-color)] text-[var(--title-text-color)] transition-all duration-200;
   }
   .tituloSeccion {
-    @apply z-50 text-2xl md:text-4xl font-bold max-w-5xl sticky top-0 pt-5 bg-[var(--section-bg-color)] border-b-2 border-[var(--border-color)] transition-all duration-200;
+    @apply z-50 text-2xl md:text-4xl font-bold sticky top-0 pt-5 bg-[var(--section-bg-color)] border-b-2 border-[var(--border-color)] transition-all duration-200;
   }
   .contenidoPrincipal {
-    @apply max-w-5xl h-[94%] max-h-[94%] md:h-[97%] md:max-h-[97%] relative z-[500] overflow-auto sm:scrollbar-hide;
+    @apply h-[94%] max-h-[94%] md:h-[97%] md:max-h-[97%]
+    relative z-[500] overflow-auto sm:scrollbar-hide;
   }
   .contenidoPrincipal::-webkit-scrollbar {
     display: none;
@@ -431,7 +432,7 @@ body {
     @apply text-xs font-bold;
   }
   .houseTaskList {
-    @apply md:h-[80%] md:max-h-[80%] h-[70%] max-h-[70%] overflow-auto
+    @apply md:h-[70%] md:max-h-[70%] h-[70%] max-h-[70%] overflow-auto
       sm:scrollbar-hide cursor-default mx-2;
   }
   .houseTaskList::-webkit-scrollbar {

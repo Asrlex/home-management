@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { axiosRequest } from "../../services/AxiosRequest";
 import api_config from "../../config/apiconfig";
 import toast from "react-hot-toast";
-import { LuWashingMachine, LuCookingPot, LuDog } from "react-icons/lu";
-import { GiBroom } from "react-icons/gi";
+import { LuWashingMachine, LuCookingPot, LuDog, LuBath } from "react-icons/lu";
 import { MdOutlineShoppingCart } from "react-icons/md";
+import { PiHandSoap, PiBroom } from "react-icons/pi";
 
 const TareasCasa = () => {
   const [tasks, setTasks] = useState([]);
@@ -15,10 +15,15 @@ const TareasCasa = () => {
 
   const tasksList = [
     {
-      name: "Lavaplatos",
+      name: "Lavadora",
       icon: <LuWashingMachine className="houseTaskIcon" />,
     },
-    { name: "Barrer", icon: <GiBroom className="houseTaskIcon" /> },
+    {
+      name: "Lavaplatos",
+      icon: <PiHandSoap className="houseTaskIcon" />,
+    },
+    { name: "Baños", icon: <LuBath className="houseTaskIcon" /> },
+    { name: "Barrer", icon: <PiBroom className="houseTaskIcon" /> },
     { name: "Cocinar", icon: <LuCookingPot className="houseTaskIcon" /> },
     { name: "Pasear", icon: <LuDog className="houseTaskIcon" /> },
     {
