@@ -23,6 +23,7 @@ import { EtiquetaContextProvider } from "./store/EtiquetaContext";
 import { ShoppingListContextProvider } from "./store/ShoppingListContext";
 import { StockContextProvider } from "./store/StockContext";
 import { ThemeContextProvider } from "./store/ThemeContext";
+import { ConnectionProvider } from "./store/ConnectionContext";
 import "./App.css";
 
 function App() {
@@ -43,51 +44,59 @@ function App() {
 
   return (
     <>
-      <ThemeContextProvider>
-        <PrimeReactProvider>
-          <ProductContextProvider>
-            <EtiquetaContextProvider>
-              <StockContextProvider>
-                <ShoppingListContextProvider>
-                  <StoreContextProvider>
-                    <main className="flex">
-                      <BarraLateral
-                        onSelectSection={handleSectionChange}
-                        section={selectedSection}
-                      />
-                      <MainContent titulo={selectedSection}>
-                        <Routes>
-                          <Route
-                            path="/lista-compra"
-                            element={<ListaCompra />}
-                          />
-                          <Route path="/despensa" element={<Despensa />} />
-                          <Route
-                            path="/tareas-pendientes"
-                            element={<Tareas />}
-                          />
-                          <Route path="/tareas-casa" element={<TareasCasa />} />
-                          <Route path="/recetas" element={<Recetas />} />
-                          <Route path="/gastos" element={<ControlGastos />} />
-                          <Route path="/ajustes" element={<Configuracion />} />
-                          <Route
-                            path="/"
-                            element={<Navigate to="/lista-compra" />}
-                          />
-                          <Route
-                            path="*"
-                            element={<Navigate to="/lista-compra" />}
-                          />
-                        </Routes>
-                      </MainContent>
-                    </main>
-                  </StoreContextProvider>
-                </ShoppingListContextProvider>
-              </StockContextProvider>
-            </EtiquetaContextProvider>
-          </ProductContextProvider>
-        </PrimeReactProvider>
-      </ThemeContextProvider>
+      <ConnectionProvider>
+        <ThemeContextProvider>
+          <PrimeReactProvider>
+            <ProductContextProvider>
+              <EtiquetaContextProvider>
+                <StockContextProvider>
+                  <ShoppingListContextProvider>
+                    <StoreContextProvider>
+                      <main className="flex">
+                        <BarraLateral
+                          onSelectSection={handleSectionChange}
+                          section={selectedSection}
+                        />
+                        <MainContent titulo={selectedSection}>
+                          <Routes>
+                            <Route
+                              path="/lista-compra"
+                              element={<ListaCompra />}
+                            />
+                            <Route path="/despensa" element={<Despensa />} />
+                            <Route
+                              path="/tareas-pendientes"
+                              element={<Tareas />}
+                            />
+                            <Route
+                              path="/tareas-casa"
+                              element={<TareasCasa />}
+                            />
+                            <Route path="/recetas" element={<Recetas />} />
+                            <Route path="/gastos" element={<ControlGastos />} />
+                            <Route
+                              path="/ajustes"
+                              element={<Configuracion />}
+                            />
+                            <Route
+                              path="/"
+                              element={<Navigate to="/lista-compra" />}
+                            />
+                            <Route
+                              path="*"
+                              element={<Navigate to="/lista-compra" />}
+                            />
+                          </Routes>
+                        </MainContent>
+                      </main>
+                    </StoreContextProvider>
+                  </ShoppingListContextProvider>
+                </StockContextProvider>
+              </EtiquetaContextProvider>
+            </ProductContextProvider>
+          </PrimeReactProvider>
+        </ThemeContextProvider>
+      </ConnectionProvider>
     </>
   );
 }

@@ -1,9 +1,11 @@
-import { toast, Toaster, ToastBar } from 'react-hot-toast'
-import { FaTimes } from 'react-icons/fa'
+import { toast, Toaster, ToastBar } from 'react-hot-toast';
+import { FaTimes } from 'react-icons/fa';
+import ConnectionStatusIcon from '../generic/ConnectionStatusIcon';
 
 export default function MainContent({ titulo, children }) {
   return (
     <div className="seccionPrincipal">
+      <ConnectionStatusIcon />
       <h1 className="tituloSeccion">
         {titulo}
       </h1>
