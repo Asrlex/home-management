@@ -24,15 +24,15 @@ import {
 import Modal from "../generic/Modal";
 import ListaEtiquetas from "../ListaEtiquetas";
 import FAB from "../generic/FloatingButton";
-import { ProductContext } from "../../store/product-context";
-import { EtiquetaContext } from "../../store/etiqueta-context";
-import { ShoppingListContext } from "../../store/shopping-list-context";
-import { StockContext } from "../../store/stock-context";
+import { ProductContext } from "../../store/ProductContext";
+import { EtiquetaContext } from "../../store/EtiquetaContext";
+import { ShoppingListContext } from "../../store/ShoppingListContext";
+import { StockContext } from "../../store/StockContext";
 import ListaCompraItem from "./ListaCompraItem";
 import DespensaItem from "./DespensaItem";
 import SelectorTienda from "../generic/SelectorTienda";
 import api_config from "../../config/apiconfig";
-import { axiosRequest } from "../../utils/axiosUtils";
+import { axiosRequest } from "../../services/AxiosRequest";
 import { customStyles } from "../generic/ModalStyle";
 
 export default function ShoppingList({ type }) {
@@ -50,6 +50,7 @@ export default function ShoppingList({ type }) {
     removeShoppingListItem,
     modifyShoppingListItemAmount,
     reorderShoppingListItems,
+    addOrRemoveListTag,
   } = useContext(ShoppingListContext);
   const {
     stockItems,
@@ -57,13 +58,15 @@ export default function ShoppingList({ type }) {
     addStockItem,
     removeStockItem,
     modifyStockItemAmount,
-    addOrRemoveTag,
     reorderStockItems,
+    addOrRemoveStockTag,
   } = useContext(StockContext);
   const productoDialogRef = useRef();
   const amountRef = useRef(0);
   const lastRef = useRef();
   const firstRef = useRef();
+  const addOrRemoveTag =
+    type === "lista-compra" ? addOrRemoveListTag : addOrRemoveStockTag;
 
   /**
    * Custom hook to handle drag and drop events

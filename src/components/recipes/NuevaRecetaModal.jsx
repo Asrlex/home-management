@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
 import Select from "react-select";
-import { ProductContext } from "../../store/product-context";
+import { ProductContext } from "../../store/ProductContext";
 import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import { customStyles } from "../generic/ModalStyle";
 

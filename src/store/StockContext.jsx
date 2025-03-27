@@ -1,6 +1,6 @@
 import { createContext, useReducer, useEffect } from "react";
 import api_config from '../config/apiconfig';
-import { axiosRequest } from "../utils/axiosUtils";
+import { axiosRequest } from "../services/AxiosRequest";
 
 const StockContext = createContext({
   stockItems: [],
@@ -9,7 +9,7 @@ const StockContext = createContext({
   removeStockItem: () => {},
   modifyStockItemAmount: () => {},
   reorderStockItems: () => {},
-  addOrRemoveTag: () => {},
+  addOrRemoveStockTag: () => {},
 });
 
 function stockReducer(state, action) {
@@ -47,16 +47,16 @@ function stockReducer(state, action) {
         ...state,
         stockItems: action.payload,
       };
-    case 'ADD_OR_REMOVE_TAG':
+    case 'ADD_OR_REMOVE_STOCK_TAG':
       return {
         ...state,
         stockItems: state.stockItems.map(item => {
-          if (item.stockProductID === action.payload.id) {
+          if (item.product.productID === action.payload.id) {
             return {
               ...item,
-              tags: item.tags.some(tag => tag.tagID === action.payload.tagID)
-                ? item.tags.filter(tag => tag.tagID !== action.payload.tagID)
-                : [...item.tags, { tagID: action.payload.tagID }],
+              tags: item.product.tags.some(tag => tag.tagID === action.payload.tagID)
+                ? item.product.tags.filter(tag => tag.tagID !== action.payload.tagID)
+                : [...item.product.tags, { tagID: action.payload.tagID }],
             };
           }
           return item;
@@ -108,8 +108,8 @@ function StockContextProvider({ children }) {
     dispatch({ type: 'MODIFY_ITEM_AMOUNT', payload: { id, amount } });
   };
 
-  const addOrRemoveTag = (id, tagID) => {
-    dispatch({ type: 'ADD_OR_REMOVE_TAG', payload: { id, tagID } });
+  const addOrRemoveStockTag = (id, tagID) => {
+    dispatch({ type: 'ADD_OR_REMOVE_STOCK_TAG', payload: { id, tagID } });
   };
 
   const reorderStockItems = (orderedItems) => {
@@ -135,7 +135,7 @@ function StockContextProvider({ children }) {
     addStockItem,
     removeStockItem,
     modifyStockItemAmount,
-    addOrRemoveTag,
+    addOrRemoveStockTag,
     reorderStockItems,
   };
 

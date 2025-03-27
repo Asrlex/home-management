@@ -1,8 +1,8 @@
 import Etiqueta from "./Etiqueta";
 import Modal from './generic/Modal';
-import { EtiquetaContext } from "../store/etiqueta-context";
+import { EtiquetaContext } from "../store/EtiquetaContext";
 import { useContext, useRef } from "react";
-import { axiosRequest } from "../utils/axiosUtils";
+import { axiosRequest } from "../services/AxiosRequest";
 import api_config from "../config/apiconfig";
 
 export default function ListaEtiquetas({ tipo }) {

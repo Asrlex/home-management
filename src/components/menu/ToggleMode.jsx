@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { ThemeContext } from "../../store/theme-context";
+import { ThemeContext } from "../../store/ThemeContext";
 import { MdOutlineWbSunny } from "react-icons/md";
 import { FaMoon } from "react-icons/fa";
 

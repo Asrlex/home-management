@@ -6,7 +6,7 @@ import FAB from "../generic/FloatingButton";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 import api_config from "../../config/apiconfig";
-import { axiosRequest } from "../../utils/axiosUtils";
+import { axiosRequest } from "../../services/AxiosRequest";
 
 export default function Tareas() {
   const [tareas, setTareas] = useState([]);

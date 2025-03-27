@@ -7,9 +7,9 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { ContextMenu } from "primereact/contextmenu";
 import ContadorProducto from "./ContadorProducto";
-import { EtiquetaContext } from "../../store/etiqueta-context";
+import { EtiquetaContext } from "../../store/EtiquetaContext";
 import api_config from "../../config/apiconfig";
-import { axiosRequest } from "../../utils/axiosUtils";
+import { axiosRequest } from "../../services/AxiosRequest";
 import SortableItem from "../generic/SortableItem";
 
 const ListaCompraItem = forwardRef(

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { axiosRequest } from "../../utils/axiosUtils";
+import { axiosRequest } from "../../services/AxiosRequest";
 import api_config from "../../config/apiconfig";
 import toast from "react-hot-toast";
 import { LuWashingMachine, LuCookingPot, LuDog } from "react-icons/lu";

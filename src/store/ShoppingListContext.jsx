@@ -1,6 +1,6 @@
 import { createContext, useReducer, useEffect } from "react";
 import api_config from '../config/apiconfig';
-import { axiosRequest } from "../utils/axiosUtils";
+import { axiosRequest } from "../services/AxiosRequest";
 
 const ShoppingListContext = createContext({
   shoppingListItems: [],
@@ -9,7 +9,7 @@ const ShoppingListContext = createContext({
   removeShoppingListItem: () => { },
   modifyShoppingListItemAmount: () => { },
   reorderShoppingListItems: () => { },
-  addOrRemoveTag: () => { },
+  addOrRemoveListTag: () => { },
 });
 
 function shoppingListReducer(state, action) {
@@ -47,16 +47,17 @@ function shoppingListReducer(state, action) {
         ...state,
         shoppingListItems: action.payload,
       };
-    case 'ADD_OR_REMOVE_TAG':
+    case 'ADD_OR_REMOVE_LIST_TAG':
       return {
         ...state,
         shoppingListItems: state.shoppingListItems.map(item => {
-          if (item.shoppingListProductID === action.payload.id) {
+          console.log(item.product.productID, action.payload.id);
+          if (item.product.productID === action.payload.id) {
             return {
               ...item,
-              tags: item.tags.some(tag => tag.tagID === action.payload.tagID)
-                ? item.tags.filter(tag => tag.tagID !== action.payload.tagID)
-                : [...item.tags, { tagID: action.payload.tagID }],
+              tags: item.product.tags.some(tag => tag.tagID === action.payload.tagID)
+                ? item.product.tags.filter(tag => tag.tagID !== action.payload.tagID)
+                : [...item.product.tags, { tagID: action.payload.tagID }],
             };
           }
           return item;
@@ -108,8 +109,8 @@ function ShoppingListContextProvider({ children }) {
     dispatch({ type: 'MODIFY_ITEM_AMOUNT', payload: { id, amount } });
   };
 
-  const addOrRemoveTag = (id, tagID) => {
-    dispatch({ type: 'ADD_OR_REMOVE_TAG', payload: { id, tagID } });
+  const addOrRemoveListTag = (id, tagID) => {
+    dispatch({ type: 'ADD_OR_REMOVE_LIST_TAG', payload: { id, tagID } });
   };
 
   const reorderShoppingListItems = (orderedItems) => {
@@ -135,7 +136,7 @@ function ShoppingListContextProvider({ children }) {
     addShoppingListItem,
     removeShoppingListItem,
     modifyShoppingListItemAmount,
-    addOrRemoveTag,
+    addOrRemoveListTag,
     reorderShoppingListItems,
   };
 

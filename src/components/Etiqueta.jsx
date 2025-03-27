@@ -1,9 +1,9 @@
 import { RiAddLine, RiDeleteBinLine } from "react-icons/ri";
-import { EtiquetaContext } from "../store/etiqueta-context";
+import { EtiquetaContext } from "../store/EtiquetaContext";
 import { useContext, useRef } from "react";
 import { ContextMenu } from 'primereact/contextmenu';
 import axios from 'axios';
-import { axiosRequest } from "../utils/axiosUtils";
+import { axiosRequest } from "../services/AxiosRequest";
 import api_config from "../config/apiconfig";
 
 export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {

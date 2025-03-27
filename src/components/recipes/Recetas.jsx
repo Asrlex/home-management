@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import api_config from "../../config/apiconfig";
-import { axiosRequest } from "../../utils/axiosUtils";
+import { axiosRequest } from "../../services/AxiosRequest";
 import ListaEtiquetas from "../ListaEtiquetas";
 import { useContext } from "react";
-import { EtiquetaContext } from "../../store/etiqueta-context";
+import { EtiquetaContext } from "../../store/EtiquetaContext";
 import Receta from "./Receta";
 import { useRef } from "react";
 import Modal from "../generic/Modal";
 import FAB from "../generic/FloatingButton";
 import { FaPlus } from "react-icons/fa";
 import NuevaRecetaModal from "./NuevaRecetaModal";
-import Loader from "../generic/Loader"; // Import your loader component
+import Loader from "../generic/Loader";
 
 export default function Recetas() {
   const [recetas, setRecetas] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isLoading, setIsLoading] = useState(true);
   const { etiquetas, etiquetasSeleccionadas } = useContext(EtiquetaContext);
   const recetaDialogRef = useRef();
 

@@ -1,6 +1,6 @@
 import { createContext, useReducer, useEffect } from "react";
 import api_config from '../config/apiconfig';
-import { axiosRequest } from "../utils/axiosUtils";
+import { axiosRequest } from "../services/AxiosRequest";
 
 const EtiquetaContext = createContext({
   etiquetas: [],

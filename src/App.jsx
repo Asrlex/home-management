@@ -17,12 +17,12 @@ import TareasCasa from "./components/tareas/TareasCasa";
 import Recetas from "./components/recipes/Recetas";
 import ControlGastos from "./components/ControlGastos";
 import Configuracion from "./components/Configuracion";
-import { TiendaContextProvider } from "./store/tienda-context";
-import { ProductContextProvider } from "./store/product-context";
-import { EtiquetaContextProvider } from "./store/etiqueta-context";
-import { ShoppingListContextProvider } from "./store/shopping-list-context";
-import { StockContextProvider } from "./store/stock-context";
-import { ThemeContextProvider } from "./store/theme-context";
+import { StoreContextProvider } from "./store/StoreContext";
+import { ProductContextProvider } from "./store/ProductContext";
+import { EtiquetaContextProvider } from "./store/EtiquetaContext";
+import { ShoppingListContextProvider } from "./store/ShoppingListContext";
+import { StockContextProvider } from "./store/StockContext";
+import { ThemeContextProvider } from "./store/ThemeContext";
 import "./App.css";
 
 function App() {
@@ -49,7 +49,7 @@ function App() {
             <EtiquetaContextProvider>
               <StockContextProvider>
                 <ShoppingListContextProvider>
-                  <TiendaContextProvider>
+                  <StoreContextProvider>
                     <main className="flex">
                       <BarraLateral
                         onSelectSection={handleSectionChange}
@@ -81,7 +81,7 @@ function App() {
                         </Routes>
                       </MainContent>
                     </main>
-                  </TiendaContextProvider>
+                  </StoreContextProvider>
                 </ShoppingListContextProvider>
               </StockContextProvider>
             </EtiquetaContextProvider>
