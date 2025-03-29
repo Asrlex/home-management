@@ -1,19 +1,26 @@
 import BarraLateralItem from './BarraLateralItem';
 import { FaHome, FaCheckSquare, FaShoppingCart, FaUtensils, FaDollarSign, FaCog } from 'react-icons/fa';
 import { PiCookingPotFill } from "react-icons/pi";
-import ToggleMode from './ToggleMode';
 import { MdAddHome } from "react-icons/md";
+import { FaBoxes } from "react-icons/fa";
+import ToggleMode from './ToggleMode';
 
 const BarraLateral = ({ onSelectSection, section }) => {
   return (
     <div className="barraLateral">
-      <div className="tituloBarraLateral">
+      <div className="tituloBarraLateral" onclick={() => onSelectSection("")}>
         <FaHome className="logoBarraLateral" />
         <div className="hidden md:block ">
           Gestión
         </div>
       </div>
       <ul>
+        <BarraLateralItem
+          texto="Productos"
+          icono={<FaBoxes className="iconoBarraLateral" />}
+          selectSection={onSelectSection}
+          section={section}
+        />
         <BarraLateralItem
           texto="Lista compra"
           icono={<FaShoppingCart className="iconoBarraLateral" />}
@@ -45,7 +52,7 @@ const BarraLateral = ({ onSelectSection, section }) => {
           section={section}
         />
         <BarraLateralItem
-          texto="Control de gastos"
+          texto="Gastos"
           icono={<FaDollarSign className="iconoBarraLateral" />}
           selectSection={onSelectSection}
           section={section}

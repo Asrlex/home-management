@@ -38,6 +38,10 @@
   /* emerald-700 */
   --item-button-remove-hover-text-color: rgb(185 28 28);
   /* red-600 */
+  --product-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --pagination-text-color: rgb(243 244 246);
+  /* gray-100 */
   --task-text-color: rgb(6 78 59);
   /* emerald-900 */
   --task-divider-color: rgb(6 78 59 / 0.5);
@@ -90,13 +94,48 @@
   /* emerald-900 */
   --recipe-section-content-color: rgb(4 120 87);
   /* emerald-900 */
-
+  --scrollbar-color: rgb(6 95 70);
+  /* emerald-800 */
+  --scrollbar-bg-color: rgb(243, 244, 246);
+  /* gray-100 */
+  --scrollbar-track-color: rgb(229, 231, 235);
+  /* gray-200 */
+  --scrollbar-thumb-color: rgb(156, 163, 175);
+  /* gray-400 */
+  --scrollbar-thumb-hover-color: rgb(107, 114, 128);
+  /* gray-500 */
+  --settings-label-color: rgb(6 78 59);
+  /* emerald-900 */
+  --settings-input-bg-color: rgb(243 244 246);
+  /* gray-100 */
+  --settings-input-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --settings-select-bg-color: rgb(243 244 246);
+  /* gray-100 */
+  --settings-select-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --settings-button-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --settings-button-text-color: rgb(255 255 255);
+  /* white */
+  --settings-button-hover-bg-color: rgb(16 185 129);
+  /* emerald-500 */
+  --settings-select-text-color: rgb(6 95 70);
+  /* emerald-800 */
+  --settings-select-options-bg-color: rgb(243 244 246);
+  /* gray-100 */
+  --settings-select-options-text-color: rgb(6 95 70);
+  /* emerald-800 */
+  --settings-select-options-hover-bg-color: rgb(110 231 183);
+  /* emerald-300 */
+  --settings-select-options-selected-bg-color: rgb(16 185 129);
+  /* emerald-500 */
 }
 
 .dark {
   --text-color: rgb(77, 77, 77);
   /* gray-100 */
-  --border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
+  --border-color: rgb(209 213 219);
   /* gray-300 */
   --bg-color: rgb(31 41 55);
   /* gray-800 */
@@ -124,6 +163,9 @@
   /* emerald-400 */
   --item-button-remove-hover-text-color: rgb(220 38 38);
   /* red-600 */
+  --product-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --pagination-text-color: rgb(243 244 246);
   --task-text-color: rgb(243 244 246);
   /* gray-100 */
   --task-divider-color: rgb(243 244 246 / 0.5);
@@ -178,6 +220,40 @@
   /* gray-100 */
   --recipe-section-content-color: rgb(52 211 153);
   /* emerald-400 */
+  --scrollbar-color: rgb(55, 65, 81);
+  /* gray-700 */
+  --scrollbar-bg-color: rgb(31, 41, 55);
+  /* gray-800 */
+  --scrollbar-track-color: rgb(55, 65, 81);
+  /* gray-700 */
+  --scrollbar-thumb-color: rgb(107, 114, 128);
+  /* gray-500 */
+  --scrollbar-thumb-hover-color: rgb(156, 163, 175);
+  /* gray-400 */
+  --settings-label-color: rgb(243 244 246);
+  /* gray-100 */
+  --settings-input-bg-color: rgb(55 65 81);
+  /* gray-700 */
+  --settings-input-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --settings-select-bg-color: rgb(31, 41, 55);
+  /* gray-800 */
+  --settings-select-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --settings-button-bg-color: rgb(75 85 99);
+  /* gray-600 */
+  --settings-button-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --settings-button-hover-bg-color: rgb(107 114 128);
+  /* gray-500 */
+  --settings-select-options-bg-color: rgb(55 65 81);
+  /* gray-700 */
+  --settings-select-options-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --settings-select-options-hover-bg-color: rgb(75 85 99);
+  /* gray-600 */
+  --settings-select-options-selected-bg-color: rgb(107 114 128);
+  /* gray-500 */
 }
 
 body {
@@ -328,7 +404,7 @@ body {
     transition-all duration-200;
   }
   .tituloBarraLateral {
-    @apply flex justify-center text-[var(--barra-text-color)] text-3xl font-bold p-4 my-6 mt-2 md:mt-6;
+    @apply flex justify-center text-[var(--barra-text-color)] text-3xl font-bold p-4 my-6 mt-2 md:mt-6 cursor-default;
   }
   .logoBarraLateral {
     @apply md:mr-2 md:mt-1 w-6 h-8 transition-all duration-200;
@@ -512,7 +588,8 @@ body {
     @apply transform rotate-180 transition-all duration-200;
   }
   .despensa,
-  .listaCompra {
+  .listaCompra,
+  .productsTable {
     @apply h-[84%] max-h-[84%] overflow-auto sm:scrollbar-hide relative;
   }
   .iconoScrollBottom,
@@ -524,6 +601,24 @@ body {
   }
   .iconoScrollBottom {
     @apply bottom-0;
+  }
+  .productsTable {
+    @apply h-[95%] max-h-[95%] ;
+  }
+  .productsTable::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .productsTable::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track-color);
+    border-radius: 4px;
+  }
+  .productsTable::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+    border-radius: 4px;
+  }
+  .productsTable::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover-color);
   }
 
   /* ********************* */

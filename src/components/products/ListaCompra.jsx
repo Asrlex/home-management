@@ -1,6 +1,6 @@
 import React from 'react';
-import ProductList from './ProductList';
+import GestorProductos from './GestorProductos';
 
 export default function ListaCompra() {
-  return <ProductList type="lista-compra" />;
+  return <GestorProductos type="lista-compra" />;
 }

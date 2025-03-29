@@ -6,9 +6,9 @@ export default function MainContent({ titulo, children }) {
   return (
     <div className="seccionPrincipal">
       <ConnectionStatusIcon />
-      <h1 className="tituloSeccion">
+      {titulo && <h1 className="tituloSeccion">
         {titulo}
-      </h1>
+      </h1>}
       <div>
         <Toaster
           position='top-right'

@@ -35,7 +35,7 @@ import api_config from "../../config/apiconfig";
 import { axiosRequest } from "../../services/AxiosRequest";
 import { customStyles } from "../generic/ModalStyle";
 
-export default function ShoppingList({ type }) {
+export default function GestorProductos({ type }) {
   const [prodInView, setProdInView] = useState({
     last: false,
     first: false,

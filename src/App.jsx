@@ -15,8 +15,8 @@ import Despensa from "./components/products/Despensa";
 import Tareas from "./components/tasks/Tareas";
 import TareasCasa from "./components/tasks/TareasCasa";
 import Recetas from "./components/recipes/Recetas";
-import ControlGastos from "./components/ControlGastos";
-import Configuracion from "./components/Configuracion";
+import ControlGastos from "./components/expenses/ControlGastos";
+import Ajustes from "./components/Ajustes";
 import { StoreContextProvider } from "./store/StoreContext";
 import { ProductContextProvider } from "./store/ProductContext";
 import { EtiquetaContextProvider } from "./store/EtiquetaContext";
@@ -24,10 +24,12 @@ import { ShoppingListContextProvider } from "./store/ShoppingListContext";
 import { StockContextProvider } from "./store/StockContext";
 import { ThemeContextProvider } from "./store/ThemeContext";
 import { ConnectionProvider } from "./store/ConnectionContext";
+import ListaProductos from "./components/products/ListaProductos";
 import "./App.css";
+import { Portada } from "./components/menu/Portada";
 
 function App() {
-  const [selectedSection, setSelectedSection] = useState("Lista compra");
+  const [selectedSection, setSelectedSection] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -60,6 +62,14 @@ function App() {
                         <MainContent titulo={selectedSection}>
                           <Routes>
                             <Route
+                              path="/"
+                              element={<Portada />}
+                            />
+                            <Route
+                              path="/productos"
+                              element={<ListaProductos />}
+                            />
+                            <Route
                               path="/lista-compra"
                               element={<ListaCompra />}
                             />
@@ -76,15 +86,15 @@ function App() {
                             <Route path="/gastos" element={<ControlGastos />} />
                             <Route
                               path="/ajustes"
-                              element={<Configuracion />}
+                              element={<Ajustes />}
                             />
                             <Route
                               path="/"
-                              element={<Navigate to="/lista-compra" />}
+                              element={<Navigate to="/" />}
                             />
                             <Route
                               path="*"
-                              element={<Navigate to="/lista-compra" />}
+                              element={<Navigate to="/" />}
                             />
                           </Routes>
                         </MainContent>

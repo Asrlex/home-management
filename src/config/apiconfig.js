@@ -3,6 +3,11 @@ const base_url = 'http://localhost:3002/home-management';
 const api_config = {
     api_url: base_url,
     health_check_url: `http://localhost:3002/control/health`,
+    settings: {
+      base: `${base_url}/settings`,
+      all: `${base_url}/settings/all`,
+      byID: `${base_url}/settings/id/`,
+    },
     tareas: {
       base: `${base_url}/tasks`,
       all: `${base_url}/tasks/all`,
