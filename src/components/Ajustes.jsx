@@ -8,7 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import useSettingsStore from "../store/SettingsContext";
-import { formThemeVars, styles } from "./styles/Form.Styles";
+import { formThemeVars, styles } from "../../styles/Form.Styles";
 
 export default function Ajustes() {
   const { settings, updateSettings, loading } = useSettingsStore((state => ({
