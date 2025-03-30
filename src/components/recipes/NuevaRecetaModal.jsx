@@ -1,11 +1,13 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
 import Select from "react-select";
-import { ProductContext } from "../../store/ProductContext";
+import useProductStore from "../../store/ProductContext";
 import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import { customStyles } from "../generic/ModalStyle";
 
 export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
-  const { products } = useContext(ProductContext);
+  const { products } = useProductStore((state => ({
+    products: state.products,
+  })));
   const [ingredients, setIngredients] = useState([]);
   const [steps, setSteps] = useState([]);
   const [stepOrder, setStepOrder] = useState(1);

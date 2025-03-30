@@ -1,5 +1,5 @@
 import "primereact/resources/themes/md-dark-deeppurple/theme.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { PrimeReactProvider } from "primereact/api";
 import {
   Routes,
@@ -17,27 +17,32 @@ import TareasCasa from "./components/tasks/TareasCasa";
 import Recetas from "./components/recipes/Recetas";
 import ControlGastos from "./components/expenses/ControlGastos";
 import Ajustes from "./components/Ajustes";
-import { StoreContextProvider } from "./store/StoreContext";
-import { ProductContextProvider } from "./store/ProductContext";
-import { EtiquetaContextProvider } from "./store/EtiquetaContext";
-import { ShoppingListContextProvider } from "./store/ShoppingListContext";
-import { StockContextProvider } from "./store/StockContext";
-import { ThemeContextProvider } from "./store/ThemeContext";
-import { ConnectionProvider } from "./store/ConnectionContext";
 import ListaProductos from "./components/products/ListaProductos";
+import Login from "./components/users/Login";
+import Signup from "./components/users/Signup";
+import PrivateRoute from "./components/users/PrivateRoute";
+import Portada from "./components/menu/Portada";
+import useUserStore from "./store/UserContext";
 import "./App.css";
-import { Portada } from "./components/menu/Portada";
 
 function App() {
   const [selectedSection, setSelectedSection] = useState("");
+  const { token } = useUserStore();
   const navigate = useNavigate();
   const location = useLocation();
+  const publicRoutes = ["/login", "/signup"];
 
   useEffect(() => {
     const path = location.pathname.split("/")[1];
     const section = path.replace(/-/g, " ");
     setSelectedSection(section.charAt(0).toUpperCase() + section.slice(1));
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (!publicRoutes.includes(location.pathname) && !token) {
+      navigate("/login");
+    }
+  }, [token, navigate]);
 
   const handleSectionChange = (section) => {
     setSelectedSection(section);
@@ -46,67 +51,87 @@ function App() {
 
   return (
     <>
-      <ConnectionProvider>
-        <ThemeContextProvider>
-          <PrimeReactProvider>
-            <ProductContextProvider>
-              <EtiquetaContextProvider>
-                <StockContextProvider>
-                  <ShoppingListContextProvider>
-                    <StoreContextProvider>
-                      <main className="flex">
-                        <BarraLateral
-                          onSelectSection={handleSectionChange}
-                          section={selectedSection}
-                        />
-                        <MainContent titulo={selectedSection}>
-                          <Routes>
-                            <Route
-                              path="/"
-                              element={<Portada />}
-                            />
-                            <Route
-                              path="/productos"
-                              element={<ListaProductos />}
-                            />
-                            <Route
-                              path="/lista-compra"
-                              element={<ListaCompra />}
-                            />
-                            <Route path="/despensa" element={<Despensa />} />
-                            <Route
-                              path="/tareas-pendientes"
-                              element={<Tareas />}
-                            />
-                            <Route
-                              path="/tareas-casa"
-                              element={<TareasCasa />}
-                            />
-                            <Route path="/recetas" element={<Recetas />} />
-                            <Route path="/gastos" element={<ControlGastos />} />
-                            <Route
-                              path="/ajustes"
-                              element={<Ajustes />}
-                            />
-                            <Route
-                              path="/"
-                              element={<Navigate to="/" />}
-                            />
-                            <Route
-                              path="*"
-                              element={<Navigate to="/" />}
-                            />
-                          </Routes>
-                        </MainContent>
-                      </main>
-                    </StoreContextProvider>
-                  </ShoppingListContextProvider>
-                </StockContextProvider>
-              </EtiquetaContextProvider>
-            </ProductContextProvider>
-          </PrimeReactProvider>
-        </ThemeContextProvider>
-      </ConnectionProvider>
+      <PrimeReactProvider>
+        <main className="flex">
+          <BarraLateral
+            onSelectSection={handleSectionChange}
+            section={selectedSection}
+          />
+          <MainContent titulo={selectedSection}>
+            <Routes>
+              <Route path="/" element={<Portada />} />
+              <Route
+                path="/productos"
+                element={
+                  <PrivateRoute>
+                    <ListaProductos />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/lista-compra"
+                element={
+                  <PrivateRoute>
+                    <ListaCompra />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/despensa"
+                element={
+                  <PrivateRoute>
+                    <Despensa />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/tareas-pendientes"
+                element={
+                  <PrivateRoute>
+                    <Tareas />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/tareas-casa"
+                element={
+                  <PrivateRoute>
+                    <TareasCasa />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/recetas"
+                element={
+                  <PrivateRoute>
+                    <Recetas />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/gastos"
+                element={
+                  <PrivateRoute>
+                    <ControlGastos />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/ajustes"
+                element={
+                  <PrivateRoute>
+                    <Ajustes />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/" element={<Navigate to="/" />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </MainContent>
+        </main>
+      </PrimeReactProvider>{" "}
     </>
   );
 }

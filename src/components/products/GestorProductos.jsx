@@ -24,10 +24,10 @@ import {
 import Modal from "../generic/Modal";
 import ListaEtiquetas from "../ListaEtiquetas";
 import FAB from "../generic/FloatingButton";
-import { ProductContext } from "../../store/ProductContext";
-import { EtiquetaContext } from "../../store/EtiquetaContext";
-import { ShoppingListContext } from "../../store/ShoppingListContext";
-import { StockContext } from "../../store/StockContext";
+import useProductStore from "../../store/ProductContext";
+import useEtiquetaStore from "../../store/EtiquetaContext";
+import useShoppingListStore from "../../store/ShoppingListContext";
+import useStockStore from "../../store/StockContext";
 import ListaCompraItem from "./ListaCompraItem";
 import DespensaItem from "./DespensaItem";
 import SelectorTienda from "../generic/SelectorTienda";
@@ -41,8 +41,12 @@ export default function GestorProductos({ type }) {
     first: false,
   });
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const { etiquetasSeleccionadas } = useContext(EtiquetaContext);
-  const { products } = useContext(ProductContext);
+  const { etiquetasSeleccionadas } = useEtiquetaStore((state) => ({
+    etiquetasSeleccionadas: state.etiquetasSeleccionadas,
+  }));
+  const { products } = useProductStore((state => ({
+    products: state.products,
+  })));
   const {
     shoppingListItems,
     setShoppingListItems,
@@ -51,7 +55,7 @@ export default function GestorProductos({ type }) {
     modifyShoppingListItemAmount,
     reorderShoppingListItems,
     addOrRemoveListTag,
-  } = useContext(ShoppingListContext);
+  } = useShoppingListStore();
   const {
     stockItems,
     setStockItems,
@@ -60,7 +64,7 @@ export default function GestorProductos({ type }) {
     modifyStockItemAmount,
     reorderStockItems,
     addOrRemoveStockTag,
-  } = useContext(StockContext);
+  } = useStockStore();
   const productoDialogRef = useRef();
   const amountRef = useRef(0);
   const lastRef = useRef();

@@ -3,6 +3,12 @@ const base_url = 'http://localhost:3002/home-management';
 const api_config = {
     api_url: base_url,
     health_check_url: `http://localhost:3002/control/health`,
+    auth: {
+      me: `${base_url}/auth/me`,
+      login: `${base_url}/auth/login`,
+      signup: `${base_url}/auth/signup`,
+      logout: `${base_url}/auth/logout`,
+    },
     settings: {
       base: `${base_url}/settings`,
       all: `${base_url}/settings/all`,

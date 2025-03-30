@@ -1,150 +1,58 @@
-import { createContext, useReducer, useEffect } from "react";
+import { create } from 'zustand';
+import { axiosRequest } from '../services/AxiosRequest';
 import api_config from '../config/apiconfig';
-import { axiosRequest } from "../services/AxiosRequest";
 
-const ShoppingListContext = createContext({
+const useShoppingListStore = create((set) => ({
   shoppingListItems: [],
-  setShoppingListItems: () => { },
-  addShoppingListItem: () => { },
-  removeShoppingListItem: () => { },
-  modifyShoppingListItemAmount: () => { },
-  reorderShoppingListItems: () => { },
-  addOrRemoveListTag: () => { },
-});
 
-function shoppingListReducer(state, action) {
-  switch (action.type) {
-    case 'SET_SHOPPING_LIST_ITEMS':
-      return {
-        ...state,
-        shoppingListItems: action.payload,
-      };
-    case 'ADD_SHOPPING_LIST_ITEM':
-      return {
-        ...state,
-        shoppingListItems: [...state.shoppingListItems, action.payload],
-      };
-    case 'REMOVE_SHOPPING_LIST_ITEM':
-      return {
-        ...state,
-        shoppingListItems: state.shoppingListItems.filter(item => item.shoppingListProductID !== action.payload),
-      };
-    case 'MODIFY_ITEM_AMOUNT':
-      return {
-        ...state,
-        shoppingListItems: state.shoppingListItems.map(item => {
-          if (item.shoppingListProductID === action.payload.id) {
-            return {
-              ...item,
-              shoppingListProductAmount: action.payload.amount,
-            };
-          }
-          return item;
-        }),
-      };
-    case 'REORDER_SHOPPING_LIST_ITEMS':
-      return {
-        ...state,
-        shoppingListItems: action.payload,
-      };
-    case 'ADD_OR_REMOVE_LIST_TAG':
-      return {
-        ...state,
-        shoppingListItems: state.shoppingListItems.map(item => {
-          console.log(item.product.productID, action.payload.id);
-          if (item.product.productID === action.payload.id) {
-            return {
-              ...item,
-              tags: item.product.tags.some(tag => tag.tagID === action.payload.tagID)
-                ? item.product.tags.filter(tag => tag.tagID !== action.payload.tagID)
-                : [...item.product.tags, { tagID: action.payload.tagID }],
-            };
-          }
-          return item;
-        }),
-      };
-    default:
-      return state;
-  }
-}
-
-function ShoppingListContextProvider({ children }) {
-  const initialState = {
-    shoppingListItems: [],
-  };
-
-  const [state, dispatch] = useReducer(shoppingListReducer, initialState);
-
-  useEffect(() => {
-    axiosRequest('GET', api_config.lista_compra.all)
-      .then(response => {
-        axiosRequest('GET', api_config.productos.order + 'shoppingList')
-          .then(orderResponse => {
-            const orderedItems = orderItems(response, orderResponse);
-            setShoppingListItems(orderedItems);
-          })
-          .catch(error => {
-            console.error(error);
-            setShoppingListItems(response);
-          });
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
-
-  const setShoppingListItems = (items) => {
-    dispatch({ type: 'SET_SHOPPING_LIST_ITEMS', payload: items });
-  };
-
-  const addShoppingListItem = (item) => {
-    dispatch({ type: 'ADD_SHOPPING_LIST_ITEM', payload: item });
-  };
-
-  const removeShoppingListItem = (id) => {
-    dispatch({ type: 'REMOVE_SHOPPING_LIST_ITEM', payload: id });
-  };
-
-  const modifyShoppingListItemAmount = (id, amount) => {
-    dispatch({ type: 'MODIFY_ITEM_AMOUNT', payload: { id, amount } });
-  };
-
-  const addOrRemoveListTag = (id, tagID) => {
-    dispatch({ type: 'ADD_OR_REMOVE_LIST_TAG', payload: { id, tagID } });
-  };
-
-  const reorderShoppingListItems = (orderedItems) => {
-    dispatch({ type: 'REORDER_SHOPPING_LIST_ITEMS', payload: orderedItems });
-    const orderPayload = orderedItems.map(item => item.shoppingListProductID);
-    axiosRequest('POST', api_config.productos.order + 'shoppingList', {}, orderPayload)
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
-  const orderItems = (items, orderResponse) => {
-    const order = orderResponse;
-    if (order && order.length > 0) {
-      return items.sort((a, b) => order.indexOf(a.shoppingListProductID) - order.indexOf(b.shoppingListProductID));
+  fetchShoppingListItems: async () => {
+    try {
+      const response = await axiosRequest('GET', api_config.lista_compra.all);
+      set({ shoppingListItems: response });
+    } catch (error) {
+      console.error('Error fetching shopping list items:', error);
     }
-    return items;
-  };
+  },
 
-  const contextValue = {
-    shoppingListItems: state.shoppingListItems,
-    setShoppingListItems,
-    addShoppingListItem,
-    removeShoppingListItem,
-    modifyShoppingListItemAmount,
-    addOrRemoveListTag,
-    reorderShoppingListItems,
-  };
+  addShoppingListItem: (item) =>
+    set((state) => ({ shoppingListItems: [...state.shoppingListItems, item] })),
 
-  return (
-    <ShoppingListContext.Provider value={contextValue}>
-      {children}
-    </ShoppingListContext.Provider>
-  );
-}
+  removeShoppingListItem: (id) =>
+    set((state) => ({
+      shoppingListItems: state.shoppingListItems.filter(
+        (item) => item.shoppingListProductID !== id
+      ),
+    })),
 
-export { ShoppingListContext, ShoppingListContextProvider };
+  modifyShoppingListItemAmount: (id, amount) =>
+    set((state) => ({
+      shoppingListItems: state.shoppingListItems.map((item) =>
+        item.shoppingListProductID === id
+          ? { ...item, shoppingListProductAmount: amount }
+          : item
+      ),
+    })),
+  
+  addOrRemoveListTag: (itemID, tagID) =>
+    set((state) => ({
+      shoppingListItems: state.shoppingListItems.map((item) =>
+        item.shoppingListProductID === itemID
+          ? {
+              ...item,
+              tags: item.tags.includes(tagID)
+                ? item.tags.filter((tag) => tag !== tagID)
+                : [...item.tags, tagID],
+            }
+          : item
+      ),
+    })),
+
+  reorderShoppingListItems: (newOrder) =>
+    set((state) => ({
+      shoppingListItems: newOrder.map((id) =>
+        state.shoppingListItems.find((item) => item.shoppingListProductID === id)
+      ),
+    })),
+}));
+
+export default useShoppingListStore;

@@ -1,149 +1,53 @@
-import { createContext, useReducer, useEffect } from "react";
+import { create } from 'zustand';
+import { axiosRequest } from '../services/AxiosRequest';
 import api_config from '../config/apiconfig';
-import { axiosRequest } from "../services/AxiosRequest";
 
-const StockContext = createContext({
+const useStockStore = create((set) => ({
   stockItems: [],
-  setStockItems: () => {},
-  addStockItem: () => {},
-  removeStockItem: () => {},
-  modifyStockItemAmount: () => {},
-  reorderStockItems: () => {},
-  addOrRemoveStockTag: () => {},
-});
 
-function stockReducer(state, action) {
-  switch (action.type) {
-    case 'SET_STOCK_ITEMS':
-      return {
-        ...state,
-        stockItems: action.payload,
-      };
-    case 'ADD_STOCK_ITEM':
-      return {
-        ...state,
-        stockItems: [...state.stockItems, action.payload],
-      };
-    case 'REMOVE_STOCK_ITEM':
-      return {
-        ...state,
-        stockItems: state.stockItems.filter(item => item.stockProductID !== action.payload),
-      };
-    case 'MODIFY_ITEM_AMOUNT':
-      return {
-        ...state,
-        stockItems: state.stockItems.map(item => {
-          if (item.stockProductID === action.payload.id) {
-            return {
-              ...item,
-              stockProductAmount: action.payload.amount,
-            };
-          }
-          return item;
-        }),
-      };
-    case 'REORDER_STOCK_ITEMS':
-      return {
-        ...state,
-        stockItems: action.payload,
-      };
-    case 'ADD_OR_REMOVE_STOCK_TAG':
-      return {
-        ...state,
-        stockItems: state.stockItems.map(item => {
-          if (item.product.productID === action.payload.id) {
-            return {
-              ...item,
-              tags: item.product.tags.some(tag => tag.tagID === action.payload.tagID)
-                ? item.product.tags.filter(tag => tag.tagID !== action.payload.tagID)
-                : [...item.product.tags, { tagID: action.payload.tagID }],
-            };
-          }
-          return item;
-        }),
-      };
-    default:
-      return state;
-  }
-}
-
-function StockContextProvider({ children }) {
-  const initialState = {
-    stockItems: [],
-  };
-
-  const [state, dispatch] = useReducer(stockReducer, initialState);
-
-  useEffect(() => {
-    axiosRequest('GET', api_config.despensa.all)
-      .then(response => {
-        axiosRequest('GET', api_config.productos.order + 'stock')
-          .then(orderResponse => {
-            const orderedItems = orderItems(response, orderResponse);
-            setStockItems(orderedItems);
-          })
-          .catch(error => {
-            console.error(error);
-            setStockItems(response);
-          });
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
-
-  const setStockItems = (items) => {
-    dispatch({ type: 'SET_STOCK_ITEMS', payload: items });
-  };
-
-  const addStockItem = (item) => {
-    dispatch({ type: 'ADD_STOCK_ITEM', payload: item });
-  };
-
-  const removeStockItem = (id) => {
-    dispatch({ type: 'REMOVE_STOCK_ITEM', payload: id });
-  };
-
-  const modifyStockItemAmount = (id, amount) => {
-    dispatch({ type: 'MODIFY_ITEM_AMOUNT', payload: { id, amount } });
-  };
-
-  const addOrRemoveStockTag = (id, tagID) => {
-    dispatch({ type: 'ADD_OR_REMOVE_STOCK_TAG', payload: { id, tagID } });
-  };
-
-  const reorderStockItems = (orderedItems) => {
-    dispatch({ type: 'REORDER_STOCK_ITEMS', payload: orderedItems });
-    const orderPayload = orderedItems.map(item => item.stockProductID);
-    axiosRequest('POST', api_config.productos.order + 'stock', {}, orderPayload)
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
-  const orderItems = (items, orderResponse) => {
-    const order = orderResponse;
-    if (order && order.length > 0) {
-      return items.sort((a, b) => order.indexOf(a.stockProductID) - order.indexOf(b.stockProductID));
+  fetchStockItems: async () => {
+    try {
+      const response = await axiosRequest('GET', api_config.despensa.all);
+      set({ stockItems: response });
+    } catch (error) {
+      console.error('Error fetching stock items:', error);
     }
-    return items;
-  };
+  },
 
-  const contextValue = {
-    stockItems: state.stockItems,
-    setStockItems,
-    addStockItem,
-    removeStockItem,
-    modifyStockItemAmount,
-    addOrRemoveStockTag,
-    reorderStockItems,
-  };
+  addStockItem: (item) => set((state) => ({ stockItems: [...state.stockItems, item] })),
 
-  return (
-    <StockContext.Provider value={contextValue}>
-      {children}
-    </StockContext.Provider>
-  );
-}
+  removeStockItem: (id) =>
+    set((state) => ({
+      stockItems: state.stockItems.filter((item) => item.stockProductID !== id),
+    })),
 
-export { StockContext, StockContextProvider };
+  modifyStockItemAmount: (id, amount) =>
+    set((state) => ({
+      stockItems: state.stockItems.map((item) =>
+        item.stockProductID === id ? { ...item, stockProductAmount: amount } : item
+      ),
+    })),
+  
+  addOrRemoveListTag: (itemID, tagID) =>
+    set((state) => ({
+      stockItems: state.stockItems.map((item) =>
+        item.stockProductID === itemID
+          ? {
+              ...item,
+              tags: item.tags.includes(tagID)
+                ? item.tags.filter((tag) => tag !== tagID)
+                : [...item.tags, tagID],
+            }
+          : item
+      ),
+    })),
+
+  reorderStockItems: (newOrder) =>
+    set((state) => ({
+      stockItems: newOrder.map((id) =>
+        state.stockItems.find((item) => item.stockProductID === id)
+      ),
+    })),
+}));
+
+export default useStockStore;

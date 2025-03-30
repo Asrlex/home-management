@@ -2,12 +2,15 @@ import aldi from '../../assets/aldi.svg';
 import carrefour from '../../assets/carrefour.svg';
 import lidl from '../../assets/lidl.svg';
 import mercadona from '../../assets/mercadona.jpg';
-import { StoreContext } from '../../store/StoreContext';
+import useStoreStore from '../../store/StoreContext';
 import { IoStorefront } from "react-icons/io5";
-import { useContext } from 'react';
 
 export default function SelectorTienda() {
-  const { stores, storeSelect, setStoreSelect } = useContext(StoreContext);
+  const { stores, storeSelect, setStoreSelect } = useStoreStore(state => ({
+    stores: state.stores,
+    storeSelect: state.storeSelect,
+    setStoreSelect: state.setStoreSelect,
+  }));
 
   return (
     <div className='seccionTienda'>

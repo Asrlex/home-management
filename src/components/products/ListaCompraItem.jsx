@@ -1,13 +1,11 @@
 import { RiDeleteBinLine, RiShoppingCartLine } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaTag } from "react-icons/fa";
-import { useRef, forwardRef, useContext } from "react";
+import { useRef, forwardRef } from "react";
 import { memo } from "react";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import { ContextMenu } from "primereact/contextmenu";
 import ContadorProducto from "./ContadorProducto";
-import { EtiquetaContext } from "../../store/EtiquetaContext";
+import useEtiquetaStore from "../../store/EtiquetaContext";
 import api_config from "../../config/apiconfig";
 import { axiosRequest } from "../../services/AxiosRequest";
 import SortableItem from "../generic/SortableItem";
@@ -18,7 +16,9 @@ const ListaCompraItem = forwardRef(
     ref
   ) => {
     const id = producto.product.productID;
-    const { etiquetas } = useContext(EtiquetaContext);
+    const { etiquetas } = useEtiquetaStore((state) => ({
+      etiquetas: state.etiquetas,
+    }));
     const cm = useRef(null);
 
     const addOrRemoveEtiqueta = (etiqueta_id) => {

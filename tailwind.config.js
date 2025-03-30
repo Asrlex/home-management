@@ -5,7 +5,19 @@ export default {
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
-        extend: {},
+      extend: {
+        imageRendering: {
+          pixelated: 'pixelated',
+        },
+      },
     },
-    plugins: [],
+    plugins: [
+      function ({ addUtilities }) {
+        addUtilities({
+          '.image-pixelated': {
+            imageRendering: 'pixelated',
+          },
+        });
+      },
+    ],
 }

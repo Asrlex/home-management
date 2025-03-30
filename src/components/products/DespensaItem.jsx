@@ -2,13 +2,13 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaTag } from "react-icons/fa";
 import { CiBoxList } from "react-icons/ci";
-import { useRef, forwardRef, useContext } from "react";
+import { useRef, forwardRef } from "react";
 import { memo } from "react";
 import { ContextMenu } from "primereact/contextmenu";
 import { axiosRequest } from "../../services/AxiosRequest";
 import api_config from "../../config/apiconfig";
 import ContadorProducto from "./ContadorProducto";
-import { EtiquetaContext } from "../../store/EtiquetaContext";
+import useEtiquetaStore from "../../store/EtiquetaContext";
 import SortableItem from "../generic/SortableItem";
 import toast from "react-hot-toast";
 
@@ -17,7 +17,9 @@ const DespensaItem = forwardRef(
     { producto, handleEliminar, handleAmount, handleMover, addOrRemoveTag },
     innerRef
   ) => {
-    const { etiquetas } = useContext(EtiquetaContext);
+    const { etiquetas } = useEtiquetaStore((state) => ({
+      etiquetas: state.etiquetas,
+    }));
     const productID = producto.product.productID;
     const nombre = producto.product.productName;
     const fecha = new Date(producto.product.productDateLastBought);

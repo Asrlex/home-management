@@ -104,31 +104,31 @@
   /* gray-400 */
   --scrollbar-thumb-hover-color: rgb(107, 114, 128);
   /* gray-500 */
-  --settings-label-color: rgb(6 78 59);
+  --form-label-color: rgb(6 78 59);
   /* emerald-900 */
-  --settings-input-bg-color: rgb(243 244 246);
+  --form-input-bg-color: rgb(243 244 246);
   /* gray-100 */
-  --settings-input-text-color: rgb(6 78 59);
+  --form-input-text-color: rgb(6 78 59);
   /* emerald-900 */
-  --settings-select-bg-color: rgb(243 244 246);
+  --form-select-bg-color: rgb(243 244 246);
   /* gray-100 */
-  --settings-select-text-color: rgb(6 78 59);
+  --form-select-text-color: rgb(6 78 59);
   /* emerald-900 */
-  --settings-button-bg-color: rgb(6 95 70);
+  --form-button-bg-color: rgb(6 95 70);
   /* emerald-800 */
-  --settings-button-text-color: rgb(255 255 255);
+  --form-button-text-color: rgb(255 255 255);
   /* white */
-  --settings-button-hover-bg-color: rgb(16 185 129);
+  --form-button-hover-bg-color: rgb(16 185 129);
   /* emerald-500 */
-  --settings-select-text-color: rgb(6 95 70);
+  --form-select-text-color: rgb(6 95 70);
   /* emerald-800 */
-  --settings-select-options-bg-color: rgb(243 244 246);
+  --form-select-options-bg-color: rgb(243 244 246);
   /* gray-100 */
-  --settings-select-options-text-color: rgb(6 95 70);
+  --form-select-options-text-color: rgb(6 95 70);
   /* emerald-800 */
-  --settings-select-options-hover-bg-color: rgb(110 231 183);
+  --form-select-options-hover-bg-color: rgb(110 231 183);
   /* emerald-300 */
-  --settings-select-options-selected-bg-color: rgb(16 185 129);
+  --form-select-options-selected-bg-color: rgb(16 185 129);
   /* emerald-500 */
 }
 
@@ -230,29 +230,29 @@
   /* gray-500 */
   --scrollbar-thumb-hover-color: rgb(156, 163, 175);
   /* gray-400 */
-  --settings-label-color: rgb(243 244 246);
+  --form-label-color: rgb(243 244 246);
   /* gray-100 */
-  --settings-input-bg-color: rgb(55 65 81);
+  --form-input-bg-color: rgb(55 65 81);
   /* gray-700 */
-  --settings-input-text-color: rgb(243 244 246);
+  --form-input-text-color: rgb(243 244 246);
   /* gray-100 */
-  --settings-select-bg-color: rgb(31, 41, 55);
+  --form-select-bg-color: rgb(31, 41, 55);
   /* gray-800 */
-  --settings-select-text-color: rgb(243 244 246);
+  --form-select-text-color: rgb(243 244 246);
   /* gray-100 */
-  --settings-button-bg-color: rgb(75 85 99);
+  --form-button-bg-color: rgb(75 85 99);
   /* gray-600 */
-  --settings-button-text-color: rgb(243 244 246);
+  --form-button-text-color: rgb(243 244 246);
   /* gray-100 */
-  --settings-button-hover-bg-color: rgb(107 114 128);
+  --form-button-hover-bg-color: rgb(107 114 128);
   /* gray-500 */
-  --settings-select-options-bg-color: rgb(55 65 81);
+  --form-select-options-bg-color: rgb(55 65 81);
   /* gray-700 */
-  --settings-select-options-text-color: rgb(243 244 246);
+  --form-select-options-text-color: rgb(243 244 246);
   /* gray-100 */
-  --settings-select-options-hover-bg-color: rgb(75 85 99);
+  --form-select-options-hover-bg-color: rgb(75 85 99);
   /* gray-600 */
-  --settings-select-options-selected-bg-color: rgb(107 114 128);
+  --form-select-options-selected-bg-color: rgb(107 114 128);
   /* gray-500 */
 }
 
@@ -404,7 +404,7 @@ body {
     transition-all duration-200;
   }
   .tituloBarraLateral {
-    @apply flex justify-center text-[var(--barra-text-color)] text-3xl font-bold p-4 my-6 mt-2 md:mt-6 cursor-default;
+    @apply flex justify-center text-[var(--barra-text-color)] text-3xl font-bold p-4 my-6 mt-2 md:mt-6 cursor-pointer;
   }
   .logoBarraLateral {
     @apply md:mr-2 md:mt-1 w-6 h-8 transition-all duration-200;
@@ -419,11 +419,11 @@ body {
     @apply bg-[var(--barra-item-active-color)] shadow-md scale-100;
   }
   .toggleMode {
-    @apply absolute bottom-0 left-0 p-2 m-2 text-[var(--barra-text-color)] text-xs cursor-pointer;
+    @apply absolute bottom-0 left-5 p-2 m-2 text-[var(--barra-text-color)] text-xs cursor-pointer flex items-center justify-between gap-14;
   }
   .toggleModeLight,
   .toggleModeDark {
-    @apply w-6 h-6 rounded-md transition-all duration-200;
+    @apply w-6 h-6 m-2 rounded-md transition-all duration-200 hover:text-[var(--barra-item-hover-color)] hover:shadow-md;
   }
   .toggleModeLight.animate,
   .toggleModeDark.animate {

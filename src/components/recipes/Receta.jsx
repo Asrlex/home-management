@@ -3,11 +3,11 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Chip from "@mui/material/Chip";
-import { useRef, useContext, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { ContextMenu } from "primereact/contextmenu";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FaTag } from "react-icons/fa";
-import { EtiquetaContext } from "../../store/EtiquetaContext";
+import useEtiquetaStore from "../../store/EtiquetaContext";
 import { axiosRequest } from "../../services/AxiosRequest";
 import api_config from "../../config/apiconfig";
 import React from "react";
@@ -17,7 +17,9 @@ import Loader from "../generic/Loader";
 
 function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   const contextMenuRef = useRef(null);
-  const { etiquetas } = useContext(EtiquetaContext);
+  const { etiquetas } = useEtiquetaStore((state) => ({
+    etiquetas: state.etiquetas,
+  }));
   const [selectedReceta, setSelectedReceta] = useState(null);
   const recetaDialogRef = useRef();
   const [isLoading, setIsLoading] = useState(false);

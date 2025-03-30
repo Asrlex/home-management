@@ -1,12 +1,16 @@
 import Etiqueta from "./Etiqueta";
 import Modal from './generic/Modal';
-import { EtiquetaContext } from "../store/EtiquetaContext";
-import { useContext, useRef } from "react";
+import useEtiquetaStore from "../store/EtiquetaContext";
+import { useRef } from "react";
 import { axiosRequest } from "../services/AxiosRequest";
 import api_config from "../config/apiconfig";
 
 export default function ListaEtiquetas({ tipo }) {
-  const { etiquetas, etiquetasSeleccionadas, addEtiqueta } = useContext(EtiquetaContext);
+  const { etiquetas, etiquetasSeleccionadas, addEtiqueta } = useEtiquetaStore((state) => ({
+    etiquetas: state.etiquetas,
+    etiquetasSeleccionadas: state.etiquetasSeleccionadas,
+    addEtiqueta: state.addEtiqueta,
+  }));
   const etiquetaDialog = useRef();
   const nombreEtiquetaRef = useRef();
 

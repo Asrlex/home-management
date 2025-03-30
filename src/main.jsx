@@ -7,6 +7,12 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import useThemeStore from "./store/ThemeContext";
+import useConnectionStore from "./store/ConnectionContext";
+
+const { theme } = useThemeStore.getState();
+document.documentElement.className = theme;
+useConnectionStore.getState().initializeConnectionCheck();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

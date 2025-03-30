@@ -1,14 +1,17 @@
 import { RiAddLine, RiDeleteBinLine } from "react-icons/ri";
-import { EtiquetaContext } from "../store/EtiquetaContext";
-import { useContext, useRef } from "react";
+import useEtiquetaStore from "../store/EtiquetaContext";
+import { useRef } from "react";
 import { ContextMenu } from 'primereact/contextmenu';
-import axios from 'axios';
 import { axiosRequest } from "../services/AxiosRequest";
 import api_config from "../config/apiconfig";
 
 export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
     const { tagName } = etiqueta;
-    const { addToSeleccionadas, removeFromSeleccionadas, deleteEtiqueta } = useContext(EtiquetaContext);
+    const { addToSeleccionadas, removeFromSeleccionadas, deleteEtiqueta } = useEtiquetaStore((state) => ({
+        addToSeleccionadas: state.addToSeleccionadas,
+        removeFromSeleccionadas: state.removeFromSeleccionadas,
+        deleteEtiqueta: state.deleteEtiqueta
+    }));
     const cm = useRef(null);
     const contextModel = [
         {
