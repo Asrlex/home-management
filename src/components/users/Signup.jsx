@@ -3,21 +3,63 @@ import useUserStore from '../../store/UserContext';
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { TextField, Button, Box } from "@mui/material";
-import { formThemeVars, styles } from "../styles/Form.Styles";
+import { formThemeVars, styles } from "../../styles/Form.Styles";
 
 export default function Signup() {
   const { signup } = useUserStore();
   const [details, setDetails] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+
+  const validate = () => {
+    let valid = true;
+    const newErrors = { email: "", password: "" };
+
+    if (!details.email) {
+      newErrors.email = "El correo electrónico es obligatorio.";
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(details.email)) {
+      newErrors.email = "El correo electrónico no es válido.";
+      valid = false;
+    }
+
+    if (!details.password) {
+      newErrors.password = "La contraseña es obligatoria.";
+      valid = false;
+    } else if (details.password.length < 6) {
+      newErrors.password = "La contraseña debe tener al menos 6 caracteres.";
+      valid = false;
+    } else if (!/[A-Z]/.test(details.password)) {
+      newErrors.password = "La contraseña debe contener al menos una letra mayúscula.";
+      valid = false;
+    } else if (!/[0-9]/.test(details.password)) {
+      newErrors.password = "La contraseña debe contener al menos un número.";
+      valid = false;
+    } else if (!/[!@#$%^&*]/.test(details.password)) {
+      newErrors.password = "La contraseña debe contener al menos un carácter especial.";
+      valid = false;
+    }
+
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      ...newErrors,
+    }));
+    return valid;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) {
+      toast.error("Por favor, corrige los errores antes de continuar.");
+      return;
+    }
+
     try {
       await signup(details);
       navigate("/login");
-      toast.success("Signup successful! Please login.");
+      toast.success("¡Registro exitoso! Por favor, inicia sesión.");
     } catch (error) {
-      toast.error("Signup failed. Please try again.");
+      toast.error("El registro falló. Por favor, inténtalo de nuevo.");
     }
   };
 
@@ -40,6 +82,8 @@ export default function Signup() {
         type="email"
         value={details.email}
         onChange={(e) => setDetails({ ...details, email: e.target.value })}
+        error={!!errors.email}
+        helperText={errors.email}
         variant="outlined"
         fullWidth
         sx={styles.textFieldStyles}
@@ -49,6 +93,8 @@ export default function Signup() {
         type="password"
         value={details.password}
         onChange={(e) => setDetails({ ...details, password: e.target.value })}
+        error={!!errors.password}
+        helperText={errors.password}
         variant="outlined"
         fullWidth
         sx={styles.textFieldStyles}

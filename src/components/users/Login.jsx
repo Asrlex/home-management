@@ -3,7 +3,7 @@ import useUserStore from '../../store/UserContext';
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { TextField, Button, Box } from "@mui/material";
-import { formThemeVars, styles } from "../styles/Form.Styles";
+import { formThemeVars, styles } from "../../styles/Form.Styles";
 
 export default function Login() {
   const { login } = useUserStore();
