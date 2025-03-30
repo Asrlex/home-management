@@ -4,10 +4,8 @@ import { MdOutlineWbSunny } from "react-icons/md";
 import { FaMoon } from "react-icons/fa";
 
 const ToggleMode = () => {
-  const { theme, toggleTheme } = useThemeStore(state => ({
-    theme: state.theme,
-    toggleTheme: state.toggleTheme,
-  }));
+  const theme = useThemeStore((state) => state.theme);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
   const [animate, setAnimate] = useState(false);
 
   const handleClick = () => {

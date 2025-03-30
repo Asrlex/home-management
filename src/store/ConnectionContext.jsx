@@ -2,10 +2,10 @@ import api_config from '../config/apiconfig';
 import { create } from 'zustand';
 import { axiosRequest } from '../services/AxiosRequest';
 
-
 const useConnectionStore = create((set) => ({
   isConnected: true,
-  setIsConnected: (status) => set({ isConnected: status }),
+  checkConnectionInterval: null,
+
   checkConnection: async () => {
     try {
       await axiosRequest('GET', api_config.health_check_url);
@@ -15,13 +15,14 @@ const useConnectionStore = create((set) => ({
       set({ isConnected: false });
     }
   },
-  checkConnectionInterval: null,
+
   startConnectionCheck: () => {
     const intervalId = setInterval(() => {
       useConnectionStore.getState().checkConnection();
     }, 30000);
     set({ checkConnectionInterval: intervalId });
   },
+
   stopConnectionCheck: () => {
     const { checkConnectionInterval } = useConnectionStore.getState();
     if (checkConnectionInterval) {
@@ -29,13 +30,15 @@ const useConnectionStore = create((set) => ({
       set({ checkConnectionInterval: null });
     }
   },
+
   initializeConnectionCheck: () => {
     useConnectionStore.getState().checkConnection();
     useConnectionStore.getState().startConnectionCheck();
   },
+
   cleanupConnectionCheck: () => {
     useConnectionStore.getState().stopConnectionCheck();
-  }
+  },
 }));
 
 export default useConnectionStore;

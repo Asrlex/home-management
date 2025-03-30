@@ -12,6 +12,7 @@ import useConnectionStore from "./store/ConnectionContext";
 
 const { theme } = useThemeStore.getState();
 document.documentElement.className = theme;
+
 useConnectionStore.getState().initializeConnectionCheck();
 
 ReactDOM.createRoot(document.getElementById('root')).render(

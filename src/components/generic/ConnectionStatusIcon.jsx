@@ -2,9 +2,7 @@ import useConnectionStore from '../../store/ConnectionContext';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
 const ConnectionStatusIcon = () => {
-  const { isConnected } = useConnectionStore((state => ({
-    isConnected: state.isConnected,
-  })));
+  const isConnected = useConnectionStore((state) => state.isConnected);
 
   if (isConnected) return null;
 
