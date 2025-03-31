@@ -1,16 +1,37 @@
-import { create } from 'zustand';
-import { axiosRequest } from '../services/AxiosRequest';
-import api_config from '../config/apiconfig';
+import { create } from "zustand";
+import { axiosRequest } from "../services/AxiosRequest";
+import api_config from "../config/apiconfig";
 
 const useShoppingListStore = create((set) => ({
   shoppingListItems: [],
 
   fetchShoppingListItems: async () => {
     try {
-      const response = await axiosRequest('GET', api_config.lista_compra.all);
-      set({ shoppingListItems: response });
+      const response = await axiosRequest("GET", api_config.lista_compra.all);
+      const orderResponse = await axiosRequest(
+        "GET",
+        `${api_config.productos.order}shoppingList`
+      );
+      let orderedItems = [];
+      let unorderedItems = [];
+      let finalItems = [];
+      if (orderResponse && orderResponse.length > 0) {
+        orderedItems = orderResponse
+          .map((id) =>
+            response.find((item) => item.shoppingListProductID === id)
+          )
+          .filter((item) => item !== undefined);
+        unorderedItems = response.filter(
+          (item) => !orderResponse.includes(item.shoppingListProductID)
+        );
+        finalItems = [...orderedItems, ...unorderedItems];
+      } else {
+        finalItems = response;
+      }
+
+      set({ shoppingListItems: finalItems });
     } catch (error) {
-      console.error('Error fetching shopping list items:', error);
+      console.error("Error fetching shopping list items:", error);
     }
   },
 
@@ -32,7 +53,7 @@ const useShoppingListStore = create((set) => ({
           : item
       ),
     })),
-  
+
   addOrRemoveListTag: (itemID, tagID) =>
     set((state) => ({
       shoppingListItems: state.shoppingListItems.map((item) =>
@@ -47,12 +68,28 @@ const useShoppingListStore = create((set) => ({
       ),
     })),
 
-  reorderShoppingListItems: (newOrder) =>
-    set((state) => ({
-      shoppingListItems: newOrder.map((id) =>
-        state.shoppingListItems.find((item) => item.shoppingListProductID === id)
-      ),
-    })),
+  reorderShoppingListItems: async (newOrder) => {
+    try {
+      await axiosRequest(
+        "POST",
+        `${api_config.productos.order}shoppingList`,
+        {},
+        newOrder
+      );
+
+      set((state) => {
+        const reorderedItems = newOrder.map((id) => {
+          const item = state.shoppingListItems.find(
+            (item) => item.shoppingListProductID === id
+          );
+          return item;
+        });
+        return { shoppingListItems: reorderedItems };
+      });
+    } catch (error) {
+      console.error("Error reordering shopping list items:", error);
+    }
+  },
 }));
 
 export default useShoppingListStore;

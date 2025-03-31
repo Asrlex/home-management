@@ -31,18 +31,24 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const publicRoutes = ["/login", "/signup", "/"];
+  const validateToken = useUserStore((state) => state.validateToken);
 
   useEffect(() => {
-    const path = location.pathname.split("/")[1];
-    const section = path.replace(/-/g, " ");
-    setSelectedSection(section.charAt(0).toUpperCase() + section.slice(1));
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (!publicRoutes.includes(location.pathname) && !token) {
-      navigate("/login");
-    }
-  }, [token, navigate]);
+    const validateAndRedirect = async () => {
+      const path = location.pathname.split("/")[1];
+      const section = path.replace(/-/g, " ");
+      setSelectedSection(section.charAt(0).toUpperCase() + section.slice(1));
+  
+      if (!publicRoutes.includes(location.pathname)) {
+        const isValidToken = await validateToken();
+        if (!isValidToken) {
+          navigate("/login");
+        }
+      }
+    };
+  
+    validateAndRedirect();
+  }, [location.pathname, navigate]);
 
   const handleSectionChange = (section) => {
     setSelectedSection(section);

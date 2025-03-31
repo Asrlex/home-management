@@ -1,20 +1,40 @@
-import { create } from 'zustand';
-import { axiosRequest } from '../services/AxiosRequest';
-import api_config from '../config/apiconfig';
+import { create } from "zustand";
+import { axiosRequest } from "../services/AxiosRequest";
+import api_config from "../config/apiconfig";
 
 const useStockStore = create((set) => ({
   stockItems: [],
 
   fetchStockItems: async () => {
     try {
-      const response = await axiosRequest('GET', api_config.despensa.all);
-      set({ stockItems: response });
+      const response = await axiosRequest("GET", api_config.despensa.all);
+      const orderResponse = await axiosRequest(
+        "GET",
+        `${api_config.productos.order}stock`
+      );
+      let orderedItems = [];
+      let unorderedItems = [];
+      let finalItems = [];
+      if (orderResponse && orderResponse.length > 0) {
+        orderedItems = orderResponse
+          .map((id) => response.find((item) => item.stockProductID === id))
+          .filter((item) => item !== undefined);
+        unorderedItems = response.filter(
+          (item) => !orderResponse.includes(item.stockProductID)
+        );
+        finalItems = [...orderedItems, ...unorderedItems];
+      } else {
+        finalItems = response;
+      }
+
+      set({ stockItems: finalItems });
     } catch (error) {
-      console.error('Error fetching stock items:', error);
+      console.error("Error fetching stock items:", error);
     }
   },
 
-  addStockItem: (item) => set((state) => ({ stockItems: [...state.stockItems, item] })),
+  addStockItem: (item) =>
+    set((state) => ({ stockItems: [...state.stockItems, item] })),
 
   removeStockItem: (id) =>
     set((state) => ({
@@ -24,10 +44,12 @@ const useStockStore = create((set) => ({
   modifyStockItemAmount: (id, amount) =>
     set((state) => ({
       stockItems: state.stockItems.map((item) =>
-        item.stockProductID === id ? { ...item, stockProductAmount: amount } : item
+        item.stockProductID === id
+          ? { ...item, stockProductAmount: amount }
+          : item
       ),
     })),
-  
+
   addOrRemoveListTag: (itemID, tagID) =>
     set((state) => ({
       stockItems: state.stockItems.map((item) =>
@@ -42,12 +64,28 @@ const useStockStore = create((set) => ({
       ),
     })),
 
-  reorderStockItems: (newOrder) =>
-    set((state) => ({
-      stockItems: newOrder.map((id) =>
-        state.stockItems.find((item) => item.stockProductID === id)
-      ),
-    })),
+  reorderStockItems: async (newOrder) => {
+    try {
+      await axiosRequest(
+        "POST",
+        `${api_config.productos.order}stock`,
+        {},
+        newOrder
+      );
+
+      set((state) => {
+        const reorderedItems = newOrder.map((id) => {
+          const item = state.stockItems.find(
+            (item) => item.stockProductID === id
+          );
+          return item;
+        });
+        return { stockItems: reorderedItems };
+      });
+    } catch (error) {
+      console.error("Error reordering stock items:", error);
+    }
+  },
 }));
 
 export default useStockStore;

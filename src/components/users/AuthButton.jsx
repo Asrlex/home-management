@@ -1,43 +1,58 @@
-import useUserStore from '../../store/UserContext';
-import { useNavigate } from 'react-router-dom';
+import useUserStore from "../../store/UserContext";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 
 const AuthButton = () => {
-  const { token, user, logout } = useUserStore();
+  const token = useUserStore((state) => state.token);
+  const user = useUserStore((state) => state.user);
+  const logout = useUserStore((state) => state.logout);
   const navigate = useNavigate();
+  const [hover, setHover] = useState(false);
+  const [isCompact, setIsCompact] = useState(window.innerWidth < 768);
 
-  const handleClick = () => {
+  const handleAuthAction = () => {
     if (token) {
       logout();
+      navigate("/");
     } else {
       navigate("/login");
     }
-  }
+  };
 
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-      {token && (
-        <div 
-          style={{
-            width: '30px',
-            height: '30px',
-            borderRadius: '50%',
-            backgroundColor: '#007bff',
-            color: 'white',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 'bold',
-            textTransform: 'uppercase'
-          }}
-        >
-          {user.userEmail.slice(0, 2)}
-        </div>
+  useEffect(() => {
+    const handleResize = () => {
+      setIsCompact(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return isCompact ? (
+    <button
+      className="authButtonCompact"
+      onClick={handleAuthAction}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      {hover ? (
+        token ? (
+          <FaSignOutAlt />
+        ) : (
+          <FaSignInAlt />
+        )
+      ) : (
+        <div className="authPill">{token && user.userEmail.slice(0, 2)}</div>
       )}
-      <button 
-        className="modalBoton"
-        onClick={handleClick}
-      >
-        {token ? 'Logout' : 'Login'}
+    </button>
+  ) : (
+    <div className="authButtonContainer">
+      <div className="authPill">{token && user.userEmail.slice(0, 2)}</div>
+      <button className="authButton" onClick={handleAuthAction}>
+        {token ? <FaSignOutAlt /> : <FaSignInAlt />}
       </button>
     </div>
   );

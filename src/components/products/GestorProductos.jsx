@@ -1,4 +1,10 @@
-import React, { useState, useRef, useContext, Fragment, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useContext,
+  Fragment,
+  useEffect,
+} from "react";
 import toast from "react-hot-toast";
 import Select from "react-select";
 import {
@@ -40,39 +46,57 @@ export default function GestorProductos({ type }) {
     first: false,
   });
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const etiquetasSeleccionadas = useEtiquetaStore(state => state.etiquetasSeleccionadas);
-  const products = useProductStore(state => state.products);
-  const shoppingListItems = useShoppingListStore(state => state.shoppingListItems);
-  const setShoppingListItems = useShoppingListStore(state => state.setShoppingListItems);
-  const addShoppingListItem = useShoppingListStore(state => state.addShoppingListItem);
-  const removeShoppingListItem = useShoppingListStore(state => state.removeShoppingListItem);
-  const modifyShoppingListItemAmount = useShoppingListStore(state => state.modifyShoppingListItemAmount);
-  const reorderShoppingListItems = useShoppingListStore(state => state.reorderShoppingListItems);
-  const addOrRemoveListTag = useShoppingListStore(state => state.addOrRemoveListTag);
-  const fetchShoppingListItems = useShoppingListStore(state => state.fetchShoppingListItems);
-  const stockItems = useStockStore(state => state.stockItems);
-  const setStockItems = useStockStore(state => state.setStockItems);
-  const addStockItem = useStockStore(state => state.addStockItem);
-  const removeStockItem = useStockStore(state => state.removeStockItem);
-  const modifyStockItemAmount = useStockStore(state => state.modifyStockItemAmount);
-  const reorderStockItems = useStockStore(state => state.reorderStockItems);
-  const addOrRemoveStockTag = useStockStore(state => state.addOrRemoveStockTag);
-  const fetchStockItems = useStockStore(state => state.fetchStockItems);
+  const etiquetasSeleccionadas = useEtiquetaStore(
+    (state) => state.etiquetasSeleccionadas
+  );
+  const products = useProductStore((state) => state.products);
+  const shoppingListItems = useShoppingListStore(
+    (state) => state.shoppingListItems
+  );
+  const addShoppingListItem = useShoppingListStore(
+    (state) => state.addShoppingListItem
+  );
+  const removeShoppingListItem = useShoppingListStore(
+    (state) => state.removeShoppingListItem
+  );
+  const modifyShoppingListItemAmount = useShoppingListStore(
+    (state) => state.modifyShoppingListItemAmount
+  );
+  const reorderShoppingListItems = useShoppingListStore(
+    (state) => state.reorderShoppingListItems
+  );
+  const addOrRemoveListTag = useShoppingListStore(
+    (state) => state.addOrRemoveListTag
+  );
+  const fetchShoppingListItems = useShoppingListStore(
+    (state) => state.fetchShoppingListItems
+  );
+  const stockItems = useStockStore((state) => state.stockItems);
+  const addStockItem = useStockStore((state) => state.addStockItem);
+  const removeStockItem = useStockStore((state) => state.removeStockItem);
+  const modifyStockItemAmount = useStockStore(
+    (state) => state.modifyStockItemAmount
+  );
+  const reorderStockItems = useStockStore((state) => state.reorderStockItems);
+  const addOrRemoveStockTag = useStockStore(
+    (state) => state.addOrRemoveStockTag
+  );
+  const fetchStockItems = useStockStore((state) => state.fetchStockItems);
   const productoDialogRef = useRef();
   const amountRef = useRef(0);
   const lastRef = useRef();
   const firstRef = useRef();
   const addOrRemoveTag =
     type === "lista-compra" ? addOrRemoveListTag : addOrRemoveStockTag;
-  
+  const fetchItems =
+    type === "lista-compra" ? fetchShoppingListItems : fetchStockItems;
+  const items = type === "lista-compra" ? shoppingListItems : stockItems;
+  const ItemComponent =
+    type === "lista-compra" ? ListaCompraItem : DespensaItem;
+
   useEffect(() => {
-    if (type === "lista-compra") {
-      fetchShoppingListItems();
-    } else {
-      fetchStockItems();
-    }
-  }
-  , [type, fetchShoppingListItems, fetchStockItems]);
+    fetchItems();
+  }, [fetchItems]);
 
   /**
    * Custom hook to handle drag and drop events
@@ -114,14 +138,16 @@ export default function GestorProductos({ type }) {
             type === "lista-compra" ? "shoppingListProductID" : "stockProductID"
           ] === over.id
       );
-      const newItems = arrayMove(
-        type === "lista-compra" ? shoppingListItems : stockItems,
-        oldIndex,
-        newIndex
+      const newItems = arrayMove(items, oldIndex, newIndex);
+      const newOrder = newItems.map((item) =>
+        type === "lista-compra"
+          ? item.shoppingListProductID
+          : item.stockProductID
       );
+  
       type === "lista-compra"
-        ? reorderShoppingListItems(newItems)
-        : reorderStockItems(newItems);
+        ? reorderShoppingListItems(newOrder)
+        : reorderStockItems(newOrder);
     }
   };
 
@@ -259,34 +285,6 @@ export default function GestorProductos({ type }) {
   };
 
   /**
-   * Fetches the data from the API and sets the state accordingly
-   */
-  const fetchData = async () => {
-    const apiUrl =
-      type === "lista-compra"
-        ? api_config.lista_compra.all
-        : api_config.despensa.all;
-    toast.promise(
-      axiosRequest("GET", apiUrl)
-        .then((response) => {
-          if (type === "lista-compra") {
-            setShoppingListItems(response);
-          } else {
-            setStockItems(response);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        }),
-      {
-        loading: "Cargando productos...",
-        success: "Productos cargados",
-        error: (err) => `Error al cargar productos: ${err}`,
-      }
-    );
-  };
-
-  /**
    * Handles the submit event of the modal
    * @param {object} e The submit event
    */
@@ -335,10 +333,6 @@ export default function GestorProductos({ type }) {
       </form>
     </Modal>
   );
-
-  const items = type === "lista-compra" ? shoppingListItems : stockItems;
-  const ItemComponent =
-    type === "lista-compra" ? ListaCompraItem : DespensaItem;
 
   return (
     <>
@@ -466,7 +460,7 @@ export default function GestorProductos({ type }) {
       <div className="seccionBotones">
         <FAB
           icon={<IoIosRefresh />}
-          action={fetchData}
+          action={() => fetchItems()}
           classes="refreshButton"
         />
         <FAB
