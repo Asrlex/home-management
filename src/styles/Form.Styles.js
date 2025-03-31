@@ -73,6 +73,7 @@ export const styles = {
     },
   },
   selectFormControlStyles: {
+    marginBottom: "2rem",
     "& .MuiInput-underline:before": {
       borderBottomColor: formThemeVars.borderColor,
     },
@@ -96,6 +97,10 @@ export const styles = {
       "&.Mui-focused fieldset": {
         borderColor: formThemeVars.checkboxCheckedColor,
       },
+    },
+    "& .MuiInputLabel-root": {
+      color: "gray",
+      fontSize: "1rem",
     },
   },
   buttonStyles: {

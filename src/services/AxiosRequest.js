@@ -3,6 +3,8 @@ import api_config from '../config/apiconfig';
 
 export const axiosRequest = async (method, url, params = {}, body = {}, token = '') => {
   try {
+    const authToken = token || localStorage.getItem('token') || '';
+
     const response = await axios({
       method,
       url,
@@ -10,7 +12,7 @@ export const axiosRequest = async (method, url, params = {}, body = {}, token = 
         'X-api-key': api_config.global_api_key,
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        ...(token && { 'Authorization': `Bearer ${token}` }),
+        ...(authToken && { 'Authorization': `Bearer ${authToken}` }),
       },
       params,
       data: body,

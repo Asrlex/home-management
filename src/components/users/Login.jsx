@@ -1,14 +1,16 @@
 import { useState } from "react";
-import useUserStore from '../../store/UserContext';
+import useUserStore from "../../store/UserContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Button, Box,InputAdornment, IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { formThemeVars, styles } from "../../styles/Form.Styles";
 
 export default function Login() {
   const { login } = useUserStore();
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,19 +41,35 @@ export default function Login() {
         label="Email"
         type="email"
         value={credentials.email}
-        onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+        onChange={(e) =>
+          setCredentials({ ...credentials, email: e.target.value })
+        }
         variant="outlined"
         fullWidth
         sx={styles.textFieldStyles}
       />
       <TextField
         label="Contraseña"
-        type="password"
+        type={showPassword ? "text" : "password"}
         value={credentials.password}
-        onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+        onChange={(e) =>
+          setCredentials({ ...credentials, password: e.target.value })
+        }
         variant="outlined"
         fullWidth
         sx={styles.textFieldStyles}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                onClick={() => setShowPassword(!showPassword)}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
       <Button
         type="submit"

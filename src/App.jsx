@@ -30,7 +30,7 @@ function App() {
   const { token } = useUserStore();
   const navigate = useNavigate();
   const location = useLocation();
-  const publicRoutes = ["/login", "/signup"];
+  const publicRoutes = ["/login", "/signup", "/"];
 
   useEffect(() => {
     const path = location.pathname.split("/")[1];

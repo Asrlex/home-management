@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, Fragment } from "react";
+import React, { useState, useRef, useContext, Fragment, useEffect } from "react";
 import toast from "react-hot-toast";
 import Select from "react-select";
 import {
@@ -30,7 +30,6 @@ import useShoppingListStore from "../../store/ShoppingListContext";
 import useStockStore from "../../store/StockContext";
 import ListaCompraItem from "./ListaCompraItem";
 import DespensaItem from "./DespensaItem";
-import SelectorTienda from "../generic/SelectorTienda";
 import api_config from "../../config/apiconfig";
 import { axiosRequest } from "../../services/AxiosRequest";
 import { customStyles } from "../generic/ModalStyle";
@@ -41,36 +40,39 @@ export default function GestorProductos({ type }) {
     first: false,
   });
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const { etiquetasSeleccionadas } = useEtiquetaStore((state) => ({
-    etiquetasSeleccionadas: state.etiquetasSeleccionadas,
-  }));
-  const { products } = useProductStore((state => ({
-    products: state.products,
-  })));
-  const {
-    shoppingListItems,
-    setShoppingListItems,
-    addShoppingListItem,
-    removeShoppingListItem,
-    modifyShoppingListItemAmount,
-    reorderShoppingListItems,
-    addOrRemoveListTag,
-  } = useShoppingListStore();
-  const {
-    stockItems,
-    setStockItems,
-    addStockItem,
-    removeStockItem,
-    modifyStockItemAmount,
-    reorderStockItems,
-    addOrRemoveStockTag,
-  } = useStockStore();
+  const etiquetasSeleccionadas = useEtiquetaStore(state => state.etiquetasSeleccionadas);
+  const products = useProductStore(state => state.products);
+  const shoppingListItems = useShoppingListStore(state => state.shoppingListItems);
+  const setShoppingListItems = useShoppingListStore(state => state.setShoppingListItems);
+  const addShoppingListItem = useShoppingListStore(state => state.addShoppingListItem);
+  const removeShoppingListItem = useShoppingListStore(state => state.removeShoppingListItem);
+  const modifyShoppingListItemAmount = useShoppingListStore(state => state.modifyShoppingListItemAmount);
+  const reorderShoppingListItems = useShoppingListStore(state => state.reorderShoppingListItems);
+  const addOrRemoveListTag = useShoppingListStore(state => state.addOrRemoveListTag);
+  const fetchShoppingListItems = useShoppingListStore(state => state.fetchShoppingListItems);
+  const stockItems = useStockStore(state => state.stockItems);
+  const setStockItems = useStockStore(state => state.setStockItems);
+  const addStockItem = useStockStore(state => state.addStockItem);
+  const removeStockItem = useStockStore(state => state.removeStockItem);
+  const modifyStockItemAmount = useStockStore(state => state.modifyStockItemAmount);
+  const reorderStockItems = useStockStore(state => state.reorderStockItems);
+  const addOrRemoveStockTag = useStockStore(state => state.addOrRemoveStockTag);
+  const fetchStockItems = useStockStore(state => state.fetchStockItems);
   const productoDialogRef = useRef();
   const amountRef = useRef(0);
   const lastRef = useRef();
   const firstRef = useRef();
   const addOrRemoveTag =
     type === "lista-compra" ? addOrRemoveListTag : addOrRemoveStockTag;
+  
+  useEffect(() => {
+    if (type === "lista-compra") {
+      fetchShoppingListItems();
+    } else {
+      fetchStockItems();
+    }
+  }
+  , [type, fetchShoppingListItems, fetchStockItems]);
 
   /**
    * Custom hook to handle drag and drop events
@@ -462,7 +464,6 @@ export default function GestorProductos({ type }) {
         </span>
       </div>
       <div className="seccionBotones">
-        <SelectorTienda />
         <FAB
           icon={<IoIosRefresh />}
           action={fetchData}

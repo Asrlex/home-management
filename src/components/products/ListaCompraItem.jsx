@@ -16,9 +16,7 @@ const ListaCompraItem = forwardRef(
     ref
   ) => {
     const id = producto.product.productID;
-    const { etiquetas } = useEtiquetaStore((state) => ({
-      etiquetas: state.etiquetas,
-    }));
+    const etiquetas = useEtiquetaStore((state) => state.etiquetas);
     const cm = useRef(null);
 
     const addOrRemoveEtiqueta = (etiqueta_id) => {

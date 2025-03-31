@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -13,26 +13,26 @@ import useProductStore from "../../store/ProductContext";
 import useEtiquetaStore from "../../store/EtiquetaContext";
 import ListaEtiquetas from "../ListaEtiquetas";
 import FAB from "../generic/FloatingButton";
-import SelectorTienda from "../generic/SelectorTienda";
 import Modal from "../generic/Modal";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { axiosRequest } from "../../services/AxiosRequest";
 
 const ListaProductos = () => {
-  const { products, addProduct } = useProductStore((state => ({
-    products: state.products,
-    addProduct: state.addProduct,
-  })));
-  const { etiquetasSeleccionadas } = useEtiquetaStore((state) => ({
-    etiquetasSeleccionadas: state.etiquetasSeleccionadas,
-  }));
+  const products = useProductStore(state => state.products);
+  const addProduct = useProductStore(state => state.addProduct);
+  const etiquetasSeleccionadas = useEtiquetaStore(state => state.etiquetasSeleccionadas);
+  const fetchProducts = useProductStore(state => state.fetchProducts);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const productoDialogRef = useRef();
   const nameRef = useRef();
   const unitRef = useRef();
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -239,7 +239,6 @@ const ListaProductos = () => {
         />
       </div>
       <div className="seccionBotones">
-        <SelectorTienda />
         <FAB
           icon={<FaPlus />}
           action={() => productoDialogRef.current.open()}

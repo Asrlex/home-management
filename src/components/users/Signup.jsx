@@ -1,14 +1,16 @@
 import { useState } from "react";
-import useUserStore from '../../store/UserContext';
+import useUserStore from "../../store/UserContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Button, Box, InputAdornment, IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { formThemeVars, styles } from "../../styles/Form.Styles";
 
 export default function Signup() {
   const { signup } = useUserStore();
   const [details, setDetails] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const validate = () => {
@@ -30,17 +32,19 @@ export default function Signup() {
       newErrors.password = "La contraseña debe tener al menos 6 caracteres.";
       valid = false;
     } else if (!/[A-Z]/.test(details.password)) {
-      newErrors.password = "La contraseña debe contener al menos una letra mayúscula.";
+      newErrors.password =
+        "La contraseña debe contener al menos una letra mayúscula.";
       valid = false;
     } else if (!/[0-9]/.test(details.password)) {
       newErrors.password = "La contraseña debe contener al menos un número.";
       valid = false;
-    } else if (!/[!@#$%^&*]/.test(details.password)) {
-      newErrors.password = "La contraseña debe contener al menos un carácter especial.";
+    } else if (!/[!@#$%^&.,-_*]/.test(details.password)) {
+      newErrors.password =
+        "La contraseña debe contener al menos un carácter especial.";
       valid = false;
     }
 
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
       ...newErrors,
     }));
@@ -90,7 +94,7 @@ export default function Signup() {
       />
       <TextField
         label="Contraseña"
-        type="password"
+        type={showPassword ? "text" : "password"}
         value={details.password}
         onChange={(e) => setDetails({ ...details, password: e.target.value })}
         error={!!errors.password}
@@ -98,6 +102,18 @@ export default function Signup() {
         variant="outlined"
         fullWidth
         sx={styles.textFieldStyles}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                onClick={() => setShowPassword(!showPassword)}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
       <Button
         type="submit"

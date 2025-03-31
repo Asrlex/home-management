@@ -6,11 +6,8 @@ import useStoreStore from '../../store/StoreContext';
 import { IoStorefront } from "react-icons/io5";
 
 export default function SelectorTienda() {
-  const { stores, storeSelect, setStoreSelect } = useStoreStore(state => ({
-    stores: state.stores,
-    storeSelect: state.storeSelect,
-    setStoreSelect: state.setStoreSelect,
-  }));
+  const stores = useStoreStore(state => state.stores);
+  const storeSelect = useStoreStore(state => state.storeSelect);
 
   return (
     <div className='seccionTienda'>

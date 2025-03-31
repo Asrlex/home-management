@@ -1,18 +1,21 @@
 import Etiqueta from "./Etiqueta";
 import Modal from './generic/Modal';
 import useEtiquetaStore from "../store/EtiquetaContext";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { axiosRequest } from "../services/AxiosRequest";
 import api_config from "../config/apiconfig";
 
 export default function ListaEtiquetas({ tipo }) {
-  const { etiquetas, etiquetasSeleccionadas, addEtiqueta } = useEtiquetaStore((state) => ({
-    etiquetas: state.etiquetas,
-    etiquetasSeleccionadas: state.etiquetasSeleccionadas,
-    addEtiqueta: state.addEtiqueta,
-  }));
+  const etiquetas = useEtiquetaStore(state => state.etiquetas);
+  const addEtiqueta = useEtiquetaStore(state => state.addEtiqueta);
+  const etiquetasSeleccionadas = useEtiquetaStore(state => state.etiquetasSeleccionadas);
+  const fetchEtiquetas = useEtiquetaStore(state => state.fetchEtiquetas);
   const etiquetaDialog = useRef();
   const nombreEtiquetaRef = useRef();
+
+  useEffect(() => {
+    fetchEtiquetas();
+  }, []);
 
   const saveEtiqueta = async (tagName) => {
     try {

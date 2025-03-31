@@ -7,11 +7,9 @@ import api_config from "../config/apiconfig";
 
 export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
     const { tagName } = etiqueta;
-    const { addToSeleccionadas, removeFromSeleccionadas, deleteEtiqueta } = useEtiquetaStore((state) => ({
-        addToSeleccionadas: state.addToSeleccionadas,
-        removeFromSeleccionadas: state.removeFromSeleccionadas,
-        deleteEtiqueta: state.deleteEtiqueta
-    }));
+    const addToSeleccionadas = useEtiquetaStore(state => state.addToSeleccionadas);
+    const removeFromSeleccionadas = useEtiquetaStore(state => state.removeFromSeleccionadas);
+    const deleteEtiqueta = useEtiquetaStore(state => state.deleteEtiqueta);
     const cm = useRef(null);
     const contextModel = [
         {

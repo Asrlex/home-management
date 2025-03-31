@@ -14,10 +14,10 @@ import Loader from "../generic/Loader";
 export default function Recetas() {
   const [recetas, setRecetas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { etiquetas, etiquetasSeleccionadas } = useEtiquetaStore((state) => ({
-    etiquetas: state.etiquetas,
-    etiquetasSeleccionadas: state.etiquetasSeleccionadas,
-  }));
+  const etiquetas = useEtiquetaStore((state) => state.etiquetas);
+  const etiquetasSeleccionadas = useEtiquetaStore(
+    (state) => state.etiquetasSeleccionadas
+  );
   const recetaDialogRef = useRef();
 
   useEffect(() => {

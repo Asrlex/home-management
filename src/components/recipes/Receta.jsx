@@ -17,9 +17,7 @@ import Loader from "../generic/Loader";
 
 function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   const contextMenuRef = useRef(null);
-  const { etiquetas } = useEtiquetaStore((state) => ({
-    etiquetas: state.etiquetas,
-  }));
+  const etiquetas = useEtiquetaStore((state) => state.etiquetas);
   const [selectedReceta, setSelectedReceta] = useState(null);
   const recetaDialogRef = useRef();
   const [isLoading, setIsLoading] = useState(false);

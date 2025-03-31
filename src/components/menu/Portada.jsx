@@ -12,9 +12,7 @@ const icons = {
 };
 
 const Portada = () => {
-  const { settings } = useSettingsStore(state => ({
-    settings: state.settings,
-  }));
+  const settings = useSettingsStore((state) => state.settings);
   const selectedIcon = icons[settings?.icon] || summerIcon;
 
   return (

@@ -17,9 +17,7 @@ const DespensaItem = forwardRef(
     { producto, handleEliminar, handleAmount, handleMover, addOrRemoveTag },
     innerRef
   ) => {
-    const { etiquetas } = useEtiquetaStore((state) => ({
-      etiquetas: state.etiquetas,
-    }));
+    const etiquetas = useEtiquetaStore((state) => state.etiquetas);
     const productID = producto.product.productID;
     const nombre = producto.product.productName;
     const fecha = new Date(producto.product.productDateLastBought);

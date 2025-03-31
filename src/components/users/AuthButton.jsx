@@ -30,7 +30,7 @@ const AuthButton = () => {
             textTransform: 'uppercase'
           }}
         >
-          {user.email.slice(0, 2)}
+          {user.userEmail.slice(0, 2)}
         </div>
       )}
       <button 

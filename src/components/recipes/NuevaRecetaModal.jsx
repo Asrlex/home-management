@@ -5,9 +5,7 @@ import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import { customStyles } from "../generic/ModalStyle";
 
 export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
-  const { products } = useProductStore((state => ({
-    products: state.products,
-  })));
+  const products = useProductStore((state) => state.products);
   const [ingredients, setIngredients] = useState([]);
   const [steps, setSteps] = useState([]);
   const [stepOrder, setStepOrder] = useState(1);
