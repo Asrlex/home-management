@@ -9,7 +9,6 @@ const useStoreStore = create((set) => ({
   fetchStores: async () => {
     try {
       const response = await axiosRequest('GET', api_config.tiendas.all);
-      console.log('Stores fetched:', response);
       set({ stores: response, storeSelect: response[0] });
     } catch (error) {
       console.error('Error fetching stores:', error);

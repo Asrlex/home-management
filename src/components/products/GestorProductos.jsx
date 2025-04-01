@@ -38,7 +38,7 @@ import ListaCompraItem from "./ListaCompraItem";
 import DespensaItem from "./DespensaItem";
 import api_config from "../../config/apiconfig";
 import { axiosRequest } from "../../services/AxiosRequest";
-import { customStyles } from "../generic/ModalStyle";
+import { customStyles } from "../../styles/ModalStyle";
 
 export default function GestorProductos({ type }) {
   const [prodInView, setProdInView] = useState({
@@ -65,9 +65,6 @@ export default function GestorProductos({ type }) {
   const reorderShoppingListItems = useShoppingListStore(
     (state) => state.reorderShoppingListItems
   );
-  const addOrRemoveListTag = useShoppingListStore(
-    (state) => state.addOrRemoveListTag
-  );
   const fetchShoppingListItems = useShoppingListStore(
     (state) => state.fetchShoppingListItems
   );
@@ -78,21 +75,20 @@ export default function GestorProductos({ type }) {
     (state) => state.modifyStockItemAmount
   );
   const reorderStockItems = useStockStore((state) => state.reorderStockItems);
-  const addOrRemoveStockTag = useStockStore(
-    (state) => state.addOrRemoveStockTag
-  );
   const fetchStockItems = useStockStore((state) => state.fetchStockItems);
   const productoDialogRef = useRef();
   const amountRef = useRef(0);
   const lastRef = useRef();
   const firstRef = useRef();
-  const addOrRemoveTag =
-    type === "lista-compra" ? addOrRemoveListTag : addOrRemoveStockTag;
   const fetchItems =
     type === "lista-compra" ? fetchShoppingListItems : fetchStockItems;
   const items = type === "lista-compra" ? shoppingListItems : stockItems;
   const ItemComponent =
     type === "lista-compra" ? ListaCompraItem : DespensaItem;
+  const addOrRemoveListTag =
+    type === "lista-compra"
+      ? useShoppingListStore((state) => state.addOrRemoveListTag)
+      : useStockStore((state) => state.addOrRemoveListTag);
 
   useEffect(() => {
     fetchItems();
@@ -144,7 +140,7 @@ export default function GestorProductos({ type }) {
           ? item.shoppingListProductID
           : item.stockProductID
       );
-  
+
       type === "lista-compra"
         ? reorderShoppingListItems(newOrder)
         : reorderStockItems(newOrder);
@@ -285,6 +281,58 @@ export default function GestorProductos({ type }) {
   };
 
   /**
+   * Adds or removes an etiqueta (tag) from a product
+   * @param {number} etiqueta_id The etiqueta ID
+   * */
+  const addOrRemoveEtiqueta = (etiqueta_id, producto) => {
+    const productID = producto.product.productID;
+    if (
+      producto.product.tags?.some(
+        (prodEtiqueta) => prodEtiqueta.tagID === etiqueta_id
+      )
+    ) {
+      axiosRequest(
+        "DELETE",
+        api_config.etiquetas.item,
+        {},
+        {
+          tagID: etiqueta_id,
+          itemID: productID,
+        }
+      )
+        .then(() => {
+          addOrRemoveListTag(etiqueta_id, productID);
+          toast.success("Etiqueta eliminada");
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error("Error al eliminar etiqueta");
+        });
+    } else {
+      axiosRequest(
+        "POST",
+        api_config.etiquetas.item,
+        {},
+        { tagID: etiqueta_id, itemID: productID }
+      )
+        .then(() => {
+          axiosRequest("GET", api_config.despensa.all)
+            .then(() => {
+              addOrRemoveListTag(etiqueta_id, productID);
+              toast.success("Etiqueta añadida");
+            })
+            .catch((error) => {
+              console.error(error);
+              toast.error("Error al añadir etiqueta");
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+
+  /**
    * Handles the submit event of the modal
    * @param {object} e The submit event
    */
@@ -375,6 +423,7 @@ export default function GestorProductos({ type }) {
             strategy={verticalListSortingStrategy}
           >
             {Array.isArray(items) &&
+              items.length > 0 &&
               items
                 .filter((producto) => {
                   if (etiquetasSeleccionadas.length === 0) return true;
@@ -410,7 +459,7 @@ export default function GestorProductos({ type }) {
                           handleEliminar={handleEliminar}
                           handleAmount={handleAmount}
                           handleMover={handleMover}
-                          addOrRemoveTag={addOrRemoveTag}
+                          addOrRemoveTag={addOrRemoveEtiqueta}
                           ref={firstRef}
                         />
                       </InView>
@@ -430,7 +479,7 @@ export default function GestorProductos({ type }) {
                           handleEliminar={handleEliminar}
                           handleAmount={handleAmount}
                           handleMover={handleMover}
-                          addOrRemoveTag={addOrRemoveTag}
+                          addOrRemoveTag={addOrRemoveEtiqueta}
                           ref={lastRef}
                         />
                       </InView>
@@ -440,7 +489,7 @@ export default function GestorProductos({ type }) {
                         handleEliminar={handleEliminar}
                         handleAmount={handleAmount}
                         handleMover={handleMover}
-                        addOrRemoveTag={addOrRemoveTag}
+                        addOrRemoveTag={addOrRemoveEtiqueta}
                       />
                     )}
                   </Fragment>

@@ -2,17 +2,17 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import Select from "react-select";
 import useProductStore from "../../store/ProductContext";
 import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
-import { customStyles } from "../generic/ModalStyle";
+import { customStyles } from "../../styles/ModalStyle";
 
 export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
   const products = useProductStore((state) => state.products);
+  const fetchProducts = useProductStore((state) => state.fetchProducts);
   const [ingredients, setIngredients] = useState([]);
   const [steps, setSteps] = useState([]);
   const [stepOrder, setStepOrder] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [editingIngredientIndex, setEditingIngredientIndex] = useState(null);
   const [editingStepIndex, setEditingStepIndex] = useState(null);
-
   const recipeNameRef = useRef();
   const recipeDescriptionRef = useRef();
   const ingredientAmountRef = useRef();
@@ -22,13 +22,14 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
 
   useEffect(() => {
     if (receta) {
+      fetchProducts();
       recipeNameRef.current.value = receta.recipeName;
       recipeDescriptionRef.current.value = receta.recipeDescription;
       setIngredients(receta.ingredients);
       setSteps(receta.steps);
       setStepOrder(receta.steps.length + 1);
     }
-  }, [receta]);
+  }, [fetchProducts, receta]);
 
   const productOptions = products.map((product) => ({
     value: product.productID,
@@ -77,7 +78,7 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
       recipeStepDescription: stepDescriptionRef.current.value,
       recipeStepOrder: stepOrder,
     };
-  
+
     if (editingStepIndex !== null) {
       const updatedSteps = [...steps];
       newStep.recipeStepOrder = updatedSteps[editingStepIndex].recipeStepOrder;
@@ -88,11 +89,11 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
       setSteps([...steps, newStep]);
       setStepOrder(stepOrder + 1);
     }
-  
+
     stepNameRef.current.value = "";
     stepDescriptionRef.current.value = "";
   };
-  
+
   const deleteStep = (index) => {
     const updatedSteps = steps.filter((_, i) => i !== index);
     const reorderedSteps = updatedSteps.map((step, i) => ({
@@ -102,7 +103,7 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
     setSteps(reorderedSteps);
     setStepOrder(reorderedSteps.length + 1);
   };
-  
+
   const editStep = (index) => {
     const step = steps[index];
 
@@ -110,7 +111,7 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
     stepDescriptionRef.current.value = step.recipeStepDescription;
     setEditingStepIndex(index);
   };
-  
+
   const limpiarCampos = () => {
     recipeNameRef.current.value = "";
     recipeDescriptionRef.current.value = "";
@@ -128,7 +129,7 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
   };
 
   return (
-    <div>
+    <>
       <h1 className="modalTitulo">Nueva Receta</h1>
       <div className="modalSeparator">
         <input
@@ -157,18 +158,20 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
           isSearchable
           className="modalSelect"
         />
-        <input
-          type="number"
-          placeholder="Cantidad"
-          ref={ingredientAmountRef}
-          className="modalInputSmall"
-        />
-        <input
-          type="text"
-          placeholder="Unidad"
-          ref={ingredientUnitRef}
-          className="modalInputSmall"
-        />
+        <div className="modalParallelInputs">
+          <input
+            type="number"
+            placeholder="Cantidad"
+            ref={ingredientAmountRef}
+            className="modalInputSmall"
+          />
+          <input
+            type="text"
+            placeholder="Unidad"
+            ref={ingredientUnitRef}
+            className="modalInputSmall"
+          />
+        </div>
         <div className="modalSeparator">
           <button onClick={addIngredient} className="modalBoton">
             {editingIngredientIndex !== null
@@ -183,11 +186,15 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
               {ingredients.map((ingredient, index) => (
                 <div key={index} className="modalListaItem">
                   <span>
-                    <strong>{receta ? ingredient.product.productName : ingredient.productID.label}</strong>:{" "}
-                    {ingredient.recipeIngredientAmount}{" "}
+                    <strong>
+                      {receta
+                        ? ingredient.product.productName
+                        : ingredient.productID.label}
+                    </strong>
+                    : {ingredient.recipeIngredientAmount}{" "}
                     {ingredient.recipeIngredientUnit}
                   </span>
-                  <span>
+                  <span className="modalListaItemButtons">
                     <button onClick={() => editIngredient(index)}>
                       <AiOutlineEdit />
                     </button>
@@ -236,7 +243,7 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
                     </strong>
                     : {step.recipeStepDescription}
                   </span>
-                  <span>
+                  <span className="modalListaItemButtons">
                     <button onClick={() => editStep(index)}>
                       <AiOutlineEdit />
                     </button>
@@ -271,6 +278,6 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }

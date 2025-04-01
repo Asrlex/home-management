@@ -50,19 +50,22 @@ const useStockStore = create((set) => ({
       ),
     })),
 
-  addOrRemoveListTag: (itemID, tagID) =>
-    set((state) => ({
-      stockItems: state.stockItems.map((item) =>
-        item.stockProductID === itemID
-          ? {
-              ...item,
-              tags: item.tags.includes(tagID)
-                ? item.tags.filter((tag) => tag !== tagID)
-                : [...item.tags, tagID],
-            }
-          : item
-      ),
-    })),
+    addOrRemoveListTag: (tagID, itemID) =>
+      set((state) => ({
+        stockItems: state.stockItems.map((item) =>
+          item.product.productID === itemID
+            ? {
+                ...item,
+                product: {
+                  ...item.product,
+                  tags: item.product.tags.some((tag) => tag.tagID === tagID)
+                    ? item.product.tags.filter((tag) => tag.tagID !== tagID)
+                    : [...item.product.tags, { tagID }],
+                },
+              }
+            : item
+        ),
+      })),
 
   reorderStockItems: async (newOrder) => {
     try {

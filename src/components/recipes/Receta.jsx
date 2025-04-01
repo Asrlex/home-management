@@ -14,15 +14,18 @@ import React from "react";
 import Modal from "../generic/Modal";
 import NuevaRecetaModal from "./NuevaRecetaModal";
 import Loader from "../generic/Loader";
+import useUserStore from "../../store/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Receta({ receta, handleEliminar, addOrRemoveTag }) {
-  const contextMenuRef = useRef(null);
   const etiquetas = useEtiquetaStore((state) => state.etiquetas);
-  const [selectedReceta, setSelectedReceta] = useState(null);
+  const validateToken = useUserStore((state) => state.validateToken);
+  const contextMenuRef = useRef(null);
   const recetaDialogRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
   const [fullReceta, setFullReceta] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const navigate = useNavigate();
 
   const addOrRemoveEtiqueta = (etiqueta_id, id) => {
     const body = {
@@ -64,7 +67,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
     {
       label: "Editar",
       icon: <FaTag className="me-2 w-3 h-3" />,
-      command: () => handleEditar(receta),
+      command: () => handleEditar(fullReceta),
     },
     {
       label: "Etiquetas",
@@ -88,17 +91,20 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
       <NuevaRecetaModal
         crearReceta={null}
         closeModal={() => recetaDialogRef.current.close()}
-        receta={selectedReceta}
+        receta={fullReceta}
       />
     </Modal>
   );
 
-  const handleEditar = (receta) => {
-    setSelectedReceta(receta);
+  const handleEditar = () => {
     recetaDialogRef.current.open();
   };
 
   const handleExpand = () => {
+    if (!validateToken()) {
+      navigate("/login", { replace: true });
+      return;
+    }
     if (!fullReceta) {
       setIsLoading(true);
       axiosRequest("GET", `${api_config.recetas.byID}${receta.recipeID}`)

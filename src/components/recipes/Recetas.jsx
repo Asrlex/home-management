@@ -10,10 +10,12 @@ import FAB from "../generic/FloatingButton";
 import { FaPlus } from "react-icons/fa";
 import NuevaRecetaModal from "./NuevaRecetaModal";
 import Loader from "../generic/Loader";
+import useProductStore from "../../store/ProductContext";
 
 export default function Recetas() {
   const [recetas, setRecetas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const fetchProducts = useProductStore((state) => state.fetchProducts);
   const etiquetas = useEtiquetaStore((state) => state.etiquetas);
   const etiquetasSeleccionadas = useEtiquetaStore(
     (state) => state.etiquetasSeleccionadas
@@ -33,7 +35,7 @@ export default function Recetas() {
   }, []);
 
   const handleEliminar = (recetaID) => {
-    axiosRequest("DELETE", api_config.recetas.item, { recipeID: recetaID })
+    axiosRequest("DELETE", `${api_config.recetas.base}/${recetaID}`)
       .then(() => {
         setRecetas((prevRecetas) => {
           return prevRecetas.filter((receta) => receta.recipeID !== recetaID);
@@ -72,7 +74,7 @@ export default function Recetas() {
   };
 
   const crearReceta = (receta) => {
-    axiosRequest("POST", api_config.recetas.base, receta)
+    axiosRequest("POST", api_config.recetas.base, {}, receta)
       .then(() => {
         setRecetas((prevRecetas) => [...prevRecetas, receta]);
       })
@@ -120,7 +122,10 @@ export default function Recetas() {
       <div className="seccionBotones">
         <FAB
           icon={<FaPlus />}
-          action={() => recetaDialogRef.current.open()}
+          action={() => {
+            fetchProducts();
+            recetaDialogRef.current.open();
+          }}
           classes="floatingButton"
         />
       </div>

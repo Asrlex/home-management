@@ -70,7 +70,7 @@ const api_config = {
 };
 
 const test_curl = `
-curl -X GET http://localhost:3002/home-management/shopping-list-products/all -H "X-api-key: Sm4U2nI5xqCSpz0cDoDb0Nf5y0szI2yw4XGEavPV4S7XoH6OJGVBPZU4J4ifojyVFVtBtTCpIDxRJnYL4AiPNdVA7VsUyoy4hk5PsXeVFW85XpG2mh2QTF4asm3RHPGV"
+curl -X GET http://localhost:3002/home-management/recipes/id/4 -H "X-api-key: Sm4U2nI5xqCSpz0cDoDb0Nf5y0szI2yw4XGEavPV4S7XoH6OJGVBPZU4J4ifojyVFVtBtTCpIDxRJnYL4AiPNdVA7VsUyoy4hk5PsXeVFW85XpG2mh2QTF4asm3RHPGV" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhzcnVjQGhvdG1haWwuY29tIiwic3ViIjoxLCJpYXQiOjE3NDM1MDUwODEsImV4cCI6MTc0MzUwODY4MX0.Kd3ZMaUNi173tmQ9lEArgZEKufDccOIcBFAAk2uOu0w
 `;
 
 export default api_config;

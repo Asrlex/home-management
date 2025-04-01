@@ -5,12 +5,10 @@ import { CiBoxList } from "react-icons/ci";
 import { useRef, forwardRef } from "react";
 import { memo } from "react";
 import { ContextMenu } from "primereact/contextmenu";
-import { axiosRequest } from "../../services/AxiosRequest";
-import api_config from "../../config/apiconfig";
 import ContadorProducto from "./ContadorProducto";
 import useEtiquetaStore from "../../store/EtiquetaContext";
+import useDespensaStore from "../../store/StockContext";
 import SortableItem from "../generic/SortableItem";
-import toast from "react-hot-toast";
 
 const DespensaItem = forwardRef(
   (
@@ -18,6 +16,9 @@ const DespensaItem = forwardRef(
     innerRef
   ) => {
     const etiquetas = useEtiquetaStore((state) => state.etiquetas);
+    const addOrRemoveListTag = useDespensaStore(
+      (state) => state.addOrRemoveListTag
+    );
     const productID = producto.product.productID;
     const nombre = producto.product.productName;
     const fecha = new Date(producto.product.productDateLastBought);
@@ -25,64 +26,6 @@ const DespensaItem = forwardRef(
       fecha.getMonth() + 1
     }/${fecha.getFullYear()}`;
     const contextMenuRef = useRef(null);
-
-    const addOrRemoveEtiqueta = (etiqueta_id) => {
-      if (
-        producto.product.tags?.some(
-          (prodEtiqueta) => prodEtiqueta.tagID === etiqueta_id
-        )
-      ) {
-        toast.promise(
-          axiosRequest(
-            "DELETE",
-            api_config.etiquetas.item,
-            {},
-            {
-              tagID: etiqueta_id,
-              itemID: productID,
-            }
-          )
-            .then(() => {
-              addOrRemoveTag(productID, etiqueta_id);
-            })
-            .catch((error) => {
-              console.error(error);
-            }),
-          {
-            loading: "Eliminando etiqueta...",
-            success: "Etiqueta eliminada",
-            error: "Error al eliminar etiqueta",
-          }
-        );
-        return;
-      }
-
-      toast.promise(
-        axiosRequest(
-          "POST",
-          api_config.etiquetas.item,
-          {},
-          { tagID: etiqueta_id, itemID: productID }
-        )
-          .then(() => {
-            axiosRequest("GET", api_config.despensa.all)
-              .then(() => {
-                addOrRemoveTag(productID, etiqueta_id);
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          })
-          .catch((error) => {
-            console.error(error);
-          }),
-        {
-          loading: "Añadiendo etiqueta...",
-          success: "Etiqueta añadida",
-          error: "Error al añadir etiqueta",
-        }
-      );
-    };
 
     const contextModel = [
       {
@@ -107,7 +50,7 @@ const DespensaItem = forwardRef(
               ? `${etiqueta.tagName} ✅`
               : `${etiqueta.tagName}`,
             icon: <FaTag className="me-2 w-3 h-3" />,
-            command: () => addOrRemoveEtiqueta(etiqueta.tagID),
+            command: () => addOrRemoveTag(etiqueta.tagID, producto),
           })),
       },
     ];

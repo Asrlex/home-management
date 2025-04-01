@@ -17,12 +17,15 @@ import Modal from "../generic/Modal";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { axiosRequest } from "../../services/AxiosRequest";
+import { TableStyles } from "../../styles/Table.Styles";
 
 const ListaProductos = () => {
-  const products = useProductStore(state => state.products);
-  const addProduct = useProductStore(state => state.addProduct);
-  const etiquetasSeleccionadas = useEtiquetaStore(state => state.etiquetasSeleccionadas);
-  const fetchProducts = useProductStore(state => state.fetchProducts);
+  const products = useProductStore((state) => state.products);
+  const addProduct = useProductStore((state) => state.addProduct);
+  const etiquetasSeleccionadas = useEtiquetaStore(
+    (state) => state.etiquetasSeleccionadas
+  );
+  const fetchProducts = useProductStore((state) => state.fetchProducts);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
@@ -79,13 +82,11 @@ const ListaProductos = () => {
     } else {
       toast.error("Error al agregar el producto");
     }
-  }
+  };
 
   const popup = (
     <Modal ref={productoDialogRef}>
-      <h2 className="modalTitulo">
-        Crear producto
-      </h2>
+      <h2 className="modalTitulo">Crear producto</h2>
       <form>
         <div className="mb-3">
           <input
@@ -104,7 +105,11 @@ const ListaProductos = () => {
           />
         </div>
         <div className="flex justify-center">
-          <button type="submit" className="modalBoton" onClick={handleAddProduct}>
+          <button
+            type="submit"
+            className="modalBoton"
+            onClick={handleAddProduct}
+          >
             Crear
           </button>
         </div>
@@ -121,64 +126,83 @@ const ListaProductos = () => {
           component={Paper}
           sx={{
             width: "100%",
-            maxHeight: "85%",
-            height: "85%",
+            maxHeight: "95%",
             backgroundColor: "var(--item-bg-color)",
             color: "var(--text-color)",
+            "&::-webkit-scrollbar": {
+              width: "5px",
+              height: "8px",
+            },
+            "&::-webkit-scrollbar-track": {
+              backgroundColor: "var(--scrollbar-track-color)",
+              borderRadius: "4px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: "var(--scrollbar-thumb-color)",
+              borderRadius: "4px",
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              backgroundColor: "var(--scrollbar-thumb-hover-color)",
+            },
           }}
         >
           <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
               <TableRow>
                 <TableCell
-                  sx={{
-                    backgroundColor: "var(--barra-bg-color)",
-                    color: "var(--barra-text-color)",
-                    cursor: "pointer",
-                  }}
+                  sx={TableStyles.tableHeaderCell}
                   onClick={() => handleSort("productID")}
                 >
-                  ID {sortConfig.key === "productID" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                  ID{" "}
+                  {sortConfig.key === "productID"
+                    ? sortConfig.direction === "asc"
+                      ? "↑"
+                      : "↓"
+                    : ""}
                 </TableCell>
                 <TableCell
-                  sx={{
-                    backgroundColor: "var(--barra-bg-color)",
-                    color: "var(--barra-text-color)",
-                    cursor: "pointer",
-                  }}
+                  sx={TableStyles.tableHeaderCell}
                   onClick={() => handleSort("productName")}
                 >
-                  Nombre {sortConfig.key === "productName" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                  Nombre{" "}
+                  {sortConfig.key === "productName"
+                    ? sortConfig.direction === "asc"
+                      ? "↑"
+                      : "↓"
+                    : ""}
                 </TableCell>
                 <TableCell
-                  sx={{
-                    backgroundColor: "var(--barra-bg-color)",
-                    color: "var(--barra-text-color)",
-                    cursor: "pointer",
-                  }}
+                  sx={TableStyles.tableHeaderCell}
                   onClick={() => handleSort("productUnit")}
                 >
-                  Unidad {sortConfig.key === "productUnit" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                  Unidad{" "}
+                  {sortConfig.key === "productUnit"
+                    ? sortConfig.direction === "asc"
+                      ? "↑"
+                      : "↓"
+                    : ""}
                 </TableCell>
                 <TableCell
-                  sx={{
-                    backgroundColor: "var(--barra-bg-color)",
-                    color: "var(--barra-text-color)",
-                    cursor: "pointer",
-                  }}
+                  sx={TableStyles.tableHeaderCell}
                   onClick={() => handleSort("productDateLastBought")}
                 >
-                  Comprado {sortConfig.key === "productDateLastBought" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                  Comprado{" "}
+                  {sortConfig.key === "productDateLastBought"
+                    ? sortConfig.direction === "asc"
+                      ? "↑"
+                      : "↓"
+                    : ""}
                 </TableCell>
                 <TableCell
-                  sx={{
-                    backgroundColor: "var(--barra-bg-color)",
-                    color: "var(--barra-text-color)",
-                    cursor: "pointer",
-                  }}
+                  sx={TableStyles.tableHeaderCell}
                   onClick={() => handleSort("productDateLastConsumed")}
                 >
-                  Consumido {sortConfig.key === "productDateLastConsumed" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                  Consumido{" "}
+                  {sortConfig.key === "productDateLastConsumed"
+                    ? sortConfig.direction === "asc"
+                      ? "↑"
+                      : "↓"
+                    : ""}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -204,19 +228,19 @@ const ListaProductos = () => {
                       },
                     }}
                   >
-                    <TableCell sx={{ color: "var(--product-text-color)" }}>
+                    <TableCell sx={TableStyles.tableCell}>
                       {index + 1}
                     </TableCell>
-                    <TableCell sx={{ color: "var(--product-text-color)" }}>
+                    <TableCell sx={TableStyles.tableCell}>
                       {product.productName}
                     </TableCell>
-                    <TableCell sx={{ color: "var(--product-text-color)" }}>
+                    <TableCell sx={TableStyles.tableCell}>
                       {product.productUnit}
                     </TableCell>
-                    <TableCell sx={{ color: "var(--product-text-color)" }}>
+                    <TableCell sx={TableStyles.tableCell}>
                       {product.productDateLastBought.slice(0, 10)}
                     </TableCell>
-                    <TableCell sx={{ color: "var(--product-text-color)" }}>
+                    <TableCell sx={TableStyles.tableCell}>
                       {product.productDateLastConsumed}
                     </TableCell>
                   </TableRow>
@@ -232,9 +256,18 @@ const ListaProductos = () => {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          sx={{
-            backgroundColor: "var(--barra-bg-color)",
-            color: "var(--pagination-text-color)",
+          sx={TableStyles.tablePagination}
+          slotProps={{
+            menuItem: {
+              sx: {
+                  fontSize: "0.7rem",
+              },
+            },
+            select: {
+              sx: {
+                fontSize: "0.7rem",
+              },
+            },
           }}
         />
       </div>

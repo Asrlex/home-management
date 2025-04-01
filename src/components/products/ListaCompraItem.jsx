@@ -6,8 +6,7 @@ import { memo } from "react";
 import { ContextMenu } from "primereact/contextmenu";
 import ContadorProducto from "./ContadorProducto";
 import useEtiquetaStore from "../../store/EtiquetaContext";
-import api_config from "../../config/apiconfig";
-import { axiosRequest } from "../../services/AxiosRequest";
+import useShoppingListStore from "../../store/ShoppingListContext";
 import SortableItem from "../generic/SortableItem";
 
 const ListaCompraItem = forwardRef(
@@ -15,45 +14,8 @@ const ListaCompraItem = forwardRef(
     { producto, handleEliminar, handleAmount, handleMover, addOrRemoveTag },
     ref
   ) => {
-    const id = producto.product.productID;
     const etiquetas = useEtiquetaStore((state) => state.etiquetas);
     const cm = useRef(null);
-
-    const addOrRemoveEtiqueta = (etiqueta_id) => {
-      if (
-        producto.product.tags?.some(
-          (prodEtiqueta) => prodEtiqueta.tagID === etiqueta_id
-        )
-      ) {
-        axiosRequest("DELETE", api_config.etiquetas.item, {
-          tagID: etiqueta_id,
-          itemID: id,
-        })
-          .then(() => {
-            addOrRemoveTag(id, etiqueta_id);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-        return;
-      }
-      axiosRequest("POST", api_config.etiquetas.item, {
-        tagID: etiqueta_id,
-        itemID: id,
-      })
-        .then(() => {
-          axiosRequest("GET", api_config.lista_compra.all)
-            .then((response) => {
-              addOrRemoveTag(id, etiqueta_id);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
 
     const contextModel = [
       {
@@ -78,7 +40,7 @@ const ListaCompraItem = forwardRef(
               ? `${etiqueta.tagName} ✅`
               : `${etiqueta.tagName}`,
             icon: <FaTag className="me-2 w-3 h-3" />,
-            command: () => addOrRemoveEtiqueta(etiqueta.tagID),
+            command: () => addOrRemoveTag(etiqueta.tagID, producto),
           })),
       },
     ];

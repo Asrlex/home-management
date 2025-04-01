@@ -1,5 +1,7 @@
 import { useState } from "react";
 import useUserStore from "../../store/UserContext";
+import useSettingsStore from "../../store/SettingsContext";
+import useThemeStore from "../../store/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { TextField, Button, Box,InputAdornment, IconButton } from "@mui/material";
@@ -8,7 +10,9 @@ import { formThemeVars, styles } from "../../styles/Form.Styles";
 
 export default function Login() {
   const { login } = useUserStore();
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const fetchSettings = useSettingsStore((state) => state.fetchSettings);
+  const { theme, toggleTheme } = useThemeStore();
+const [credentials, setCredentials] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -16,6 +20,10 @@ export default function Login() {
     e.preventDefault();
     try {
       await login(credentials);
+      const settings = await fetchSettings();
+      if (settings?.theme && settings.theme !== theme) {
+        toggleTheme();
+      }
       navigate("/");
       toast.success("Login successful!");
     } catch (error) {
