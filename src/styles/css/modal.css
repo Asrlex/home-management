@@ -37,13 +37,13 @@
     @apply w-[90%] p-2 mb-2 bg-[var(--modal-input-bg-color)] text-sm border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200 md:max-h-12 max-h-8;
   }
   .modalInputSmall {
-    @apply w-28 md:w-40 p-2 me-2 md:mb-3 mb-1 bg-[var(--modal-input-bg-color)] text-sm border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200 md:max-h-12 max-h-8;
+    @apply w-28 sm:w-40 md:w-52 p-2 me-2 md:mb-3 mb-1 bg-[var(--modal-input-bg-color)] text-sm border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200 md:max-h-12 max-h-8;
   }
   .modalTextArea {
-    @apply text-xs md:max-h-none;
+    @apply text-xs md:max-h-20 max-h-10;
   }
   .modalSelect {
-    @apply w-full lg:w-1/4 p-2 md:mb-3 text-sm border border-[var(--border-color)] rounded-md text-[var(--text-color)] transition-all duration-200;
+    @apply w-[80%] md:p-2 p-0 md:mb-3 mb-1 text-sm border border-[var(--border-color)] rounded-md text-[var(--text-color)] transition-all duration-200;
   }
   .modalLabel {
     @apply text-sm font-bold mb-2;

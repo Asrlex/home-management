@@ -38,7 +38,7 @@ import ListaCompraItem from "./ListaCompraItem";
 import DespensaItem from "./DespensaItem";
 import api_config from "../../config/apiconfig";
 import { axiosRequest } from "../../services/AxiosRequest";
-import { customStyles } from "../../styles/ModalStyle";
+import { customStyles } from "../../styles/SelectStyles";
 
 export default function GestorProductos({ type }) {
   const [prodInView, setProdInView] = useState({

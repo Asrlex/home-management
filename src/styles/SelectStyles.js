@@ -38,11 +38,10 @@ export const customStyles = {
     ...provided,
     zIndex: 10500,
     maxHeight: "350px",
-    overflowY: "auto",
     backgroundColor: "var(--modal-button-bg-color)",
     color: "var(--modal-button-text-color)",
+    border: "1px solid var(--border-color)",
     "@media (max-width: 768px)": {
-      maxHeight: "250px",
       padding: "4px",
     },
   }),
