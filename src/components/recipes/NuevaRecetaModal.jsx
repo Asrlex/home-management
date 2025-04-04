@@ -2,11 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import Select from "react-select";
 import useProductStore from "../../store/ProductContext";
 import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
-import { customStyles } from "../../styles/ModalStyle";
+import { customStyles } from "../../styles/SelectStyles";
+import useRecetasStore from "../../store/RecipeStore";
+import toast from "react-hot-toast";
 
-export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
+export default function NuevaRecetaModal({ closeModal, receta }) {
   const products = useProductStore((state) => state.products);
   const fetchProducts = useProductStore((state) => state.fetchProducts);
+  const crearReceta = useRecetasStore((state) => state.crearReceta);
   const [ingredients, setIngredients] = useState([]);
   const [steps, setSteps] = useState([]);
   const [stepOrder, setStepOrder] = useState(1);
@@ -127,6 +130,17 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
     setEditingStepIndex(null);
     closeModal();
   };
+
+  const handleCreateReceta = () => {
+    crearReceta({
+      recipeName: recipeNameRef.current.value,
+      recipeDescription: recipeDescriptionRef.current.value,
+      ingredients: ingredients,
+      steps: steps,
+    });
+    limpiarCampos();
+    toast.success("Receta creada con éxito");
+  }
 
   return (
     <>
@@ -262,14 +276,7 @@ export default function NuevaRecetaModal({ crearReceta, closeModal, receta }) {
         <div className="flex justify-center gap-4">
           <button
             className="modalBoton"
-            onClick={() =>
-              crearReceta({
-                recipeName: recipeNameRef.current.value,
-                recipeDescription: recipeDescriptionRef.current.value,
-                ingredients: ingredients,
-                steps: steps,
-              })
-            }
+            onClick={handleCreateReceta}
           >
             Crear Receta
           </button>
