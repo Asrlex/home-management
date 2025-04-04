@@ -10,13 +10,12 @@ import {
   TablePagination,
 } from "@mui/material";
 import useProductStore from "../../store/ProductContext";
-import useEtiquetaStore from "../../store/EtiquetaContext";
+import useEtiquetaStore from "../../store/TagContext";
 import ListaEtiquetas from "../ListaEtiquetas";
 import FAB from "../generic/FloatingButton";
 import Modal from "../generic/Modal";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { axiosRequest } from "../../services/AxiosRequest";
 import { TableStyles } from "../../styles/Table.Styles";
 
 const ListaProductos = () => {
@@ -54,7 +53,7 @@ const ListaProductos = () => {
     setSortConfig({ key, direction });
   };
 
-  const sortedProducts = [...products].sort((a, b) => {
+  const sortedItems = [...products].sort((a, b) => {
     if (!sortConfig.key) return 0;
     const aValue = a[sortConfig.key];
     const bValue = b[sortConfig.key];
@@ -74,14 +73,14 @@ const ListaProductos = () => {
       productName: name,
       productUnit: unit,
     };
-    const response = await axiosRequest("POST", "/products", newProduct);
-    if (response.status === 201) {
-      addProduct(response.data);
-      toast.success("Producto agregado correctamente");
-      productoDialogRef.current.close();
-    } else {
-      toast.error("Error al agregar el producto");
-    }
+    
+    addProduct(newProduct)
+      .then(() => {
+        toast.success("Producto creado con éxito");
+      })
+      .catch((error) => {
+        toast.error("Error al crear el producto: " + error.message);
+      });
   };
 
   const popup = (
@@ -124,27 +123,7 @@ const ListaProductos = () => {
       <div className="productsTable">
         <TableContainer
           component={Paper}
-          sx={{
-            width: "100%",
-            maxHeight: "95%",
-            backgroundColor: "var(--item-bg-color)",
-            color: "var(--text-color)",
-            "&::-webkit-scrollbar": {
-              width: "5px",
-              height: "8px",
-            },
-            "&::-webkit-scrollbar-track": {
-              backgroundColor: "var(--scrollbar-track-color)",
-              borderRadius: "4px",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: "var(--scrollbar-thumb-color)",
-              borderRadius: "4px",
-            },
-            "&::-webkit-scrollbar-thumb:hover": {
-              backgroundColor: "var(--scrollbar-thumb-hover-color)",
-            },
-          }}
+          sx={TableStyles.table}
         >
           <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
@@ -207,7 +186,7 @@ const ListaProductos = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedProducts
+              {sortedItems
                 .filter((producto) => {
                   if (etiquetasSeleccionadas.length === 0) return true;
                   return etiquetasSeleccionadas.some((etiqueta) =>
@@ -221,15 +200,10 @@ const ListaProductos = () => {
                   <TableRow
                     hover
                     key={product.productID}
-                    sx={{
-                      backgroundColor: "var(--item-bg-color)",
-                      "&:hover": {
-                        backgroundColor: "var(--item-hover-bg-color)",
-                      },
-                    }}
+                    sx={TableStyles.tableRow}
                   >
                     <TableCell sx={TableStyles.tableCell}>
-                      {index + 1}
+                      {product.productID}
                     </TableCell>
                     <TableCell sx={TableStyles.tableCell}>
                       {product.productName}
@@ -257,18 +231,7 @@ const ListaProductos = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
           sx={TableStyles.tablePagination}
-          slotProps={{
-            menuItem: {
-              sx: {
-                  fontSize: "0.7rem",
-              },
-            },
-            select: {
-              sx: {
-                fontSize: "0.7rem",
-              },
-            },
-          }}
+          slotProps={TableStyles.tablePaginationSlots}
         />
       </div>
       <div className="seccionBotones">

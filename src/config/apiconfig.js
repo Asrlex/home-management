@@ -64,13 +64,14 @@ const api_config = {
       base: `${home_management_url}/expenses`,
       all: `${home_management_url}/expenses/all`,
       byID: `${home_management_url}/expenses/id/`,
+      categorias: `${home_management_url}/expenses/all/categories`,
     },
 
     global_api_key: 'Sm4U2nI5xqCSpz0cDoDb0Nf5y0szI2yw4XGEavPV4S7XoH6OJGVBPZU4J4ifojyVFVtBtTCpIDxRJnYL4AiPNdVA7VsUyoy4hk5PsXeVFW85XpG2mh2QTF4asm3RHPGV',
 };
 
 const test_curl = `
-curl -X GET http://localhost:3002/home-management/recipes/id/4 -H "X-api-key: Sm4U2nI5xqCSpz0cDoDb0Nf5y0szI2yw4XGEavPV4S7XoH6OJGVBPZU4J4ifojyVFVtBtTCpIDxRJnYL4AiPNdVA7VsUyoy4hk5PsXeVFW85XpG2mh2QTF4asm3RHPGV" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhzcnVjQGhvdG1haWwuY29tIiwic3ViIjoxLCJpYXQiOjE3NDM1MDUwODEsImV4cCI6MTc0MzUwODY4MX0.Kd3ZMaUNi173tmQ9lEArgZEKufDccOIcBFAAk2uOu0w
+curl -X GET http://localhost:3002/home-management/recipes/id/4 -H "X-api-key: Sm4U2nI5xqCSpz0cDoDb0Nf5y0szI2yw4XGEavPV4S7XoH6OJGVBPZU4J4ifojyVFVtBtTCpIDxRJnYL4AiPNdVA7VsUyoy4hk5PsXeVFW85XpG2mh2QTF4asm3RHPGV" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsZXhzcnVjQGhvdG1haWwuY29tIiwic3ViIjoxLCJpYXQiOjE3NDM1OTk4MTksImV4cCI6MTc0MzYwMzQxOX0.JH-JHYyaXyp13-eJVT-gpKjZti1L_sOM7CUi0uGwdm8
 `;
 
 export default api_config;

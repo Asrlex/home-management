@@ -6,16 +6,33 @@ export const customStyles = {
     color: "var(--modal-title-text-color)",
     boxShadow: "none",
     "&:hover": { borderColor: "var(--border-color)" },
-    maxHeight: "40px",
+    "@media (max-width: 768px)": {
+      fontSize: "12px",
+      padding: "0",
+      margin: "0",
+      width: "100%",
+    },
   }),
-  input: (provided) => ({ ...provided, color: "var(--modal-title-text-color)" }),
+  input: (provided) => ({
+    ...provided,
+    color: "var(--modal-title-text-color)",
+    "@media (max-width: 768px)": {
+      fontSize: "12px",
+    },
+  }),
   placeholder: (provided) => ({
     ...provided,
     color: "var(--context-no-content-bg-color)",
+    "@media (max-width: 768px)": {
+      fontSize: "12px",
+    },
   }),
   singleValue: (provided) => ({
     ...provided,
     color: "var(--text-color)",
+    "@media (max-width: 768px)": {
+      fontSize: "12px",
+    },
   }),
   menu: (provided) => ({
     ...provided,
@@ -24,6 +41,10 @@ export const customStyles = {
     overflowY: "auto",
     backgroundColor: "var(--modal-button-bg-color)",
     color: "var(--modal-button-text-color)",
+    "@media (max-width: 768px)": {
+      maxHeight: "250px",
+      padding: "4px",
+    },
   }),
   option: (provided, state) => ({
     ...provided,
@@ -35,6 +56,10 @@ export const customStyles = {
     color: "var(--modal-button-text-color)",
     "&:hover": {
       backgroundColor: "var(--modal-button-hover-bg-color)",
+    },
+    "@media (max-width: 768px)": {
+      fontSize: "12px",
+      padding: "4px",
     },
   }),
 };

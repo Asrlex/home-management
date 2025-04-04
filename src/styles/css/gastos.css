@@ -1,0 +1,71 @@
+@import '../global/variables.css';
+@import '../global/animations.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* ********************* */
+  /* GASTOS */
+  /* ********************* */
+  .gastos {
+    @apply h-full max-h-full overflow-auto relative;
+  }
+  .gastosForm {
+    @apply opacity-100 h-auto md:m-5 mb-3 transition-all duration-200 border border-[var(--border-color)] rounded-md bg-[var(--modal-bg-color)] p-2 sm:mt-5 mt-2;
+    animation: appear .2s ease-in-out;
+  }
+  .gastosFormHidden {
+    @apply mt-0 opacity-0 h-0 overflow-hidden transition-all duration-200;
+    animation: disappear .2s ease-in-out;
+  }
+  .gastosFormTitle {
+    @apply md:text-lg text-base font-bold mb-3;
+  }
+  .gastosFormForm {
+    @apply flex flex-col md:flex-row justify-between items-center gap-2;
+  }
+  .gastosFormInputs {
+    @apply flex md:gap-2 items-center;
+  }
+  .gastosFormInputs {
+    @apply flex flex-wrap gap-2 xl:flex-nowrap md:gap-4 align-middle items-center;
+  }
+  .gastosFormInputSmall {
+    @apply w-full md:w-auto xl:w-1/5 2xl:w-1/12 md:max-h-10 max-h-8 md:p-2 p-1 md:mb-3 mb-1 bg-[var(--modal-input-bg-color)] text-xs  md:text-sm lg:text-base border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200;
+  }
+  .gastosFormBoton {
+    @apply bg-[var(--modal-button-bg-color)] text-[var(--modal-button-text-color)] p-2 md:px-4 md:mb-3 rounded-md transition-all duration-200 hover:bg-[var(--modal-button-hover-bg-color)] cursor-pointer md:text-base text-xs;
+  }
+  .gastosFormBoton:hover {
+    @apply bg-[var(--modal-button-hover-bg-color)] text-[var(--modal-button-text-color)];
+  } 
+  .gastosTableDiv {
+    @apply w-full h-[90%] max-h-[90%] ;
+  }
+  .gastosTablePlusForm {
+    @apply h-[45%] max-h-[45%];
+  }
+  .gastosTable {
+    @apply h-full overflow-auto relative;
+  }
+  .gastosTable::-webkit-scrollbar {
+    @apply w-1 h-2;
+  }
+  .gastosTable::-webkit-scrollbar-thumb {
+    @apply bg-[var(--scrollbar-thumb-color)] rounded-full;
+  }
+  .gastosTable::-webkit-scrollbar-thumb:hover {
+    @apply bg-[var(--scrollbar-thumb-hover-color)] rounded-full;
+  }
+  .gastosTable::-webkit-scrollbar-track {
+    @apply bg-[var(--scrollbar-track-color)] rounded-full;
+  }
+  .tableHeaderText {
+    @apply inline-flex items-center gap-2;
+  }
+  .tableHeaderIcon {
+    @apply md:w-3 md:h-3 h-2 w-2 text-[var(--text-color)] transition-all duration-200;
+  }
+}

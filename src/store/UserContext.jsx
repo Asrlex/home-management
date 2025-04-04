@@ -5,19 +5,25 @@ import api_config from '../config/apiconfig';
 const useUserStore = create((set) => {
   const validateToken = async () => {
     const token = localStorage.getItem('token');
-    if (!token) return false;
+    if (!token) {
+      set({ loginStatus: 'unauthenticated', user: null, token: null });
+      return false;
+    }
+
+    set({ loginStatus: 'loading' });
 
     try {
       const response = await axiosRequest('GET', api_config.auth.me, {}, {}, token);
-      set({ user: response });
+      set({ user: response, loginStatus: 'authenticated' });
       return true;
     } catch (error) {
       if (error.response?.status === 401) {
         console.warn('Token expired or invalid. Logging out...');
-        set({ user: null, token: null });
+        set({ user: null, token: null, loginStatus: 'unauthenticated' });
         localStorage.removeItem('token');
       } else {
         console.error('Token validation failed:', error);
+        set({ loginStatus: 'unauthenticated' });
       }
       return false;
     }
@@ -28,6 +34,7 @@ const useUserStore = create((set) => {
   return {
     user: null,
     token: localStorage.getItem('token') || null,
+    loginStatus: 'loading',
 
     login: async (credentials) => {
       try {
@@ -38,7 +45,7 @@ const useUserStore = create((set) => {
           credentials
         );
         localStorage.setItem('token', token);
-        set({ user, token });
+        set({ user, token, loginStatus: 'authenticated' });
       } catch (error) {
         console.error('Login failed:', error);
         throw error;
@@ -55,9 +62,9 @@ const useUserStore = create((set) => {
     },
 
     validateToken,
-    
+
     logout: () => {
-      set({ user: null, token: null });
+      set({ user: null, token: null, loginStatus: 'unauthenticated' });
       localStorage.removeItem('token');
     },
   };

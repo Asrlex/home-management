@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import { ContextMenu } from "primereact/contextmenu";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FaTag } from "react-icons/fa";
-import useEtiquetaStore from "../../store/EtiquetaContext";
+import useEtiquetaStore from "../../store/TagContext";
 import { axiosRequest } from "../../services/AxiosRequest";
 import api_config from "../../config/apiconfig";
 import React from "react";

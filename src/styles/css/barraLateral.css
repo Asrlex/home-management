@@ -1,0 +1,55 @@
+@import '../global/variables.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* ********************* */
+  /* BARRA LATERAL */
+  /* ********************* */
+  .barraLateral {
+    @apply bg-[var(--barra-bg-color)] fixed top-0 left-0
+    md:w-1/4 xl:w-80 h-screen shadow-[rgba(30,58,138,0.5)_3px_0px_3px_0px]
+    transition-all duration-200 z-50;
+  }
+  .tituloBarraLateral {
+    @apply flex justify-center text-[var(--barra-text-color)] text-3xl font-bold p-4 my-6 mt-2 md:mt-6 cursor-pointer;
+  }
+  .logoBarraLateral {
+    @apply md:mr-2 md:mt-1 w-6 h-8 transition-all duration-200;
+  }
+  .iconoBarraLateral {
+    @apply md:mr-4 md:mt-1 my-1 w-5 h-5 transition-all duration-200;
+  }
+  .itemBarraLateral {
+    @apply flex justify-center md:justify-start text-[var(--barra-text-color)] p-2 m-2 rounded-md transition-all duration-200 hover:bg-[var(--barra-item-hover-color)] hover:shadow-md hover:scale-105 cursor-pointer;
+  }
+  .itemBarraLateralActive {
+    @apply bg-[var(--barra-item-active-color)] shadow-md scale-100;
+  }
+  .toggleMode {
+    @apply absolute bottom-0 md:left-3 p-2 my-2 text-[var(--barra-text-color)] text-xs flex items-center justify-between gap-3;
+  }
+  .toggleModeLight,
+  .toggleModeDark {
+    @apply w-6 h-6 m-2 rounded-md transition-all duration-200 hover:text-[var(--barra-item-hover-color)] hover:shadow-md;
+  }
+  .toggleModeLight.animate,
+  .toggleModeDark.animate {
+    animation: spinFade 0.3s ease-in-out;
+  }
+  .authButtonContainer {
+    @apply flex gap-4 justify-center items-center my-2 transition-all duration-200 border-s-2 border-[var(--border-color)] ps-5;
+  }
+  .authPill,
+  .authButtonCompact {
+    @apply w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold uppercase;
+  }
+  .authButton {
+    @apply bg-blue-500 text-white py-2 px-4 rounded-md transition-all duration-200 hover:bg-blue-600 cursor-pointer;
+  }
+  .authButtonCompact {
+    @apply absolute bottom-14 left-3 md:bottom-auto;
+  }
+}

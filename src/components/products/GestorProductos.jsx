@@ -31,7 +31,7 @@ import Modal from "../generic/Modal";
 import ListaEtiquetas from "../ListaEtiquetas";
 import FAB from "../generic/FloatingButton";
 import useProductStore from "../../store/ProductContext";
-import useEtiquetaStore from "../../store/EtiquetaContext";
+import useEtiquetaStore from "../../store/TagContext";
 import useShoppingListStore from "../../store/ShoppingListContext";
 import useStockStore from "../../store/StockContext";
 import ListaCompraItem from "./ListaCompraItem";
@@ -49,6 +49,8 @@ export default function GestorProductos({ type }) {
   const etiquetasSeleccionadas = useEtiquetaStore(
     (state) => state.etiquetasSeleccionadas
   );
+  const addItemTag = useEtiquetaStore((state) => state.addItemTag);
+  const deleteItemTag = useEtiquetaStore((state) => state.deleteItemTag);
   const products = useProductStore((state) => state.products);
   const shoppingListItems = useShoppingListStore(
     (state) => state.shoppingListItems
@@ -291,15 +293,7 @@ export default function GestorProductos({ type }) {
         (prodEtiqueta) => prodEtiqueta.tagID === etiqueta_id
       )
     ) {
-      axiosRequest(
-        "DELETE",
-        api_config.etiquetas.item,
-        {},
-        {
-          tagID: etiqueta_id,
-          itemID: productID,
-        }
-      )
+      deleteItemTag(etiqueta_id, productID)
         .then(() => {
           addOrRemoveListTag(etiqueta_id, productID);
           toast.success("Etiqueta eliminada");
@@ -309,12 +303,7 @@ export default function GestorProductos({ type }) {
           toast.error("Error al eliminar etiqueta");
         });
     } else {
-      axiosRequest(
-        "POST",
-        api_config.etiquetas.item,
-        {},
-        { tagID: etiqueta_id, itemID: productID }
-      )
+      addItemTag(etiqueta_id, productID)
         .then(() => {
           axiosRequest("GET", api_config.despensa.all)
             .then(() => {

@@ -1,26 +1,50 @@
-import { create } from 'zustand';
-import { axiosRequest } from '../services/AxiosRequest';
-import api_config from '../config/apiconfig';
+import { create } from "zustand";
+import { axiosRequest } from "../services/AxiosRequest";
+import api_config from "../config/apiconfig";
 
 const useProductStore = create((set) => ({
   products: [],
 
   fetchProducts: async () => {
-    try {
-      const response = await axiosRequest('GET', api_config.productos.all);
-      set({ products: response });
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
+    await axiosRequest("GET", api_config.productos.all)
+      .then((products) => {
+        set({ products });
+      })
+      .catch((error) => {
+        throw Error('Error fetching products:', error);
+      });
   },
 
-  addProduct: (product) =>
-    set((state) => ({ products: [...state.products, product] })),
+  addProduct: async (newProduct) => {
+    await axiosRequest("POST", api_config.productos.base, {}, newProduct)
+      .then((product) => {
+        set((state) => ({ products: [...state.products, product] }));
+      })
+      .catch((error) => {
+        throw new Error('Error adding product:', error);
+      });
+  },
 
-  deleteProduct: (productID) =>
+  deleteProduct: async (productID) => {
+    await axiosRequest(
+      "DELETE",
+      `${api_config.productos.base}/${productID}`
+    ).then(() => {
+        set((state) => ({
+          products: state.products.filter(
+            (product) => product.productID !== productID
+          ),
+        }));
+      })
+    .catch((error) => {
+      throw new Error('Error deleting product:', error);
+    });
     set((state) => ({
-      products: state.products.filter((product) => product.productID !== productID),
-    })),
+      products: state.products.filter(
+        (product) => product.productID !== productID
+      ),
+    }));
+  },
 }));
 
 export default useProductStore;

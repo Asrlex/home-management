@@ -1,0 +1,25 @@
+@import '../global/variables.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* ********************* */
+  /* CONTEXT */
+  /* ********************* */
+
+  .customContextMenu,
+  .customContextMenu>ul>li>ul {
+    @apply w-32 p-0 m-0 border border-[var(--border-color)] rounded-lg shadow-lg bg-[var(--context-bg-color)] text-xs transition-all duration-200;
+  }
+  .customContextMenu li:not(:last-child) {
+    @apply cursor-pointer h-auto border-b border-[var(--border-color)] transition-all duration-200 hover:bg-[var(--context-hover-bg-color)];
+  }
+  .customContextMenu a {
+    @apply p-2 py-3;
+  }
+  .sinContenido {
+    @apply text-sm text-[var(--context-no-content-bg-color)];
+  }
+}

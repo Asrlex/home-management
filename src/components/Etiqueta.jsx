@@ -1,5 +1,5 @@
 import { RiAddLine, RiDeleteBinLine } from "react-icons/ri";
-import useEtiquetaStore from "../store/EtiquetaContext";
+import useEtiquetaStore from "../store/TagContext";
 import { useRef } from "react";
 import { ContextMenu } from 'primereact/contextmenu';
 import { axiosRequest } from "../services/AxiosRequest";

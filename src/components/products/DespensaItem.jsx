@@ -6,7 +6,7 @@ import { useRef, forwardRef } from "react";
 import { memo } from "react";
 import { ContextMenu } from "primereact/contextmenu";
 import ContadorProducto from "./ContadorProducto";
-import useEtiquetaStore from "../../store/EtiquetaContext";
+import useEtiquetaStore from "../../store/TagContext";
 import useDespensaStore from "../../store/StockContext";
 import SortableItem from "../generic/SortableItem";
 

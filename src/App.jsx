@@ -15,7 +15,7 @@ import Despensa from "./components/products/Despensa";
 import Tareas from "./components/tasks/Tareas";
 import TareasCasa from "./components/tasks/TareasCasa";
 import Recetas from "./components/recipes/Recetas";
-import ControlGastos from "./components/expenses/ControlGastos";
+import Gastos from "./components/expenses/Gastos";
 import Ajustes from "./components/Ajustes";
 import ListaProductos from "./components/products/ListaProductos";
 import Login from "./components/users/Login";
@@ -23,7 +23,6 @@ import Signup from "./components/users/Signup";
 import PrivateRoute from "./components/users/PrivateRoute";
 import Portada from "./components/menu/Portada";
 import useUserStore from "./store/UserContext";
-import "./App.css";
 
 function App() {
   const [selectedSection, setSelectedSection] = useState("");
@@ -118,7 +117,7 @@ function App() {
                 path="/gastos"
                 element={
                   <PrivateRoute>
-                    <ControlGastos />
+                    <Gastos />
                   </PrivateRoute>
                 }
               />

@@ -1,0 +1,250 @@
+.light {
+  --text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --border-color: rgb(6 78 59);
+  /* emerald-900 */
+  --bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --barra-bg-color: rgb(6 78 59);
+  /* emerald-900 */
+  --barra-text-color: rgb(255 255 255);
+  /* white */
+  --barra-item-hover-color: rgb(52 211 153);
+  /* emerald-400 */
+  --barra-item-active-color: rgb(16 185 129);
+  /* emerald-500 */
+  --title-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --section-bg-color: rgb(229 231 235);
+  /* gray-200 */
+  --item-fechacompra-text-color: rgb(156 163 175);
+  /* gray-400 */
+  --item-bg-color: rgb(255 255 255);
+  /* white */
+  --item-hover-bg-color: rgb(209 250 229);
+  /* emerald-200 */
+  --item-button-hover-text-color: rgb(52 211 153);
+  /* emerald-400 */
+  --item-button-add-hover-text-color: rgb(4 120 87);
+  /* emerald-700 */
+  --item-button-remove-hover-text-color: rgb(185 28 28);
+  /* red-600 */
+  --product-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --pagination-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --task-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --task-divider-color: rgb(6 78 59 / 0.5);
+  /* emerald-900/50 */
+  --item-counter-bg-color: rgb(229 231 235);
+  /* gray-200 */
+  --tag-bg-color: rgb(229 231 235);
+  /* gray-200 */
+  --tag-hover-bg-color: rgb(209 213 219);
+  /* gray-300 */
+  --tag-selected-bg-color: rgb(5 150 105);
+  /* emerald-600 */
+  --tag-selected-text-color: rgb(255 255 255);
+  /* white */
+  --tag-selected-hover-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --modal-title-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --modal-backdrop-color: rgb(2 44 34 / 0.8);
+  /* emerald-900/80 */
+  --modal-bg-color: rgb(243 244 246);
+  /* gray-100 */
+  --modal-input-bg-color: rgb(229 231 235);
+  /* gray-200 */
+  --modal-input-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --modal-button-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --modal-button-text-color: rgb(255 255 255);
+  /* white */
+  --modal-button-hover-bg-color: rgb(16 185 129);
+  /* emerald-500 */
+  --context-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --context-no-content-bg-color: rgb(156 163 175);
+  /* gray-400 */
+  --context-hover-bg-color: rgb(5 150 105);
+  /* emerald-600 */
+  --floating-button-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --floating-button-text-color: rgb(255 255 255);
+  /* white */
+  --floating-button-hover-bg-color: rgb(5 150 105);
+  /* emerald-600 */
+  --selector-tienda-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --selector-tienda-text-color: rgb(255 255 255);
+  /* white */
+  --recipe-title-color: rgb(6 78 59);
+  /* emerald-900 */
+  --recipe-section-title-color: rgb(6 78 59);
+  /* emerald-900 */
+  --recipe-section-content-color: rgb(4 120 87);
+  /* emerald-900 */
+  --scrollbar-color: rgb(6 95 70);
+  /* emerald-800 */
+  --scrollbar-bg-color: rgb(243, 244, 246);
+  /* gray-100 */
+  --scrollbar-track-color: rgb(229, 231, 235);
+  /* gray-200 */
+  --scrollbar-thumb-color: rgb(156, 163, 175);
+  /* gray-400 */
+  --scrollbar-thumb-hover-color: rgb(107, 114, 128);
+  /* gray-500 */
+  --form-label-color: rgb(6 78 59);
+  /* emerald-900 */
+  --form-input-bg-color: rgb(243 244 246);
+  /* gray-100 */
+  --form-input-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --form-select-bg-color: rgb(243 244 246);
+  /* gray-100 */
+  --form-select-text-color: rgb(6 78 59);
+  /* emerald-900 */
+  --form-button-bg-color: rgb(6 95 70);
+  /* emerald-800 */
+  --form-button-text-color: rgb(255 255 255);
+  /* white */
+  --form-button-hover-bg-color: rgb(16 185 129);
+  /* emerald-500 */
+  --form-select-text-color: rgb(6 95 70);
+  /* emerald-800 */
+  --form-select-options-bg-color: rgb(243 244 246);
+  /* gray-100 */
+  --form-select-options-text-color: rgb(6 95 70);
+  /* emerald-800 */
+  --form-select-options-hover-bg-color: rgb(110 231 183);
+  /* emerald-300 */
+  --form-select-options-selected-bg-color: rgb(16 185 129);
+  /* emerald-500 */
+}
+
+.dark {
+  --text-color: rgb(77, 77, 77);
+  /* gray-700 */
+  --border-color: rgb(209 213 219);
+  /* gray-300 */
+  --bg-color: rgb(31 41 55);
+  /* gray-800 */
+  --barra-bg-color: rgb(17 24 39);
+  /* gray-900 */
+  --barra-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --barra-item-hover-color: rgb(75 85 99);
+  /* gray-600 */
+  --barra-item-active-color: rgb(107 114 128);
+  /* gray-500 */
+  --title-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --section-bg-color: rgb(31 41 55);
+  /* gray-800 */
+  --item-fechacompra-text-color: rgb(156 163 175);
+  /* gray-400 */
+  --item-bg-color: rgb(55 65 81);
+  /* gray-700 */
+  --item-hover-bg-color: rgb(107 114 128);
+  /* gray-500 */
+  --item-button-hover-text-color: rgb(31 41 55);
+  /* gray-800 */
+  --item-button-add-hover-text-color: rgb(52 211 153);
+  /* emerald-400 */
+  --item-button-remove-hover-text-color: rgb(220 38 38);
+  /* red-600 */
+  --product-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --pagination-text-color: rgb(243 244 246);
+  --task-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --task-divider-color: rgb(243 244 246 / 0.5);
+  /* gray-100/50 */
+  --item-counter-bg-color: rgb(229 231 235);
+  /* gray-200 */
+  --tag-bg-color: rgb(55 65 81);
+  /* gray-700 */
+  --tag-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --tag-hover-bg-color: rgb(107 114 128);
+  /* gray-500 */
+  --tag-selected-bg-color: rgb(52 211 153);
+  /* emerald-400 */
+  --tag-selected-hover-bg-color: rgb(16 185 129);
+  /* emerald-500 */
+  --modal-title-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --modal-backdrop-color: rgb(17 24 39 / 0.9);
+  /* gray-900/80 */
+  --modal-bg-color: rgb(31 41 55);
+  /* gray-800 */
+  --modal-input-bg-color: rgb(55 65 81);
+  /* gray-700 */
+  --modal-input-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --modal-button-bg-color: rgb(75 85 99);
+  /* gray-600 */
+  --modal-button-hover-bg-color: rgb(107 114 128);
+  /* gray-500 */
+  --modal-button-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --context-bg-color: rgb(31 41 55);
+  /* gray-800 */
+  --context-no-content-bg-color: rgb(107 114 128);
+  /* gray-500 */
+  --context-hover-bg-color: rgb(52 211 153);
+  /* emerald-400 */
+  --floating-button-bg-color: rgb(75 85 99);
+  /* gray-600 */
+  --floating-button-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --floating-button-hover-bg-color: rgb(107 114 128);
+  /* gray-500 */
+  --selector-tienda-bg-color: rgb(75 85 99);
+  /* gray-600 */
+  --selector-tienda-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --recipe-title-color: rgb(243 244 246);
+  /* gray-100 */
+  --recipe-section-title-color: rgb(243 244 246);
+  /* gray-100 */
+  --recipe-section-content-color: rgb(52 211 153);
+  /* emerald-400 */
+  --scrollbar-color: rgb(55, 65, 81);
+  /* gray-700 */
+  --scrollbar-bg-color: rgb(31, 41, 55);
+  /* gray-800 */
+  --scrollbar-track-color: rgb(55, 65, 81);
+  /* gray-700 */
+  --scrollbar-thumb-color: rgb(107, 114, 128);
+  /* gray-500 */
+  --scrollbar-thumb-hover-color: rgb(156, 163, 175);
+  /* gray-400 */
+  --form-label-color: rgb(243 244 246);
+  /* gray-100 */
+  --form-input-bg-color: rgb(55 65 81);
+  /* gray-700 */
+  --form-input-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --form-select-bg-color: rgb(31, 41, 55);
+  /* gray-800 */
+  --form-select-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --form-button-bg-color: rgb(75 85 99);
+  /* gray-600 */
+  --form-button-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --form-button-hover-bg-color: rgb(107 114 128);
+  /* gray-500 */
+  --form-select-options-bg-color: rgb(55 65 81);
+  /* gray-700 */
+  --form-select-options-text-color: rgb(243 244 246);
+  /* gray-100 */
+  --form-select-options-hover-bg-color: rgb(75 85 99);
+  /* gray-600 */
+  --form-select-options-selected-bg-color: rgb(107 114 128);
+  /* gray-500 */
+}

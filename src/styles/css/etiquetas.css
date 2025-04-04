@@ -1,0 +1,53 @@
+@import '../global/variables.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* ********************* */
+  /* ETIQUETAS */
+  /* ********************* */
+  .etiquetas {
+    @apply flex flex-wrap gap-2 my-2 py-2 z-50 overflow-auto sm:scrollbar-hide bg-[var(--section-bg-color)]
+    bg-opacity-100 top-16 md:top-[4.2rem] items-center transition-all duration-200;
+  }
+  .etiqueta {
+    @apply p-1 px-2 bg-[var(--tag-bg-color)] text-[var(--tag-text-color)] text-[.65rem] border border-[var(--border-color)] rounded-xl cursor-pointer;
+  }
+  .etiqueta:hover {
+    @apply bg-[var(--tag-hover-bg-color)] shadow-md transition-all duration-200;
+  }
+  .etiquetaSeleccionada {
+    @apply font-bold bg-[var(--tag-selected-bg-color)] text-[var(--tag-selected-text-color)] text-[.65rem] border border-[var(--border-color)] rounded-xl cursor-pointer;
+  }
+  .etiquetaSeleccionada:hover {
+    @apply bg-[var(--tag-selected-hover-bg-color)] shadow-md transition-all duration-200;
+  }
+  .etiquetaAdd {
+    @apply p-1 px-2 bg-[var(--tag-selected-hover-bg-color)] text-[var(--tag-selected-text-color)] text-[.65rem] border border-[var(--border-color)] rounded-xl cursor-pointer;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}

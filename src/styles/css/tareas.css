@@ -1,0 +1,119 @@
+@import '../global/variables.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* ********************* */
+  /* TAREAS */
+  /* ********************* */
+  .tarea {
+    @apply shadow-md rounded-md text-sm hover:shadow-xl hover:bg-[var(--item-hover-bg-color)] transition-all duration-200 text-[var(--task-text-color)] border border-transparent;
+  }
+  .tituloTarea {
+    @apply flex justify-between font-bold text-sm text-[var(--task-text-color)] ;
+  }
+  .descTarea {
+    @apply text-xs mt-2 md:flex justify-between transition-all duration-200 text-[var(--task-text-color)] ;
+  }
+  .descTareaHide {
+    @apply h-0 overflow-hidden transition-all duration-200;
+  }
+  .descTareaShow {
+    @apply h-auto transition-all duration-200;
+  }
+  .botonTarea {
+    @apply me-4 text-base hover:text-[var(--item-button-hover-text-color)] transition-all duration-200;
+  }
+  .hrSeccion {
+    @apply border-b-0 border-[var(--task-divider-color)] my-3 sm:my-6;
+  }
+  .tareas {
+    @apply h-[90%] md:h-[90%] max-h-[90%];
+  }
+  .tareasAbiertas,
+  .tareasCerradas {
+    @apply h-[40%] max-h-[40%] overflow-auto relative;
+  }
+  .houseTaskButtons {
+    @apply justify-between items-center py-3 sm:py-5 px-3 grid grid-cols-4 md:grid-cols-5 sm:gap-4 gap-2 transition-all duration-200;
+  }
+  .houseTaskButton {
+    @apply p-1 md:p-2 text-[var(--floating-button-text-color)] transition-all rounded-md
+      duration-200 flex flex-col justify-center items-center;
+  }
+  .houseTaskIcon {
+    @apply w-9 h-9 md:w-14 md:h-14 p-2 mb-1 bg-[var(--floating-button-bg-color)]
+      text-[var(--floating-button-text-color)] border border-[var(--border-color)]
+      rounded-md transition-all duration-200 cursor-pointer;
+  }
+  .houseTaskButton:hover {
+    @apply shadow-lg;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 -4px 8px rgba(0, 0, 0, 0.2), -4px 0 8px rgba(0, 0, 0, 0.2), 4px 0 8px rgba(0, 0, 0, 0.2);
+  }
+  .houseTaskButton:hover .houseTaskIcon {
+    @apply bg-[var(--floating-button-hover-bg-color)];
+  }
+  .houseTaskButton:active {
+    @apply shadow-none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  .houseTaskButtonText {
+    @apply text-xs font-bold text-[var(--form-input-text-color)] transition-all duration-200;
+  }
+  .houseTaskList {
+    @apply md:h-[70%] md:max-h-[70%] h-[70%] max-h-[70%] overflow-auto
+      sm:scrollbar-hide cursor-default mx-2;
+  }
+  .houseTaskList::-webkit-scrollbar {
+    display: none;
+  }
+  .houseTaskTitle {
+    @apply text-lg font-bold mb-3;
+  }
+  .houseTaskItem {
+    @apply flex justify-between items-center rounded-md p-1;
+  }
+  .houseTaskItem:hover {
+    @apply bg-[var(--item-hover-bg-color)] shadow-md;
+  }
+  .houseTaskName {
+    @apply md:w-3/4 md:text-base text-sm;
+  }
+  .houseTaskDate {
+    @apply md:w-1/4 text-right md:text-sm text-xs text-[var(--item-fechacompra-text-color)];
+  }
+  .houseTaskItemOld {
+    @apply opacity-30
+  }
+  .shadow-top {
+    box-shadow: inset 0 10px 10px -10px rgba(0, 0, 0, 0.5);
+  }
+  .shadow-bottom {
+    box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}

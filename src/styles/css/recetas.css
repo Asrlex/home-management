@@ -1,0 +1,53 @@
+@import '../global/variables.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* ********************* */
+  /* RECETAS */
+  /* ********************* */
+  .recetaDiv {
+    @apply mb-1 hover:bg-[var(--item-hover-bg-color)] shadow-md rounded-md p-1 border border-transparent transition-all duration-200;
+  }
+  .recetas {
+    @apply rounded-md h-[88%] max-h-[88%] overflow-y-auto relative;
+  }
+  .recetas::-webkit-scrollbar {
+    @apply w-1 h-2;
+  }
+  .recetas::-webkit-scrollbar-thumb {
+    @apply bg-[var(--scrollbar-thumb-color)] rounded-full;
+  }
+  .recetas::-webkit-scrollbar-thumb:hover {
+    @apply bg-[var(--scrollbar-thumb-hover-color)] rounded-full;
+  }
+  .recetas::-webkit-scrollbar-track {
+    @apply bg-[var(--scrollbar-track-color)] rounded-full;
+  }
+  .receta {
+    @apply justify-between bg-[var(--item-bg-color)] shadow-md rounded-md p-2 border border-transparent transition-all duration-200;
+  }
+  .tituloReceta {
+    @apply border-b-2 border-[var(--border-color)];
+  }
+  .recetaName {
+    @apply text-[var(--recipe-title-color)] text-xl font-bold;
+  }
+  .recetaDesc {
+    @apply text-[var(--item-fechacompra-text-color)] cursor-default mb-1 text-xs md:text-base;
+  }
+  .tagPill {
+    @apply md:me-2 md:my-2 me-1 my-1 p-0 text-xs;
+  }
+  .tagPill:hover {
+    @apply bg-[var(--tag-hover-bg-color)] shadow-md transition-all duration-200 cursor-default;
+  }
+  .tituloSeccionReceta {
+    @apply text-[var(--recipe-section-title-color)] font-bold mb-5 cursor-default text-base md:text-lg;
+  }
+  .contenidoSeccionReceta {
+    @apply text-[var(--recipe-section-content-color)] p-2 cursor-default text-xs md:text-base;
+  }
+}

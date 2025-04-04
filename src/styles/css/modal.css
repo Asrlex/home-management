@@ -1,0 +1,72 @@
+@import '../global/variables.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* ********************* */
+  /* MODAL */
+  /* ********************* */
+
+  .modal {
+    @apply backdrop:bg-[var(--modal-backdrop-color)] bg-[var(--modal-bg-color)] text-[var(--text-color)] fixed z-[1000] p-10 rounded-md shadow-md w-[90%] max-w-2xl transition-all duration-200;
+  }
+  .modalTitulo {
+    @apply md:text-2xl text-xl font-bold mb-4 text-[var(--modal-title-text-color)];
+  }
+  .modalSubtitulo {
+    @apply text-lg md:text-xl font-bold md:mb-3 mb-1 text-[var(--modal-title-text-color)];
+  }
+  .modalSubSubtitulo {
+    @apply md:text-base text-sm font-bold text-[var(--modal-title-text-color)];
+  }
+  .modalSection {
+    @apply mb-2 flex flex-col justify-between items-center;
+  }
+  .modalSeparator {
+    @apply mb-1 flex flex-col justify-between items-center w-full;
+  }
+  .modalParallelInputs {
+    @apply flex flex-row justify-between items-center w-[80%];
+  }
+  .modalDivider {
+    @apply border-b-0 border-[var(--task-divider-color)] md:my-4 my-2;
+  }
+  .modalInput {
+    @apply w-[90%] p-2 mb-2 bg-[var(--modal-input-bg-color)] text-sm border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200 md:max-h-12 max-h-8;
+  }
+  .modalInputSmall {
+    @apply w-28 md:w-40 p-2 me-2 md:mb-3 mb-1 bg-[var(--modal-input-bg-color)] text-sm border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200 md:max-h-12 max-h-8;
+  }
+  .modalTextArea {
+    @apply text-xs md:max-h-none;
+  }
+  .modalSelect {
+    @apply w-full lg:w-1/4 p-2 md:mb-3 text-sm border border-[var(--border-color)] rounded-md text-[var(--text-color)] transition-all duration-200;
+  }
+  .modalLabel {
+    @apply text-sm font-bold mb-2;
+  }
+  .modalBoton {
+    @apply bg-[var(--modal-button-bg-color)] text-[var(--modal-button-text-color)] p-2 md:px-4 md:mb-3 mb-1 rounded-md transition-all duration-200 hover:bg-[var(--modal-button-hover-bg-color)] cursor-pointer md:text-base text-xs;
+  }
+  .modalLabel {
+    @apply text-sm font-bold mb-2 me-3;
+  }
+  .modalLista {
+    @apply w-[90%] p-2 my-3 bg-[var(--modal-input-bg-color)] text-xs border rounded-md text-[var(--modal-input-text-color)] transition-all duration-200 md:max-h-32 max-h-16;
+  }
+  .modalListaItem {
+    @apply flex justify-between items-center hover:bg-[var(--item-hover-bg-color)] rounded-md md:p-1 border border-transparent transition-all duration-200;
+  }
+  .modalListaItemButtons {
+    @apply flex justify-between items-center gap-2;
+  }
+  .modalCerrar {
+    @apply absolute w-7 h-6 top-4 right-4 text-[var(--text-color)] cursor-pointer text-2xl;
+  }
+  dialog {
+    overflow: visible;
+  }
+}

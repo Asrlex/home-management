@@ -1,6 +1,6 @@
 import Etiqueta from "./Etiqueta";
 import Modal from './generic/Modal';
-import useEtiquetaStore from "../store/EtiquetaContext";
+import useEtiquetaStore from "../store/TagContext";
 import { useEffect, useRef } from "react";
 import { axiosRequest } from "../services/AxiosRequest";
 import api_config from "../config/apiconfig";

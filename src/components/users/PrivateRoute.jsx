@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import useUserStore from '../../store/UserContext';
+import useUserStore from "../../store/UserContext";
 import Loader from "../generic/Loader";
 
 /**
@@ -10,25 +10,19 @@ import Loader from "../generic/Loader";
  * * @throws {Error} - Throws an error if token validation fails
  */
 export default function PrivateRoute({ children }) {
-  const { token, validateToken } = useUserStore();
-  const [isValid, setIsValid] = useState(null);
+  const validateToken = useUserStore((state) => state.validateToken);
+  const loginStatus = useUserStore((state) => state.loginStatus);
 
   useEffect(() => {
-    const checkToken = async () => {
-      if (token) {
-        const isValidToken = await validateToken();
-        setIsValid(isValidToken);
-      } else {
-        setIsValid(false);
-      }
-    };
+    validateToken();
+  }, [validateToken]);
 
-    checkToken();
-  }, [token, validateToken]);
-
-  if (isValid === null) {
-    return <Loader />;
-  }
-
-  return isValid ? children : <Navigate to="/login" />;
+  return loginStatus === "authenticated" ?
+    (
+      <>{children}</>
+    ) : loginStatus === "loading" ? (
+      <Loader />
+    ) : (
+      <Navigate to="/login" replace />
+    );
 }

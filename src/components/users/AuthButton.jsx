@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 
 const AuthButton = () => {
-  const token = useUserStore((state) => state.token);
+  const loginStatus = useUserStore((state) => state.loginStatus);
   const user = useUserStore((state) => state.user);
   const logout = useUserStore((state) => state.logout);
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const AuthButton = () => {
   const [isCompact, setIsCompact] = useState(window.innerWidth < 768);
 
   const handleAuthAction = () => {
-    if (token) {
+    if (loginStatus === "authenticated") {
       logout();
       navigate("/");
     } else {
@@ -39,20 +39,24 @@ const AuthButton = () => {
       onMouseLeave={() => setHover(false)}
     >
       {hover ? (
-        token ? (
+        loginStatus === "authenticated" ? (
           <FaSignOutAlt />
         ) : (
           <FaSignInAlt />
         )
       ) : (
-        <div className="authPill">{token && user.userEmail.slice(0, 2)}</div>
+        <div className="authPill">
+          {loginStatus === "authenticated" && user.userEmail.slice(0, 2)}
+        </div>
       )}
     </button>
   ) : (
     <div className="authButtonContainer">
-      <div className="authPill">{token && user.userEmail.slice(0, 2)}</div>
+      <div className="authPill">
+        {loginStatus === "authenticated" && user.userEmail.slice(0, 2)}
+      </div>
       <button className="authButton" onClick={handleAuthAction}>
-        {token ? <FaSignOutAlt /> : <FaSignInAlt />}
+        {loginStatus === "authenticated" ? <FaSignOutAlt /> : <FaSignInAlt />}
       </button>
     </div>
   );

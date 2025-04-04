@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import api_config from "../../config/apiconfig";
 import { axiosRequest } from "../../services/AxiosRequest";
 import ListaEtiquetas from "../ListaEtiquetas";
-import useEtiquetaStore from "../../store/EtiquetaContext";
+import useEtiquetaStore from "../../store/TagContext";
 import Receta from "./Receta";
 import { useRef } from "react";
 import Modal from "../generic/Modal";
@@ -11,6 +11,7 @@ import { FaPlus } from "react-icons/fa";
 import NuevaRecetaModal from "./NuevaRecetaModal";
 import Loader from "../generic/Loader";
 import useProductStore from "../../store/ProductContext";
+import toast from "react-hot-toast";
 
 export default function Recetas() {
   const [recetas, setRecetas] = useState([]);
@@ -77,9 +78,13 @@ export default function Recetas() {
     axiosRequest("POST", api_config.recetas.base, {}, receta)
       .then(() => {
         setRecetas((prevRecetas) => [...prevRecetas, receta]);
+        recetaDialogRef.current.close();
+        toast.success("Receta creada con éxito");
       })
       .catch((error) => {
         console.error(error);
+        recetaDialogRef.current.close();
+        toast.error("Error al crear la receta");
       });
   };
 

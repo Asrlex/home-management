@@ -1,0 +1,89 @@
+@import '../global/variables.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* ********************* */
+  /* PRODUCTOS */
+  /* ********************* */
+  .producto {
+    @apply flex justify-between bg-[var(--item-bg-color)] shadow-md rounded-md text-xs md:text-sm p-2 mb-1 border border-transparent;
+  }
+  .producto:hover {
+    @apply shadow-xl bg-[var(--item-hover-bg-color)] border-[var(--border-color)] cursor-default;
+  }
+  .drag-handle {
+    @apply h-6 cursor-grab;
+  }
+  .drag-handle:active {
+    @apply cursor-grabbing;
+  }
+  .productoName {
+    @apply w-3/4 sm:w-[85%] md:w-4/5 pt-[.20rem]
+  }
+  .fechaCompra {
+    @apply w-1/4 text-right text-[var(--item-fechacompra-text-color)];
+  }
+  .contador {
+    @apply flex justify-between align-middle items-center gap-2;
+  }
+  .botonContador {
+    @apply w-5 h-5 md:w-6 md:h-6 pb-1 p-1 rounded-lg cursor-pointer bg-transparent transition-all duration-200;
+  }
+  .botonAdd {
+    @apply hover:bg-[var(--item-button-add-hover-text-color)] hover:text-[var(--item-button-hover-text-color)];
+  }
+  .botonRemove {
+    @apply hover:bg-[var(--item-button-remove-hover-text-color)] hover:text-[var(--item-button-hover-text-color)];
+  }
+  .amount {
+    @apply w-5 h-5 md:w-6 md:h-6 font-bold bg-[var(--item-counter-bg-color)] text-[var(--text-color)] text-center flex justify-center items-center align-middle border border-[var(--border-color)] rounded-md cursor-text;
+  }
+  .botonComprar {
+    @apply bg-emerald-[var(--item-button-hover-text-color)] md:ms-4 p-1 w-5 h-5 md:w-6 md:h-6 rounded-md transition-all duration-200 cursor-pointer;
+  }
+  .productoDesc {
+    @apply text-xs md:text-sm transition-all duration-200;
+  }
+  .iconoDesc {
+    @apply w-4 h-4 rotate-0 transition-all duration-200;
+  }
+  .rotated {
+    @apply transform rotate-180 transition-all duration-200;
+  }
+  .despensa,
+  .listaCompra {
+    @apply h-[84%] max-h-[84%] md:h-[90%] md:max-h-[90%] overflow-auto relative;
+  }
+  .despensa::-webkit-scrollbar,
+  .listaCompra::-webkit-scrollbar {
+    @apply w-1 h-2;
+  }
+  .despensa::-webkit-scrollbar-thumb,
+  .listaCompra::-webkit-scrollbar-thumb {
+    @apply bg-[var(--scrollbar-thumb-color)] rounded-full;
+  }
+  .despensa::-webkit-scrollbar-thumb:hover,
+  .listaCompra::-webkit-scrollbar-thumb:hover {
+    @apply bg-[var(--scrollbar-thumb-hover-color)] rounded-full;
+  }
+  .despensa::-webkit-scrollbar-track,
+  .listaCompra::-webkit-scrollbar-track {
+    @apply bg-[var(--scrollbar-track-color)] rounded-full;
+  }
+  .iconoScrollBottom,
+  .iconoScrollTop {
+    @apply flex w-6 h-6 sticky left-[45%] cursor-pointer animate-bounce transition-all duration-200;
+  }
+  .iconoScrollTop {
+    @apply top-2;
+  }
+  .iconoScrollBottom {
+    @apply bottom-0;
+  }
+  .productsTable {
+    @apply h-[79%] max-h-[79%] md:h-[90%] md:max-h-[90%];
+  }
+}
