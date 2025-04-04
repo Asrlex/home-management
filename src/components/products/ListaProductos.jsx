@@ -62,7 +62,8 @@ const ListaProductos = () => {
     return 0;
   });
 
-  const handleAddProduct = async () => {
+  const handleAddProduct = async (e) => {
+    e.preventDefault();
     const name = nameRef.current.value;
     const unit = unitRef.current.value;
     if (!name || !unit) {
@@ -81,6 +82,9 @@ const ListaProductos = () => {
       .catch((error) => {
         toast.error("Error al crear el producto: " + error.message);
       });
+    productoDialogRef.current.close();
+    nameRef.current.value = "";
+    unitRef.current.value = "";
   };
 
   const popup = (
