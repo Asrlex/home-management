@@ -24,16 +24,19 @@
     @apply md:text-lg text-base font-bold mb-3;
   }
   .gastosFormForm {
-    @apply flex flex-col md:flex-row justify-between items-center gap-2;
+    @apply flex flex-col justify-between items-center gap-2;
   }
   .gastosFormInputs {
     @apply flex md:gap-2 items-center;
   }
   .gastosFormInputs {
-    @apply flex flex-wrap gap-2 xl:flex-nowrap md:gap-4 align-middle items-center;
+    @apply flex flex-wrap gap-2 md:gap-4 align-middle items-center justify-center w-[90%];
   }
   .gastosFormInputSmall {
-    @apply w-full md:w-auto xl:w-1/5 2xl:w-1/12 md:max-h-10 max-h-8 md:p-2 p-1 md:mb-3 mb-1 bg-[var(--modal-input-bg-color)] text-xs  md:text-sm lg:text-base border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200;
+    @apply w-full lg:w-1/5 md:max-h-10 max-h-8 md:p-2 p-1 md:mb-3 mb-1 bg-[var(--modal-input-bg-color)] text-xs  md:text-sm lg:text-base border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200;
+  }
+  .gastosFormSelect {
+    @apply w-full lg:w-1/5 md:p-2 p-0 md:mb-3 text-sm border border-[var(--border-color)] rounded-md text-[var(--text-color)] transition-all duration-200;
   }
   .gastosFormBoton {
     @apply bg-[var(--modal-button-bg-color)] text-[var(--modal-button-text-color)] p-2 md:px-4 md:mb-3 rounded-md transition-all duration-200 hover:bg-[var(--modal-button-hover-bg-color)] cursor-pointer md:text-base text-xs;

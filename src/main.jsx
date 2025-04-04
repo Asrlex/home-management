@@ -17,6 +17,7 @@ import "./styles/css/gastos.css";
 import "./styles/css/context.css";
 import "./styles/css/barraLateral.css";
 import "./styles/css/etiquetas.css";
+import "./styles/css/modal.css";
 
 const { theme } = useThemeStore.getState();
 document.documentElement.className = theme;

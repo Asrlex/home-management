@@ -1,8 +1,7 @@
 import Select from "react-select";
 import { customStyles } from "../../styles/ModalStyle";
 
-
-export default function GastosForm ({
+export default function GastosForm({
   crearGasto,
   expenseCategoryOptions,
   expenseCategory,
@@ -18,18 +17,21 @@ export default function GastosForm ({
         <div className="gastosFormInputs">
           <input
             type="text"
+            name="cantidad"
             ref={expenseAmountRef}
             className="gastosFormInputSmall"
             placeholder="Cantidad"
           />
           <input
             type="text"
+            name="descripcion"
             ref={expenseDescriptionRef}
             className="gastosFormInputSmall"
             placeholder="Descripción"
           />
           <input
             type="date"
+            name="fecha"
             ref={expenseDateRef}
             className="gastosFormInputSmall"
             placeholder="Fecha"
@@ -39,7 +41,7 @@ export default function GastosForm ({
             value={expenseCategory}
             onChange={(selectedOption) => setExpenseCategory(selectedOption)}
             styles={customStyles}
-            className="modalSelect"
+            className="gastosFormSelect"
           />{" "}
         </div>
         <button className="gastosFormBoton">Añadir gasto</button>
