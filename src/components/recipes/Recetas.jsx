@@ -1,22 +1,17 @@
-import { useState, useEffect } from "react";
-import api_config from "../../config/apiconfig";
-import { axiosRequest } from "../../services/AxiosRequest";
-import ListaEtiquetas from "../ListaEtiquetas";
+import useRecetasStore from "../../store/RecipeStore";
 import useEtiquetaStore from "../../store/TagContext";
 import Receta from "./Receta";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Modal from "../generic/Modal";
 import FAB from "../generic/FloatingButton";
 import { FaPlus } from "react-icons/fa";
 import NuevaRecetaModal from "./NuevaRecetaModal";
 import Loader from "../generic/Loader";
-import useProductStore from "../../store/ProductContext";
-import toast from "react-hot-toast";
+import ListaEtiquetas from "../ListaEtiquetas";
 
 export default function Recetas() {
-  const [recetas, setRecetas] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const fetchProducts = useProductStore((state) => state.fetchProducts);
+  const { recetas, isLoading, fetchRecetas, eliminarReceta, addOrRemoveTag } =
+    useRecetasStore();
   const etiquetas = useEtiquetaStore((state) => state.etiquetas);
   const etiquetasSeleccionadas = useEtiquetaStore(
     (state) => state.etiquetasSeleccionadas
@@ -24,82 +19,14 @@ export default function Recetas() {
   const recetaDialogRef = useRef();
 
   useEffect(() => {
-    axiosRequest("GET", api_config.recetas.names)
-      .then((response) => {
-        setRecetas(response);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setIsLoading(false);
-      });
-  }, []);
-
-  const handleEliminar = (recetaID) => {
-    axiosRequest("DELETE", `${api_config.recetas.base}/${recetaID}`)
-      .then(() => {
-        setRecetas((prevRecetas) => {
-          return prevRecetas.filter((receta) => receta.recipeID !== recetaID);
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const handleEtiquetas = (recetaID, etiquetaID) => {
-    setRecetas((prevRecetas) => {
-      const etiqueta = etiquetas.find(
-        (etiqueta) => etiqueta.tagID === etiquetaID
-      );
-      return prevRecetas.map((receta) => {
-        if (receta.recipeID === recetaID) {
-          if (
-            receta.tags.some((recEtiqueta) => recEtiqueta.tagID === etiquetaID)
-          ) {
-            return {
-              ...receta,
-              tags: receta.tags.filter(
-                (recEtiqueta) => recEtiqueta.tagID !== etiquetaID
-              ),
-            };
-          }
-          return {
-            ...receta,
-            tags: [...receta.tags, etiqueta],
-          };
-        }
-        return receta;
-      });
-    });
-  };
-
-  const crearReceta = (receta) => {
-    axiosRequest("POST", api_config.recetas.base, {}, receta)
-      .then(() => {
-        setRecetas((prevRecetas) => [...prevRecetas, receta]);
-        recetaDialogRef.current.close();
-        toast.success("Receta creada con éxito");
-      })
-      .catch((error) => {
-        console.error(error);
-        recetaDialogRef.current.close();
-        toast.error("Error al crear la receta");
-      });
-  };
-
-  const popupReceta = (
-    <Modal ref={recetaDialogRef}>
-      <NuevaRecetaModal
-        crearReceta={crearReceta}
-        closeModal={() => recetaDialogRef.current.close()}
-      />
-    </Modal>
-  );
+    fetchRecetas();
+  }, [fetchRecetas]);
 
   return (
     <>
-      {popupReceta}
+      <Modal ref={recetaDialogRef}>
+        <NuevaRecetaModal closeModal={() => recetaDialogRef.current.close()} />
+      </Modal>
       <ListaEtiquetas tipo="Recipe" />
       {isLoading ? (
         <Loader />
@@ -118,8 +45,10 @@ export default function Recetas() {
               <Receta
                 key={receta.recipeID}
                 receta={receta}
-                handleEliminar={handleEliminar}
-                addOrRemoveTag={handleEtiquetas}
+                handleEliminar={eliminarReceta}
+                addOrRemoveTag={(recetaID, etiquetaID) =>
+                  addOrRemoveTag(recetaID, etiquetaID, etiquetas)
+                }
               />
             ))}
         </div>
@@ -127,10 +56,7 @@ export default function Recetas() {
       <div className="seccionBotones">
         <FAB
           icon={<FaPlus />}
-          action={() => {
-            fetchProducts();
-            recetaDialogRef.current.open();
-          }}
+          action={() => recetaDialogRef.current.open()}
           classes="floatingButton"
         />
       </div>

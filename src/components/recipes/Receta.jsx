@@ -3,7 +3,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Chip from "@mui/material/Chip";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { ContextMenu } from "primereact/contextmenu";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FaTag } from "react-icons/fa";
@@ -22,9 +22,6 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   const validateToken = useUserStore((state) => state.validateToken);
   const contextMenuRef = useRef(null);
   const recetaDialogRef = useRef();
-  const [isLoading, setIsLoading] = useState(false);
-  const [fullReceta, setFullReceta] = useState(null);
-  const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
 
   const addOrRemoveEtiqueta = (etiqueta_id, id) => {
@@ -46,7 +43,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
     axiosRequest("POST", api_config.etiquetas.item, {}, body)
       .then(() => {
         axiosRequest("GET", api_config.lista_compra.all)
-          .then((response) => {
+          .then(() => {
             addOrRemoveTag(id, etiqueta_id);
           })
           .catch((error) => {
@@ -89,9 +86,8 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   const popupReceta = (
     <Modal ref={recetaDialogRef}>
       <NuevaRecetaModal
-        crearReceta={null}
         closeModal={() => recetaDialogRef.current.close()}
-        receta={fullReceta}
+        receta={receta}
       />
     </Modal>
   );
@@ -104,21 +100,6 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
     if (!validateToken()) {
       navigate("/login", { replace: true });
       return;
-    }
-    if (!fullReceta) {
-      setIsLoading(true);
-      axiosRequest("GET", `${api_config.recetas.byID}${receta.recipeID}`)
-        .then((response) => {
-          setFullReceta(response);
-          setIsLoading(false);
-          setIsExpanded(true);
-        })
-        .catch((error) => {
-          console.error(error);
-          setIsLoading(false);
-        });
-    } else {
-      setIsExpanded(!isExpanded);
     }
   };
 
@@ -138,8 +119,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
           e.preventDefault();
           contextMenuRef.current.show(e);
         }}
-        expanded={isExpanded}
-        onChange={handleExpand}
+        // onChange={handleExpand}
       >
         <AccordionSummary
           className="tituloReceta"
@@ -158,62 +138,55 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
           <span className="recetaName">{receta.recipeName}</span>
         </AccordionSummary>
         <AccordionDetails sx={{ padding: "0.5rem" }} component={"div"}>
-          {isLoading ? (
-            <Loader />
-          ) : fullReceta ? (
-            <>
-              <div className={`recetaDesc`}>{fullReceta.recipeDescription}</div>
-              <div className="recetaTags">
-                {fullReceta.tags.map((tag) => (
-                  <Chip
-                    key={tag.tagID}
-                    label={tag.tagName}
-                    className="tagPill"
-                    sx={{
-                      fontSize: "0.70rem",
-                      padding: "0.1rem",
-                      color: "var(--recipe-section-content-color)",
-                      borderColor: "var(--recipe-section-content-color)",
-                      border: "1px solid",
-                    }}
-                  />
+          <div className={`recetaDesc`}>
+            {receta.recipeDescription}
+          </div>
+          <div className="recetaTags">
+            {receta.tags.map((tag) => (
+              <Chip
+                key={tag.tagID}
+                label={tag.tagName}
+                className="tagPill"
+                sx={{
+                  fontSize: "0.70rem",
+                  padding: "0.1rem",
+                  color: "var(--recipe-section-content-color)",
+                  borderColor: "var(--recipe-section-content-color)",
+                  border: "1px solid",
+                }}
+              />
+            ))}
+          </div>
+          <div className="recetaIngredients">
+            <span className="tituloSeccionReceta">Ingredientes</span>
+            <div className="contenidoSeccionReceta">
+              {receta.ingredients.map((ingrediente) => (
+                <div key={ingrediente.recipeIngredientID}>
+                  <span>
+                    <strong>{ingrediente.product.productName}</strong>:{" "}
+                    {ingrediente.recipeIngredientAmount}{" "}
+                    {ingrediente.recipeIngredientUnit}
+                    {ingrediente.recipeIngredientIsOptional && " (opcional)"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="recetaSteps">
+            <span className="tituloSeccionReceta">Pasos</span>
+            <div className="contenidoSeccionReceta">
+              {receta.steps
+                .sort((a, b) => a.recipeStepOrder - b.recipeStepOrder)
+                .map((paso) => (
+                  <div key={paso.recipeStepID}>
+                    <strong>
+                      {paso.recipeStepOrder}. {paso.recipeStepName}
+                    </strong>
+                    : {paso.recipeStepDescription}
+                  </div>
                 ))}
-              </div>
-              <div className="recetaIngredients">
-                <span className="tituloSeccionReceta">Ingredientes</span>
-                <div className="contenidoSeccionReceta">
-                  {fullReceta.ingredients.map((ingrediente) => (
-                    <div key={ingrediente.recipeIngredientID}>
-                      <span>
-                        <strong>{ingrediente.product.productName}</strong>:{" "}
-                        {ingrediente.recipeIngredientAmount}{" "}
-                        {ingrediente.recipeIngredientUnit}
-                        {ingrediente.recipeIngredientIsOptional &&
-                          " (opcional)"}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="recetaSteps">
-                <span className="tituloSeccionReceta">Pasos</span>
-                <div className="contenidoSeccionReceta">
-                  {fullReceta.steps
-                    .sort((a, b) => a.recipeStepOrder - b.recipeStepOrder)
-                    .map((paso) => (
-                      <div key={paso.recipeStepID}>
-                        <strong>
-                          {paso.recipeStepOrder}. {paso.recipeStepName}
-                        </strong>
-                        : {paso.recipeStepDescription}
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </>
-          ) : (
-            <div>No se pudo cargar la receta.</div>
-          )}
+            </div>
+          </div>
         </AccordionDetails>
       </Accordion>
     </div>
