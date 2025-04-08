@@ -33,10 +33,10 @@
     @apply flex flex-wrap gap-2 md:gap-4 align-middle items-center justify-center w-[90%];
   }
   .gastosFormInputSmall {
-    @apply w-full lg:w-1/5 md:max-h-10 max-h-8 md:p-2 p-1 md:mb-3 mb-1 bg-[var(--modal-input-bg-color)] text-xs  md:text-sm lg:text-base border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200;
+    @apply w-full lg:w-2/5 md:max-h-10 max-h-8 md:p-2 p-1 md:mb-3 mb-1 bg-[var(--modal-input-bg-color)] text-xs  md:text-sm lg:text-base border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200;
   }
   .gastosFormSelect {
-    @apply w-full lg:w-1/5 md:p-2 p-0 md:mb-3 text-sm border border-[var(--border-color)] rounded-md text-[var(--text-color)] transition-all duration-200;
+    @apply w-full lg:w-2/5 md:p-2 p-0 md:mb-3 text-sm border border-[var(--border-color)] rounded-md text-[var(--text-color)] transition-all duration-200;
   }
   .gastosFormBoton {
     @apply bg-[var(--modal-button-bg-color)] text-[var(--modal-button-text-color)] p-2 md:px-4 md:mb-3 rounded-md transition-all duration-200 hover:bg-[var(--modal-button-hover-bg-color)] cursor-pointer md:text-base text-xs;
@@ -48,7 +48,7 @@
     @apply w-full h-[90%] max-h-[90%] ;
   }
   .gastosTablePlusForm {
-    @apply h-[45%] max-h-[45%];
+    @apply h-[45%] max-h-[45%] lg:h-[60%] lg:max-h-[60%] ;
   }
   .gastosTable {
     @apply h-full overflow-auto relative;
