@@ -347,7 +347,7 @@ export default function GestorProductos({ type }) {
   const popupProducto = (
     <Modal ref={productoDialogRef}>
       <h2 className="modalTitulo">Añadir producto</h2>
-      <form>
+      <form className="modalSection">
         <Select
           options={productOptions}
           onChange={setSelectedProduct}
@@ -362,11 +362,9 @@ export default function GestorProductos({ type }) {
           className="modalInput"
           ref={amountRef}
         />
-        <div className="flex justify-center">
-          <button type="submit" className="modalBoton" onClick={modalSubmit}>
-            Crear
-          </button>
-        </div>
+        <button type="submit" className="modalBoton" onClick={modalSubmit}>
+          Crear
+        </button>
       </form>
     </Modal>
   );
@@ -377,7 +375,7 @@ export default function GestorProductos({ type }) {
       <ListaEtiquetas tipo="Product" />
       <div className={type === "lista-compra" ? "listaCompra" : "despensa"}>
         {Array.isArray(items) && items.length === 0 && (
-          <div className="text-center">
+          <div style={{ textAlign: "center" }}>
             No hay productos en la{" "}
             {type === "lista-compra" ? "lista de compra" : "despensa"}
           </div>
@@ -388,7 +386,10 @@ export default function GestorProductos({ type }) {
           }}
         >
           <FaArrowAltCircleUp
-            className={`iconoScrollTop ${prodInView.first ? "hidden" : ""}`}
+            className={`iconoScrollTop `}
+            style={{
+              display: prodInView.first ? "none" : "block",
+            }}
           />
         </span>
         <DndContext
@@ -491,7 +492,10 @@ export default function GestorProductos({ type }) {
           }}
         >
           <FaArrowAltCircleDown
-            className={`iconoScrollBottom ${prodInView.last ? "hidden" : ""}`}
+            className={`iconoScrollBottom `}
+            style={{
+              display: prodInView.last ? "none" : "block",
+            }}
           />
         </span>
       </div>

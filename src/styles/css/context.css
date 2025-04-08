@@ -1,25 +1,51 @@
 @import '../global/variables.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.customContextMenu,
+.customContextMenu > ul > li > ul {
+  width: 8rem;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--context-bg-color);
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
 
-@layer components {
-  /* ********************* */
-  /* CONTEXT */
-  /* ********************* */
+.customContextMenu li:not(:last-child) {
+  cursor: pointer;
+  height: auto;
+  border-bottom: 1px solid var(--border-color);
+  transition: all 0.2s;
+}
 
-  .customContextMenu,
-  .customContextMenu>ul>li>ul {
-    @apply w-32 p-0 m-0 border border-[var(--border-color)] rounded-lg shadow-lg bg-[var(--context-bg-color)] text-xs transition-all duration-200;
-  }
-  .customContextMenu li:not(:last-child) {
-    @apply cursor-pointer h-auto border-b border-[var(--border-color)] transition-all duration-200 hover:bg-[var(--context-hover-bg-color)];
+.customContextMenu li:not(:last-child):hover {
+  background-color: var(--context-hover-bg-color);
+}
+
+.customContextMenu a {
+  padding: 0.5rem;
+  padding-top: 0.75rem /* 12px */;
+  padding-bottom: 0.75rem
+}
+
+.customContextMenuIcon {
+  margin-inline-end: 0.5rem;
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.sinContenido {
+  font-size: 0.875rem;
+  color: var(--context-no-content-bg-color);
+}
+
+@media (max-width: 768px) {
+  .customContextMenu {
+    width: 6rem;
   }
   .customContextMenu a {
-    @apply p-2 py-3;
-  }
-  .sinContenido {
-    @apply text-sm text-[var(--context-no-content-bg-color)];
+    padding: 0.25rem 0.5rem;
   }
 }

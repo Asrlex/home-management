@@ -1,14 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react';
-import CartButton from "../generic/CartButton";
+import React, { useState, useEffect, useRef } from "react";
 import { RiDeleteBinLine, RiSubtractLine, RiAddLine } from "react-icons/ri";
 
-export default function ContadorProducto({ producto, handleEliminar, handleAmount, handleMover, icono }) {
-  const [inputValue, setInputValue] = useState(producto.shoppingListProductAmount ? producto.shoppingListProductAmount : producto.stockProductAmount);
+export default function ContadorProducto({
+  producto,
+  handleEliminar,
+  handleAmount,
+  handleMover,
+  icono,
+}) {
+  const [inputValue, setInputValue] = useState(
+    producto.shoppingListProductAmount
+      ? producto.shoppingListProductAmount
+      : producto.stockProductAmount
+  );
   const isMounted = useRef(false);
   const previousValue = useRef(inputValue);
-  const amount = producto.shoppingListProductAmount ? producto.shoppingListProductAmount : producto.stockProductAmount;
-  const id = producto.shoppingListProductID ? producto.shoppingListProductID : producto.stockProductID;
-  const fontSize = amount > 9999 ? '8px' : amount > 999 ? '9px' : amount > 99 ? '11px' : '14px';
+  const amount = producto.shoppingListProductAmount
+    ? producto.shoppingListProductAmount
+    : producto.stockProductAmount;
+  const id = producto.shoppingListProductID
+    ? producto.shoppingListProductID
+    : producto.stockProductID;
+  const fontSize =
+    amount > 9999
+      ? "8px"
+      : amount > 999
+      ? "9px"
+      : amount > 99
+      ? "11px"
+      : "14px";
 
   useEffect(() => {
     if (isMounted.current) {
@@ -49,13 +69,13 @@ export default function ContadorProducto({ producto, handleEliminar, handleAmoun
 
   return (
     <div className="contador" data-no-dnd="true">
-      <CartButton onClick={handleDecrement}>
+      <button onClick={handleDecrement} className="botonContador">
         {amount === 1 ? (
-          <RiDeleteBinLine className="botonContador botonRemove" />
+          <RiDeleteBinLine className="botonContadorIcono botonRemoveIcono" />
         ) : (
-          <RiSubtractLine className="botonContador botonRemove" />
+          <RiSubtractLine className="botonContadorIcono botonRemoveIcono" />
         )}
-      </CartButton>
+      </button>
       <div>
         <input
           className="amount"
@@ -65,12 +85,12 @@ export default function ContadorProducto({ producto, handleEliminar, handleAmoun
           onChange={(e) => setInputValue(e.target.value)}
         />
       </div>
-      <CartButton onClick={handleIncrement}>
-        <RiAddLine className="botonContador botonAdd" />
-      </CartButton>
-      <CartButton onClick={() => handleMover(id)}>
+      <button onClick={handleIncrement} className="botonContador">
+        <RiAddLine className="botonContadorIcono botonAdd" />
+      </button>
+      <button onClick={() => handleMover(id)} className="botonContador">
         {icono}
-      </CartButton>
+      </button>
     </div>
   );
 }

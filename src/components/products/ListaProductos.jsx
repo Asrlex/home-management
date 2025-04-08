@@ -91,7 +91,7 @@ const ListaProductos = () => {
     <Modal ref={productoDialogRef}>
       <h2 className="modalTitulo">Crear producto</h2>
       <form>
-        <div className="mb-3">
+        <div style={{ marginBottom: "0.75rem" }}>
           <input
             className="modalInput"
             id="titulo"
@@ -99,7 +99,7 @@ const ListaProductos = () => {
             placeholder="Nombre"
           />
         </div>
-        <div className="mb-3">
+        <div style={{ marginBottom: "0.75rem" }}>
           <input
             className="modalInput"
             id="unidad"
@@ -107,7 +107,7 @@ const ListaProductos = () => {
             placeholder="Unidad"
           />
         </div>
-        <div className="flex justify-center">
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <button
             type="submit"
             className="modalBoton"

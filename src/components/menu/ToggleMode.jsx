@@ -17,7 +17,7 @@ const ToggleMode = () => {
   };
 
   return (
-    <button onClick={handleClick}>
+    <button onClick={handleClick} className="botonContador">
       {theme === "dark" ? (
         <FaMoon className={`toggleModeDark ${animate ? "animate" : ""}`} />
       ) : (

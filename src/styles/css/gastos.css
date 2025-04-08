@@ -1,74 +1,228 @@
 @import '../global/variables.css';
 @import '../global/animations.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ********************* */
+/* GASTOS */
+/* ********************* */
+.gastos {
+  height: 100%;
+  max-height: 100%;
+  overflow: auto;
+  position: relative;
+}
 
-@layer components {
-  /* ********************* */
-  /* GASTOS */
-  /* ********************* */
-  .gastos {
-    @apply h-full max-h-full overflow-auto relative;
-  }
+.gastosForm {
+  opacity: 1;
+  height: auto;
+  margin: 0 0 1rem 0;
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  background-color: var(--modal-bg-color);
+  transition: all 0.2s;
+  animation: appear 0.2s ease-in-out;
+}
+
+@media (min-width: 768px) {
   .gastosForm {
-    @apply opacity-100 h-auto md:m-5 mb-3 transition-all duration-200 border border-[var(--border-color)] rounded-md bg-[var(--modal-bg-color)] p-2 sm:mt-5 mt-2;
-    animation: appear .2s ease-in-out;
+    margin: 1.25rem;
   }
-  .gastosFormHidden {
-    @apply mt-0 opacity-0 h-0 overflow-hidden transition-all duration-200;
-    animation: disappear .2s ease-in-out;
-  }
+}
+
+.gastosFormHidden {
+  margin-top: 0;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.2s;
+  animation: disappear 0.2s ease-in-out;
+}
+
+.gastosFormTitle {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 768px) {
   .gastosFormTitle {
-    @apply md:text-lg text-base font-bold mb-3;
+    font-size: 1.125rem;
   }
-  .gastosFormForm {
-    @apply flex flex-col justify-between items-center gap-2;
-  }
+}
+
+.gastosFormForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gastosFormInputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+}
+
+@media (min-width: 768px) {
   .gastosFormInputs {
-    @apply flex md:gap-2 items-center;
+    gap: 1rem;
   }
-  .gastosFormInputs {
-    @apply flex flex-wrap gap-2 md:gap-4 align-middle items-center justify-center w-[90%];
-  }
+}
+
+.gastosFormInputSmall {
+  width: 100%;
+  max-height: 2rem;
+  padding: 0.25rem;
+  margin-bottom: 0.25rem;
+  background-color: var(--modal-input-bg-color);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  color: var(--modal-input-text-color);
+  transition: all 0.2s;
+}
+
+@media (min-width: 768px) {
   .gastosFormInputSmall {
-    @apply w-full lg:w-2/5 md:max-h-10 max-h-8 md:p-2 p-1 md:mb-3 mb-1 bg-[var(--modal-input-bg-color)] text-xs  md:text-sm lg:text-base border border-[var(--border-color)] rounded-md text-[var(--modal-input-text-color)] transition-all duration-200;
+    max-height: 2.5rem;
+    padding: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
+}
+
+@media (min-width: 1024px) {
+  .gastosFormInputSmall {
+    width: 40%;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.gastosFormSelect {
+  width: 100%;
+  padding: 0;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  color: var(--text-color);
+  transition: all 0.2s;
+}
+
+@media (min-width: 768px) {
   .gastosFormSelect {
-    @apply w-full lg:w-2/5 md:p-2 p-0 md:mb-3 text-sm border border-[var(--border-color)] rounded-md text-[var(--text-color)] transition-all duration-200;
+    padding: 0.5rem;
   }
+}
+
+@media (min-width: 1024px) {
+  .gastosFormSelect {
+    width: 40%;
+  }
+}
+
+.gastosFormBoton {
+  background-color: var(--modal-button-bg-color);
+  color: var(--modal-button-text-color);
+  padding: 0.5rem;
+  margin-bottom: 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
   .gastosFormBoton {
-    @apply bg-[var(--modal-button-bg-color)] text-[var(--modal-button-text-color)] p-2 md:px-4 md:mb-3 rounded-md transition-all duration-200 hover:bg-[var(--modal-button-hover-bg-color)] cursor-pointer md:text-base text-xs;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
-  .gastosFormBoton:hover {
-    @apply bg-[var(--modal-button-hover-bg-color)] text-[var(--modal-button-text-color)];
-  } 
-  .gastosTableDiv {
-    @apply w-full h-[90%] max-h-[90%] ;
-  }
+}
+
+.gastosFormBoton:hover {
+  background-color: var(--modal-button-hover-bg-color);
+  color: var(--modal-button-text-color);
+}
+
+.gastosTableDiv {
+  width: 100%;
+  height: 90%;
+  max-height: 90%;
+}
+
+.gastosTablePlusForm {
+  height: 45%;
+  max-height: 45%;
+}
+
+@media (min-width: 1024px) {
   .gastosTablePlusForm {
-    @apply h-[45%] max-h-[45%] lg:h-[60%] lg:max-h-[60%] ;
+    height: 60%;
+    max-height: 60%;
   }
-  .gastosTable {
-    @apply h-full overflow-auto relative;
-  }
-  .gastosTable::-webkit-scrollbar {
-    @apply w-1 h-2;
-  }
-  .gastosTable::-webkit-scrollbar-thumb {
-    @apply bg-[var(--scrollbar-thumb-color)] rounded-full;
-  }
-  .gastosTable::-webkit-scrollbar-thumb:hover {
-    @apply bg-[var(--scrollbar-thumb-hover-color)] rounded-full;
-  }
-  .gastosTable::-webkit-scrollbar-track {
-    @apply bg-[var(--scrollbar-track-color)] rounded-full;
-  }
-  .tableHeaderText {
-    @apply inline-flex items-center gap-2;
-  }
+}
+
+.gastosTable {
+  height: 100%;
+  overflow: auto;
+  position: relative;
+}
+
+.gastosTable::-webkit-scrollbar {
+  width: 0.25rem;
+  height: 0.5rem;
+}
+
+.gastosTable::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-color);
+  border-radius: 9999px;
+}
+
+.gastosTable::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover-color);
+}
+
+.gastosTable::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-color);
+  border-radius: 9999px;
+}
+
+.tableHeaderText {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tableHeaderIcon {
+  width: 0.5rem;
+  height: 0.5rem;
+  color: var(--text-color);
+  transition: all 0.2s;
+}
+
+@media (min-width: 768px) {
   .tableHeaderIcon {
-    @apply md:w-3 md:h-3 h-2 w-2 text-[var(--text-color)] transition-all duration-200;
+    width: 0.75rem;
+    height: 0.75rem;
   }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

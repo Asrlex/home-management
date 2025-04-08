@@ -30,17 +30,17 @@ const DespensaItem = forwardRef(
     const contextModel = [
       {
         label: "Eliminar",
-        icon: <RiDeleteBinLine className="me-2 w-3 h-3" />,
+        icon: <RiDeleteBinLine className="customContextMenuIcon" />,
         command: () => handleEliminar(producto.stockProductID),
       },
       {
         label: "Añadir a la lista",
-        icon: <CiBoxList className="me-2 w-3 h-3" />,
+        icon: <CiBoxList className="customContextMenuIcon" />,
         command: () => handleAddListaCompra(producto.stockProductID),
       },
       {
         label: "Etiquetas",
-        icon: <FaTag className="me-2 w-3 h-3" />,
+        icon: <FaTag className="customContextMenuIcon" />,
         items: etiquetas
           .filter((etiqueta) => etiqueta.tagType === "Product")
           .map((etiqueta) => ({
@@ -49,7 +49,7 @@ const DespensaItem = forwardRef(
             )
               ? `${etiqueta.tagName} ✅`
               : `${etiqueta.tagName}`,
-            icon: <FaTag className="me-2 w-3 h-3" />,
+            icon: <FaTag className="customContextMenuIcon" />,
             command: () => addOrRemoveTag(etiqueta.tagID, producto),
           })),
       },
@@ -88,7 +88,7 @@ const DespensaItem = forwardRef(
                 handleEliminar={handleEliminar}
                 handleAmount={handleAmount}
                 handleMover={handleMover}
-                icono={<CiBoxList className="botonContador botonList" />}
+                icono={<CiBoxList className="botonContadorIcono botonList" />}
               />
             </div>
           </>

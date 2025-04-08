@@ -58,17 +58,17 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   const contextModel = [
     {
       label: "Eliminar",
-      icon: <RiDeleteBinLine className="me-2 w-3 h-3" />,
+      icon: <RiDeleteBinLine className="customContextMenuIcon" />,
       command: () => handleEliminar(receta.recipeID),
     },
     {
       label: "Editar",
-      icon: <FaTag className="me-2 w-3 h-3" />,
+      icon: <FaTag className="customContextMenuIcon" />,
       command: () => handleEditar(receta),
     },
     {
       label: "Etiquetas",
-      icon: <FaTag className="me-2 w-3 h-3" />,
+      icon: <FaTag className="customContextMenuIcon" />,
       items: etiquetas
         .filter((etiqueta) => etiqueta.tagType === "Recipe")
         .map((etiqueta) => ({
@@ -77,7 +77,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
           )
             ? `${etiqueta.tagName} ✅`
             : `${etiqueta.tagName}`,
-          icon: <FaTag className="me-2 w-3 h-3" />,
+          icon: <FaTag className="customContextMenuIcon" />,
           command: () => addOrRemoveEtiqueta(etiqueta.tagID, receta.recipeID),
         })),
     },
@@ -138,9 +138,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
           <span className="recetaName">{receta.recipeName}</span>
         </AccordionSummary>
         <AccordionDetails sx={{ padding: "0.5rem" }} component={"div"}>
-          <div className={`recetaDesc`}>
-            {receta.recipeDescription}
-          </div>
+          <div className={`recetaDesc`}>{receta.recipeDescription}</div>
           <div className="recetaTags">
             {receta.tags.map((tag) => (
               <Chip

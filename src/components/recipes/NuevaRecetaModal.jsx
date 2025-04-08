@@ -295,7 +295,7 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
       </div>
       <hr className="modalDivider" />
       <div className="modalSeparator">
-        <div className="flex justify-center gap-4">
+        <div style={{ display: "flex", justifyContent: "center", gap }}>
           <button className="modalBoton" onClick={handleCreateReceta}>
             {receta ? "Actualizar Receta" : "Crear Receta"}
           </button>

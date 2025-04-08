@@ -20,17 +20,17 @@ const ListaCompraItem = forwardRef(
     const contextModel = [
       {
         label: "Eliminar",
-        icon: <RiDeleteBinLine className="me-2 w-3 h-3" />,
+        icon: <RiDeleteBinLine className="customContextMenuIcon" />,
         command: () => handleEliminar(producto.product.productID),
       },
       {
         label: "Comprar",
-        icon: <RiShoppingCartLine className="me-2 w-3 h-3" />,
+        icon: <RiShoppingCartLine className="customContextMenuIcon" />,
         command: () => handleComprar(producto.product.productID),
       },
       {
         label: "Etiquetas",
-        icon: <FaTag className="me-2 w-3 h-3" />,
+        icon: <FaTag className="customContextMenuIcon" />,
         items: etiquetas
           .filter((etiqueta) => etiqueta.tagType === "Product")
           .map((etiqueta) => ({
@@ -39,7 +39,7 @@ const ListaCompraItem = forwardRef(
             )
               ? `${etiqueta.tagName} ✅`
               : `${etiqueta.tagName}`,
-            icon: <FaTag className="me-2 w-3 h-3" />,
+            icon: <FaTag className="customContextMenuIcon" />,
             command: () => addOrRemoveTag(etiqueta.tagID, producto),
           })),
       },
@@ -74,7 +74,7 @@ const ListaCompraItem = forwardRef(
                 handleEliminar={handleEliminar}
                 handleAmount={handleAmount}
                 handleMover={handleMover}
-                icono={<RiShoppingCartLine className="botonContador" />}
+                icono={<RiShoppingCartLine className="botonContadorIcono" />}
               />
             </div>
           </>

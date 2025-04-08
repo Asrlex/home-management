@@ -97,13 +97,21 @@ export default function Tareas() {
 
     if (isEditMode) {
       toast.promise(
-        axiosRequest("PUT", `${api_config.tareas.base}/${currentTaskId}`, {}, {
-          taskID: currentTaskId,
-          taskTitle,
-          taskDescription,
-        })
+        axiosRequest(
+          "PUT",
+          `${api_config.tareas.base}/${currentTaskId}`,
+          {},
+          {
+            taskID: currentTaskId,
+            taskTitle,
+            taskDescription,
+          }
+        )
           .then((response) => {
-            setTareas([...tareas.filter((t) => t.taskID !== currentTaskId), response]);
+            setTareas([
+              ...tareas.filter((t) => t.taskID !== currentTaskId),
+              response,
+            ]);
             dialog.current.close();
             tituloRef.current.value = "";
             descripcionRef.current.value = "";
@@ -154,7 +162,7 @@ export default function Tareas() {
         {isEditMode ? "Editar tarea" : "Crear tarea"}
       </h2>
       <form>
-        <div className="mb-3">
+        <div style={{ marginBottom: "0.75rem" }}>
           <input
             className="modalInput"
             id="titulo"
@@ -162,7 +170,7 @@ export default function Tareas() {
             placeholder="Título"
           />
         </div>
-        <div className="mb-3">
+        <div style={{ marginBottom: "0.75rem" }}>
           <textarea
             className="modalInput modalTextArea"
             id="descripcion"
@@ -170,7 +178,7 @@ export default function Tareas() {
             placeholder="Descripción"
           />
         </div>
-        <div className="flex justify-center">
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <button type="submit" className="modalBoton" onClick={modalSubmit}>
             {isEditMode ? "Actualizar" : "Crear"}
           </button>

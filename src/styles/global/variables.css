@@ -13,6 +13,8 @@
   /* emerald-400 */
   --barra-item-active-color: rgb(16 185 129);
   /* emerald-500 */
+  --barra-auth-item-border-color: rgb(255 255 255);
+  /* white */
   --title-text-color: rgb(6 78 59);
   /* emerald-900 */
   --section-bg-color: rgb(229 231 235);
@@ -140,6 +142,8 @@
   /* gray-600 */
   --barra-item-active-color: rgb(107 114 128);
   /* gray-500 */
+  --barra-auth-item-border-color: rgb(255 255 255);
+  /* white */
   --title-text-color: rgb(243 244 246);
   /* gray-100 */
   --section-bg-color: rgb(31 41 55);
@@ -247,4 +251,11 @@
   /* gray-600 */
   --form-select-options-selected-bg-color: rgb(107 114 128);
   /* gray-500 */
+}
+
+.light,
+.dark {
+  --barra-auth-item-bg-color: rgb(59 130 246);
+  --barra-auth-item-text-color: rgb(255 255 255);
+  --barra-auth-item-hover-bg-color: rgb(37 99 235);
 }

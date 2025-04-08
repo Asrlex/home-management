@@ -4,52 +4,206 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  /* ********************* */
-  /* BARRA LATERAL */
-  /* ********************* */
+/* ********************* */
+/* BARRA LATERAL */
+/* ********************* */
+.barraLateral {
+  background-color: var(--barra-bg-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  box-shadow: rgba(30, 58, 138, 0.5) 3px 0px 3px 0px;
+  transition: all 0.2s;
+  z-index: 50;
+}
+
+@media (min-width: 768px) {
   .barraLateral {
-    @apply bg-[var(--barra-bg-color)] fixed top-0 left-0
-    md:w-1/4 xl:w-80 h-screen shadow-[rgba(30,58,138,0.5)_3px_0px_3px_0px]
-    transition-all duration-200 z-50;
+    width: 25%;
   }
+}
+
+.tituloBarraLateral {
+  display: flex;
+  justify-content: center;
+  color: var(--barra-text-color);
+  font-size: 1.875rem;
+  font-weight: bold;
+  padding: 1rem;
+  margin: 1.5rem 0 0.5rem;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
   .tituloBarraLateral {
-    @apply flex justify-center text-[var(--barra-text-color)] text-3xl font-bold p-4 my-6 mt-2 md:mt-6 cursor-pointer;
+    margin-top: 1.5rem;
   }
+}
+
+.logoBarraLateral {
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: all 0.2s;
+}
+
+@media (min-width: 768px) {
   .logoBarraLateral {
-    @apply md:mr-2 md:mt-1 w-6 h-8 transition-all duration-200;
+    margin: 0.65rem 0.5rem 0 0;
   }
+}
+
+.iconoBarraLateral {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: all 0.2s;
+}
+
+@media (min-width: 768px) {
   .iconoBarraLateral {
-    @apply md:mr-4 md:mt-1 my-1 w-5 h-5 transition-all duration-200;
+    margin: 0.25rem 1rem 0 0;
   }
+}
+
+.itemBarraLateral {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--barra-text-color);
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
   .itemBarraLateral {
-    @apply flex justify-center md:justify-start text-[var(--barra-text-color)] p-2 m-2 rounded-md transition-all duration-200 hover:bg-[var(--barra-item-hover-color)] hover:shadow-md hover:scale-105 cursor-pointer;
+    justify-content: flex-start;
   }
-  .itemBarraLateralActive {
-    @apply bg-[var(--barra-item-active-color)] shadow-md scale-100;
+}
+
+.itemBarraLateral:hover {
+  background-color: var(--barra-item-hover-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.itemBarraLateralActive {
+  background-color: var(--barra-item-active-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: scale(1);
+}
+
+.itemBarraLateralText {
+  display: flex;
+  align-items: center;
+}
+
+.itemBarraLateralTextHidden {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .itemBarraLateralTextHidden {
+    display: flex;
   }
-  .toggleMode {
-    @apply absolute bottom-0 md:left-3 p-2 my-2 text-[var(--barra-text-color)] text-xs flex items-center justify-between gap-3;
-  }
-  .toggleModeLight,
-  .toggleModeDark {
-    @apply w-6 h-6 m-2 rounded-md transition-all duration-200 hover:text-[var(--barra-item-hover-color)] hover:shadow-md;
-  }
-  .toggleModeLight.animate,
-  .toggleModeDark.animate {
-    animation: spinFade 0.3s ease-in-out;
-  }
-  .authButtonContainer {
-    @apply flex gap-4 justify-center items-center my-2 transition-all duration-200 border-s-2 border-[var(--border-color)] ps-5;
-  }
-  .authPill,
+}
+
+.barraLateralSeparador {
+  width: 90%;
+  margin: auto;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.toggleMode {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  color: var(--barra-text-color);
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.toggleModeLight,
+.toggleModeDark {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.toggleModeLight:hover,
+.toggleModeDark:hover {
+  color: var(--barra-item-hover-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.toggleModeLight.animate,
+.toggleModeDark.animate {
+  animation: spinFade 0.3s ease-in-out;
+}
+
+.authButtonContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem 0;
+  transition: all 0.2s;
+  border-left: 2px solid var(--barra-auth-item-border-color);
+  padding-left: 1.25rem;
+}
+
+.authPill,
+.authButtonCompact {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: var(--barra-auth-item-bg-color);
+  color: var(--barra-auth-item-text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.authPill:hover,
+.authButtonCompact:hover {
+  background-color: var(--barra-auth-item-hover-bg-color);
+}
+
+.authButton {
+  background-color: var(--barra-auth-item-bg-color);
+  color: var(--barra-auth-item-text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.authButton:hover {
+  background-color: var(--barra-auth-item-hover-bg-color);
+}
+
+.authButtonCompact {
+  position: absolute;
+  bottom: 3.5rem;
+  left: 0.75rem;
+}
+
+@media (min-width: 768px) {
   .authButtonCompact {
-    @apply w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold uppercase;
-  }
-  .authButton {
-    @apply bg-blue-500 text-white py-2 px-4 rounded-md transition-all duration-200 hover:bg-blue-600 cursor-pointer;
-  }
-  .authButtonCompact {
-    @apply absolute bottom-14 left-3 md:bottom-auto;
+    position: static;
   }
 }

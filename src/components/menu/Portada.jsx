@@ -16,14 +16,14 @@ const Portada = () => {
   const selectedIcon = icons[settings?.icon] || summerIcon;
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="portada">
       <img
         src={selectedIcon}
         alt="Logo"
-        className="w-64 h-64 mb-4 animate-bounce image-pixelated"
+        className="portadaLogo"
       />
-      <h1 className="text-3xl font-bold text-[var(--title-text-color)] mb-2">Bienvenido a Casa</h1>
-      <p className="text-gray-600">Tu asistente de hogar</p>
+      <h1 className="portadaTitulo">Bienvenido a Casa</h1>
+      <p className="portadaSubtitulo">Tu asistente de hogar</p>
     </div>
   );
 };

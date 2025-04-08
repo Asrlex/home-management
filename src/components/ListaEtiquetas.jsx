@@ -42,7 +42,7 @@ export default function ListaEtiquetas({ tipo }) {
       <h2 className='modalTitulo'>
         Añadir etiqueta
       </h2>
-      <form>
+      <form className="modalSection">
         <input
           type='text'
           placeholder='Nombre'
@@ -50,7 +50,6 @@ export default function ListaEtiquetas({ tipo }) {
           ref={nombreEtiquetaRef}
           autoFocus={true}
         />
-        <div className="flex justify-center">
           <button
             type='submit'
             className='modalBoton'
@@ -58,7 +57,6 @@ export default function ListaEtiquetas({ tipo }) {
           >
             Crear
           </button>
-        </div>
       </form>
     </Modal>;
 

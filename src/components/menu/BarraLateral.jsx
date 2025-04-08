@@ -1,19 +1,24 @@
-import BarraLateralItem from './BarraLateralItem';
-import AuthButton from '../users/AuthButton';
-import { FaHome, FaCheckSquare, FaShoppingCart, FaUtensils, FaDollarSign, FaCog } from 'react-icons/fa';
+import BarraLateralItem from "./BarraLateralItem";
+import AuthButton from "../users/AuthButton";
+import {
+  FaHome,
+  FaCheckSquare,
+  FaShoppingCart,
+  FaUtensils,
+  FaDollarSign,
+  FaCog,
+} from "react-icons/fa";
 import { PiCookingPotFill } from "react-icons/pi";
 import { MdAddHome } from "react-icons/md";
 import { FaBoxes } from "react-icons/fa";
-import ToggleMode from './ToggleMode';
+import ToggleMode from "./ToggleMode";
 
 const BarraLateral = ({ onSelectSection, section }) => {
   return (
     <div className="barraLateral">
       <div className="tituloBarraLateral" onClick={() => onSelectSection("")}>
         <FaHome className="logoBarraLateral" />
-        <div className="hidden md:block ">
-          Gestión
-        </div>
+        <div className="itemBarraLateralTextHidden">Gestión</div>
       </div>
       <ul>
         <BarraLateralItem
@@ -58,7 +63,7 @@ const BarraLateral = ({ onSelectSection, section }) => {
           selectSection={onSelectSection}
           section={section}
         />
-        <hr className='w-[90%] m-auto my-3' />
+        <hr className="barraLateralSeparador" />
         <BarraLateralItem
           texto="Ajustes"
           icono={<FaCog className="iconoBarraLateral" />}
@@ -67,11 +72,11 @@ const BarraLateral = ({ onSelectSection, section }) => {
         />
       </ul>
       <div className="toggleMode">
-        <ToggleMode/>
-        <AuthButton/>
+        <ToggleMode />
+        <AuthButton />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default BarraLateral;

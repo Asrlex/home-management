@@ -57,7 +57,7 @@ function App() {
   return (
     <>
       <PrimeReactProvider>
-        <main className="flex">
+        <main className="app">
           <BarraLateral
             onSelectSection={handleSectionChange}
             section={selectedSection}

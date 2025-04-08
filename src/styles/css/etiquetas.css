@@ -1,53 +1,88 @@
 @import '../global/variables.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer components {
-  /* ********************* */
-  /* ETIQUETAS */
-  /* ********************* */
-  .etiquetas {
-    @apply flex flex-wrap gap-2 my-2 py-2 z-50 overflow-auto sm:scrollbar-hide bg-[var(--section-bg-color)]
-    bg-opacity-100 top-16 md:top-[4.2rem] items-center transition-all duration-200;
-  }
-  .etiqueta {
-    @apply p-1 px-2 bg-[var(--tag-bg-color)] text-[var(--tag-text-color)] text-[.65rem] border border-[var(--border-color)] rounded-xl cursor-pointer;
-  }
-  .etiqueta:hover {
-    @apply bg-[var(--tag-hover-bg-color)] shadow-md transition-all duration-200;
-  }
-  .etiquetaSeleccionada {
-    @apply font-bold bg-[var(--tag-selected-bg-color)] text-[var(--tag-selected-text-color)] text-[.65rem] border border-[var(--border-color)] rounded-xl cursor-pointer;
-  }
-  .etiquetaSeleccionada:hover {
-    @apply bg-[var(--tag-selected-hover-bg-color)] shadow-md transition-all duration-200;
-  }
-  .etiquetaAdd {
-    @apply p-1 px-2 bg-[var(--tag-selected-hover-bg-color)] text-[var(--tag-selected-text-color)] text-[.65rem] border border-[var(--border-color)] rounded-xl cursor-pointer;
-  }
+/* ********************* */
+/* ETIQUETAS */
+/* ********************* */
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+  padding: 0.5rem 0;
+  z-index: 50;
+  overflow: auto;
+  background-color: var(--section-bg-color);
+  position: relative;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
 }
 
-@layer utilities {
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
+.etiqueta {
+  padding: 0.25rem 0.5rem;
+  background-color: var(--tag-bg-color);
+  color: var(--tag-text-color);
+  font-size: 0.65rem;
+  line-height: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
 
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-  }
+.etiqueta:hover {
+  background-color: var(--tag-hover-bg-color);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
 
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+.etiquetaSeleccionada {
+  font-weight: bold;
+  background-color: var(--tag-selected-bg-color);
+  color: var(--tag-selected-text-color);
+  font-size: 0.65rem;
+  line-height: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
 
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
+.etiquetaSeleccionada:hover {
+  background-color: var(--tag-selected-hover-bg-color);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.etiquetaAdd {
+  padding: 0.25rem 0.5rem;
+  background-color: var(--tag-selected-hover-bg-color);
+  color: var(--tag-selected-text-color);
+  font-size: 0.65rem;
+  line-height: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.etiquetaAddIcono {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Utilities */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }

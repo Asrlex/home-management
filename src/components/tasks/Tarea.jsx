@@ -14,14 +14,14 @@ export default function Tarea({
   handleChange,
   expanded,
 }) {
-
   return (
-    <Accordion key={tarea.taskID}
+    <Accordion
+      key={tarea.taskID}
       expanded={expanded === tarea.taskID}
-      onChange={handleChange(tarea.taskID)} 
-      slotProps={{ heading: { component: 'h4' } }}
-      classes={{ root: `tarea ${tarea.taskCompleted ? 'opacity-30' : ''}`}}
-      sx={{ backgroundColor: 'var(--item-bg-color)' }}
+      onChange={handleChange(tarea.taskID)}
+      slotProps={{ heading: { component: "h4" } }}
+      classes={{ root: `tarea ${tarea.taskCompleted ? "opacity-30" : ""}` }}
+      sx={{ backgroundColor: "var(--item-bg-color)" }}
     >
       <AccordionSummary
         className="tituloTarea"
@@ -29,7 +29,10 @@ export default function Tarea({
         aria-controls={`${tarea.taskID}-content`}
         id={`${tarea.taskID}-header`}
       >
-        <Typography component="span" classes={{ root: 'flex items-center' }}>
+        <Typography
+          component="span"
+          sx={{ display: "flex", alignItems: "center" }}
+        >
           <button className="botonTarea">
             {tarea.taskCompleted ? (
               <ImCheckboxChecked
@@ -49,15 +52,13 @@ export default function Tarea({
               />
             )}
           </button>
-          <span className="tituloTarea">
-            {tarea.taskTitle}
-          </span>
+          <span className="tituloTarea">{tarea.taskTitle}</span>
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
         <div className={`descTarea`}>
           {tarea.taskDescription}
-          <span className="ps-4">
+          <span style={{ paddingInlineStart: "1rem" }}>
             <button className="botonTarea">
               <AiOutlineEdit
                 className="icono"
