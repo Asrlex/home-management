@@ -29,17 +29,17 @@
   .receta {
     @apply justify-between bg-[var(--item-bg-color)] shadow-md rounded-md p-2 border border-transparent transition-all duration-200;
   }
-  .tituloReceta {
-    @apply border-b-2 border-[var(--border-color)];
-  }
   .recetaName {
-    @apply text-[var(--recipe-title-color)] text-xl font-bold;
+    @apply text-[var(--recipe-title-color)] md:text-xl  font-bold;
   }
   .recetaDesc {
     @apply text-[var(--item-fechacompra-text-color)] cursor-default mb-1 text-xs md:text-base;
   }
+  .recetaStep {
+    @apply mb-1 md:mb-2;
+  }
   .tagPill {
-    @apply md:me-2 md:my-2 me-1 my-1 p-0 text-xs;
+    @apply md:me-2 md:my-2 me-1 my-1 text-xs;
   }
   .tagPill:hover {
     @apply bg-[var(--tag-hover-bg-color)] shadow-md transition-all duration-200 cursor-default;

@@ -64,7 +64,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
     {
       label: "Editar",
       icon: <FaTag className="me-2 w-3 h-3" />,
-      command: () => handleEditar(fullReceta),
+      command: () => handleEditar(receta),
     },
     {
       label: "Etiquetas",
@@ -178,7 +178,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
               {receta.steps
                 .sort((a, b) => a.recipeStepOrder - b.recipeStepOrder)
                 .map((paso) => (
-                  <div key={paso.recipeStepID}>
+                  <div key={paso.recipeStepID} className="recetaStep">
                     <strong>
                       {paso.recipeStepOrder}. {paso.recipeStepName}
                     </strong>

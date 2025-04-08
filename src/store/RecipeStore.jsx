@@ -23,6 +23,18 @@ const useRecetasStore = create((set) => ({
       console.error(error);
     }
   },
+  editarReceta: async (recetaID, receta) => {
+    try {
+      const response = await axiosRequest("PUT", `${api_config.recetas.base}/${recetaID}`, {}, receta);
+      set((state) => ({
+        recetas: state.recetas.map((receta) =>
+          receta.recipeID === recetaID ? response : receta
+        ),
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  },
   eliminarReceta: async (recetaID) => {
     try {
       await axiosRequest("DELETE", `${api_config.recetas.base}/${recetaID}`);

@@ -10,6 +10,7 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
   const products = useProductStore((state) => state.products);
   const fetchProducts = useProductStore((state) => state.fetchProducts);
   const crearReceta = useRecetasStore((state) => state.crearReceta);
+  const editarReceta = useRecetasStore((state) => state.editarReceta);
   const [ingredients, setIngredients] = useState([]);
   const [steps, setSteps] = useState([]);
   const [stepOrder, setStepOrder] = useState(1);
@@ -41,8 +42,11 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
 
   const addIngredient = () => {
     const newIngredient = {
-      recipeID: null,
-      productID: selectedProduct,
+      recipeID: receta ? receta.recipeID : null,
+      product: {
+        productID: selectedProduct.value,
+        productName: selectedProduct.label,
+      },
       recipeIngredientAmount: ingredientAmountRef.current.value,
       recipeIngredientUnit: ingredientUnitRef.current.value,
     };
@@ -76,7 +80,7 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
 
   const addStep = () => {
     const newStep = {
-      recipeID: null,
+      recipeID: receta ? receta.recipeID : null,
       recipeStepName: stepNameRef.current.value,
       recipeStepDescription: stepDescriptionRef.current.value,
       recipeStepOrder: stepOrder,
@@ -132,15 +136,37 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
   };
 
   const handleCreateReceta = () => {
-    crearReceta({
+    if (!recipeNameRef.current.value || !recipeDescriptionRef.current.value) {
+      toast.error("Por favor, completa todos los campos obligatorios.");
+      return;
+    }
+    if (ingredients.length === 0) {
+      toast.error("Por favor, añade al menos un ingrediente.");
+      return;
+    }
+    if (steps.length === 0) {
+      toast.error("Por favor, añade al menos un paso.");
+      return;
+    }
+    const newReceta = {
       recipeName: recipeNameRef.current.value,
       recipeDescription: recipeDescriptionRef.current.value,
       ingredients: ingredients,
       steps: steps,
-    });
+    };
+
+    if (receta) {
+      const updatedReceta = {
+        ...newReceta,
+        recipeID: receta.recipeID,
+      };
+      editarReceta(receta.recipeID, updatedReceta);
+    } else {
+      crearReceta(newReceta);
+    }
     limpiarCampos();
     toast.success("Receta creada con éxito");
-  }
+  };
 
   return (
     <>
@@ -200,12 +226,8 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
               {ingredients.map((ingredient, index) => (
                 <div key={index} className="modalListaItem">
                   <span>
-                    <strong>
-                      {receta
-                        ? ingredient.product.productName
-                        : ingredient.productID.label}
-                    </strong>
-                    : {ingredient.recipeIngredientAmount}{" "}
+                    <strong>{ingredient.product.productName}</strong>:{" "}
+                    {ingredient.recipeIngredientAmount}{" "}
                     {ingredient.recipeIngredientUnit}
                   </span>
                   <span className="modalListaItemButtons">
@@ -274,11 +296,8 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
       <hr className="modalDivider" />
       <div className="modalSeparator">
         <div className="flex justify-center gap-4">
-          <button
-            className="modalBoton"
-            onClick={handleCreateReceta}
-          >
-            Crear Receta
+          <button className="modalBoton" onClick={handleCreateReceta}>
+            {receta ? "Actualizar Receta" : "Crear Receta"}
           </button>
           <button className="modalBoton" onClick={limpiarCampos}>
             Cancelar
