@@ -336,10 +336,13 @@ export default function GestorProductos({ type }) {
   /**
    * Options for the Select component
    */
-  const productOptions = products.map((product) => ({
-    value: product.productID,
-    label: product.productName,
-  }));
+  const productOptions =
+  products
+    .sort((a, b) => a.productName.localeCompare(b.productName))
+    .map((product) => ({
+      value: product.productID,
+      label: product.productName,
+    }));
 
   /**
    * The modal to add a product
@@ -359,7 +362,7 @@ export default function GestorProductos({ type }) {
         <input
           type="number"
           placeholder="Cantidad"
-          className="modalInput"
+          className="modalInputSmall"
           ref={amountRef}
         />
         <button type="submit" className="modalBoton" onClick={modalSubmit}>

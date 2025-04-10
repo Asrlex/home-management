@@ -26,6 +26,8 @@ const ListaProductos = () => {
   );
   const fetchProducts = useProductStore((state) => state.fetchProducts);
   const [page, setPage] = useState(0);
+  const [nameError, setNameError] = useState(false);
+  const [unitError, setUnitError] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const productoDialogRef = useRef();
@@ -66,15 +68,29 @@ const ListaProductos = () => {
     e.preventDefault();
     const name = nameRef.current.value;
     const unit = unitRef.current.value;
-    if (!name || !unit) {
-      toast.error("Por favor, complete todos los campos");
-      return;
+    setNameError(false);
+    setUnitError(false);
+
+    let hasError = false;
+    if (!name) {
+      setNameError(true);
+      hasError = true;
     }
+    if (!unit) {
+      setUnitError(true);
+      hasError = true;
+    }
+    if (products.some((product) => product.productName === name)) {
+      setNameError(true);
+      hasError = true;
+    }
+
+    if (hasError) return;
     const newProduct = {
       productName: name,
       productUnit: unit,
     };
-    
+
     addProduct(newProduct)
       .then(() => {
         toast.success("Producto creado con éxito");
@@ -91,13 +107,33 @@ const ListaProductos = () => {
     <Modal ref={productoDialogRef}>
       <h2 className="modalTitulo">Crear producto</h2>
       <form>
-        <div style={{ marginBottom: "0.75rem" }}>
+        <div
+          style={{
+            marginBottom: "0.75rem",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <input
             className="modalInput"
             id="titulo"
             ref={nameRef}
             placeholder="Nombre"
+            style={{
+              borderColor: nameError ? "red" : "",
+              borderWidth: nameError ? "2px" : "",
+            }}
           />
+          {nameError && (
+            <span style={{ color: "red", fontSize: "0.8rem" }}>
+              {products.some(
+                (product) =>
+                  product.productName === nameRef.current.value.trim()
+              )
+                ? "El producto ya existe"
+                : "Este campo es obligatorio"}
+            </span>
+          )}
         </div>
         <div style={{ marginBottom: "0.75rem" }}>
           <input
@@ -125,10 +161,7 @@ const ListaProductos = () => {
       {popup}
       <ListaEtiquetas tipo="Product" />
       <div className="productsTable">
-        <TableContainer
-          component={Paper}
-          sx={TableStyles.table}
-        >
+        <TableContainer component={Paper} sx={TableStyles.table}>
           <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
               <TableRow>

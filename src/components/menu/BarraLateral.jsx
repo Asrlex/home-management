@@ -20,7 +20,7 @@ const BarraLateral = ({ onSelectSection, section }) => {
         <FaHome className="logoBarraLateral" />
         <div className="itemBarraLateralTextHidden">Gestión</div>
       </div>
-      <ul>
+      <ul className="barraLateralLista">
         <BarraLateralItem
           texto="Productos"
           icono={<FaBoxes className="iconoBarraLateral" />}

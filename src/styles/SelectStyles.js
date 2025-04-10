@@ -36,14 +36,17 @@ export const customStyles = {
   }),
   menu: (provided) => ({
     ...provided,
-    zIndex: 10500,
-    maxHeight: "350px",
+    zIndex: 100001,
     backgroundColor: "var(--modal-button-bg-color)",
     color: "var(--modal-button-text-color)",
     border: "1px solid var(--border-color)",
     "@media (max-width: 768px)": {
       padding: "4px",
     },
+  }),
+  menuPortal: (provided) => ({
+    ...provided,
+    zIndex: 100000,
   }),
   option: (provided, state) => ({
     ...provided,

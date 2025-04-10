@@ -41,6 +41,19 @@
   }
 }
 
+.barraLateralLista {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .barraLateralLista {
+    padding: 0.5rem;
+    margin-top: 2rem;
+  }
+}
+
 .logoBarraLateral {
   width: 1.5rem;
   height: 1.5rem;
@@ -102,6 +115,7 @@
 
 .itemBarraLateralTextHidden {
   display: none;
+  
 }
 
 @media (min-width: 768px) {

@@ -35,10 +35,13 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
     }
   }, [fetchProducts, receta]);
 
-  const productOptions = products.map((product) => ({
-    value: product.productID,
-    label: product.productName,
-  }));
+  const productOptions = 
+  products
+    .sort((a, b) => a.productName.localeCompare(b.productName))
+    .map((product) => ({
+      value: product.productID,
+      label: product.productName,
+    }));
 
   const addIngredient = () => {
     const newIngredient = {
@@ -295,7 +298,7 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
       </div>
       <hr className="modalDivider" />
       <div className="modalSeparator">
-        <div style={{ display: "flex", justifyContent: "center", gap }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
           <button className="modalBoton" onClick={handleCreateReceta}>
             {receta ? "Actualizar Receta" : "Crear Receta"}
           </button>
