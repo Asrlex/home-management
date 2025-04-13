@@ -30,15 +30,17 @@ import {
 import Modal from "../generic/Modal";
 import ListaEtiquetas from "../ListaEtiquetas";
 import FAB from "../generic/FloatingButton";
-import useProductStore from "../../store/ProductContext";
-import useEtiquetaStore from "../../store/TagContext";
-import useShoppingListStore from "../../store/ShoppingListContext";
-import useStockStore from "../../store/StockContext";
+import useProductStore from "../../store/ProductStore";
+import useEtiquetaStore from "../../store/TagStore";
+import useShoppingListStore from "../../store/ShoppingListStore";
+import useStockStore from "../../store/StockStore";
 import ListaCompraItem from "./ListaCompraItem";
 import DespensaItem from "./DespensaItem";
-import api_config from "../../config/apiconfig";
-import { axiosRequest } from "../../services/AxiosRequest";
+import { axiosRequest } from "../../common/services/AxiosRequest";
 import { customStyles } from "../../styles/SelectStyles";
+import { ApiEndpoints, DespensaEndpoints, ListaCompraEndpoints } from "@/config/apiconfig";
+import { HttpEnum } from "@/entities/enums/http.enum";
+import { ProductsEnum, ProductToastMessages } from "./products.enum";
 
 export default function GestorProductos({ type }) {
   const [prodInView, setProdInView] = useState({
@@ -52,6 +54,9 @@ export default function GestorProductos({ type }) {
   const addItemTag = useEtiquetaStore((state) => state.addItemTag);
   const deleteItemTag = useEtiquetaStore((state) => state.deleteItemTag);
   const products = useProductStore((state) => state.products);
+  const fetchProducts = useProductStore(
+    (state) => state.fetchProducts
+  );
   const shoppingListItems = useShoppingListStore(
     (state) => state.shoppingListItems
   );
@@ -83,12 +88,12 @@ export default function GestorProductos({ type }) {
   const lastRef = useRef();
   const firstRef = useRef();
   const fetchItems =
-    type === "lista-compra" ? fetchShoppingListItems : fetchStockItems;
-  const items = type === "lista-compra" ? shoppingListItems : stockItems;
+    type === ProductsEnum.listaCompra ? fetchShoppingListItems : fetchStockItems;
+  const items = type === ProductsEnum.listaCompra ? shoppingListItems : stockItems;
   const ItemComponent =
-    type === "lista-compra" ? ListaCompraItem : DespensaItem;
+    type === ProductsEnum.listaCompra ? ListaCompraItem : DespensaItem;
   const addOrRemoveListTag =
-    type === "lista-compra"
+    type === ProductsEnum.listaCompra
       ? useShoppingListStore((state) => state.addOrRemoveListTag)
       : useStockStore((state) => state.addOrRemoveListTag);
 
@@ -121,29 +126,29 @@ export default function GestorProductos({ type }) {
     const { active, over } = event;
     if (active.id !== over.id) {
       const oldIndex = (
-        type === "lista-compra" ? shoppingListItems : stockItems
+        type === ProductsEnum.listaCompra ? shoppingListItems : stockItems
       ).findIndex(
         (item) =>
           item[
-            type === "lista-compra" ? "shoppingListProductID" : "stockProductID"
+            type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID
           ] === active.id
       );
       const newIndex = (
-        type === "lista-compra" ? shoppingListItems : stockItems
+        type === ProductsEnum.listaCompra ? shoppingListItems : stockItems
       ).findIndex(
         (item) =>
           item[
-            type === "lista-compra" ? "shoppingListProductID" : "stockProductID"
+            type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID
           ] === over.id
       );
       const newItems = arrayMove(items, oldIndex, newIndex);
       const newOrder = newItems.map((item) =>
-        type === "lista-compra"
+        type === ProductsEnum.listaCompra
           ? item.shoppingListProductID
           : item.stockProductID
       );
 
-      type === "lista-compra"
+      type === ProductsEnum.listaCompra
         ? reorderShoppingListItems(newOrder)
         : reorderStockItems(newOrder);
     }
@@ -156,38 +161,31 @@ export default function GestorProductos({ type }) {
    */
   const handleAdd = (id, amount) => {
     const apiUrl =
-      type === "lista-compra"
-        ? api_config.lista_compra.base
-        : api_config.despensa.base;
+      type === ProductsEnum.listaCompra
+        ? ApiEndpoints.hm_url + ListaCompraEndpoints.base
+        : ApiEndpoints.hm_url + DespensaEndpoints.base;
     const addItem =
-      type === "lista-compra" ? addShoppingListItem : addStockItem;
-    toast.promise(
-      axiosRequest(
-        "POST",
-        apiUrl,
-        {},
-        {
-          [type === "lista-compra"
-            ? "shoppingListAmount"
-            : "stockProductAmount"]: amount,
-          storeID: 2,
-          [type === "lista-compra"
-            ? "shoppingListProductID"
-            : "stockProductID"]: id,
-        }
-      )
-        .then((response) => {
-          addItem(response);
-        })
-        .catch((error) => {
-          console.error(error);
-        }),
+      type === ProductsEnum.listaCompra ? addShoppingListItem : addStockItem;
+    axiosRequest(
+      HttpEnum.POST,
+      apiUrl,
+      {},
       {
-        loading: "Añadiendo producto...",
-        success: "Producto añadido",
-        error: (err) => `Error al añadir producto: ${err}`,
+        [type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraAmount : ProductsEnum.stockAmount]:
+          amount,
+        storeID: 2,
+        [type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID]:
+          id,
       }
-    );
+    )
+      .then((response) => {
+        addItem(response);
+        toast.success("Producto añadido");
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Error al añadir producto");
+      });
   };
 
   /**
@@ -200,25 +198,20 @@ export default function GestorProductos({ type }) {
     );
     if (confirmacion) {
       const apiUrl =
-        type === "lista-compra"
-          ? `${api_config.lista_compra.base}/${id}`
-          : `${api_config.despensa.base}/${id}`;
+        type === ProductsEnum.listaCompra
+          ? `${ApiEndpoints.hm_url + ListaCompraEndpoints.base}/${id}`
+          : `${ApiEndpoints.hm_url + DespensaEndpoints.base}/${id}`;
       const removeItem =
-        type === "lista-compra" ? removeShoppingListItem : removeStockItem;
-      toast.promise(
-        axiosRequest("DELETE", apiUrl)
-          .then(() => {
-            removeItem(id);
-          })
-          .catch((error) => {
-            console.error(error);
-          }),
-        {
-          loading: "Eliminando producto...",
-          success: "Producto eliminado",
-          error: (err) => `Error al eliminar producto: ${err}`,
-        }
-      );
+        type === ProductsEnum.listaCompra ? removeShoppingListItem : removeStockItem;
+      axiosRequest(HttpEnum.DELETE, apiUrl)
+        .then(() => {
+          removeItem(id);
+          toast.success(ProductToastMessages.DeletedProductSuccess);
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error(ProductToastMessages.DeletedProductError);
+        });
     }
   };
 
@@ -229,27 +222,27 @@ export default function GestorProductos({ type }) {
    */
   const handleAmount = (id, amount) => {
     const apiUrl =
-      type === "lista-compra"
-        ? `${api_config.lista_compra.modifyAmount}${id}`
-        : `${api_config.despensa.modifyAmount}${id}`;
+      type === ProductsEnum.listaCompra
+        ? `${ApiEndpoints.hm_url + ListaCompraEndpoints.modifyAmount}${id}`
+        : `${ApiEndpoints.hm_url + DespensaEndpoints.modifyAmount}${id}`;
     const modifyItemAmount =
-      type === "lista-compra"
+      type === ProductsEnum.listaCompra
         ? modifyShoppingListItemAmount
         : modifyStockItemAmount;
-    toast.promise(
-      axiosRequest("PUT", apiUrl, { amount })
-        .then(() => {
-          modifyItemAmount(id, amount);
-        })
-        .catch((error) => {
-          console.error(error);
-        }),
-      {
-        loading: "Actualizando cantidad...",
-        success: "Cantidad actualizada",
-        error: (err) => `Error al actualizar cantidad: ${err}`,
-      }
-    );
+
+      axiosRequest(
+      HttpEnum.PUT,
+      apiUrl,
+      { amount }
+    )
+      .then(() => {
+        modifyItemAmount(id, amount);
+        toast.success(ProductToastMessages.ModifyAmountSuccess);
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error(ProductToastMessages.ModifyAmountError);
+      });
   };
 
   /**
@@ -258,28 +251,23 @@ export default function GestorProductos({ type }) {
    */
   const handleMover = (id) => {
     const apiUrl =
-      type === "lista-compra"
-        ? `${api_config.lista_compra.buy}${id}`
-        : `${api_config.despensa.toList}${id}`;
+      type === ProductsEnum.listaCompra
+        ? `${ApiEndpoints.hm_url + ListaCompraEndpoints.buy}${id}`
+        : `${ApiEndpoints.hm_url + DespensaEndpoints.toList}${id}`;
     const removeItem =
-      type === "lista-compra" ? removeShoppingListItem : removeStockItem;
+      type === ProductsEnum.listaCompra ? removeShoppingListItem : removeStockItem;
     const addItem =
-      type === "lista-compra" ? addStockItem : addShoppingListItem;
-    toast.promise(
-      axiosRequest("PUT", apiUrl)
-        .then((response) => {
-          removeItem(id);
-          addItem(response);
-        })
-        .catch((error) => {
-          console.error(error);
-        }),
-      {
-        loading: "Comprando producto...",
-        success: "Producto comprado",
-        error: (err) => `Error al comprar producto: ${err}`,
-      }
-    );
+      type === ProductsEnum.listaCompra ? addStockItem : addShoppingListItem;
+    axiosRequest(HttpEnum.PUT, apiUrl)
+      .then((response) => {
+        removeItem(id);
+        addItem(response);
+        toast.success(ProductToastMessages.MovedProductSuccess);
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error(ProductToastMessages.MovedProductError);
+      });
   };
 
   /**
@@ -288,6 +276,9 @@ export default function GestorProductos({ type }) {
    * */
   const addOrRemoveEtiqueta = (etiqueta_id, producto) => {
     const productID = producto.product.productID;
+    const etiqueta = etiquetasSeleccionadas.find(
+      (etiqueta) => etiqueta.tagID === etiqueta_id
+    );
     if (
       producto.product.tags?.some(
         (prodEtiqueta) => prodEtiqueta.tagID === etiqueta_id
@@ -296,23 +287,23 @@ export default function GestorProductos({ type }) {
       deleteItemTag(etiqueta_id, productID)
         .then(() => {
           addOrRemoveListTag(etiqueta_id, productID);
-          toast.success("Etiqueta eliminada");
+          toast.success(ProductToastMessages.DeletedTagSuccess);
         })
         .catch((error) => {
           console.error(error);
-          toast.error("Error al eliminar etiqueta");
+          toast.error(ProductToastMessages.DeletedTagError);
         });
     } else {
-      addItemTag(etiqueta_id, productID)
+      addItemTag(etiqueta_id, productID, etiqueta)
         .then(() => {
-          axiosRequest("GET", api_config.despensa.all)
+          axiosRequest(HttpEnum.GET, api_config.despensa.all)
             .then(() => {
               addOrRemoveListTag(etiqueta_id, productID);
-              toast.success("Etiqueta añadida");
+              toast.success(ProductToastMessages.AddedTagSuccess);
             })
             .catch((error) => {
               console.error(error);
-              toast.error("Error al añadir etiqueta");
+              toast.error(ProductToastMessages.AddedTagError);
             });
         })
         .catch((error) => {
@@ -336,8 +327,7 @@ export default function GestorProductos({ type }) {
   /**
    * Options for the Select component
    */
-  const productOptions =
-  products
+  const productOptions = products
     .sort((a, b) => a.productName.localeCompare(b.productName))
     .map((product) => ({
       value: product.productID,
@@ -376,11 +366,11 @@ export default function GestorProductos({ type }) {
     <>
       {popupProducto}
       <ListaEtiquetas tipo="Product" />
-      <div className={type === "lista-compra" ? "listaCompra" : "despensa"}>
+      <div className={type === ProductsEnum.listaCompra ? "listaCompra" : "despensa"}>
         {Array.isArray(items) && items.length === 0 && (
           <div style={{ textAlign: "center" }}>
             No hay productos en la{" "}
-            {type === "lista-compra" ? "lista de compra" : "despensa"}
+            {type === ProductsEnum.listaCompra ? "lista de compra" : "despensa"}
           </div>
         )}
         <span
@@ -406,9 +396,9 @@ export default function GestorProductos({ type }) {
                 ? items.map(
                     (item) =>
                       item[
-                        type === "lista-compra"
-                          ? "shoppingListProductID"
-                          : "stockProductID"
+                        type === ProductsEnum.listaCompra
+                          ? ProductsEnum.listaCompraID
+                          : ProductsEnum.stockID
                       ]
                   )
                 : []
@@ -430,9 +420,9 @@ export default function GestorProductos({ type }) {
                   <Fragment
                     key={
                       producto[
-                        type === "lista-compra"
-                          ? "shoppingListProductID"
-                          : "stockProductID"
+                        type === ProductsEnum.listaCompra
+                          ? ProductsEnum.listaCompraID
+                          : ProductsEnum.stockID
                       ]
                     }
                   >
@@ -510,7 +500,10 @@ export default function GestorProductos({ type }) {
         />
         <FAB
           icon={<FaPlus />}
-          action={() => productoDialogRef.current.open()}
+          action={async () => {
+            await fetchProducts();
+            productoDialogRef.current.open()
+          }}
           classes="floatingButton"
         />
       </div>

@@ -1,4 +1,4 @@
-import useUserStore from '../../store/UserContext';
+import useUserStore from '../../store/UserStore';
 
 const AuthenticatedProviders = ({ children }) => {
   const { user } = useUserStore();

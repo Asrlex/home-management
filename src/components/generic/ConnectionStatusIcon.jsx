@@ -1,4 +1,4 @@
-import useConnectionStore from '../../store/ConnectionContext';
+import useConnectionStore from '../../store/ConnectionStore';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
 const ConnectionStatusIcon = () => {

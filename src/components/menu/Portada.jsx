@@ -1,4 +1,4 @@
-import useSettingsStore from "../../store/SettingsContext";
+import useSettingsStore from "../../store/SettingsStore";
 import summerIcon from "../../assets/summer.png";
 import winterIcon from "../../assets/winter.png";
 import springIcon from "../../assets/spring.png";

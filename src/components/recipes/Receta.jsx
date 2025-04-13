@@ -7,18 +7,23 @@ import { useCallback, useRef, useState } from "react";
 import { ContextMenu } from "primereact/contextmenu";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FaTag } from "react-icons/fa";
-import useEtiquetaStore from "../../store/TagContext";
-import { axiosRequest } from "../../services/AxiosRequest";
-import api_config from "../../config/apiconfig";
+import useEtiquetaStore from "../../store/TagStore";
+import { axiosRequest } from "../../common/services/AxiosRequest";
 import React from "react";
 import Modal from "../generic/Modal";
 import NuevaRecetaModal from "./NuevaRecetaModal";
 import Loader from "../generic/Loader";
-import useUserStore from "../../store/UserContext";
+import useUserStore from "../../store/UserStore";
 import { useNavigate } from "react-router-dom";
 
 function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   const etiquetas = useEtiquetaStore((state) => state.etiquetas);
+  const addItemTag = useEtiquetaStore(
+    (state) => state.addItemTag
+  );
+  const deleteItemTag = useEtiquetaStore(
+    (state) => state.deleteItemTag
+  );
   const validateToken = useUserStore((state) => state.validateToken);
   const contextMenuRef = useRef(null);
   const recetaDialogRef = useRef();
@@ -31,28 +36,22 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
     };
 
     if (receta.tags?.some((recEtiqueta) => recEtiqueta.tagID === etiqueta_id)) {
-      axiosRequest("DELETE", api_config.etiquetas.item, {}, body)
+      deleteItemTag(body)
         .then(() => {
-          addOrRemoveTag(id, etiqueta_id);
+          addOrRemoveTag(id, etiqueta_id, etiquetas);
         })
         .catch((error) => {
           console.error(error);
         });
-      return;
+    } else {
+      addItemTag(body)
+        .then(() => {
+          addOrRemoveTag(id, etiqueta_id, etiquetas);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-    axiosRequest("POST", api_config.etiquetas.item, {}, body)
-      .then(() => {
-        axiosRequest("GET", api_config.lista_compra.all)
-          .then(() => {
-            addOrRemoveTag(id, etiqueta_id);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   };
 
   const contextModel = [
@@ -119,7 +118,6 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
           e.preventDefault();
           contextMenuRef.current.show(e);
         }}
-        // onChange={handleExpand}
       >
         <AccordionSummary
           className="tituloReceta"

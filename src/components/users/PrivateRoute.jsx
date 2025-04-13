@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import useUserStore from "../../store/UserContext";
+import useUserStore from "../../store/UserStore";
 import Loader from "../generic/Loader";
 
 /**

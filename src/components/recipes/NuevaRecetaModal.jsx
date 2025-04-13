@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import Select from "react-select";
-import useProductStore from "../../store/ProductContext";
+import useProductStore from "../../store/ProductStore";
 import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import { customStyles } from "../../styles/SelectStyles";
 import useRecetasStore from "../../store/RecipeStore";

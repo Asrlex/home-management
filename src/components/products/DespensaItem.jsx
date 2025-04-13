@@ -6,8 +6,8 @@ import { useRef, forwardRef } from "react";
 import { memo } from "react";
 import { ContextMenu } from "primereact/contextmenu";
 import ContadorProducto from "./ContadorProducto";
-import useEtiquetaStore from "../../store/TagContext";
-import useDespensaStore from "../../store/StockContext";
+import useEtiquetaStore from "../../store/TagStore";
+import useDespensaStore from "../../store/StockStore";
 import SortableItem from "../generic/SortableItem";
 
 const DespensaItem = forwardRef(

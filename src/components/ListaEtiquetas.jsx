@@ -1,9 +1,8 @@
 import Etiqueta from "./Etiqueta";
 import Modal from './generic/Modal';
-import useEtiquetaStore from "../store/TagContext";
+import useEtiquetaStore from "../store/TagStore";
 import { useEffect, useRef } from "react";
-import { axiosRequest } from "../services/AxiosRequest";
-import api_config from "../config/apiconfig";
+import { axiosRequest } from "../common/services/AxiosRequest";
 
 export default function ListaEtiquetas({ tipo }) {
   const etiquetas = useEtiquetaStore(state => state.etiquetas);
@@ -19,8 +18,11 @@ export default function ListaEtiquetas({ tipo }) {
 
   const saveEtiqueta = async (tagName) => {
     try {
-      const response = await axiosRequest('POST', api_config.etiquetas.base, {}, { tagName, tagType: tipo });
-      addEtiqueta(response);
+      const tagDTO = {
+        tagName: tagName,
+        tagType: tipo,
+      }
+      addEtiqueta(tagDTO);
     } catch (error) {
       console.error(error);
     }

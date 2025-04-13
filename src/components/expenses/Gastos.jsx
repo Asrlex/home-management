@@ -2,7 +2,6 @@ import { useRef, useEffect, useState, useCallback, memo } from "react";
 import { FaPlus, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import Modal from "../generic/Modal";
-import useExpenseStore from "../../store/ExpenseContext";
 import toast from "react-hot-toast";
 import Loader from "../generic/Loader";
 import FAB from "../generic/FloatingButton";
@@ -18,6 +17,7 @@ import {
 } from "@mui/material";
 import { TableStyles } from "../../styles/Table.Styles";
 import GastosForm from "./GastosForm";
+import useExpenseStore from "../../store/ExpenseStore";
 
 function Gastos() {
   const expenses = useExpenseStore((state) => state.expenses);

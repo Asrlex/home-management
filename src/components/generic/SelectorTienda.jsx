@@ -2,38 +2,38 @@ import aldi from '../../assets/aldi.svg';
 import carrefour from '../../assets/carrefour.svg';
 import lidl from '../../assets/lidl.svg';
 import mercadona from '../../assets/mercadona.jpg';
-import useStoreStore from '../../store/StoreContext';
+import useStoreStore from '../../store/ShopStore';
 import { IoStorefront } from "react-icons/io5";
 
 export default function SelectorTienda() {
-  const stores = useStoreStore(state => state.stores);
-  const storeSelect = useStoreStore(state => state.storeSelect);
+  const shops = useStoreStore(state => state.shops);
+  const selectedShop = useStoreStore(state => state.selectedShop);
 
   return (
     <div className='seccionTienda'>
       <select
         name="tienda"
         className='selectorTienda'
-        value={storeSelect.storeID}
+        value={selectedShop.storeID}
         onChange={(e) => {
-          setTiendaSelect(stores.find(store => store.storeID === parseInt(e.target.value)));
+          setTiendaSelect(shops.find(shop => shop.storeID === parseInt(e.target.value)));
         }}
       >
-        {stores.map((store) => (
+        {shops.map((shop) => (
           <option
-            key={store.storeID}
-            value={store.storeID}
+            key={shop.storeID}
+            value={shop.storeID}
           >
-            {store.storeName}
+            {shop.storeName}
           </option>
         ))}
       </select>
-      {storeSelect.storeName === 'N/A' ? <IoStorefront className="iconoTienda" /> : <img className="iconoTienda"
-        src={storeSelect.storeName === 'Aldi' ? aldi :
-          storeSelect.storeName === 'Carrefour' ? carrefour :
-          storeSelect.storeName === 'Lidl' ? lidl :
+      {selectedShop.storeName === 'N/A' ? <IoStorefront className="iconoTienda" /> : <img className="iconoTienda"
+        src={selectedShop.storeName === 'Aldi' ? aldi :
+          selectedShop.storeName === 'Carrefour' ? carrefour :
+          selectedShop.storeName === 'Lidl' ? lidl :
               mercadona}
-        alt={storeSelect.storeName}
+        alt={selectedShop.storeName}
       />}
     </div>
   )

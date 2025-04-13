@@ -1,9 +1,8 @@
 import { RiAddLine, RiDeleteBinLine } from "react-icons/ri";
-import useEtiquetaStore from "../store/TagContext";
+import useEtiquetaStore from "../store/TagStore";
 import { useRef } from "react";
 import { ContextMenu } from "primereact/contextmenu";
-import { axiosRequest } from "../services/AxiosRequest";
-import api_config from "../config/apiconfig";
+import { axiosRequest } from "../common/services/AxiosRequest";
 
 export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
   const { tagName } = etiqueta;
@@ -19,13 +18,7 @@ export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
     {
       label: "Eliminar",
       icon: <RiDeleteBinLine className="customContextMenuIcon" />,
-      command: () => {
-        axiosRequest(
-          "DELETE",
-          `${api_config.etiquetas.base}/${etiqueta.tagID}`
-        );
-        deleteEtiqueta(etiqueta.tagID);
-      },
+      command: () => deleteEtiqueta(etiqueta.tagID),
     },
   ];
 

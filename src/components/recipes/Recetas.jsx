@@ -1,5 +1,5 @@
 import useRecetasStore from "../../store/RecipeStore";
-import useEtiquetaStore from "../../store/TagContext";
+import useEtiquetaStore from "../../store/TagStore";
 import Receta from "./Receta";
 import { useRef, useEffect } from "react";
 import Modal from "../generic/Modal";
@@ -10,8 +10,11 @@ import Loader from "../generic/Loader";
 import ListaEtiquetas from "../ListaEtiquetas";
 
 export default function Recetas() {
-  const { recetas, isLoading, fetchRecetas, eliminarReceta, addOrRemoveTag } =
-    useRecetasStore();
+  const recetas = useRecetasStore((state) => state.recetas);
+  const isLoading = useRecetasStore((state) => state.isLoading);
+  const fetchRecetas = useRecetasStore((state) => state.fetchRecetas);
+  const eliminarReceta = useRecetasStore((state) => state.eliminarReceta);
+  const addOrRemoveTag = useRecetasStore((state) => state.addOrRemoveTag);
   const etiquetas = useEtiquetaStore((state) => state.etiquetas);
   const etiquetasSeleccionadas = useEtiquetaStore(
     (state) => state.etiquetasSeleccionadas

@@ -1,4 +1,4 @@
-import useUserStore from "../../store/UserContext";
+import useUserStore from "../../store/UserStore";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";

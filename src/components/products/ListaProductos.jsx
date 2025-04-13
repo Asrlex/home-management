@@ -9,8 +9,8 @@ import {
   Paper,
   TablePagination,
 } from "@mui/material";
-import useProductStore from "../../store/ProductContext";
-import useEtiquetaStore from "../../store/TagContext";
+import useProductStore from "../../store/ProductStore";
+import useEtiquetaStore from "../../store/TagStore";
 import ListaEtiquetas from "../ListaEtiquetas";
 import FAB from "../generic/FloatingButton";
 import Modal from "../generic/Modal";

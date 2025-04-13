@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useThemeStore from "../../store/ThemeContext";
+import useThemeStore from "../../store/ThemeStore";
 import { MdOutlineWbSunny } from "react-icons/md";
 import { FaMoon } from "react-icons/fa";
 

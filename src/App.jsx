@@ -22,7 +22,7 @@ import Login from "./components/users/Login";
 import Signup from "./components/users/Signup";
 import PrivateRoute from "./components/users/PrivateRoute";
 import Portada from "./components/menu/Portada";
-import useUserStore from "./store/UserContext";
+import useUserStore from "./store/UserStore";
 
 function App() {
   const [selectedSection, setSelectedSection] = useState("");

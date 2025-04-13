@@ -5,8 +5,8 @@ import { useRef, forwardRef } from "react";
 import { memo } from "react";
 import { ContextMenu } from "primereact/contextmenu";
 import ContadorProducto from "./ContadorProducto";
-import useEtiquetaStore from "../../store/TagContext";
-import useShoppingListStore from "../../store/ShoppingListContext";
+import useEtiquetaStore from "../../store/TagStore";
+import useShoppingListStore from "../../store/ShoppingListStore";
 import SortableItem from "../generic/SortableItem";
 
 const ListaCompraItem = forwardRef(
@@ -21,12 +21,12 @@ const ListaCompraItem = forwardRef(
       {
         label: "Eliminar",
         icon: <RiDeleteBinLine className="customContextMenuIcon" />,
-        command: () => handleEliminar(producto.product.productID),
+        command: () => handleEliminar(producto.shoppingListProductID),
       },
       {
         label: "Comprar",
         icon: <RiShoppingCartLine className="customContextMenuIcon" />,
-        command: () => handleComprar(producto.product.productID),
+        command: () => handleComprar(producto.shoppingListProductID),
       },
       {
         label: "Etiquetas",

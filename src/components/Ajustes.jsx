@@ -8,8 +8,8 @@ import {
   FormControlLabel,
   Button,
 } from "@mui/material";
-import useSettingsStore from "../store/SettingsContext";
-import useThemeStore from "../store/ThemeContext";
+import useSettingsStore from "../store/SettingsStore";
+import useThemeStore from "../store/ThemeStore";
 import { formThemeVars, styles } from "../styles/Form.Styles";
 import toast from "react-hot-toast";
 

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { axiosRequest } from "../../services/AxiosRequest";
-import api_config from "../../config/apiconfig";
+import { axiosRequest } from "../../common/services/AxiosRequest";
 import toast from "react-hot-toast";
 import { LuWashingMachine, LuCookingPot, LuDog, LuBath } from "react-icons/lu";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { PiHandSoap, PiBroom } from "react-icons/pi";
+import { HttpEnum } from "@/entities/enums/http.enum";
+import { ApiEndpoints, TareasEndpoints } from "@/config/apiconfig";
 
 const TareasCasa = () => {
   const [tasks, setTasks] = useState([]);
@@ -33,7 +34,7 @@ const TareasCasa = () => {
   ];
 
   useEffect(() => {
-    axiosRequest("GET", api_config.tareas.home)
+    axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.home)
       .then((response) => setTasks(response))
       .catch((error) => console.error("Error fetching tasks:", error));
   }, []);
@@ -57,20 +58,15 @@ const TareasCasa = () => {
       houseTaskName: taskName,
     };
 
-    toast.promise(
-      axiosRequest("POST", api_config.tareas.home, {}, task)
-        .then((response) => {
-          setTasks([response, ...tasks]);
-        })
-        .catch((error) => {
-          console.error(error);
-        }),
-      {
-        loading: "Adding task...",
-        success: "Task added!",
-        error: "Error adding task",
-      }
-    );
+    axiosRequest(HttpEnum.POST, ApiEndpoints.hm_url + TareasEndpoints.home, {}, task)
+      .then((response) => {
+        setTasks([response, ...tasks]);
+        toast.success(`Task ${taskName} added successfully!`);
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error(`Error adding task: ${error.response.data.message}`);
+      });
   };
 
   const handleTaskNameClick = (taskName) => {

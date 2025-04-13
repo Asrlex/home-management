@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useUserStore from "../../store/UserContext";
+import useUserStore from "../../store/UserStore";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { TextField, Button, Box, InputAdornment, IconButton } from "@mui/material";

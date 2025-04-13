@@ -5,8 +5,9 @@ import Modal from "../generic/Modal";
 import FAB from "../generic/FloatingButton";
 import { FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
-import api_config from "../../config/apiconfig";
-import { axiosRequest } from "../../services/AxiosRequest";
+import { axiosRequest } from "../../common/services/AxiosRequest";
+import { HttpEnum } from "@/entities/enums/http.enum";
+import { ApiEndpoints, TareasEndpoints } from "@/config/apiconfig";
 
 export default function Tareas() {
   const [tareas, setTareas] = useState([]);
@@ -22,7 +23,7 @@ export default function Tareas() {
   };
 
   useEffect(() => {
-    axiosRequest("GET", api_config.tareas.all)
+    axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.all)
       .then((response) => {
         setTareas(response);
       })
@@ -32,29 +33,30 @@ export default function Tareas() {
   }, []);
 
   const toggleCompletada = (id, completada) => {
-    toast.promise(
-      axiosRequest("PATCH", `${api_config.tareas.base}/${id}`, {
-        taskCompleted: !completada,
+    axiosRequest(
+      HttpEnum.PATCH,
+      `${ApiEndpoints.hm_url + TareasEndpoints.base}/${id}`,
+      {taskCompleted: !completada},
+    )
+      .then(() => {
+        setTareas(
+          tareas.map((tarea) => {
+            if (tarea.taskID === id) {
+              tarea.taskCompleted = !completada;
+            }
+            return tarea;
+          })
+        );
+        toast.success(
+          `Tarea ${!completada ? "completada" : "desmarcada como completada"}`
+        );
       })
-        .then(() => {
-          setTareas(
-            tareas.map((tarea) => {
-              if (tarea.taskID === id) {
-                tarea.taskCompleted = !completada;
-              }
-              return tarea;
-            })
-          );
-        })
-        .catch((error) => {
-          console.error(error);
-        }),
-      {
-        loading: "Actualizando tarea...",
-        success: `Tarea ${completada ? "abierta" : "cerrada"}`,
-        error: (err) => `Error al actualizar tarea: ${err}`,
-      }
-    );
+      .catch((error) => {
+        console.error(error);
+        toast.error(
+          `Error al actualizar la tarea: ${error.response.data.message}`
+        );
+      });
   };
 
   const handleEliminar = (id) => {
@@ -62,20 +64,20 @@ export default function Tareas() {
       "¿Estás seguro de eliminar esta tarea?"
     );
     if (confirmacion) {
-      toast.promise(
-        axiosRequest("DELETE", `${api_config.tareas.base}/${id}`)
-          .then(() => {
-            setTareas(tareas.filter((tarea) => tarea.taskID !== id));
-          })
-          .catch((error) => {
-            console.error(error);
-          }),
-        {
-          loading: "Eliminando tarea...",
-          success: "Tarea eliminada",
-          error: (err) => `Error al eliminar tarea: ${err}`,
-        }
-      );
+      axiosRequest(
+        HttpEnum.DELETE,
+        `${ApiEndpoints.hm_url + TareasEndpoints.base}/${id}`
+      )
+        .then(() => {
+          setTareas(tareas.filter((tarea) => tarea.taskID !== id));
+          toast.success("Tarea eliminada correctamente");
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error(
+            `Error al eliminar la tarea: ${error.response.data.message}`
+          );
+        });
     }
   };
 
@@ -96,63 +98,57 @@ export default function Tareas() {
     const taskDescription = descripcionRef.current.value;
 
     if (isEditMode) {
-      toast.promise(
-        axiosRequest(
-          "PUT",
-          `${api_config.tareas.base}/${currentTaskId}`,
-          {},
-          {
-            taskID: currentTaskId,
-            taskTitle,
-            taskDescription,
-          }
-        )
-          .then((response) => {
-            setTareas([
-              ...tareas.filter((t) => t.taskID !== currentTaskId),
-              response,
-            ]);
-            dialog.current.close();
-            tituloRef.current.value = "";
-            descripcionRef.current.value = "";
-            setIsEditMode(false);
-            setCurrentTaskId(null);
-          })
-          .catch((error) => {
-            console.error(error);
-          }),
+      axiosRequest(
+        HttpEnum.PUT,
+        `${ApiEndpoints.hm_url + TareasEndpoints.base}/${currentTaskId}`,
+        {},
         {
-          loading: "Actualizando tarea...",
-          success: "Tarea actualizada",
-          error: (err) => `Error al actualizar tarea: ${err}`,
+          taskID: currentTaskId,
+          taskTitle,
+          taskDescription,
         }
-      );
+      )
+        .then((response) => {
+          setTareas([
+            ...tareas.filter((t) => t.taskID !== currentTaskId),
+            response,
+          ]);
+          dialog.current.close();
+          tituloRef.current.value = "";
+          descripcionRef.current.value = "";
+          setIsEditMode(false);
+          setCurrentTaskId(null);
+          toast.success("Tarea actualizada correctamente");
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error(
+            `Error al actualizar la tarea: ${error.response.data.message}`
+          );
+        });
     } else {
-      toast.promise(
-        axiosRequest(
-          "POST",
-          api_config.tareas.base,
-          {},
-          {
-            taskTitle,
-            taskDescription,
-          }
-        )
-          .then((response) => {
-            setTareas([response, ...tareas]);
-            dialog.current.close();
-            tituloRef.current.value = "";
-            descripcionRef.current.value = "";
-          })
-          .catch((error) => {
-            console.error(error);
-          }),
+      axiosRequest(
+        HttpEnum.POST,
+        ApiEndpoints.hm_url + TareasEndpoints.base,
+        {},
         {
-          loading: "Creando tarea...",
-          success: "Tarea creada",
-          error: (err) => `Error al crear tarea: ${err}`,
+          taskTitle,
+          taskDescription,
         }
-      );
+      )
+        .then((response) => {
+          setTareas([response, ...tareas]);
+          dialog.current.close();
+          tituloRef.current.value = "";
+          descripcionRef.current.value = "";
+          toast.success("Tarea creada correctamente");
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error(
+            `Error al crear la tarea: ${error.response.data.message}`
+          );
+        });
     }
   };
 
