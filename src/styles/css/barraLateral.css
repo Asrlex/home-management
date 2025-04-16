@@ -24,6 +24,13 @@
   }
 }
 
+@media screen and (min-width: 1024px) {
+  .barraLateral {
+    width: 15%;
+  }
+  
+}
+
 .tituloBarraLateral {
   display: flex;
   justify-content: center;
