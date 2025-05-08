@@ -117,7 +117,16 @@ export interface ExpenseI {
   categoryName: string;
 }
 
-export interface ExpenseCategoryI {
-  categoryID: number;
-  categoryName: string;
+export interface ShiftI {
+  shiftID: number;
+  shiftTime: number;
+  shiftDate: string;
+  shiftCheckins: ShiftCheckinI[];
+}
+
+export interface ShiftCheckinI {
+  shiftCheckinID: number;
+  shiftCheckinDate: string;
+  shiftCheckinTimestamp: string;
+  shiftCheckinType: 'CLOCK_IN' | 'CLOCK_OUT';
 }

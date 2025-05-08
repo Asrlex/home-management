@@ -22,6 +22,7 @@ import Login from "./components/users/Login";
 import Signup from "./components/users/Signup";
 import PrivateRoute from "./components/users/PrivateRoute";
 import Portada from "./components/menu/Portada";
+import Fichajes from "./components/tasks/Fichajes";
 import useUserStore from "./store/UserStore";
 
 function App() {
@@ -102,6 +103,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <TareasCasa />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/fichajes"
+                element={
+                  <PrivateRoute>
+                    <Fichajes />
                   </PrivateRoute>
                 }
               />

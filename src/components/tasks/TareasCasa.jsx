@@ -105,7 +105,7 @@ const TareasCasa = () => {
           ))}
         </div>
         <hr className="hrSeccion" />
-        <div className="houseTaskTitle">Completed Tasks</div>
+        <div className="houseTaskTitle">Tareas completadas</div>
         <div
           ref={listRef}
           className={`houseTaskList ${shadow.top ? "shadow-top" : ""} ${

@@ -9,7 +9,7 @@ import {
   FaCog,
 } from "react-icons/fa";
 import { PiCookingPotFill } from "react-icons/pi";
-import { MdAddHome } from "react-icons/md";
+import { MdAddHome, MdWorkHistory } from "react-icons/md";
 import { FaBoxes } from "react-icons/fa";
 import ToggleMode from "./ToggleMode";
 
@@ -40,6 +40,13 @@ const BarraLateral = ({ onSelectSection, section }) => {
           section={section}
         />
         <BarraLateralItem
+          texto="Recetas"
+          icono={<PiCookingPotFill className="iconoBarraLateral" />}
+          selectSection={onSelectSection}
+          section={section}
+        />
+        <hr className="barraLateralSeparador" />
+        <BarraLateralItem
           texto="Tareas pendientes"
           icono={<FaCheckSquare className="iconoBarraLateral" />}
           selectSection={onSelectSection}
@@ -52,11 +59,12 @@ const BarraLateral = ({ onSelectSection, section }) => {
           section={section}
         />
         <BarraLateralItem
-          texto="Recetas"
-          icono={<PiCookingPotFill className="iconoBarraLateral" />}
+          texto="Fichajes"
+          icono={<MdWorkHistory className="iconoBarraLateral" />}
           selectSection={onSelectSection}
           section={section}
         />
+        <hr className="barraLateralSeparador" />
         <BarraLateralItem
           texto="Gastos"
           icono={<FaDollarSign className="iconoBarraLateral" />}

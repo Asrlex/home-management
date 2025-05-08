@@ -28,6 +28,14 @@ export enum TareasEndpoints {
   home = '/tasks/home/',
 }
 
+export enum FichajesEndpoints {
+  // home_management_url
+  base = '/shifts',
+  all = '/shifts/all',
+  byID = '/shifts/id/',
+  byMonth = '/shifts/month/',
+}
+
 export enum TiendasEndpoints {
   // home_management_url
   base = '/stores',

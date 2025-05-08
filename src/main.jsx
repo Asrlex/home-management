@@ -18,6 +18,7 @@ import "./styles/css/context.css";
 import "./styles/css/barraLateral.css";
 import "./styles/css/etiquetas.css";
 import "./styles/css/modal.css";
+import "./styles/css/fichajes.css";
 
 const { theme } = useThemeStore.getState();
 document.documentElement.className = theme;
