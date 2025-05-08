@@ -22,48 +22,63 @@ const BarraLateral = ({ onSelectSection, section }) => {
       </div>
       <ul className="barraLateralLista">
         <BarraLateralItem
-          texto="Productos"
-          icono={<FaBoxes className="iconoBarraLateral" />}
-          selectSection={onSelectSection}
-          section={section}
-        />
-        <BarraLateralItem
-          texto="Lista compra"
-          icono={<FaShoppingCart className="iconoBarraLateral" />}
-          selectSection={onSelectSection}
-          section={section}
-        />
-        <BarraLateralItem
-          texto="Despensa"
+          texto="Comida"
           icono={<FaUtensils className="iconoBarraLateral" />}
-          selectSection={onSelectSection}
+          tipo="dropdown"
           section={section}
-        />
-        <BarraLateralItem
-          texto="Recetas"
-          icono={<PiCookingPotFill className="iconoBarraLateral" />}
           selectSection={onSelectSection}
-          section={section}
-        />
-        <hr className="barraLateralSeparador" />
+        >
+          <BarraLateralItem
+            texto="Productos"
+            icono={<FaBoxes className="iconoBarraLateral" />}
+            selectSection={onSelectSection}
+            section={section}
+          />
+          <BarraLateralItem
+            texto="Lista compra"
+            icono={<FaShoppingCart className="iconoBarraLateral" />}
+            selectSection={onSelectSection}
+            section={section}
+          />
+          <BarraLateralItem
+            texto="Despensa"
+            icono={<FaUtensils className="iconoBarraLateral" />}
+            selectSection={onSelectSection}
+            section={section}
+          />
+          <BarraLateralItem
+            texto="Recetas"
+            icono={<PiCookingPotFill className="iconoBarraLateral" />}
+            selectSection={onSelectSection}
+            section={section}
+          />
+        </BarraLateralItem>
         <BarraLateralItem
-          texto="Tareas pendientes"
+          texto="Tareas"
           icono={<FaCheckSquare className="iconoBarraLateral" />}
-          selectSection={onSelectSection}
+          tipo="dropdown"
           section={section}
-        />
-        <BarraLateralItem
-          texto="Tareas casa"
-          icono={<MdAddHome className="iconoBarraLateral" />}
           selectSection={onSelectSection}
-          section={section}
-        />
-        <BarraLateralItem
-          texto="Fichajes"
-          icono={<MdWorkHistory className="iconoBarraLateral" />}
-          selectSection={onSelectSection}
-          section={section}
-        />
+        >
+          <BarraLateralItem
+            texto="Tareas pendientes"
+            icono={<FaCheckSquare className="iconoBarraLateral" />}
+            selectSection={onSelectSection}
+            section={section}
+          />
+          <BarraLateralItem
+            texto="Tareas casa"
+            icono={<MdAddHome className="iconoBarraLateral" />}
+            selectSection={onSelectSection}
+            section={section}
+          />
+          <BarraLateralItem
+            texto="Fichajes"
+            icono={<MdWorkHistory className="iconoBarraLateral" />}
+            selectSection={onSelectSection}
+            section={section}
+          />
+        </BarraLateralItem>
         <hr className="barraLateralSeparador" />
         <BarraLateralItem
           texto="Gastos"
@@ -71,7 +86,6 @@ const BarraLateral = ({ onSelectSection, section }) => {
           selectSection={onSelectSection}
           section={section}
         />
-        <hr className="barraLateralSeparador" />
         <BarraLateralItem
           texto="Ajustes"
           icono={<FaCog className="iconoBarraLateral" />}

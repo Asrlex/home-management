@@ -135,7 +135,22 @@ input[type='month'] {
   cursor: default;
 }
 .shiftList::-webkit-scrollbar {
-  display: none;
+  width: 0.25rem;
+  height: 0.5rem;
+}
+
+.shiftList::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-color);
+  border-radius: 9999px;
+}
+
+.shiftList::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover-color);
+}
+
+.shiftList::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-color);
+  border-radius: 9999px;
 }
 @media (min-width: 768px) {
   .shiftList {

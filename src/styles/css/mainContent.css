@@ -13,6 +13,7 @@
   background-color: var(--section-bg-color);
   color: var(--title-text-color);
   transition: all 0.2s ease-in-out;
+  z-index: 50;
 }
 @media (min-width: 768px) {
   .seccionPrincipal {
@@ -86,7 +87,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
 }
 
 .portadaLogo {

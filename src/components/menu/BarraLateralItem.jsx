@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function BarraLateralItem({
   texto,
@@ -8,23 +9,41 @@ export default function BarraLateralItem({
   selectSection,
   children,
 }) {
+  const [isHovered, setIsHovered] = useState(false);
   const path = `/${texto.toLowerCase().replace(/\s+/g, "-")}`;
 
   return (
-    <Link
-      to={path}
-      onClick={() => selectSection(texto)}
-      className={
-        section === texto
-          ? "itemBarraLateral itemBarraLateralActive"
-          : "itemBarraLateral"
-      }
+    <div
+      className={`itemBarraLateralWrapper ${
+        tipo === "dropdown" ? "dropdown" : ""
+      }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <li className="itemBarraLateralText">
-        {icono}
-        <div className="itemBarraLateralTextHidden">{texto}</div>
-        {tipo === "dropdown" && { children }}
-      </li>
-    </Link>
+      {tipo === "dropdown" ? (
+        <div className="itemBarraLateral">
+          {icono}
+          <div className="itemBarraLateralTextHidden">{texto}</div>
+        </div>
+      ) : (
+        <Link
+          to={path}
+          onClick={() => selectSection(texto)}
+          className={
+            section === texto
+              ? "itemBarraLateral itemBarraLateralActive"
+              : "itemBarraLateral"
+          }
+        >
+          <li className="itemBarraLateralText">
+            {icono}
+            <div className="itemBarraLateralTextHidden">{texto}</div>
+          </li>
+        </Link>
+      )}
+      {tipo === "dropdown" && isHovered && (
+        <ul className="dropdownMenu">{children}</ul>
+      )}
+    </div>
   );
 }
