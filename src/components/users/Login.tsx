@@ -8,6 +8,7 @@ import { TextField, Button, Box,InputAdornment, IconButton } from '@mui/material
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { formThemeVars, styles } from '../../styles/Form.Styles';
 import React from 'react';
+import { ApiPaths } from '@/entities/enums/api.enums';
 
 export default function Login() {
   const login = useUserStore((state) => state.login);
@@ -27,7 +28,7 @@ const [credentials, setCredentials] = useState({ email: '', password: '' });
         toggleTheme();
       }
 
-      navigate(settings?.defaultPage || '/');
+      navigate(settings?.defaultPage || ApiPaths.Base);
       toast.success('Inicio de sesión exitoso!');
     } catch (error) {
       toast.error('Error al iniciar sesión. Verifica tus credenciales.');
@@ -94,7 +95,7 @@ const [credentials, setCredentials] = useState({ email: '', password: '' });
       </Button>
       <Button
         variant='text'
-        onClick={() => navigate('/signup')}
+        onClick={() => navigate(ApiPaths.Signup)}
         sx={{
           textTransform: 'none',
         }}

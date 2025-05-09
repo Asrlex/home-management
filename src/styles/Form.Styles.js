@@ -28,6 +28,19 @@ export const styles = {
       color: formThemeVars.labelColor,
     },
   },
+  checkboxStyles: {
+    color: formThemeVars.checkboxCheckedColor,
+    '&.Mui-checked': {
+      color: formThemeVars.checkboxCheckedColor,
+    },
+    '& .MuiSvgIcon-root': {
+      fontSize: '1.25rem',
+    },
+    '& .MuiFormControlLabel-label': {
+      fontSize: '.875rem',
+      color: formThemeVars.selectTextColor,
+    },
+  },
   selectStyles: {
     color: formThemeVars.selectTextColor,
     backgroundColor: formThemeVars.selectBgColor,

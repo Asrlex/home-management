@@ -2,6 +2,9 @@ import useUserStore from '../../store/UserStore';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
+import React from 'react';
+import { StoreEnum } from '@/store/entities/enums/store.enum';
+import { ApiPaths } from '@/entities/enums/api.enums';
 
 const AuthButton = () => {
   const loginStatus = useUserStore((state) => state.loginStatus);
@@ -12,11 +15,11 @@ const AuthButton = () => {
   const [isCompact, setIsCompact] = useState(window.innerWidth < 768);
 
   const handleAuthAction = () => {
-    if (loginStatus === 'authenticated') {
+    if (loginStatus === StoreEnum.STATUS_AUTHENTICATED) {
       logout();
-      navigate('/');
+      navigate(ApiPaths.Base);
     } else {
-      navigate('/login');
+      navigate(ApiPaths.Login);
     }
   };
 

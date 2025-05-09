@@ -3,7 +3,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Chip from '@mui/material/Chip';
-import { useCallback, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { ContextMenu } from 'primereact/contextmenu';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { FaTag } from 'react-icons/fa';
@@ -11,7 +11,6 @@ import useEtiquetaStore from '../../store/TagStore';
 import React from 'react';
 import Modal from '../generic/Modal';
 import NuevaRecetaModal from './NuevaRecetaModal';
-import Loader from '../generic/Loader';
 import useUserStore from '../../store/UserStore';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,10 +24,10 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   );
   const validateToken = useUserStore((state) => state.validateToken);
   const contextMenuRef = useRef(null);
-  const recetaDialogRef = useRef();
+  const recetaDialogRef = useRef(null);
   const navigate = useNavigate();
 
-  const addOrRemoveEtiqueta = (etiqueta_id, id) => {
+  const addOrRemoveEtiqueta = (etiqueta_id: number, id: number) => {
     const body = {
       tagID: etiqueta_id,
       itemID: id,
@@ -62,7 +61,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
     {
       label: 'Editar',
       icon: <FaTag className='customContextMenuIcon' />,
-      command: () => handleEditar(receta),
+      command: () => handleEditar(),
     },
     {
       label: 'Etiquetas',
@@ -92,13 +91,6 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
 
   const handleEditar = () => {
     recetaDialogRef.current.open();
-  };
-
-  const handleExpand = () => {
-    if (!validateToken()) {
-      navigate('/login', { replace: true });
-      return;
-    }
   };
 
   return (

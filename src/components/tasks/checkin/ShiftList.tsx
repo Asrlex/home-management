@@ -25,8 +25,9 @@ const ShiftList: React.FC<ShiftListProps> = ({
       {Array.from(
         { length: new Date(parseInt(selectedMonth.split('-')[0]), parseInt(selectedMonth.split('-')[1]), 0).getDate() },
         (_, day) => {
-          const date = new Date(selectedMonth);
-          date.setDate(day + 1);
+          const year = parseInt(selectedMonth.split('-')[0]);
+          const month = parseInt(selectedMonth.split('-')[1]) - 1; // Month is zero-based
+          const date = new Date(Date.UTC(year, month, day + 1)); // Use UTC to avoid time zone issues
           const formattedDate = date.toISOString().split('T')[0];
           const shift: ShiftI = shifts?.find((s: ShiftI) => s.shiftDate === formattedDate);
 
@@ -40,7 +41,7 @@ const ShiftList: React.FC<ShiftListProps> = ({
                 <div className='shiftListItemTime'>
                   {shift
                     ? formatShiftTime(shift.shiftTime)
-                    : new Date(formattedDate).getDay() === 0 || new Date(formattedDate).getDay() === 6
+                    : date.getUTCDay() === 0 || date.getUTCDay() === 6
                       ? 'Fin de semana'
                       : 'Sin fichaje'}
                 </div>

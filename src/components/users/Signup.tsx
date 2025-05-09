@@ -5,6 +5,8 @@ import toast from 'react-hot-toast';
 import { TextField, Button, Box, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { formThemeVars, styles } from '../../styles/Form.Styles';
+import React from 'react';
+import { ApiPaths } from '@/entities/enums/api.enums';
 
 export default function Signup() {
   const { signup } = useUserStore();
@@ -51,7 +53,7 @@ export default function Signup() {
     return valid;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validate()) {
       toast.error('Por favor, corrige los errores antes de continuar.');
@@ -60,7 +62,7 @@ export default function Signup() {
 
     try {
       await signup(details);
-      navigate('/login');
+      navigate(ApiPaths.Login);
       toast.success('¡Registro exitoso! Por favor, inicia sesión.');
     } catch (error) {
       toast.error('El registro falló. Por favor, inténtalo de nuevo.');
@@ -127,7 +129,7 @@ export default function Signup() {
       </Button>
       <Button
         variant='text'
-        onClick={() => navigate('/login')}
+        onClick={() => navigate(ApiPaths.Login)}
         sx={{
           textTransform: 'none',
         }}

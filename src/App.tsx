@@ -27,12 +27,13 @@ import useUserStore from './store/UserStore';
 import useSettingsStore from './store/SettingsStore';
 import React from 'react';
 import useThemeStore from './store/ThemeStore';
+import { ApiPaths } from './entities/enums/api.enums';
 
 function App() {
   const [selectedSection, setSelectedSection] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
-  const publicRoutes = ['/login', '/signup', '/'];
+  const publicRoutes = [ApiPaths.Login, ApiPaths.Signup, ApiPaths.Base];
   const validateToken = useUserStore((state) => state.validateToken);
   const fetchSettings = useSettingsStore((state) => state.fetchSettings);
   const theme = useSettingsStore((state) => state.settings?.theme);
@@ -46,18 +47,18 @@ function App() {
         toggleTheme();
       }
 
-      const path = location.pathname.split('/')[1];
+      const path = location.pathname.split(ApiPaths.Base)[1];
       const section = path.replace(/-/g, ' ');
       setSelectedSection(section.charAt(0).toUpperCase() + section.slice(1));
 
-      if (!publicRoutes.includes(location.pathname)) {
+      if (!publicRoutes.includes(location.pathname as ApiPaths)) {
         const isValidToken = await validateToken();
         if (!isValidToken) {
-          navigate('/login');
+          navigate(ApiPaths.Login);
         } else {
           const defaultPage =
-            useSettingsStore.getState().settings?.defaultPage || '/';
-          if (location.pathname === '/') {
+            useSettingsStore.getState().settings?.defaultPage || ApiPaths.Base;
+          if (location.pathname === ApiPaths.Base) {
             navigate(defaultPage);
           }
         }
@@ -67,7 +68,7 @@ function App() {
     initializeApp();
   }, [location.pathname, navigate]);
 
-  const handleSectionChange = (section) => {
+  const handleSectionChange = (section: string) => {
     setSelectedSection(section);
     navigate(`/${section.toLowerCase().replace(/\s+/g, '-')}`);
   };
@@ -82,7 +83,7 @@ function App() {
           />
           <MainContent titulo={selectedSection}>
             <Routes>
-              <Route path='/' element={<Portada />} />
+              <Route path={ApiPaths.Base} element={<Portada />} />
               <Route
                 path='/productos'
                 element={
@@ -155,10 +156,10 @@ function App() {
                   </PrivateRoute>
                 }
               />
-              <Route path='/login' element={<Login />} />
-              <Route path='/signup' element={<Signup />} />
-              <Route path='/' element={<Navigate to='/' />} />
-              <Route path='*' element={<Navigate to='/' />} />
+              <Route path={ApiPaths.Login} element={<Login />} />
+              <Route path={ApiPaths.Signup} element={<Signup />} />
+              <Route path={ApiPaths.Base} element={<Navigate to={ApiPaths.Base} />} />
+              <Route path='*' element={<Navigate to={ApiPaths.Base} />} />
             </Routes>
           </MainContent>
         </main>

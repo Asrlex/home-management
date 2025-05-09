@@ -56,12 +56,9 @@ const Fichajes = () => {
 
 
   const changeMonth = (direction: 'prev' | 'next') => {
-    const currentMonth = new Date(selectedMonth);
-    const newMonth = new Date(
-      currentMonth.setMonth(currentMonth.getMonth() + (direction === 'next' ? 1 : -1))
-    )
-      .toISOString()
-      .slice(0, 7);
+    const [year, month] = selectedMonth.split('-').map(Number);
+    const newDate = new Date(Date.UTC(year, month - 1 + (direction === 'next' ? 1 : -1), 1));
+    const newMonth = newDate.toISOString().slice(0, 7);
     setSelectedMonth(newMonth);
   };
 

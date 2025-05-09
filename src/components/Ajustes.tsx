@@ -12,6 +12,7 @@ import useSettingsStore from "../store/SettingsStore";
 import useThemeStore from "../store/ThemeStore";
 import { formThemeVars, styles } from "../styles/Form.Styles";
 import toast from "react-hot-toast";
+import React from "react";
 
 export default function Ajustes() {
   const settings = useSettingsStore((state) => state.settings);
@@ -24,8 +25,8 @@ export default function Ajustes() {
     setLocalSettings(settings);
   }, [settings]);
 
-  const handleChange = (key, value) => {
-    setLocalSettings((prev) => ({
+  const handleChange = (key: string, value: any) => {
+    setLocalSettings((prev: any) => ({
       ...prev,
       [key]: value,
     }));
@@ -87,6 +88,7 @@ export default function Ajustes() {
             }
           />
         }
+        sx={styles.checkboxStyles}
         label="Email Notifications"
       />
       <FormControlLabel
@@ -101,6 +103,7 @@ export default function Ajustes() {
             }
           />
         }
+        sx={styles.checkboxStyles}
         label="Push Notifications"
       />
 
