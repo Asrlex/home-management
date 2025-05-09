@@ -1,5 +1,5 @@
-import { CustomBaseException } from "./base.exception";
-import { RecipeExceptionNames } from "./entities/enums/recipe-exception.enum";
+import { CustomBaseException } from './base.exception';
+import { RecipeExceptionNames } from './entities/enums/recipe-exception.enum';
 
 export class FetchRecipesException extends CustomBaseException {
   constructor(message: string) {

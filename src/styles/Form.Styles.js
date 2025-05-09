@@ -1,111 +1,111 @@
 export const formThemeVars = {
-  textColor: "var(--text-color)",
-  bgColor: "var(--bg-color)",
-  borderColor: "var(--border-color)",
-  labelColor: "var(--form-label-color)",
-  selectBgColor: "var(--form-select-bg-color)",
-  selectTextColor: "var(--form-select-text-color)",
-  selectOptionsBgColor: "var(--form-select-options-bg-color)",
-  selectOptionsTextColor: "var(--form-select-options-text-color)",
-  selectOptionsHoverBgColor: "var(--form-select-options-hover-bg-color)",
+  textColor: 'var(--text-color)',
+  bgColor: 'var(--bg-color)',
+  borderColor: 'var(--border-color)',
+  labelColor: 'var(--form-label-color)',
+  selectBgColor: 'var(--form-select-bg-color)',
+  selectTextColor: 'var(--form-select-text-color)',
+  selectOptionsBgColor: 'var(--form-select-options-bg-color)',
+  selectOptionsTextColor: 'var(--form-select-options-text-color)',
+  selectOptionsHoverBgColor: 'var(--form-select-options-hover-bg-color)',
   selectOptionsSelectedBgColor:
-    "var(--form-select-options-selected-bg-color)",
-  buttonBgColor: "var(--form-button-bg-color)",
-  buttonTextColor: "var(--form-button-text-color)",
-  buttonHoverBgColor: "var(--form-button-hover-bg-color)",
-  checkboxCheckedColor: "var(--barra-item-hover-color)",
+    'var(--form-select-options-selected-bg-color)',
+  buttonBgColor: 'var(--form-button-bg-color)',
+  buttonTextColor: 'var(--form-button-text-color)',
+  buttonHoverBgColor: 'var(--form-button-hover-bg-color)',
+  checkboxCheckedColor: 'var(--barra-item-hover-color)',
 };
 
 export const styles = {
   inputLabelStyles: {
     color: formThemeVars.labelColor,
-    fontWeight: "bold",
-    fontSize: "1.2rem",
-    "&.Mui-focused": {
+    fontWeight: 'bold',
+    fontSize: '1.2rem',
+    '&.Mui-focused': {
       color: formThemeVars.labelColor,
     },
-    "&.MuiFormLabel-filled": {
+    '&.MuiFormLabel-filled': {
       color: formThemeVars.labelColor,
     },
   },
   selectStyles: {
     color: formThemeVars.selectTextColor,
     backgroundColor: formThemeVars.selectBgColor,
-    "& .MuiOutlinedInput-notchedOutline": {
+    '& .MuiOutlinedInput-notchedOutline': {
       borderColor: formThemeVars.borderColor,
     },
-    "&:hover .MuiOutlinedInput-notchedOutline": {
+    '&:hover .MuiOutlinedInput-notchedOutline': {
       borderColor: formThemeVars.checkboxCheckedColor,
     },
-    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: formThemeVars.checkboxCheckedColor,
     },
-    "& .MuiSelect-icon": {
+    '& .MuiSelect-icon': {
       color: formThemeVars.selectTextColor,
     },
-    "& .MuiSelect-select": {
-      padding: "1rem",
+    '& .MuiSelect-select': {
+      padding: '1rem',
     },
-    "& .MuiSelect-select:focus": {
+    '& .MuiSelect-select:focus': {
       backgroundColor: formThemeVars.selectBgColor,
     },
   },
   selectMenuStyles: {
     backgroundColor: formThemeVars.selectOptionsBgColor,
-    "& .MuiPaper-root": {
+    '& .MuiPaper-root': {
       backgroundColor: formThemeVars.selectOptionsBgColor,
     },
-    "& .MuiMenu-list": {
+    '& .MuiMenu-list': {
       backgroundColor: formThemeVars.selectOptionsBgColor,
     },
   },
   menuItemStyles: {
     backgroundColor: formThemeVars.selectOptionsBgColor,
     color: formThemeVars.selectOptionsTextColor,
-    "&:hover": {
+    '&:hover': {
       backgroundColor: formThemeVars.selectOptionsHoverBgColor,
     },
-    "&.Mui-selected": {
+    '&.Mui-selected': {
       backgroundColor: formThemeVars.selectOptionsSelectedBgColor,
     },
-    "&.Mui-selected:hover": {
+    '&.Mui-selected:hover': {
       backgroundColor: formThemeVars.selectOptionsHoverBgColor,
     },
   },
   selectFormControlStyles: {
-    marginBottom: "2rem",
-    "& .MuiInput-underline:before": {
+    marginBottom: '2rem',
+    '& .MuiInput-underline:before': {
       borderBottomColor: formThemeVars.borderColor,
     },
-    "& .MuiInput-underline:hover:before": {
+    '& .MuiInput-underline:hover:before': {
       borderBottomColor: formThemeVars.checkboxCheckedColor,
     },
-    "& .MuiInput-underline:after": {
+    '& .MuiInput-underline:after': {
       borderBottomColor: formThemeVars.checkboxCheckedColor,
     },
   },
   textFieldStyles: {
-    "& .MuiOutlinedInput-root": {
+    '& .MuiOutlinedInput-root': {
       backgroundColor: formThemeVars.selectBgColor,
       color: formThemeVars.selectTextColor,
-      "& fieldset": {
+      '& fieldset': {
         borderColor: formThemeVars.borderColor,
       },
-      "&:hover fieldset": {
+      '&:hover fieldset': {
         borderColor: formThemeVars.checkboxCheckedColor,
       },
-      "&.Mui-focused fieldset": {
+      '&.Mui-focused fieldset': {
         borderColor: formThemeVars.checkboxCheckedColor,
       },
     },
-    "& .MuiInputLabel-root": {
-      color: "gray",
-      fontSize: "1rem",
+    '& .MuiInputLabel-root': {
+      color: 'gray',
+      fontSize: '1rem',
     },
   },
   buttonStyles: {
     backgroundColor: formThemeVars.buttonBgColor,
     color: formThemeVars.buttonTextColor,
-    marginTop: "1rem",
+    marginTop: '1rem',
   },
 };

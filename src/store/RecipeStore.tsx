@@ -1,11 +1,11 @@
-import { create } from "zustand";
-import { axiosRequest } from "../common/services/AxiosRequest";
-import { RecipeDetailI, TagI } from "@/entities/types/home-management.entity";
-import { CreateRecipeDto } from "@/entities/dtos/recipe.dto";
-import { HttpEnum } from "@/entities/enums/http.enum";
-import { ApiEndpoints, RecetasEndpoints } from "@/config/apiconfig";
-import { AddRecipeException, DeleteRecipeException, FetchRecipesException, UpdateRecipeException } from "@/common/exceptions/recipes.exception";
-import { RecipeExceptionMessages } from "@/common/exceptions/entities/enums/recipe-exception.enum";
+import { create } from 'zustand';
+import { axiosRequest } from '../common/services/AxiosRequest';
+import { RecipeDetailI, TagI } from '@/entities/types/home-management.entity';
+import { CreateRecipeDto } from '@/entities/dtos/recipe.dto';
+import { HttpEnum } from '@/entities/enums/http.enum';
+import { ApiEndpoints, RecetasEndpoints } from '@/config/apiconfig';
+import { AddRecipeException, DeleteRecipeException, FetchRecipesException, UpdateRecipeException } from '@/common/exceptions/recipes.exception';
+import { RecipeExceptionMessages } from '@/common/exceptions/entities/enums/recipe-exception.enum';
 
 interface RecipeStore {
   recetas: RecipeDetailI[];

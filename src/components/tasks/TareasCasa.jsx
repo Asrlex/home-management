@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { axiosRequest } from "../../common/services/AxiosRequest";
-import toast from "react-hot-toast";
-import { LuWashingMachine, LuCookingPot, LuDog, LuBath } from "react-icons/lu";
-import { MdOutlineShoppingCart } from "react-icons/md";
-import { PiHandSoap, PiBroom } from "react-icons/pi";
-import { HttpEnum } from "@/entities/enums/http.enum";
-import { ApiEndpoints, TareasEndpoints } from "@/config/apiconfig";
+import React, { useState, useEffect, useRef } from 'react';
+import { axiosRequest } from '../../common/services/AxiosRequest';
+import toast from 'react-hot-toast';
+import { LuWashingMachine, LuCookingPot, LuDog, LuBath } from 'react-icons/lu';
+import { MdOutlineShoppingCart } from 'react-icons/md';
+import { PiHandSoap, PiBroom } from 'react-icons/pi';
+import { HttpEnum } from '@/entities/enums/http.enum';
+import { ApiEndpoints, TareasEndpoints } from '@/config/apiconfig';
 
 const TareasCasa = () => {
   const [tasks, setTasks] = useState([]);
@@ -16,27 +16,27 @@ const TareasCasa = () => {
 
   const tasksList = [
     {
-      name: "Lavadora",
-      icon: <LuWashingMachine className="houseTaskIcon" />,
+      name: 'Lavadora',
+      icon: <LuWashingMachine className='houseTaskIcon' />,
     },
     {
-      name: "Lavaplatos",
-      icon: <PiHandSoap className="houseTaskIcon" />,
+      name: 'Lavaplatos',
+      icon: <PiHandSoap className='houseTaskIcon' />,
     },
-    { name: "Baños", icon: <LuBath className="houseTaskIcon" /> },
-    { name: "Barrer", icon: <PiBroom className="houseTaskIcon" /> },
-    { name: "Cocinar", icon: <LuCookingPot className="houseTaskIcon" /> },
-    { name: "Pasear", icon: <LuDog className="houseTaskIcon" /> },
+    { name: 'Baños', icon: <LuBath className='houseTaskIcon' /> },
+    { name: 'Barrer', icon: <PiBroom className='houseTaskIcon' /> },
+    { name: 'Cocinar', icon: <LuCookingPot className='houseTaskIcon' /> },
+    { name: 'Pasear', icon: <LuDog className='houseTaskIcon' /> },
     {
-      name: "Compra",
-      icon: <MdOutlineShoppingCart className="houseTaskIcon" />,
+      name: 'Compra',
+      icon: <MdOutlineShoppingCart className='houseTaskIcon' />,
     },
   ];
 
   useEffect(() => {
     axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.home)
       .then((response) => setTasks(response))
-      .catch((error) => console.error("Error fetching tasks:", error));
+      .catch((error) => console.error('Error fetching tasks:', error));
   }, []);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const TareasCasa = () => {
     };
 
     updateShadow();
-    listRef.current.addEventListener("scroll", updateShadow);
+    listRef.current.addEventListener('scroll', updateShadow);
   }, [tasks]);
 
   const handleTaskClick = (taskName) => {
@@ -91,50 +91,50 @@ const TareasCasa = () => {
 
   return (
     <>
-      <div className="tareas">
-        <div className="houseTaskButtons">
+      <div className='tareas'>
+        <div className='houseTaskButtons'>
           {tasksList.map((task, index) => (
             <button
               key={index}
               onClick={() => handleTaskClick(task.name)}
-              className="houseTaskButton"
+              className='houseTaskButton'
             >
               {task.icon}
-              <span className="houseTaskButtonText">{task.name}</span>
+              <span className='houseTaskButtonText'>{task.name}</span>
             </button>
           ))}
         </div>
-        <hr className="hrSeccion" />
-        <div className="houseTaskTitle">Tareas completadas</div>
+        <hr className='hrSeccion' />
+        <div className='houseTaskTitle'>Tareas completadas</div>
         <div
           ref={listRef}
-          className={`houseTaskList ${shadow.top ? "shadow-top" : ""} ${
-            shadow.bottom ? "shadow-bottom" : ""
+          className={`houseTaskList ${shadow.top ? 'shadow-top' : ''} ${
+            shadow.bottom ? 'shadow-bottom' : ''
           }`}
         >
           {filteredTasks.map((task, index) => (
             <div
               key={index}
               className={
-                "houseTaskItem " +
-                (checkDate(task.houseTaskDate) ? "houseTaskItemOld" : "")
+                'houseTaskItem ' +
+                (checkDate(task.houseTaskDate) ? 'houseTaskItemOld' : '')
               }
             >
               <span
-                className="houseTaskName"
+                className='houseTaskName'
                 onClick={() => handleTaskNameClick(task.houseTaskName)}
               >
                 {task.houseTaskName}
               </span>
               <span
-                className="houseTaskDate"
+                className='houseTaskDate'
                 title={task.houseTaskDate}
                 onClick={() => handleDateClick(task.id)}
               >
                 {expandedTask === task.id
                   ? task.houseTaskDate
-                  : task.houseTaskDate.split(" ")[0]}
-              </span>{" "}
+                  : task.houseTaskDate.split(' ')[0]}
+              </span>{' '}
             </div>
           ))}
         </div>

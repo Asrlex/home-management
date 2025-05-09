@@ -1,6 +1,6 @@
-import { createPortal } from "react-dom";
-import { useRef, forwardRef, useImperativeHandle } from "react";
-import { MdClose } from "react-icons/md";
+import { createPortal } from 'react-dom';
+import { useRef, forwardRef, useImperativeHandle } from 'react';
+import { MdClose } from 'react-icons/md';
 
 const Modal = forwardRef(({ children }, ref) => {
   const dialog = useRef();
@@ -16,18 +16,18 @@ const Modal = forwardRef(({ children }, ref) => {
   return createPortal(
     <dialog
       ref={dialog}
-      className="modal"
+      className='modal'
       autoFocus={false}
     >
       <button
         onClick={() => dialog.current.close()}
-        className="modalCerrar"
+        className='modalCerrar'
       >
         <MdClose />
       </button>
       {children}
     </dialog>
-    , document.getElementById("modal-root"));
+    , document.getElementById('modal-root'));
 });
 
 export default Modal;

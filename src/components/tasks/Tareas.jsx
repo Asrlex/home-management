@@ -1,13 +1,13 @@
-import axios from "axios";
-import { useEffect, useState, useRef } from "react";
-import Tarea from "./Tarea";
-import Modal from "../generic/Modal";
-import FAB from "../generic/FloatingButton";
-import { FaPlus } from "react-icons/fa";
-import toast from "react-hot-toast";
-import { axiosRequest } from "../../common/services/AxiosRequest";
-import { HttpEnum } from "@/entities/enums/http.enum";
-import { ApiEndpoints, TareasEndpoints } from "@/config/apiconfig";
+import axios from 'axios';
+import { useEffect, useState, useRef } from 'react';
+import Tarea from './Tarea';
+import Modal from '../generic/Modal';
+import FAB from '../generic/FloatingButton';
+import { FaPlus } from 'react-icons/fa';
+import toast from 'react-hot-toast';
+import { axiosRequest } from '../../common/services/AxiosRequest';
+import { HttpEnum } from '@/entities/enums/http.enum';
+import { ApiEndpoints, TareasEndpoints } from '@/config/apiconfig';
 
 export default function Tareas() {
   const [tareas, setTareas] = useState([]);
@@ -48,7 +48,7 @@ export default function Tareas() {
           })
         );
         toast.success(
-          `Tarea ${!completada ? "completada" : "desmarcada como completada"}`
+          `Tarea ${!completada ? 'completada' : 'desmarcada como completada'}`
         );
       })
       .catch((error) => {
@@ -61,7 +61,7 @@ export default function Tareas() {
 
   const handleEliminar = (id) => {
     const confirmacion = window.confirm(
-      "¿Estás seguro de eliminar esta tarea?"
+      '¿Estás seguro de eliminar esta tarea?'
     );
     if (confirmacion) {
       axiosRequest(
@@ -70,7 +70,7 @@ export default function Tareas() {
       )
         .then(() => {
           setTareas(tareas.filter((tarea) => tarea.taskID !== id));
-          toast.success("Tarea eliminada correctamente");
+          toast.success('Tarea eliminada correctamente');
         })
         .catch((error) => {
           console.error(error);
@@ -114,11 +114,11 @@ export default function Tareas() {
             response,
           ]);
           dialog.current.close();
-          tituloRef.current.value = "";
-          descripcionRef.current.value = "";
+          tituloRef.current.value = '';
+          descripcionRef.current.value = '';
           setIsEditMode(false);
           setCurrentTaskId(null);
-          toast.success("Tarea actualizada correctamente");
+          toast.success('Tarea actualizada correctamente');
         })
         .catch((error) => {
           console.error(error);
@@ -139,9 +139,9 @@ export default function Tareas() {
         .then((response) => {
           setTareas([response, ...tareas]);
           dialog.current.close();
-          tituloRef.current.value = "";
-          descripcionRef.current.value = "";
-          toast.success("Tarea creada correctamente");
+          tituloRef.current.value = '';
+          descripcionRef.current.value = '';
+          toast.success('Tarea creada correctamente');
         })
         .catch((error) => {
           console.error(error);
@@ -154,29 +154,29 @@ export default function Tareas() {
 
   const popup = (
     <Modal ref={dialog}>
-      <h2 className="modalTitulo">
-        {isEditMode ? "Editar tarea" : "Crear tarea"}
+      <h2 className='modalTitulo'>
+        {isEditMode ? 'Editar tarea' : 'Crear tarea'}
       </h2>
       <form>
-        <div style={{ marginBottom: "0.75rem" }}>
+        <div style={{ marginBottom: '0.75rem' }}>
           <input
-            className="modalInput"
-            id="titulo"
+            className='modalInput'
+            id='titulo'
             ref={tituloRef}
-            placeholder="Título"
+            placeholder='Título'
           />
         </div>
-        <div style={{ marginBottom: "0.75rem" }}>
+        <div style={{ marginBottom: '0.75rem' }}>
           <textarea
-            className="modalInput modalTextArea"
-            id="descripcion"
+            className='modalInput modalTextArea'
+            id='descripcion'
             ref={descripcionRef}
-            placeholder="Descripción"
+            placeholder='Descripción'
           />
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <button type="submit" className="modalBoton" onClick={modalSubmit}>
-            {isEditMode ? "Actualizar" : "Crear"}
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <button type='submit' className='modalBoton' onClick={modalSubmit}>
+            {isEditMode ? 'Actualizar' : 'Crear'}
           </button>
         </div>
       </form>
@@ -186,11 +186,11 @@ export default function Tareas() {
   return (
     <>
       {popup}
-      <div className="tareas">
-        <h1 className="h1Seccion">Tareas abiertas</h1>
-        <div className="tareasAbiertas">
+      <div className='tareas'>
+        <h1 className='h1Seccion'>Tareas abiertas</h1>
+        <div className='tareasAbiertas'>
           {tareas.filter((t) => !t.taskCompleted).length === 0 && (
-            <li className="sinContenido">No hay tareas pendientes</li>
+            <li className='sinContenido'>No hay tareas pendientes</li>
           )}
           {tareas
             .filter((t) => !t.taskCompleted)
@@ -206,11 +206,11 @@ export default function Tareas() {
               />
             ))}
         </div>
-        <hr className="hrSeccion" />
-        <h1 className="h1Seccion">Tareas cerradas</h1>
-        <div className="tareasCerradas">
+        <hr className='hrSeccion' />
+        <h1 className='h1Seccion'>Tareas cerradas</h1>
+        <div className='tareasCerradas'>
           {tareas.filter((t) => t.taskCompleted).length === 0 && (
-            <li className="sinContenido">No hay tareas completadas</li>
+            <li className='sinContenido'>No hay tareas completadas</li>
           )}
           {tareas
             .filter((t) => t.taskCompleted)
@@ -227,17 +227,17 @@ export default function Tareas() {
             ))}
         </div>
       </div>
-      <div className="seccionBotones">
+      <div className='seccionBotones'>
         <FAB
           icon={<FaPlus />}
           action={() => {
             setIsEditMode(false);
             setCurrentTaskId(null);
-            tituloRef.current.value = "";
-            descripcionRef.current.value = "";
+            tituloRef.current.value = '';
+            descripcionRef.current.value = '';
             dialog.current.open();
           }}
-          classes="floatingButton"
+          classes='floatingButton'
         />
       </div>
     </>

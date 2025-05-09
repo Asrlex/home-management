@@ -4,9 +4,9 @@ import ConnectionStatusIcon from '../generic/ConnectionStatusIcon';
 
 export default function MainContent({ titulo, children }) {
   return (
-    <div className="seccionPrincipal">
+    <div className='seccionPrincipal'>
       <ConnectionStatusIcon />
-      {titulo && <h1 className="tituloSeccion">
+      {titulo && <h1 className='tituloSeccion'>
         {titulo}
       </h1>}
       <div>
@@ -41,7 +41,7 @@ export default function MainContent({ titulo, children }) {
         </Toaster>
       </div>
 
-      <div className="contenidoPrincipal">
+      <div className='contenidoPrincipal'>
         {children}
       </div>
     </div>

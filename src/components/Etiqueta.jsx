@@ -1,8 +1,8 @@
-import { RiAddLine, RiDeleteBinLine } from "react-icons/ri";
-import useEtiquetaStore from "../store/TagStore";
-import { useRef } from "react";
-import { ContextMenu } from "primereact/contextmenu";
-import { axiosRequest } from "../common/services/AxiosRequest";
+import { RiAddLine, RiDeleteBinLine } from 'react-icons/ri';
+import useEtiquetaStore from '../store/TagStore';
+import { useRef } from 'react';
+import { ContextMenu } from 'primereact/contextmenu';
+import { axiosRequest } from '../common/services/AxiosRequest';
 
 export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
   const { tagName } = etiqueta;
@@ -16,27 +16,27 @@ export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
   const cm = useRef(null);
   const contextModel = [
     {
-      label: "Eliminar",
-      icon: <RiDeleteBinLine className="customContextMenuIcon" />,
+      label: 'Eliminar',
+      icon: <RiDeleteBinLine className='customContextMenuIcon' />,
       command: () => deleteEtiqueta(etiqueta.tagID),
     },
   ];
 
   return (
     <>
-      {tagName !== "Añadir etiqueta" && (
+      {tagName !== 'Añadir etiqueta' && (
         <ContextMenu
-          className="customContextMenu"
+          className='customContextMenu'
           model={contextModel}
           ref={cm}
         />
       )}
       <div
         className={`etiqueta
-                    ${seleccionada ? "etiquetaSeleccionada" : ""}
-                    ${tagName === "Añadir etiqueta" ? "etiquetaAdd" : ""}`}
+                    ${seleccionada ? 'etiquetaSeleccionada' : ''}
+                    ${tagName === 'Añadir etiqueta' ? 'etiquetaAdd' : ''}`}
         onClick={() => {
-          if (tagName === "Añadir etiqueta") {
+          if (tagName === 'Añadir etiqueta') {
             handleModal();
             return;
           }
@@ -51,8 +51,8 @@ export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
           cm.current.show(e);
         }}
       >
-        {tagName === "Añadir etiqueta" ? (
-          <RiAddLine className="etiquetaAddIcono" />
+        {tagName === 'Añadir etiqueta' ? (
+          <RiAddLine className='etiquetaAddIcono' />
         ) : (
           tagName
         )}

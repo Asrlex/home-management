@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { RiDeleteBinLine, RiSubtractLine, RiAddLine } from "react-icons/ri";
+import React, { useState, useEffect, useRef } from 'react';
+import { RiDeleteBinLine, RiSubtractLine, RiAddLine } from 'react-icons/ri';
 
 export default function ContadorProducto({
   producto,
@@ -23,12 +23,12 @@ export default function ContadorProducto({
     : producto.stockProductID;
   const fontSize =
     amount > 9999
-      ? "8px"
+      ? '8px'
       : amount > 999
-      ? "9px"
+      ? '9px'
       : amount > 99
-      ? "11px"
-      : "14px";
+      ? '11px'
+      : '14px';
 
   useEffect(() => {
     if (isMounted.current) {
@@ -68,27 +68,27 @@ export default function ContadorProducto({
   };
 
   return (
-    <div className="contador" data-no-dnd="true">
-      <button onClick={handleDecrement} className="botonContador">
+    <div className='contador' data-no-dnd='true'>
+      <button onClick={handleDecrement} className='botonContador'>
         {amount === 1 ? (
-          <RiDeleteBinLine className="botonContadorIcono botonRemoveIcono" />
+          <RiDeleteBinLine className='botonContadorIcono botonRemoveIcono' />
         ) : (
-          <RiSubtractLine className="botonContadorIcono botonRemoveIcono" />
+          <RiSubtractLine className='botonContadorIcono botonRemoveIcono' />
         )}
       </button>
       <div>
         <input
-          className="amount"
-          type="number"
+          className='amount'
+          type='number'
           value={inputValue}
           style={{ fontSize }}
           onChange={(e) => setInputValue(e.target.value)}
         />
       </div>
-      <button onClick={handleIncrement} className="botonContador">
-        <RiAddLine className="botonContadorIcono botonAdd" />
+      <button onClick={handleIncrement} className='botonContador'>
+        <RiAddLine className='botonContadorIcono botonAdd' />
       </button>
-      <button onClick={() => handleMover(id)} className="botonContador">
+      <button onClick={() => handleMover(id)} className='botonContador'>
         {icono}
       </button>
     </div>

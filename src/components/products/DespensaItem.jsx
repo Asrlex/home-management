@@ -1,14 +1,14 @@
-import { RiDeleteBinLine } from "react-icons/ri";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaTag } from "react-icons/fa";
-import { CiBoxList } from "react-icons/ci";
-import { useRef, forwardRef } from "react";
-import { memo } from "react";
-import { ContextMenu } from "primereact/contextmenu";
-import ContadorProducto from "./ContadorProducto";
-import useEtiquetaStore from "../../store/TagStore";
-import useDespensaStore from "../../store/StockStore";
-import SortableItem from "../generic/SortableItem";
+import { RiDeleteBinLine } from 'react-icons/ri';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { FaTag } from 'react-icons/fa';
+import { CiBoxList } from 'react-icons/ci';
+import { useRef, forwardRef } from 'react';
+import { memo } from 'react';
+import { ContextMenu } from 'primereact/contextmenu';
+import ContadorProducto from './ContadorProducto';
+import useEtiquetaStore from '../../store/TagStore';
+import useDespensaStore from '../../store/StockStore';
+import SortableItem from '../generic/SortableItem';
 
 const DespensaItem = forwardRef(
   (
@@ -29,27 +29,27 @@ const DespensaItem = forwardRef(
 
     const contextModel = [
       {
-        label: "Eliminar",
-        icon: <RiDeleteBinLine className="customContextMenuIcon" />,
+        label: 'Eliminar',
+        icon: <RiDeleteBinLine className='customContextMenuIcon' />,
         command: () => handleEliminar(producto.stockProductID),
       },
       {
-        label: "Añadir a la lista",
-        icon: <CiBoxList className="customContextMenuIcon" />,
+        label: 'Añadir a la lista',
+        icon: <CiBoxList className='customContextMenuIcon' />,
         command: () => handleAddListaCompra(producto.stockProductID),
       },
       {
-        label: "Etiquetas",
-        icon: <FaTag className="customContextMenuIcon" />,
+        label: 'Etiquetas',
+        icon: <FaTag className='customContextMenuIcon' />,
         items: etiquetas
-          .filter((etiqueta) => etiqueta.tagType === "Product")
+          .filter((etiqueta) => etiqueta.tagType === 'Product')
           .map((etiqueta) => ({
             label: producto.product.tags?.some(
               (prodEtiqueta) => prodEtiqueta.tagID === etiqueta.tagID
             )
               ? `${etiqueta.tagName} ✅`
               : `${etiqueta.tagName}`,
-            icon: <FaTag className="customContextMenuIcon" />,
+            icon: <FaTag className='customContextMenuIcon' />,
             command: () => addOrRemoveTag(etiqueta.tagID, producto),
           })),
       },
@@ -64,12 +64,12 @@ const DespensaItem = forwardRef(
         {(setActivatorNodeRef, attributes, listeners) => (
           <>
             <ContextMenu
-              className="customContextMenu"
+              className='customContextMenu'
               model={contextModel}
               ref={contextMenuRef}
             />
             <div
-              className="producto"
+              className='producto'
               onContextMenu={(e) => {
                 e.preventDefault();
                 contextMenuRef.current.show(e);
@@ -77,18 +77,18 @@ const DespensaItem = forwardRef(
               ref={innerRef}
             >
               <span ref={setActivatorNodeRef} {...attributes} {...listeners}>
-                <BsThreeDotsVertical className="drag-handle" />
+                <BsThreeDotsVertical className='drag-handle' />
               </span>
-              <div className="productoName">
-                {nombre}{" "}
-                <span className="fechaCompra">{fechaCompraFormat}</span>
+              <div className='productoName'>
+                {nombre}{' '}
+                <span className='fechaCompra'>{fechaCompraFormat}</span>
               </div>
               <ContadorProducto
                 producto={producto}
                 handleEliminar={handleEliminar}
                 handleAmount={handleAmount}
                 handleMover={handleMover}
-                icono={<CiBoxList className="botonContadorIcono botonList" />}
+                icono={<CiBoxList className='botonContadorIcono botonList' />}
               />
             </div>
           </>

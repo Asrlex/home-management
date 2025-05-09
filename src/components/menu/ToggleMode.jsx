@@ -1,7 +1,7 @@
-import { useState } from "react";
-import useThemeStore from "../../store/ThemeStore";
-import { MdOutlineWbSunny } from "react-icons/md";
-import { FaMoon } from "react-icons/fa";
+import { useState } from 'react';
+import useThemeStore from '../../store/ThemeStore';
+import { MdOutlineWbSunny } from 'react-icons/md';
+import { FaMoon } from 'react-icons/fa';
 
 const ToggleMode = () => {
   const theme = useThemeStore((state) => state.theme);
@@ -17,11 +17,11 @@ const ToggleMode = () => {
   };
 
   return (
-    <button onClick={handleClick} className="botonContador">
-      {theme === "dark" ? (
-        <FaMoon className={`toggleModeDark ${animate ? "animate" : ""}`} />
+    <button onClick={handleClick} className='botonContador'>
+      {theme === 'dark' ? (
+        <FaMoon className={`toggleModeDark ${animate ? 'animate' : ''}`} />
       ) : (
-        <MdOutlineWbSunny className={`toggleModeLight ${animate ? "animate" : ""}`} />
+        <MdOutlineWbSunny className={`toggleModeLight ${animate ? 'animate' : ''}`} />
       )}
     </button>
   );

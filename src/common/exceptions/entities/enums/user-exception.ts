@@ -1,5 +1,5 @@
-import { CustomBaseException } from "../../base.exception";
-import { UserExceptionNames } from "../../user.exception";
+import { CustomBaseException } from '../../base.exception';
+import { UserExceptionNames } from '../../user.exception';
 
 export class LoginException extends CustomBaseException {
   constructor(message: string) {

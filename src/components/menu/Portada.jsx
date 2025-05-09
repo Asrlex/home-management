@@ -1,8 +1,8 @@
-import useSettingsStore from "../../store/SettingsStore";
-import summerIcon from "../../assets/summer.png";
-import winterIcon from "../../assets/winter.png";
-import springIcon from "../../assets/spring.png";
-import autumnIcon from "../../assets/autumn.png";
+import useSettingsStore from '../../store/SettingsStore';
+import summerIcon from '../../assets/summer.png';
+import winterIcon from '../../assets/winter.png';
+import springIcon from '../../assets/spring.png';
+import autumnIcon from '../../assets/autumn.png';
 
 const icons = {
   summer: summerIcon,
@@ -16,14 +16,14 @@ const Portada = () => {
   const selectedIcon = icons[settings?.icon] || summerIcon;
 
   return (
-    <div className="portada">
+    <div className='portada'>
       <img
         src={selectedIcon}
-        alt="Logo"
-        className="portadaLogo"
+        alt='Logo'
+        className='portadaLogo'
       />
-      <h1 className="portadaTitulo">Bienvenido a Casa</h1>
-      <p className="portadaSubtitulo">Tu asistente de hogar</p>
+      <h1 className='portadaTitulo'>Bienvenido a Casa</h1>
+      <p className='portadaSubtitulo'>Tu asistente de hogar</p>
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import { CustomBaseException } from "./base.exception";
-import { ShopExceptionMessages } from "./entities/enums/shop-exception.enum";
+import { CustomBaseException } from './base.exception';
+import { ShopExceptionMessages } from './entities/enums/shop-exception.enum';
 
 export class AddShopException extends CustomBaseException {
   constructor(message: string) {

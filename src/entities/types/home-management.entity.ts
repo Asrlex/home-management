@@ -94,6 +94,17 @@ export interface SettingsI {
   settingsLastModified: string;
 }
 
+export interface UserSettingsI {
+  theme: 'light' | 'dark' | 'auto';
+  notifications: {
+    email: boolean;
+    push: boolean;
+  },
+  language: 'en' | 'es' | 'fr' | 'de',
+  icon: 'summer' | 'winter' | 'spring' | 'autumn' | 'default',
+  defaultPage: '' | 'lista-compra' | 'despensa' | 'tareas' | 'tareas-casa' | 'fichajes' | 'recetas' | 'gastos' | 'ajustes',
+}
+
 export interface UserI {
   userID: number;
   userEmail: string;

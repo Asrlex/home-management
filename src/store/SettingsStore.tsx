@@ -1,22 +1,33 @@
-import { create } from "zustand";
-import { axiosRequest } from "../common/services/AxiosRequest";
-import { HttpEnum } from "@/entities/enums/http.enum";
-import { SettingsExceptionMessages } from "@/common/exceptions/entities/enums/settings-exception.enum";
-import { CreateSettingsDto } from "@/entities/dtos/settings.dto";
-import { SettingsI, UserI } from "@/entities/types/home-management.entity";
-import { UserIDRequiredException, FetchSettingsException, UpdateSettingsException } from "@/common/exceptions/settings.exception";
-import useUserStore from "./UserStore";
-import { ApiEndpoints, SettingsEndpoints } from "@/config/apiconfig";
+import { create } from 'zustand';
+import { axiosRequest } from '../common/services/AxiosRequest';
+import { HttpEnum } from '@/entities/enums/http.enum';
+import { SettingsExceptionMessages } from '@/common/exceptions/entities/enums/settings-exception.enum';
+import { CreateSettingsDto } from '@/entities/dtos/settings.dto';
+import { UserIDRequiredException, FetchSettingsException, UpdateSettingsException } from '@/common/exceptions/settings.exception';
+import useUserStore from './UserStore';
+import { ApiEndpoints, SettingsEndpoints } from '@/config/apiconfig';
+import { SettingsI, UserI, UserSettingsI } from '@/entities/types/home-management.entity';
 
 interface SettingsStore {
-  settings: SettingsI | null;
+  settings: UserSettingsI | null;
   loading: boolean;
   fetchSettings: () => Promise<any | null>;
   updateSettings: (settings: any) => Promise<void>;
 }
 
+const defaultSettings: UserSettingsI = {
+  defaultPage: '',
+  theme: 'light',
+  notifications: {
+    email: false,
+    push: false,
+  },
+  language: 'es',
+  icon: 'summer',
+};
+
 const useSettingsStore = create((set): SettingsStore => ({
-  settings: null,
+  settings: defaultSettings,
   loading: true,
 
   fetchSettings: async () => {
@@ -26,9 +37,7 @@ const useSettingsStore = create((set): SettingsStore => ({
       const userID: number = user?.userID;
       if (!userID) {
         set({ loading: false });
-        throw new UserIDRequiredException(
-          SettingsExceptionMessages.UserIDRequiredException
-        );
+        return;
       }
 
       await axiosRequest(
@@ -36,7 +45,7 @@ const useSettingsStore = create((set): SettingsStore => ({
         `${ApiEndpoints.hm_url + SettingsEndpoints.byID}${userID}`
       )
         .then((response: SettingsI) => {
-          const parsedSettings = JSON.parse(response.settings);
+          const parsedSettings: UserSettingsI = JSON.parse(response.settings);
           set({ settings: parsedSettings, loading: false });
           return parsedSettings;
         })
@@ -76,7 +85,7 @@ const useSettingsStore = create((set): SettingsStore => ({
       settingsDTO
     )
       .then((response: SettingsI) => {
-        const parsedSettings = JSON.parse(response.settings);
+        const parsedSettings: UserSettingsI = JSON.parse(response.settings);
         set({ settings: parsedSettings });
         return parsedSettings;
       })

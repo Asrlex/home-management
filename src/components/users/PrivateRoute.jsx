@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { Navigate } from "react-router-dom";
-import useUserStore from "../../store/UserStore";
-import Loader from "../generic/Loader";
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import useUserStore from '../../store/UserStore';
+import Loader from '../generic/Loader';
 
 /**
  * * PrivateRoute component to protect routes that require authentication
@@ -17,12 +17,12 @@ export default function PrivateRoute({ children }) {
     validateToken();
   }, [validateToken]);
 
-  return loginStatus === "authenticated" ?
+  return loginStatus === 'authenticated' ?
     (
       <>{children}</>
-    ) : loginStatus === "loading" ? (
+    ) : loginStatus === 'loading' ? (
       <Loader />
     ) : (
-      <Navigate to="/login" replace />
+      <Navigate to='/login' replace />
     );
 }

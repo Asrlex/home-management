@@ -1,11 +1,11 @@
-import { create } from "zustand";
-import { axiosRequest } from "../common/services/AxiosRequest";
-import { ProductI } from "@/entities/types/home-management.entity";
-import { HttpEnum } from "@/entities/enums/http.enum";
-import { CreateProductDto } from "@/entities/dtos/product.dto";
-import { AddProductException, DeleteProductException, FetchProductsException } from "@/common/exceptions/product.exception";
-import { ProductExceptionMessages } from "@/common/exceptions/entities/enums/product-exception.enum";
-import { ApiEndpoints, ProductosEndpoints } from "@/config/apiconfig";
+import { create } from 'zustand';
+import { axiosRequest } from '../common/services/AxiosRequest';
+import { ProductI } from '@/entities/types/home-management.entity';
+import { HttpEnum } from '@/entities/enums/http.enum';
+import { CreateProductDto } from '@/entities/dtos/product.dto';
+import { AddProductException, DeleteProductException, FetchProductsException } from '@/common/exceptions/product.exception';
+import { ProductExceptionMessages } from '@/common/exceptions/entities/enums/product-exception.enum';
+import { ApiEndpoints, ProductosEndpoints } from '@/config/apiconfig';
 
 interface ProductStore {
   products: ProductI[];

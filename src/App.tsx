@@ -1,73 +1,83 @@
-import "primereact/resources/themes/md-dark-deeppurple/theme.css";
-import { useState, useEffect, useContext } from "react";
-import { PrimeReactProvider } from "primereact/api";
+import 'primereact/resources/themes/md-dark-deeppurple/theme.css';
+import { useState, useEffect, useContext } from 'react';
+import { PrimeReactProvider } from 'primereact/api';
 import {
   Routes,
   Route,
   useNavigate,
   Navigate,
   useLocation,
-} from "react-router-dom";
-import BarraLateral from "./components/menu/BarraLateral";
-import MainContent from "./components/menu/MainContent";
-import ListaCompra from "./components/products/ListaCompra";
-import Despensa from "./components/products/Despensa";
-import Tareas from "./components/tasks/Tareas";
-import TareasCasa from "./components/tasks/TareasCasa";
-import Recetas from "./components/recipes/Recetas";
-import Gastos from "./components/expenses/Gastos";
-import Ajustes from "./components/Ajustes";
-import ListaProductos from "./components/products/ListaProductos";
-import Login from "./components/users/Login";
-import Signup from "./components/users/Signup";
-import PrivateRoute from "./components/users/PrivateRoute";
-import Portada from "./components/menu/Portada";
-import Fichajes from "./components/tasks/Fichajes";
-import useUserStore from "./store/UserStore";
+} from 'react-router-dom';
+import BarraLateral from './components/menu/BarraLateral';
+import MainContent from './components/menu/MainContent';
+import ListaCompra from './components/products/ListaCompra';
+import Despensa from './components/products/Despensa';
+import Tareas from './components/tasks/Tareas';
+import TareasCasa from './components/tasks/TareasCasa';
+import Recetas from './components/recipes/Recetas';
+import Gastos from './components/expenses/Gastos';
+import Ajustes from './components/Ajustes';
+import ListaProductos from './components/products/ListaProductos';
+import Login from './components/users/Login';
+import Signup from './components/users/Signup';
+import PrivateRoute from './components/users/PrivateRoute';
+import Portada from './components/menu/Portada';
+import Fichajes from './components/tasks/Fichajes';
+import useUserStore from './store/UserStore';
+import useSettingsStore from './store/SettingsStore';
+import React from 'react';
 
 function App() {
-  const [selectedSection, setSelectedSection] = useState("");
-  const { token } = useUserStore();
+  const [selectedSection, setSelectedSection] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
-  const publicRoutes = ["/login", "/signup", "/"];
+  const publicRoutes = ['/login', '/signup', '/'];
   const validateToken = useUserStore((state) => state.validateToken);
+  const fetchSettings = useSettingsStore((state) => state.fetchSettings);
 
   useEffect(() => {
-    const validateAndRedirect = async () => {
-      const path = location.pathname.split("/")[1];
-      const section = path.replace(/-/g, " ");
+    const initializeApp = async () => {
+      await fetchSettings();
+
+      const path = location.pathname.split('/')[1];
+      const section = path.replace(/-/g, ' ');
       setSelectedSection(section.charAt(0).toUpperCase() + section.slice(1));
-  
+
       if (!publicRoutes.includes(location.pathname)) {
         const isValidToken = await validateToken();
         if (!isValidToken) {
-          navigate("/login");
+          navigate('/login');
+        } else {
+          const defaultPage =
+            useSettingsStore.getState().settings?.defaultPage || '/';
+          if (location.pathname === '/') {
+            navigate(defaultPage);
+          }
         }
       }
     };
-  
-    validateAndRedirect();
+
+    initializeApp();
   }, [location.pathname, navigate]);
 
   const handleSectionChange = (section) => {
     setSelectedSection(section);
-    navigate(`/${section.toLowerCase().replace(/\s+/g, "-")}`);
+    navigate(`/${section.toLowerCase().replace(/\s+/g, '-')}`);
   };
 
   return (
     <>
       <PrimeReactProvider>
-        <main className="app">
+        <main className='app'>
           <BarraLateral
             onSelectSection={handleSectionChange}
             section={selectedSection}
           />
           <MainContent titulo={selectedSection}>
             <Routes>
-              <Route path="/" element={<Portada />} />
+              <Route path='/' element={<Portada />} />
               <Route
-                path="/productos"
+                path='/productos'
                 element={
                   <PrivateRoute>
                     <ListaProductos />
@@ -75,7 +85,7 @@ function App() {
                 }
               />
               <Route
-                path="/lista-compra"
+                path='/lista-compra'
                 element={
                   <PrivateRoute>
                     <ListaCompra />
@@ -83,7 +93,7 @@ function App() {
                 }
               />
               <Route
-                path="/despensa"
+                path='/despensa'
                 element={
                   <PrivateRoute>
                     <Despensa />
@@ -91,7 +101,7 @@ function App() {
                 }
               />
               <Route
-                path="/tareas-pendientes"
+                path='/tareas-pendientes'
                 element={
                   <PrivateRoute>
                     <Tareas />
@@ -99,7 +109,7 @@ function App() {
                 }
               />
               <Route
-                path="/tareas-casa"
+                path='/tareas-casa'
                 element={
                   <PrivateRoute>
                     <TareasCasa />
@@ -107,7 +117,7 @@ function App() {
                 }
               />
               <Route
-                path="/fichajes"
+                path='/fichajes'
                 element={
                   <PrivateRoute>
                     <Fichajes />
@@ -115,7 +125,7 @@ function App() {
                 }
               />
               <Route
-                path="/recetas"
+                path='/recetas'
                 element={
                   <PrivateRoute>
                     <Recetas />
@@ -123,7 +133,7 @@ function App() {
                 }
               />
               <Route
-                path="/gastos"
+                path='/gastos'
                 element={
                   <PrivateRoute>
                     <Gastos />
@@ -131,21 +141,21 @@ function App() {
                 }
               />
               <Route
-                path="/ajustes"
+                path='/ajustes'
                 element={
                   <PrivateRoute>
                     <Ajustes />
                   </PrivateRoute>
                 }
               />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/" element={<Navigate to="/" />} />
-              <Route path="*" element={<Navigate to="/" />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/signup' element={<Signup />} />
+              <Route path='/' element={<Navigate to='/' />} />
+              <Route path='*' element={<Navigate to='/' />} />
             </Routes>
           </MainContent>
         </main>
-      </PrimeReactProvider>{" "}
+      </PrimeReactProvider>{' '}
     </>
   );
 }

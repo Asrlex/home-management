@@ -1,5 +1,5 @@
-import { CustomBaseException } from "./base.exception";
-import { SettingsExceptionNames } from "./entities/enums/settings-exception.enum";
+import { CustomBaseException } from './base.exception';
+import { SettingsExceptionNames } from './entities/enums/settings-exception.enum';
 
 export class UserIDRequiredException extends CustomBaseException {
   constructor(message: string) {

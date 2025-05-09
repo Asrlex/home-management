@@ -1,4 +1,4 @@
-import { ExceptionNames } from "./entities/enums/exception.enum";
+import { ExceptionNames } from './entities/enums/exception.enum';
 
 export class CustomBaseException extends Error {
   public readonly statusCode: number;

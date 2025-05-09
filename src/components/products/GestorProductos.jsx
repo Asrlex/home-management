@@ -4,16 +4,16 @@ import React, {
   useContext,
   Fragment,
   useEffect,
-} from "react";
-import toast from "react-hot-toast";
-import Select from "react-select";
+} from 'react';
+import toast from 'react-hot-toast';
+import Select from 'react-select';
 import {
   FaPlus,
   FaArrowAltCircleUp,
   FaArrowAltCircleDown,
-} from "react-icons/fa";
-import { IoIosRefresh } from "react-icons/io";
-import { InView } from "react-intersection-observer";
+} from 'react-icons/fa';
+import { IoIosRefresh } from 'react-icons/io';
+import { InView } from 'react-intersection-observer';
 import {
   DndContext,
   closestCenter,
@@ -21,26 +21,26 @@ import {
   useSensors,
   TouchSensor,
   MouseSensor,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   arrayMove,
   SortableContext,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import Modal from "../generic/Modal";
-import ListaEtiquetas from "../ListaEtiquetas";
-import FAB from "../generic/FloatingButton";
-import useProductStore from "../../store/ProductStore";
-import useEtiquetaStore from "../../store/TagStore";
-import useShoppingListStore from "../../store/ShoppingListStore";
-import useStockStore from "../../store/StockStore";
-import ListaCompraItem from "./ListaCompraItem";
-import DespensaItem from "./DespensaItem";
-import { axiosRequest } from "../../common/services/AxiosRequest";
-import { customStyles } from "../../styles/SelectStyles";
-import { ApiEndpoints, DespensaEndpoints, ListaCompraEndpoints } from "@/config/apiconfig";
-import { HttpEnum } from "@/entities/enums/http.enum";
-import { ProductsEnum, ProductToastMessages } from "./products.enum";
+} from '@dnd-kit/sortable';
+import Modal from '../generic/Modal';
+import ListaEtiquetas from '../ListaEtiquetas';
+import FAB from '../generic/FloatingButton';
+import useProductStore from '../../store/ProductStore';
+import useEtiquetaStore from '../../store/TagStore';
+import useShoppingListStore from '../../store/ShoppingListStore';
+import useStockStore from '../../store/StockStore';
+import ListaCompraItem from './ListaCompraItem';
+import DespensaItem from './DespensaItem';
+import { axiosRequest } from '../../common/services/AxiosRequest';
+import { customStyles } from '../../styles/SelectStyles';
+import { ApiEndpoints, DespensaEndpoints, ListaCompraEndpoints } from '@/config/apiconfig';
+import { HttpEnum } from '@/entities/enums/http.enum';
+import { ProductsEnum, ProductToastMessages } from './products.enum';
 
 export default function GestorProductos({ type }) {
   const [prodInView, setProdInView] = useState({
@@ -180,11 +180,11 @@ export default function GestorProductos({ type }) {
     )
       .then((response) => {
         addItem(response);
-        toast.success("Producto añadido");
+        toast.success('Producto añadido');
       })
       .catch((error) => {
         console.error(error);
-        toast.error("Error al añadir producto");
+        toast.error('Error al añadir producto');
       });
   };
 
@@ -194,7 +194,7 @@ export default function GestorProductos({ type }) {
    */
   const handleEliminar = (id) => {
     const confirmacion = window.confirm(
-      "¿Estás seguro de eliminar este producto?"
+      '¿Estás seguro de eliminar este producto?'
     );
     if (confirmacion) {
       const apiUrl =
@@ -339,23 +339,23 @@ export default function GestorProductos({ type }) {
    */
   const popupProducto = (
     <Modal ref={productoDialogRef}>
-      <h2 className="modalTitulo">Añadir producto</h2>
-      <form className="modalSection">
+      <h2 className='modalTitulo'>Añadir producto</h2>
+      <form className='modalSection'>
         <Select
           options={productOptions}
           onChange={setSelectedProduct}
-          placeholder="Seleccionar producto"
-          className="modalSelect"
+          placeholder='Seleccionar producto'
+          className='modalSelect'
           styles={customStyles}
           isSearchable
         />
         <input
-          type="number"
-          placeholder="Cantidad"
-          className="modalInputSmall"
+          type='number'
+          placeholder='Cantidad'
+          className='modalInputSmall'
           ref={amountRef}
         />
-        <button type="submit" className="modalBoton" onClick={modalSubmit}>
+        <button type='submit' className='modalBoton' onClick={modalSubmit}>
           Crear
         </button>
       </form>
@@ -365,23 +365,23 @@ export default function GestorProductos({ type }) {
   return (
     <>
       {popupProducto}
-      <ListaEtiquetas tipo="Product" />
-      <div className={type === ProductsEnum.listaCompra ? "listaCompra" : "despensa"}>
+      <ListaEtiquetas tipo='Product' />
+      <div className={type === ProductsEnum.listaCompra ? 'listaCompra' : 'despensa'}>
         {Array.isArray(items) && items.length === 0 && (
-          <div style={{ textAlign: "center" }}>
-            No hay productos en la{" "}
-            {type === ProductsEnum.listaCompra ? "lista de compra" : "despensa"}
+          <div style={{ textAlign: 'center' }}>
+            No hay productos en la{' '}
+            {type === ProductsEnum.listaCompra ? 'lista de compra' : 'despensa'}
           </div>
         )}
         <span
           onClick={() => {
-            firstRef.current.scrollIntoView({ behavior: "smooth" });
+            firstRef.current.scrollIntoView({ behavior: 'smooth' });
           }}
         >
           <FaArrowAltCircleUp
             className={`iconoScrollTop `}
             style={{
-              display: prodInView.first ? "none" : "block",
+              display: prodInView.first ? 'none' : 'block',
             }}
           />
         </span>
@@ -428,7 +428,7 @@ export default function GestorProductos({ type }) {
                   >
                     {index === 0 ? (
                       <InView
-                        as="div"
+                        as='div'
                         onChange={(inView) => {
                           setProdInView((state) => ({
                             last: state.last,
@@ -448,7 +448,7 @@ export default function GestorProductos({ type }) {
                       </InView>
                     ) : index === items.length - 1 ? (
                       <InView
-                        as="div"
+                        as='div'
                         onChange={(inView) => {
                           setProdInView((state) => ({
                             last: inView,
@@ -481,22 +481,22 @@ export default function GestorProductos({ type }) {
         </DndContext>
         <span
           onClick={() => {
-            lastRef.current.scrollIntoView({ behavior: "smooth" });
+            lastRef.current.scrollIntoView({ behavior: 'smooth' });
           }}
         >
           <FaArrowAltCircleDown
             className={`iconoScrollBottom `}
             style={{
-              display: prodInView.last ? "none" : "block",
+              display: prodInView.last ? 'none' : 'block',
             }}
           />
         </span>
       </div>
-      <div className="seccionBotones">
+      <div className='seccionBotones'>
         <FAB
           icon={<IoIosRefresh />}
           action={() => fetchItems()}
-          classes="refreshButton"
+          classes='refreshButton'
         />
         <FAB
           icon={<FaPlus />}
@@ -504,7 +504,7 @@ export default function GestorProductos({ type }) {
             await fetchProducts();
             productoDialogRef.current.open()
           }}
-          classes="floatingButton"
+          classes='floatingButton'
         />
       </div>
     </>

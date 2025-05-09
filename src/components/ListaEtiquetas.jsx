@@ -1,8 +1,8 @@
-import Etiqueta from "./Etiqueta";
+import Etiqueta from './Etiqueta';
 import Modal from './generic/Modal';
-import useEtiquetaStore from "../store/TagStore";
-import { useEffect, useRef } from "react";
-import { axiosRequest } from "../common/services/AxiosRequest";
+import useEtiquetaStore from '../store/TagStore';
+import { useEffect, useRef } from 'react';
+import { axiosRequest } from '../common/services/AxiosRequest';
 
 export default function ListaEtiquetas({ tipo }) {
   const etiquetas = useEtiquetaStore(state => state.etiquetas);
@@ -44,7 +44,7 @@ export default function ListaEtiquetas({ tipo }) {
       <h2 className='modalTitulo'>
         Añadir etiqueta
       </h2>
-      <form className="modalSection">
+      <form className='modalSection'>
         <input
           type='text'
           placeholder='Nombre'
@@ -65,7 +65,7 @@ export default function ListaEtiquetas({ tipo }) {
   return (
     <>
       {popupEtiqueta}
-      <div className="etiquetas">
+      <div className='etiquetas'>
         {etiquetas.filter(e => e.tagType === tipo).map((etiqueta) => (
           <Etiqueta
             key={etiqueta.tagID}
@@ -74,7 +74,7 @@ export default function ListaEtiquetas({ tipo }) {
           />
         ))}
         <Etiqueta
-          key="add"
+          key='add'
           etiqueta={{
             tagName: 'Añadir etiqueta',
             color: '#fff'

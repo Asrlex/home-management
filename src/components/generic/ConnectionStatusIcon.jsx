@@ -7,8 +7,8 @@ const ConnectionStatusIcon = () => {
   if (isConnected) return null;
 
   return (
-    <div className="connectionStatusIcon">
-      <FaExclamationTriangle color="red" />
+    <div className='connectionStatusIcon'>
+      <FaExclamationTriangle color='red' />
       <span>Connection issue</span>
     </div>
   );

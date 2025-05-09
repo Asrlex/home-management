@@ -1,6 +1,6 @@
-import { CustomBaseException } from "./base.exception";
-import { ErrorCodes } from "./entities/enums/exception.enum";
-import { TagExceptionNames } from "./entities/enums/tag-exception.enum";
+import { CustomBaseException } from './base.exception';
+import { ErrorCodes } from './entities/enums/exception.enum';
+import { TagExceptionNames } from './entities/enums/tag-exception.enum';
 
 export class AddTagException extends CustomBaseException {
   constructor(message: string) {

@@ -31,9 +31,9 @@ export enum SuccessCodes {
 
 export enum ExceptionNames {
   // General Exceptions
-  GeneralException = "GeneralException",
-  CustomBaseException = "CustomBaseException",
+  GeneralException = 'GeneralException',
+  CustomBaseException = 'CustomBaseException',
 
   // Other Exceptions
-  RequestException = "RequestException",
+  RequestException = 'RequestException',
 }

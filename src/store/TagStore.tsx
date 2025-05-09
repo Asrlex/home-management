@@ -1,11 +1,11 @@
-import { create } from "zustand";
-import { axiosRequest } from "../common/services/AxiosRequest";
-import { TagI } from "@/entities/types/home-management.entity";
-import { FetchTagsException, AddTagException, SetSelectedTagsException, AddTagToSelectedException, RemoveTagFromSelectedException, AddItemTagException } from "@/common/exceptions/tag.exceptions";
-import { TagExceptionMessages } from "@/common/exceptions/entities/enums/tag-exception.enum";
-import { HttpEnum } from "@/entities/enums/http.enum";
-import { CreateItemTagDto, CreateTagDto } from "@/entities/dtos/tag.dto";
-import { ApiEndpoints, EtiquetasEndpoints } from "@/config/apiconfig";
+import { create } from 'zustand';
+import { axiosRequest } from '../common/services/AxiosRequest';
+import { TagI } from '@/entities/types/home-management.entity';
+import { FetchTagsException, AddTagException, SetSelectedTagsException, AddTagToSelectedException, RemoveTagFromSelectedException, AddItemTagException } from '@/common/exceptions/tag.exceptions';
+import { TagExceptionMessages } from '@/common/exceptions/entities/enums/tag-exception.enum';
+import { HttpEnum } from '@/entities/enums/http.enum';
+import { CreateItemTagDto, CreateTagDto } from '@/entities/dtos/tag.dto';
+import { ApiEndpoints, EtiquetasEndpoints } from '@/config/apiconfig';
 
 interface EtiquetaStore {
   etiquetas: TagI[];

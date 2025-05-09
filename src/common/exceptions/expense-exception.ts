@@ -1,5 +1,5 @@
-import { CustomBaseException } from "./base.exception";
-import { ExpenseExceptionNames } from "./entities/enums/expense-exception.enum";
+import { CustomBaseException } from './base.exception';
+import { ExpenseExceptionNames } from './entities/enums/expense-exception.enum';
 
 export class AddExpenseException extends CustomBaseException {
   constructor(message: string) {

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -8,15 +8,15 @@ import {
   TableRow,
   Paper,
   TablePagination,
-} from "@mui/material";
-import useProductStore from "../../store/ProductStore";
-import useEtiquetaStore from "../../store/TagStore";
-import ListaEtiquetas from "../ListaEtiquetas";
-import FAB from "../generic/FloatingButton";
-import Modal from "../generic/Modal";
-import { FaPlus } from "react-icons/fa";
-import toast from "react-hot-toast";
-import { TableStyles } from "../../styles/Table.Styles";
+} from '@mui/material';
+import useProductStore from '../../store/ProductStore';
+import useEtiquetaStore from '../../store/TagStore';
+import ListaEtiquetas from '../ListaEtiquetas';
+import FAB from '../generic/FloatingButton';
+import Modal from '../generic/Modal';
+import { FaPlus } from 'react-icons/fa';
+import toast from 'react-hot-toast';
+import { TableStyles } from '../../styles/Table.Styles';
 
 const ListaProductos = () => {
   const products = useProductStore((state) => state.products);
@@ -29,7 +29,7 @@ const ListaProductos = () => {
   const [nameError, setNameError] = useState(false);
   const [unitError, setUnitError] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(25);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const productoDialogRef = useRef();
   const nameRef = useRef();
   const unitRef = useRef();
@@ -48,9 +48,9 @@ const ListaProductos = () => {
   };
 
   const handleSort = (key) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
     }
     setSortConfig({ key, direction });
   };
@@ -59,8 +59,8 @@ const ListaProductos = () => {
     if (!sortConfig.key) return 0;
     const aValue = a[sortConfig.key];
     const bValue = b[sortConfig.key];
-    if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
-    if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+    if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
     return 0;
   });
 
@@ -93,60 +93,60 @@ const ListaProductos = () => {
 
     addProduct(newProduct)
       .then(() => {
-        toast.success("Producto creado con éxito");
+        toast.success('Producto creado con éxito');
       })
       .catch((error) => {
-        toast.error("Error al crear el producto: " + error.message);
+        toast.error('Error al crear el producto: ' + error.message);
       });
     productoDialogRef.current.close();
-    nameRef.current.value = "";
-    unitRef.current.value = "";
+    nameRef.current.value = '';
+    unitRef.current.value = '';
   };
 
   const popup = (
     <Modal ref={productoDialogRef}>
-      <h2 className="modalTitulo">Crear producto</h2>
+      <h2 className='modalTitulo'>Crear producto</h2>
       <form>
         <div
           style={{
-            marginBottom: "0.75rem",
-            display: "flex",
-            flexDirection: "column",
+            marginBottom: '0.75rem',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <input
-            className="modalInput"
-            id="titulo"
+            className='modalInput'
+            id='titulo'
             ref={nameRef}
-            placeholder="Nombre"
+            placeholder='Nombre'
             style={{
-              borderColor: nameError ? "red" : "",
-              borderWidth: nameError ? "2px" : "",
+              borderColor: nameError ? 'red' : '',
+              borderWidth: nameError ? '2px' : '',
             }}
           />
           {nameError && (
-            <span style={{ color: "red", fontSize: "0.8rem" }}>
+            <span style={{ color: 'red', fontSize: '0.8rem' }}>
               {products.some(
                 (product) =>
                   product.productName === nameRef.current.value.trim()
               )
-                ? "El producto ya existe"
-                : "Este campo es obligatorio"}
+                ? 'El producto ya existe'
+                : 'Este campo es obligatorio'}
             </span>
           )}
         </div>
-        <div style={{ marginBottom: "0.75rem" }}>
+        <div style={{ marginBottom: '0.75rem' }}>
           <input
-            className="modalInput"
-            id="unidad"
+            className='modalInput'
+            id='unidad'
             ref={unitRef}
-            placeholder="Unidad"
+            placeholder='Unidad'
           />
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <button
-            type="submit"
-            className="modalBoton"
+            type='submit'
+            className='modalBoton'
             onClick={handleAddProduct}
           >
             Crear
@@ -159,66 +159,66 @@ const ListaProductos = () => {
   return (
     <>
       {popup}
-      <ListaEtiquetas tipo="Product" />
-      <div className="productsTable">
+      <ListaEtiquetas tipo='Product' />
+      <div className='productsTable'>
         <TableContainer component={Paper} sx={TableStyles.table}>
-          <Table stickyHeader aria-label="sticky table" size="small">
+          <Table stickyHeader aria-label='sticky table' size='small'>
             <TableHead>
               <TableRow>
                 <TableCell
                   sx={TableStyles.tableHeaderCell}
-                  onClick={() => handleSort("productID")}
+                  onClick={() => handleSort('productID')}
                 >
-                  ID{" "}
-                  {sortConfig.key === "productID"
-                    ? sortConfig.direction === "asc"
-                      ? "↑"
-                      : "↓"
-                    : ""}
+                  ID{' '}
+                  {sortConfig.key === 'productID'
+                    ? sortConfig.direction === 'asc'
+                      ? '↑'
+                      : '↓'
+                    : ''}
                 </TableCell>
                 <TableCell
                   sx={TableStyles.tableHeaderCell}
-                  onClick={() => handleSort("productName")}
+                  onClick={() => handleSort('productName')}
                 >
-                  Nombre{" "}
-                  {sortConfig.key === "productName"
-                    ? sortConfig.direction === "asc"
-                      ? "↑"
-                      : "↓"
-                    : ""}
+                  Nombre{' '}
+                  {sortConfig.key === 'productName'
+                    ? sortConfig.direction === 'asc'
+                      ? '↑'
+                      : '↓'
+                    : ''}
                 </TableCell>
                 <TableCell
                   sx={TableStyles.tableHeaderCell}
-                  onClick={() => handleSort("productUnit")}
+                  onClick={() => handleSort('productUnit')}
                 >
-                  Unidad{" "}
-                  {sortConfig.key === "productUnit"
-                    ? sortConfig.direction === "asc"
-                      ? "↑"
-                      : "↓"
-                    : ""}
+                  Unidad{' '}
+                  {sortConfig.key === 'productUnit'
+                    ? sortConfig.direction === 'asc'
+                      ? '↑'
+                      : '↓'
+                    : ''}
                 </TableCell>
                 <TableCell
                   sx={TableStyles.tableHeaderCell}
-                  onClick={() => handleSort("productDateLastBought")}
+                  onClick={() => handleSort('productDateLastBought')}
                 >
-                  Comprado{" "}
-                  {sortConfig.key === "productDateLastBought"
-                    ? sortConfig.direction === "asc"
-                      ? "↑"
-                      : "↓"
-                    : ""}
+                  Comprado{' '}
+                  {sortConfig.key === 'productDateLastBought'
+                    ? sortConfig.direction === 'asc'
+                      ? '↑'
+                      : '↓'
+                    : ''}
                 </TableCell>
                 <TableCell
                   sx={TableStyles.tableHeaderCell}
-                  onClick={() => handleSort("productDateLastConsumed")}
+                  onClick={() => handleSort('productDateLastConsumed')}
                 >
-                  Consumido{" "}
-                  {sortConfig.key === "productDateLastConsumed"
-                    ? sortConfig.direction === "asc"
-                      ? "↑"
-                      : "↓"
-                    : ""}
+                  Consumido{' '}
+                  {sortConfig.key === 'productDateLastConsumed'
+                    ? sortConfig.direction === 'asc'
+                      ? '↑'
+                      : '↓'
+                    : ''}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -261,7 +261,7 @@ const ListaProductos = () => {
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
-          component="div"
+          component='div'
           count={products.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -271,11 +271,11 @@ const ListaProductos = () => {
           slotProps={TableStyles.tablePaginationSlots}
         />
       </div>
-      <div className="seccionBotones">
+      <div className='seccionBotones'>
         <FAB
           icon={<FaPlus />}
           action={() => productoDialogRef.current.open()}
-          classes="floatingButton"
+          classes='floatingButton'
         />
       </div>
     </>

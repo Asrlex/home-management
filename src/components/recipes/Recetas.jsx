@@ -1,13 +1,13 @@
-import useRecetasStore from "../../store/RecipeStore";
-import useEtiquetaStore from "../../store/TagStore";
-import Receta from "./Receta";
-import { useRef, useEffect } from "react";
-import Modal from "../generic/Modal";
-import FAB from "../generic/FloatingButton";
-import { FaPlus } from "react-icons/fa";
-import NuevaRecetaModal from "./NuevaRecetaModal";
-import Loader from "../generic/Loader";
-import ListaEtiquetas from "../ListaEtiquetas";
+import useRecetasStore from '../../store/RecipeStore';
+import useEtiquetaStore from '../../store/TagStore';
+import Receta from './Receta';
+import { useRef, useEffect } from 'react';
+import Modal from '../generic/Modal';
+import FAB from '../generic/FloatingButton';
+import { FaPlus } from 'react-icons/fa';
+import NuevaRecetaModal from './NuevaRecetaModal';
+import Loader from '../generic/Loader';
+import ListaEtiquetas from '../ListaEtiquetas';
 
 export default function Recetas() {
   const recetas = useRecetasStore((state) => state.recetas);
@@ -30,11 +30,11 @@ export default function Recetas() {
       <Modal ref={recetaDialogRef}>
         <NuevaRecetaModal closeModal={() => recetaDialogRef.current.close()} />
       </Modal>
-      <ListaEtiquetas tipo="Recipe" />
+      <ListaEtiquetas tipo='Recipe' />
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="recetas">
+        <div className='recetas'>
           {recetas
             .filter((receta) => {
               if (etiquetasSeleccionadas.length === 0) return true;
@@ -56,11 +56,11 @@ export default function Recetas() {
             ))}
         </div>
       )}
-      <div className="seccionBotones">
+      <div className='seccionBotones'>
         <FAB
           icon={<FaPlus />}
           action={() => recetaDialogRef.current.open()}
-          classes="floatingButton"
+          classes='floatingButton'
         />
       </div>
     </>

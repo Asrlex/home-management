@@ -1,10 +1,10 @@
-import { useState, useRef, useEffect } from "react";
-import Select from "react-select";
-import useProductStore from "../../store/ProductStore";
-import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
-import { customStyles } from "../../styles/SelectStyles";
-import useRecetasStore from "../../store/RecipeStore";
-import toast from "react-hot-toast";
+import { useState, useRef, useEffect } from 'react';
+import Select from 'react-select';
+import useProductStore from '../../store/ProductStore';
+import { AiFillDelete, AiOutlineEdit } from 'react-icons/ai';
+import { customStyles } from '../../styles/SelectStyles';
+import useRecetasStore from '../../store/RecipeStore';
+import toast from 'react-hot-toast';
 
 export default function NuevaRecetaModal({ closeModal, receta }) {
   const products = useProductStore((state) => state.products);
@@ -64,8 +64,8 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
     }
 
     setSelectedProduct(null);
-    ingredientAmountRef.current.value = "";
-    ingredientUnitRef.current.value = "";
+    ingredientAmountRef.current.value = '';
+    ingredientUnitRef.current.value = '';
   };
 
   const editIngredient = (index) => {
@@ -100,8 +100,8 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
       setStepOrder(stepOrder + 1);
     }
 
-    stepNameRef.current.value = "";
-    stepDescriptionRef.current.value = "";
+    stepNameRef.current.value = '';
+    stepDescriptionRef.current.value = '';
   };
 
   const deleteStep = (index) => {
@@ -123,12 +123,12 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
   };
 
   const limpiarCampos = () => {
-    recipeNameRef.current.value = "";
-    recipeDescriptionRef.current.value = "";
-    ingredientAmountRef.current.value = "";
-    ingredientUnitRef.current.value = "";
-    stepNameRef.current.value = "";
-    stepDescriptionRef.current.value = "";
+    recipeNameRef.current.value = '';
+    recipeDescriptionRef.current.value = '';
+    ingredientAmountRef.current.value = '';
+    ingredientUnitRef.current.value = '';
+    stepNameRef.current.value = '';
+    stepDescriptionRef.current.value = '';
     setIngredients([]);
     setSteps([]);
     setStepOrder(1);
@@ -140,15 +140,15 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
 
   const handleCreateReceta = () => {
     if (!recipeNameRef.current.value || !recipeDescriptionRef.current.value) {
-      toast.error("Por favor, completa todos los campos obligatorios.");
+      toast.error('Por favor, completa todos los campos obligatorios.');
       return;
     }
     if (ingredients.length === 0) {
-      toast.error("Por favor, añade al menos un ingrediente.");
+      toast.error('Por favor, añade al menos un ingrediente.');
       return;
     }
     if (steps.length === 0) {
-      toast.error("Por favor, añade al menos un paso.");
+      toast.error('Por favor, añade al menos un paso.');
       return;
     }
     const newReceta = {
@@ -168,72 +168,72 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
       crearReceta(newReceta);
     }
     limpiarCampos();
-    toast.success("Receta creada con éxito");
+    toast.success('Receta creada con éxito');
   };
 
   return (
     <>
-      <h1 className="modalTitulo">Nueva Receta</h1>
-      <div className="modalSeparator">
+      <h1 className='modalTitulo'>Nueva Receta</h1>
+      <div className='modalSeparator'>
         <input
-          type="text"
+          type='text'
           ref={recipeNameRef}
-          className="modalInput"
-          placeholder="Nombre de la receta"
+          className='modalInput'
+          placeholder='Nombre de la receta'
         />
       </div>
-      <div className="modalSeparator">
+      <div className='modalSeparator'>
         <textarea
           ref={recipeDescriptionRef}
-          placeholder="Descripción"
-          className="modalInput modalTextArea"
+          placeholder='Descripción'
+          className='modalInput modalTextArea'
         />
       </div>
-      <hr className="modalDivider" />
-      <div className="modalSection">
-        <h2 className="modalSubtitulo">Ingredientes</h2>
+      <hr className='modalDivider' />
+      <div className='modalSection'>
+        <h2 className='modalSubtitulo'>Ingredientes</h2>
         <Select
           options={productOptions}
           value={selectedProduct}
           onChange={setSelectedProduct}
-          placeholder="Seleccionar producto"
+          placeholder='Seleccionar producto'
           styles={customStyles}
           isSearchable
-          className="modalSelect"
+          className='modalSelect'
         />
-        <div className="modalParallelInputs">
+        <div className='modalParallelInputs'>
           <input
-            type="number"
-            placeholder="Cantidad"
+            type='number'
+            placeholder='Cantidad'
             ref={ingredientAmountRef}
-            className="modalInputSmall"
+            className='modalInputSmall'
           />
           <input
-            type="text"
-            placeholder="Unidad"
+            type='text'
+            placeholder='Unidad'
             ref={ingredientUnitRef}
-            className="modalInputSmall"
+            className='modalInputSmall'
           />
         </div>
-        <div className="modalSeparator">
-          <button onClick={addIngredient} className="modalBoton">
+        <div className='modalSeparator'>
+          <button onClick={addIngredient} className='modalBoton'>
             {editingIngredientIndex !== null
-              ? "Guardar Ingrediente"
-              : "Añadir Ingrediente"}
+              ? 'Guardar Ingrediente'
+              : 'Añadir Ingrediente'}
           </button>
         </div>
         {ingredients.length > 0 && (
           <>
-            <div className="modalSubSubtitulo">Lista de ingredientes</div>
-            <div className="modalLista scrollableTextarea">
+            <div className='modalSubSubtitulo'>Lista de ingredientes</div>
+            <div className='modalLista scrollableTextarea'>
               {ingredients.map((ingredient, index) => (
-                <div key={index} className="modalListaItem">
+                <div key={index} className='modalListaItem'>
                   <span>
-                    <strong>{ingredient.product.productName}</strong>:{" "}
-                    {ingredient.recipeIngredientAmount}{" "}
+                    <strong>{ingredient.product.productName}</strong>:{' '}
+                    {ingredient.recipeIngredientAmount}{' '}
                     {ingredient.recipeIngredientUnit}
                   </span>
-                  <span className="modalListaItemButtons">
+                  <span className='modalListaItemButtons'>
                     <button onClick={() => editIngredient(index)}>
                       <AiOutlineEdit />
                     </button>
@@ -247,42 +247,42 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
           </>
         )}
       </div>
-      <hr className="modalDivider" />
-      <div className="modalSection">
-        <h2 className="modalSubtitulo">Pasos</h2>
-        <div className="modalSeparator">
+      <hr className='modalDivider' />
+      <div className='modalSection'>
+        <h2 className='modalSubtitulo'>Pasos</h2>
+        <div className='modalSeparator'>
           <input
-            type="text"
-            placeholder="Nombre del paso"
+            type='text'
+            placeholder='Nombre del paso'
             ref={stepNameRef}
-            className="modalInput"
+            className='modalInput'
           />
         </div>
-        <div className="modalSeparator">
+        <div className='modalSeparator'>
           <textarea
-            placeholder="Descripción del paso"
+            placeholder='Descripción del paso'
             ref={stepDescriptionRef}
-            className="modalInput modalTextArea scrollableTextarea"
+            className='modalInput modalTextArea scrollableTextarea'
           />
         </div>
-        <div className="modalSeparator">
-          <button onClick={addStep} className="modalBoton">
-            {editingStepIndex !== null ? "Guardar Paso" : "Añadir Paso"}
+        <div className='modalSeparator'>
+          <button onClick={addStep} className='modalBoton'>
+            {editingStepIndex !== null ? 'Guardar Paso' : 'Añadir Paso'}
           </button>
         </div>
         {steps.length > 0 && (
           <>
-            <div className="modalSubSubtitulo">Lista de pasos</div>
-            <div className="modalLista scrollableTextarea">
+            <div className='modalSubSubtitulo'>Lista de pasos</div>
+            <div className='modalLista scrollableTextarea'>
               {steps.map((step, index) => (
-                <div key={index} className="modalListaItem">
+                <div key={index} className='modalListaItem'>
                   <span>
                     <strong>
                       {step.recipeStepOrder}. {step.recipeStepName}
                     </strong>
                     : {step.recipeStepDescription}
                   </span>
-                  <span className="modalListaItemButtons">
+                  <span className='modalListaItemButtons'>
                     <button onClick={() => editStep(index)}>
                       <AiOutlineEdit />
                     </button>
@@ -296,13 +296,13 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
           </>
         )}
       </div>
-      <hr className="modalDivider" />
-      <div className="modalSeparator">
-        <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
-          <button className="modalBoton" onClick={handleCreateReceta}>
-            {receta ? "Actualizar Receta" : "Crear Receta"}
+      <hr className='modalDivider' />
+      <div className='modalSeparator'>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+          <button className='modalBoton' onClick={handleCreateReceta}>
+            {receta ? 'Actualizar Receta' : 'Crear Receta'}
           </button>
-          <button className="modalBoton" onClick={limpiarCampos}>
+          <button className='modalBoton' onClick={limpiarCampos}>
             Cancelar
           </button>
         </div>
