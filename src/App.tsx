@@ -1,5 +1,5 @@
 import 'primereact/resources/themes/md-dark-deeppurple/theme.css';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { PrimeReactProvider } from 'primereact/api';
 import {
   Routes,
@@ -26,6 +26,7 @@ import Fichajes from './components/tasks/Fichajes';
 import useUserStore from './store/UserStore';
 import useSettingsStore from './store/SettingsStore';
 import React from 'react';
+import useThemeStore from './store/ThemeStore';
 
 function App() {
   const [selectedSection, setSelectedSection] = useState('');
@@ -34,10 +35,16 @@ function App() {
   const publicRoutes = ['/login', '/signup', '/'];
   const validateToken = useUserStore((state) => state.validateToken);
   const fetchSettings = useSettingsStore((state) => state.fetchSettings);
+  const theme = useSettingsStore((state) => state.settings?.theme);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   useEffect(() => {
     const initializeApp = async () => {
-      await fetchSettings();
+      const settings = await fetchSettings();
+
+      if (settings?.theme && settings.theme !== theme) {
+        toggleTheme();
+      }
 
       const path = location.pathname.split('/')[1];
       const section = path.replace(/-/g, ' ');

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../common/services/AxiosRequest';
+import { axiosRequest } from '../hooks/useAxios';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { SettingsExceptionMessages } from '@/common/exceptions/entities/enums/settings-exception.enum';
 import { CreateSettingsDto } from '@/entities/dtos/settings.dto';
@@ -11,7 +11,7 @@ import { SettingsI, UserI, UserSettingsI } from '@/entities/types/home-managemen
 interface SettingsStore {
   settings: UserSettingsI | null;
   loading: boolean;
-  fetchSettings: () => Promise<any | null>;
+  fetchSettings: () => Promise<UserSettingsI | null>;
   updateSettings: (settings: any) => Promise<void>;
 }
 
@@ -30,31 +30,23 @@ const useSettingsStore = create((set): SettingsStore => ({
   settings: defaultSettings,
   loading: true,
 
-  fetchSettings: async () => {
+  fetchSettings: async (): Promise<UserSettingsI | null> => {
     set({ loading: true });
     try {
       const user: UserI = useUserStore.getState().user;
       const userID: number = user?.userID;
       if (!userID) {
         set({ loading: false });
-        return;
+        return null;
       }
-
-      await axiosRequest(
+  
+      const response: SettingsI = await axiosRequest<null, SettingsI>(
         HttpEnum.GET,
         `${ApiEndpoints.hm_url + SettingsEndpoints.byID}${userID}`
-      )
-        .then((response: SettingsI) => {
-          const parsedSettings: UserSettingsI = JSON.parse(response.settings);
-          set({ settings: parsedSettings, loading: false });
-          return parsedSettings;
-        })
-        .catch((error) => {
-          set({ loading: false });
-          throw new FetchSettingsException(
-            SettingsExceptionMessages.FetchSettingsException + error
-          );
-        });
+      );
+      const parsedSettings: UserSettingsI = JSON.parse(response.settings);
+      set({ settings: parsedSettings, loading: false });
+      return parsedSettings;
     } catch (error) {
       set({ loading: false });
       throw new FetchSettingsException(
@@ -78,7 +70,7 @@ const useSettingsStore = create((set): SettingsStore => ({
       settings: stringifiedSettings,
       settingsUserID: userID,
     };
-    await axiosRequest(
+    await axiosRequest<CreateSettingsDto, SettingsI>(
       HttpEnum.PUT,
       `${ApiEndpoints.hm_url + SettingsEndpoints.base}/${userID}`,
       {},

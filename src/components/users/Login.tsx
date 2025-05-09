@@ -7,27 +7,30 @@ import toast from 'react-hot-toast';
 import { TextField, Button, Box,InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { formThemeVars, styles } from '../../styles/Form.Styles';
+import React from 'react';
 
 export default function Login() {
-  const { login } = useUserStore();
+  const login = useUserStore((state) => state.login);
   const fetchSettings = useSettingsStore((state) => state.fetchSettings);
   const { theme, toggleTheme } = useThemeStore();
 const [credentials, setCredentials] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await login(credentials);
       const settings = await fetchSettings();
+
       if (settings?.theme && settings.theme !== theme) {
         toggleTheme();
       }
-      navigate('/');
-      toast.success('Login successful!');
+
+      navigate(settings?.defaultPage || '/');
+      toast.success('Inicio de sesión exitoso!');
     } catch (error) {
-      toast.error('Login failed. Please check your credentials.');
+      toast.error('Error al iniciar sesión. Verifica tus credenciales.');
     }
   };
 

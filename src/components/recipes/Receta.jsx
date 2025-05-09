@@ -8,7 +8,6 @@ import { ContextMenu } from 'primereact/contextmenu';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { FaTag } from 'react-icons/fa';
 import useEtiquetaStore from '../../store/TagStore';
-import { axiosRequest } from '../../common/services/AxiosRequest';
 import React from 'react';
 import Modal from '../generic/Modal';
 import NuevaRecetaModal from './NuevaRecetaModal';

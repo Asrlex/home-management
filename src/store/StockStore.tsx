@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../common/services/AxiosRequest';
+import { axiosRequest } from '../hooks/useAxios';
 import { StockProductI, TagI } from '@/entities/types/home-management.entity';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, DespensaEndpoints, ProductosEndpoints } from '@/config/apiconfig';

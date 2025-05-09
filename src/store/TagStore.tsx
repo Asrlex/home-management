@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../common/services/AxiosRequest';
+import { axiosRequest } from '../hooks/useAxios';
 import { TagI } from '@/entities/types/home-management.entity';
 import { FetchTagsException, AddTagException, SetSelectedTagsException, AddTagToSelectedException, RemoveTagFromSelectedException, AddItemTagException } from '@/common/exceptions/tag.exceptions';
 import { TagExceptionMessages } from '@/common/exceptions/entities/enums/tag-exception.enum';

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../common/services/AxiosRequest';
+import { axiosRequest } from '../hooks/useAxios';
 import { ProductI } from '@/entities/types/home-management.entity';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { CreateProductDto } from '@/entities/dtos/product.dto';

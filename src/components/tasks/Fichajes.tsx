@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { axiosRequest } from '../../common/services/AxiosRequest';
+import { axiosRequest } from '../../hooks/useAxios';
 import toast from 'react-hot-toast';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, FichajesEndpoints, TareasEndpoints } from '@/config/apiconfig';

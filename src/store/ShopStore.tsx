@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../common/services/AxiosRequest';
+import { axiosRequest } from '../hooks/useAxios';
 import { StoreI } from '@/entities/types/home-management.entity';
 import { FetchShopsException, SetSelectedShopException } from '@/common/exceptions/shop.exception';
 import { ShopExceptionMessages } from '@/common/exceptions/entities/enums/shop-exception.enum';

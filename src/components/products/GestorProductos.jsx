@@ -36,7 +36,7 @@ import useShoppingListStore from '../../store/ShoppingListStore';
 import useStockStore from '../../store/StockStore';
 import ListaCompraItem from './ListaCompraItem';
 import DespensaItem from './DespensaItem';
-import { axiosRequest } from '../../common/services/AxiosRequest';
+import { axiosRequest } from '../../hooks/useAxios';
 import { customStyles } from '../../styles/SelectStyles';
 import { ApiEndpoints, DespensaEndpoints, ListaCompraEndpoints } from '@/config/apiconfig';
 import { HttpEnum } from '@/entities/enums/http.enum';

@@ -2,7 +2,6 @@ import { RiAddLine, RiDeleteBinLine } from 'react-icons/ri';
 import useEtiquetaStore from '../store/TagStore';
 import { useRef } from 'react';
 import { ContextMenu } from 'primereact/contextmenu';
-import { axiosRequest } from '../common/services/AxiosRequest';
 
 export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
   const { tagName } = etiqueta;

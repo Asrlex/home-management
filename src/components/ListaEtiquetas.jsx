@@ -2,7 +2,6 @@ import Etiqueta from './Etiqueta';
 import Modal from './generic/Modal';
 import useEtiquetaStore from '../store/TagStore';
 import { useEffect, useRef } from 'react';
-import { axiosRequest } from '../common/services/AxiosRequest';
 
 export default function ListaEtiquetas({ tipo }) {
   const etiquetas = useEtiquetaStore(state => state.etiquetas);
