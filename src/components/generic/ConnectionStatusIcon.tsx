@@ -1,3 +1,4 @@
+import React from 'react';
 import useConnectionStore from '../../store/ConnectionStore';
 import { FaExclamationTriangle } from 'react-icons/fa';
 

@@ -8,6 +8,7 @@ import { FaPlus } from 'react-icons/fa';
 import NuevaRecetaModal from './NuevaRecetaModal';
 import Loader from '../generic/Loader';
 import ListaEtiquetas from '../ListaEtiquetas';
+import React from 'react';
 
 export default function Recetas() {
   const recetas = useRecetasStore((state) => state.recetas);
@@ -19,7 +20,7 @@ export default function Recetas() {
   const etiquetasSeleccionadas = useEtiquetaStore(
     (state) => state.etiquetasSeleccionadas
   );
-  const recetaDialogRef = useRef();
+  const recetaDialogRef = useRef(null);
 
   useEffect(() => {
     fetchRecetas();
@@ -28,7 +29,7 @@ export default function Recetas() {
   return (
     <>
       <Modal ref={recetaDialogRef}>
-        <NuevaRecetaModal closeModal={() => recetaDialogRef.current.close()} />
+        <NuevaRecetaModal closeModal={() => recetaDialogRef.current.close()} receta={null}/>
       </Modal>
       <ListaEtiquetas tipo='Recipe' />
       {isLoading ? (

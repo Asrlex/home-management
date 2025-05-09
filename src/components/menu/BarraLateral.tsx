@@ -12,6 +12,7 @@ import { PiCookingPotFill } from 'react-icons/pi';
 import { MdAddHome, MdWorkHistory } from 'react-icons/md';
 import { FaBoxes } from 'react-icons/fa';
 import ToggleMode from './ToggleMode';
+import React from 'react';
 
 const BarraLateral = ({ onSelectSection, section }) => {
   return (

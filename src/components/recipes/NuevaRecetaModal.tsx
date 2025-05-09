@@ -5,6 +5,8 @@ import { AiFillDelete, AiOutlineEdit } from 'react-icons/ai';
 import { customStyles } from '../../styles/SelectStyles';
 import useRecetasStore from '../../store/RecipeStore';
 import toast from 'react-hot-toast';
+import React from 'react';
+import { CreateRecipeDto } from '@/entities/dtos/recipe.dto';
 
 export default function NuevaRecetaModal({ closeModal, receta }) {
   const products = useProductStore((state) => state.products);
@@ -17,12 +19,12 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [editingIngredientIndex, setEditingIngredientIndex] = useState(null);
   const [editingStepIndex, setEditingStepIndex] = useState(null);
-  const recipeNameRef = useRef();
-  const recipeDescriptionRef = useRef();
-  const ingredientAmountRef = useRef();
-  const ingredientUnitRef = useRef();
-  const stepNameRef = useRef();
-  const stepDescriptionRef = useRef();
+  const recipeNameRef = useRef<HTMLInputElement>(null);
+  const recipeDescriptionRef = useRef<HTMLTextAreaElement>(null);
+  const ingredientAmountRef = useRef<HTMLInputElement>(null);
+  const ingredientUnitRef = useRef<HTMLInputElement>(null);
+  const stepNameRef = useRef<HTMLInputElement>(null);
+  const stepDescriptionRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (receta) {
@@ -151,7 +153,7 @@ export default function NuevaRecetaModal({ closeModal, receta }) {
       toast.error('Por favor, añade al menos un paso.');
       return;
     }
-    const newReceta = {
+    const newReceta: CreateRecipeDto = {
       recipeName: recipeNameRef.current.value,
       recipeDescription: recipeDescriptionRef.current.value,
       ingredients: ingredients,

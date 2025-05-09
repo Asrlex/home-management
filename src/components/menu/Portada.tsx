@@ -3,6 +3,7 @@ import summerIcon from '../../assets/summer.png';
 import winterIcon from '../../assets/winter.png';
 import springIcon from '../../assets/spring.png';
 import autumnIcon from '../../assets/autumn.png';
+import React from 'react';
 
 const icons = {
   summer: summerIcon,

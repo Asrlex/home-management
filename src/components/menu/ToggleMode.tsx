@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useThemeStore from '../../store/ThemeStore';
 import { MdOutlineWbSunny } from 'react-icons/md';
 import { FaMoon } from 'react-icons/fa';
+import React from 'react';
 
 const ToggleMode = () => {
   const theme = useThemeStore((state) => state.theme);

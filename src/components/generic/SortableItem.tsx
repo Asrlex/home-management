@@ -1,8 +1,14 @@
 import { forwardRef } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import React from 'react';
 
-const SortableItem = forwardRef((props, ref) => {
+interface SortableItemProps {
+  id: string;
+  children: (setActivatorNodeRef: (node: HTMLElement | null) => void, attributes: any, listeners: any, ref: React.Ref<any>) => React.ReactNode;
+}
+
+const SortableItem = forwardRef<HTMLElement, SortableItemProps>((props, ref) => {
   const { attributes, listeners, setNodeRef, transform, transition, setActivatorNodeRef } = useSortable({ id: props.id });
   const style = {
     transform: CSS.Transform.toString(transform),

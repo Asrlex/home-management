@@ -47,7 +47,7 @@ export class GetRecipeDto {
 export class CreateRecipeDto {
   @IsNumber()
   @IsOptional()
-  recipeID: number;
+  recipeID?: number;
   @IsString()
   recipeName: string;
   @IsString()

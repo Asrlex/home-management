@@ -1,5 +1,15 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import React from 'react';
+
+interface BarraLateralItemProps {
+  texto: string;
+  icono: React.ReactNode;
+  tipo?: 'item' | 'dropdown';
+  section: string;
+  selectSection: (section: string) => void;
+  children?: React.ReactNode;
+}
 
 export default function BarraLateralItem({
   texto,
@@ -8,7 +18,7 @@ export default function BarraLateralItem({
   section,
   selectSection,
   children,
-}) {
+}: BarraLateralItemProps) {
   const [isHovered, setIsHovered] = useState(false);
   const path = `/${texto.toLowerCase().replace(/\s+/g, '-')}`;
 
