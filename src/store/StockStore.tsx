@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/useAxios';
+import { axiosRequest } from '../hooks/axiosRequest';
 import { StockProductI, TagI } from '@/entities/types/home-management.entity';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, DespensaEndpoints, ProductosEndpoints } from '@/config/apiconfig';
@@ -21,11 +21,11 @@ const useStockStore = create((set): StockStore => ({
 
   fetchStockItems: async () => {
     try {
-      const response: StockProductI[] = await axiosRequest(
+      const { data: response } = await axiosRequest(
         HttpEnum.GET,
         ApiEndpoints.hm_url + DespensaEndpoints.all
       );
-      const orderResponse: number[] = await axiosRequest(
+      const { data: orderResponse } = await axiosRequest(
         HttpEnum.GET,
         `${ApiEndpoints.hm_url + ProductosEndpoints.order}stock`
       );
@@ -35,10 +35,10 @@ const useStockStore = create((set): StockStore => ({
       if (orderResponse && orderResponse.length > 0) {
         orderedItems = orderResponse
           .map((id: number) =>
-            response.find((item) => item.stockProductID === id))
-          .filter((item) => item !== undefined);
+            response.find((item: StockProductI) => item.stockProductID === id))
+          .filter((item: StockProductI) => item !== undefined);
         unorderedItems = response.filter(
-          (item) => !orderResponse.includes(item.stockProductID)
+          (item: StockProductI) => !orderResponse.includes(item.stockProductID)
         );
         finalItems = [...orderedItems, ...unorderedItems];
       } else {

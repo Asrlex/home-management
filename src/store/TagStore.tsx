@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/useAxios';
+import { axiosRequest } from '../hooks/axiosRequest';
 import { TagI } from '@/entities/types/home-management.entity';
 import { FetchTagsException, AddTagException, SetSelectedTagsException, AddTagToSelectedException, RemoveTagFromSelectedException, AddItemTagException } from '@/common/exceptions/tag.exceptions';
 import { TagExceptionMessages } from '@/common/exceptions/entities/enums/tag-exception.enum';
@@ -30,8 +30,8 @@ const useEtiquetaStore = create((set): EtiquetaStore => ({
       ApiEndpoints.hm_url + EtiquetasEndpoints.all
     )
       .then((response) => {
-        set({ etiquetas: response });
-        return response;
+        set({ etiquetas: response.data });
+        return response.data;
       })
       .catch((error) => {
         throw new FetchTagsException(TagExceptionMessages.FetchTagsException + error);
@@ -46,7 +46,7 @@ const useEtiquetaStore = create((set): EtiquetaStore => ({
     )
       .then((response) => {
         set((state) => ({
-          etiquetas: [...state.etiquetas, response],
+          etiquetas: [...state.etiquetas, response.data],
         }));
       })
       .catch((error) => {

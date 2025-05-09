@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/useAxios';
+import { axiosRequest } from '../hooks/axiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ExpenseI } from '@/entities/types/home-management.entity';
 import { CreateExpenseDto } from '@/entities/dtos/expense.dto';
@@ -22,8 +22,8 @@ const useExpenseStore = create((set): ExpenseStore => ({
       HttpEnum.GET,
       ApiEndpoints.hm_url + GastosEndpoints.all
     )
-      .then((response: ExpenseI[]) => {
-        set({ expenses: response });
+      .then((response) => {
+        set({ expenses: response.data });
       })
       .catch((error) => {
         throw new FetchExpensesException(
@@ -38,8 +38,8 @@ const useExpenseStore = create((set): ExpenseStore => ({
       {},
       expense
     )
-      .then((response: ExpenseI) => {
-        set((state) => ({ expenses: [...state.expenses, response] }));
+      .then((response) => {
+        set((state) => ({ expenses: [...state.expenses, response.data] }));
       })
       .catch((error) => {
         throw new AddExpenseException(

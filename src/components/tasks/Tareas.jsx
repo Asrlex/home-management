@@ -5,7 +5,7 @@ import Modal from '../generic/Modal';
 import FAB from '../generic/FloatingButton';
 import { FaPlus } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { axiosRequest } from '../../hooks/useAxios';
+import { axiosRequest } from '../../hooks/axiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, TareasEndpoints } from '@/config/apiconfig';
 
@@ -25,7 +25,7 @@ export default function Tareas() {
   useEffect(() => {
     axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.all)
       .then((response) => {
-        setTareas(response);
+        setTareas(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -111,7 +111,7 @@ export default function Tareas() {
         .then((response) => {
           setTareas([
             ...tareas.filter((t) => t.taskID !== currentTaskId),
-            response,
+            response.data,
           ]);
           dialog.current.close();
           tituloRef.current.value = '';
@@ -137,7 +137,7 @@ export default function Tareas() {
         }
       )
         .then((response) => {
-          setTareas([response, ...tareas]);
+          setTareas([response.data, ...tareas]);
           dialog.current.close();
           tituloRef.current.value = '';
           descripcionRef.current.value = '';

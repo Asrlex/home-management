@@ -1,5 +1,6 @@
 import { RequestException } from '@/common/exceptions/request.exception';
 import { HttpEnum } from '@/entities/enums/http.enum';
+import { FormattedResponseI } from '@/entities/types/api.entity';
 import { StoreEnum } from '@/store/entities/enums/store.enum';
 import axios, { AxiosResponse } from 'axios';
 
@@ -11,17 +12,17 @@ interface AxiosRequestConfig<T = any> {
   token?: string;
 }
 
-export const axiosRequest = async <T = any, R = any>(
+export const axiosRequest = async <T = any>(
   method: HttpEnum,
   url: string,
   params: Record<string, any> = {},
   body: T = {} as T,
   token: string = ''
-): Promise<R> => {
+): Promise<FormattedResponseI> => {
   try {
     const authToken = token || localStorage.getItem(StoreEnum.TOKEN) || '';
 
-    const response: AxiosResponse<R> = await axios({
+    const response = await axios({
       method,
       url,
       headers: {
@@ -36,7 +37,9 @@ export const axiosRequest = async <T = any, R = any>(
       data: body,
     });
 
-    return response.data;
+    const formattedResponse: FormattedResponseI = response.data as FormattedResponseI;
+
+    return formattedResponse;
   } catch (error: any) {
     throw new RequestException(
       error?.response?.data?.message || error?.message || 'An error occurred while making the request.'

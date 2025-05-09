@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/useAxios';
+import { axiosRequest } from '../hooks/axiosRequest';
 import { RecipeDetailI, TagI } from '@/entities/types/home-management.entity';
 import { CreateRecipeDto } from '@/entities/dtos/recipe.dto';
 import { HttpEnum } from '@/entities/enums/http.enum';
@@ -27,8 +27,8 @@ const useRecetasStore = create((set): RecipeStore => ({
       HttpEnum.GET,
       ApiEndpoints.hm_url + RecetasEndpoints.all
     )
-      .then((response: RecipeDetailI[]) =>
-        set({ recetas: response, isLoading: false }))
+      .then((response) =>
+        set({ recetas: response.data, isLoading: false }))
       .catch((error) => {
         set({ isLoading: false });
         throw new FetchRecipesException(
@@ -44,9 +44,9 @@ const useRecetasStore = create((set): RecipeStore => ({
       {},
       receta
     )
-      .then((response: RecipeDetailI) => {
+      .then((response) => {
         set((state: RecipeStore) => ({
-          recetas: [...state.recetas, response],
+          recetas: [...state.recetas, response.data],
         }));
       })
       .catch((error) => {
@@ -62,10 +62,10 @@ const useRecetasStore = create((set): RecipeStore => ({
       {},
       receta
     )
-      .then((response: RecipeDetailI) => {
+      .then((response) => {
         set((state: RecipeStore) => ({
           recetas: state.recetas.map((receta) =>
-            receta.recipeID === recetaID ? response : receta
+            receta.recipeID === recetaID ? response.data : receta
           ),
         }));
       })

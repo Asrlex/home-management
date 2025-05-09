@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/useAxios';
+import { axiosRequest } from '../hooks/axiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, ListaCompraEndpoints, ProductosEndpoints } from '@/config/apiconfig';
 import { ShoppingListProductI, TagI } from '@/entities/types/home-management.entity';
@@ -21,11 +21,11 @@ const useShoppingListStore = create((set): ShoppingListStore => ({
 
   fetchShoppingListItems: async () => {
     try {
-      const response: ShoppingListProductI[] = await axiosRequest(
+      const { data: response } = await axiosRequest(
         HttpEnum.GET,
         ApiEndpoints.hm_url + ListaCompraEndpoints.all
       );
-      const orderResponse: number[] = await axiosRequest(
+      const { data: orderResponse } = await axiosRequest(
         HttpEnum.GET,
         `${ApiEndpoints.hm_url + ProductosEndpoints.order}shoppingList`
       );
@@ -35,11 +35,11 @@ const useShoppingListStore = create((set): ShoppingListStore => ({
       if (orderResponse && orderResponse.length > 0) {
         orderedItems = orderResponse
           .map((id: number) =>
-            response.find((item) => item.shoppingListProductID === id)
+            response.find((item: ShoppingListProductI) => item.shoppingListProductID === id)
           )
-          .filter((item) => item !== undefined);
+          .filter((item: ShoppingListProductI) => item !== undefined);
         unorderedItems = response.filter(
-          (item) => !orderResponse.includes(item.shoppingListProductID)
+          (item: ShoppingListProductI) => !orderResponse.includes(item.shoppingListProductID)
         );
         finalItems = [...orderedItems, ...unorderedItems];
       } else {
@@ -54,7 +54,7 @@ const useShoppingListStore = create((set): ShoppingListStore => ({
     }
   },
 
-  addShoppingListItem: (item) =>
+  addShoppingListItem: (item: ShoppingListProductI) =>
     set((state) => ({ shoppingListItems: [...state.shoppingListItems, item] })),
 
   removeShoppingListItem: (id) =>

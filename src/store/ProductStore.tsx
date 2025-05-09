@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/useAxios';
+import { axiosRequest } from '../hooks/axiosRequest';
 import { ProductI } from '@/entities/types/home-management.entity';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { CreateProductDto } from '@/entities/dtos/product.dto';
@@ -22,8 +22,8 @@ const useProductStore = create((set): ProductStore => ({
       HttpEnum.GET,
       ApiEndpoints.hm_url + ProductosEndpoints.all
     )
-      .then((products: ProductI[]) => {
-        set({ products });
+      .then((response) => {
+        set({ products: response.data });
       })
       .catch((error) => {
         throw new FetchProductsException(
@@ -39,8 +39,8 @@ const useProductStore = create((set): ProductStore => ({
       {},
       newProduct
     )
-      .then((product: ProductI) => {
-        set((state) => ({ products: [...state.products, product] }));
+      .then((response) => {
+        set((state) => ({ products: [...state.products, response.data] }));
       })
       .catch((error) => {
         throw new AddProductException(

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/useAxios';
+import { axiosRequest } from '../hooks/axiosRequest';
 import { LoggedUserI, UserI } from '@/entities/types/home-management.entity';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { StoreEnum } from './entities/enums/store.enum';
@@ -33,14 +33,14 @@ const useUserStore = create((set): UserStore => {
     set({ loginStatus: StoreEnum.STATUS_LOADING });
 
     try {
-      const response: UserI = await axiosRequest(
+      const response = await axiosRequest(
         HttpEnum.GET,
         ApiEndpoints.base + AuthEndpoints.me,
         {},
         {},
         token
       );
-      set({ user: response, loginStatus: StoreEnum.STATUS_AUTHENTICATED });
+      set({ user: response.data, loginStatus: StoreEnum.STATUS_AUTHENTICATED });
       return true;
     } catch (error) {
       if (error.response?.status === 401) {
@@ -76,11 +76,11 @@ const useUserStore = create((set): UserStore => {
         {},
         credentials
       )
-        .then((loggedUser: LoggedUserI) => {
-          localStorage.setItem(StoreEnum.TOKEN, loggedUser.token);
+        .then((response) => {
+          localStorage.setItem(StoreEnum.TOKEN, response.data.token);
           set({
-            user: loggedUser.user,
-            token: loggedUser.token,
+            user: response.data.user,
+            token: response.data.token,
             loginStatus: StoreEnum.STATUS_AUTHENTICATED
           });
         })
@@ -96,11 +96,11 @@ const useUserStore = create((set): UserStore => {
         {},
         details
       )
-        .then((loggedUser: LoggedUserI) => {
-          localStorage.setItem(StoreEnum.TOKEN, loggedUser.token);
+        .then((response) => {
+          localStorage.setItem(StoreEnum.TOKEN, response.data.token);
           set({
-            user: loggedUser.user,
-            token: loggedUser.token,
+            user: response.data.user,
+            token: response.data.token,
             loginStatus: StoreEnum.STATUS_AUTHENTICATED
           });
         })

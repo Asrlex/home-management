@@ -36,7 +36,7 @@ import useShoppingListStore from '../../store/ShoppingListStore';
 import useStockStore from '../../store/StockStore';
 import ListaCompraItem from './ListaCompraItem';
 import DespensaItem from './DespensaItem';
-import { axiosRequest } from '../../hooks/useAxios';
+import { axiosRequest } from '../../hooks/axiosRequest';
 import { customStyles } from '../../styles/SelectStyles';
 import { ApiEndpoints, DespensaEndpoints, ListaCompraEndpoints } from '@/config/apiconfig';
 import { HttpEnum } from '@/entities/enums/http.enum';
@@ -179,7 +179,7 @@ export default function GestorProductos({ type }) {
       }
     )
       .then((response) => {
-        addItem(response);
+        addItem(response.data);
         toast.success('Producto añadido');
       })
       .catch((error) => {
@@ -261,7 +261,7 @@ export default function GestorProductos({ type }) {
     axiosRequest(HttpEnum.PUT, apiUrl)
       .then((response) => {
         removeItem(id);
-        addItem(response);
+        addItem(response.data);
         toast.success(ProductToastMessages.MovedProductSuccess);
       })
       .catch((error) => {

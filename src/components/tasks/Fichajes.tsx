@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { axiosRequest } from '../../hooks/useAxios';
+import { axiosRequest } from '../../hooks/axiosRequest';
 import toast from 'react-hot-toast';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, FichajesEndpoints, TareasEndpoints } from '@/config/apiconfig';
@@ -68,7 +68,7 @@ const Fichajes = () => {
       HttpEnum.GET,
       `${ApiEndpoints.hm_url + FichajesEndpoints.byMonth}${month}`
     )
-      .then((response: ShiftI[]) => setShifts(response))
+      .then((response) => setShifts(response.data))
       .catch((error) => console.error('Error fetching tasks:', error));
   };
 

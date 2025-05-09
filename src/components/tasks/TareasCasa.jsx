@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { axiosRequest } from '../../hooks/useAxios';
+import { axiosRequest } from '../../hooks/axiosRequest';
 import toast from 'react-hot-toast';
 import { LuWashingMachine, LuCookingPot, LuDog, LuBath } from 'react-icons/lu';
 import { MdOutlineShoppingCart } from 'react-icons/md';
@@ -35,7 +35,7 @@ const TareasCasa = () => {
 
   useEffect(() => {
     axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.home)
-      .then((response) => setTasks(response))
+      .then((response) => setTasks(response.data))
       .catch((error) => console.error('Error fetching tasks:', error));
   }, []);
 
@@ -60,7 +60,7 @@ const TareasCasa = () => {
 
     axiosRequest(HttpEnum.POST, ApiEndpoints.hm_url + TareasEndpoints.home, {}, task)
       .then((response) => {
-        setTasks([response, ...tasks]);
+        setTasks([response.data, ...tasks]);
         toast.success(`Task ${taskName} added successfully!`);
       })
       .catch((error) => {

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/useAxios';
+import { axiosRequest } from '../hooks/axiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { SettingsExceptionMessages } from '@/common/exceptions/entities/enums/settings-exception.enum';
 import { CreateSettingsDto } from '@/entities/dtos/settings.dto';
@@ -40,7 +40,7 @@ const useSettingsStore = create((set): SettingsStore => ({
         return null;
       }
   
-      const response: SettingsI = await axiosRequest<null, SettingsI>(
+      const { data: response } = await axiosRequest<null>(
         HttpEnum.GET,
         `${ApiEndpoints.hm_url + SettingsEndpoints.byID}${userID}`
       );
@@ -70,14 +70,14 @@ const useSettingsStore = create((set): SettingsStore => ({
       settings: stringifiedSettings,
       settingsUserID: userID,
     };
-    await axiosRequest<CreateSettingsDto, SettingsI>(
+    await axiosRequest<CreateSettingsDto>(
       HttpEnum.PUT,
       `${ApiEndpoints.hm_url + SettingsEndpoints.base}/${userID}`,
       {},
       settingsDTO
     )
-      .then((response: SettingsI) => {
-        const parsedSettings: UserSettingsI = JSON.parse(response.settings);
+      .then((response) => {
+        const parsedSettings: UserSettingsI = JSON.parse(response.data.settings);
         set({ settings: parsedSettings });
         return parsedSettings;
       })

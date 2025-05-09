@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/useAxios';
+import { axiosRequest } from '../hooks/axiosRequest';
 import { StoreI } from '@/entities/types/home-management.entity';
 import { FetchShopsException, SetSelectedShopException } from '@/common/exceptions/shop.exception';
 import { ShopExceptionMessages } from '@/common/exceptions/entities/enums/shop-exception.enum';
@@ -24,7 +24,7 @@ const useShopStore = create((set): ShopStore => ({
       HttpEnum.GET,
       ApiEndpoints.hm_url + TiendasEndpoints.all
     )
-      .then((response: StoreI[]) => set({ shops: response, selectedShop: response[0] }))
+      .then((response) => set({ shops: response.data, selectedShop: response.data[0] }))
       .catch((error) => {
         throw new FetchShopsException(ShopExceptionMessages.FetchShopsException + error);
       }),
@@ -44,9 +44,11 @@ const useShopStore = create((set): ShopStore => ({
       {},
       shop
     )
-      .then((state: ShopStore) => ({
-        shops: [...state.shops, shop],
-      }))
+      .then((response) => {
+        set((state: ShopStore) => ({
+          shops: [...state.shops, response.data],
+        }));
+      })
       .catch((error) => {
         throw new SetSelectedShopException(ShopExceptionMessages.SetSelectedShopException + error);
       }),
