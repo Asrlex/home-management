@@ -1,0 +1,12 @@
+@import '../global/variables.css';
+
+.ajustes {
+  color: var(--text-color);
+  padding: .5rem;
+}
+
+@media (min-width: 768px) {
+  .ajustes {
+    padding: 1rem;
+  }
+}

@@ -19,6 +19,7 @@ import './styles/css/barraLateral.css';
 import './styles/css/etiquetas.css';
 import './styles/css/modal.css';
 import './styles/css/fichajes.css';
+import './styles/css/ajustes.css';
 
 const { theme } = useThemeStore.getState();
 document.documentElement.className = theme;

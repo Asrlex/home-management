@@ -31,6 +31,7 @@ export const styles = {
   selectStyles: {
     color: formThemeVars.selectTextColor,
     backgroundColor: formThemeVars.selectBgColor,
+    fontSize: '.875rem',
     '& .MuiOutlinedInput-notchedOutline': {
       borderColor: formThemeVars.borderColor,
     },
@@ -42,9 +43,10 @@ export const styles = {
     },
     '& .MuiSelect-icon': {
       color: formThemeVars.selectTextColor,
+      fontSize: '.875rem',
     },
     '& .MuiSelect-select': {
-      padding: '1rem',
+      padding: '.875rem',
     },
     '& .MuiSelect-select:focus': {
       backgroundColor: formThemeVars.selectBgColor,
@@ -73,7 +75,8 @@ export const styles = {
     },
   },
   selectFormControlStyles: {
-    marginBottom: '2rem',
+    fontSize: '.875rem',
+    marginBottom: '.875rem',
     '& .MuiInput-underline:before': {
       borderBottomColor: formThemeVars.borderColor,
     },
@@ -106,6 +109,6 @@ export const styles = {
   buttonStyles: {
     backgroundColor: formThemeVars.buttonBgColor,
     color: formThemeVars.buttonTextColor,
-    marginTop: '1rem',
+    marginTop: '.875rem',
   },
 };
