@@ -8,17 +8,23 @@ import toast from 'react-hot-toast';
 import { axiosRequest } from '../../hooks/axiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, TareasEndpoints } from '@/config/apiconfig';
+import React from 'react';
+
+interface ModalHandle {
+  open: () => void;
+  close: () => void;
+}
 
 export default function Tareas() {
   const [tareas, setTareas] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentTaskId, setCurrentTaskId] = useState(null);
-  const dialog = useRef();
-  const tituloRef = useRef();
-  const descripcionRef = useRef();
+  const dialog = useRef<ModalHandle>();
+  const tituloRef = useRef<HTMLInputElement>(null);
+  const descripcionRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleChange = (panel) => (e, isExpanded) => {
+  const handleChange = (panel: boolean) => (event: React.SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
 
@@ -32,11 +38,11 @@ export default function Tareas() {
       });
   }, []);
 
-  const toggleCompletada = (id, completada) => {
+  const toggleCompletada = (id: number, completada: boolean) => {
     axiosRequest(
       HttpEnum.PATCH,
       `${ApiEndpoints.hm_url + TareasEndpoints.base}/${id}`,
-      {taskCompleted: !completada},
+      { taskCompleted: !completada },
     )
       .then(() => {
         setTareas(
@@ -59,7 +65,7 @@ export default function Tareas() {
       });
   };
 
-  const handleEliminar = (id) => {
+  const handleEliminar = (id: number) => {
     const confirmacion = window.confirm(
       '¿Estás seguro de eliminar esta tarea?'
     );
@@ -81,7 +87,8 @@ export default function Tareas() {
     }
   };
 
-  const handleEditar = (id) => {
+  const handleEditar = (id: number) => {
+    if (!dialog.current) return;
     const tarea = tareas.find((t) => t.taskID === id);
     if (tarea) {
       setIsEditMode(true);
@@ -92,10 +99,14 @@ export default function Tareas() {
     }
   };
 
-  const modalSubmit = (e) => {
+  const modalSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const taskTitle = tituloRef.current.value;
-    const taskDescription = descripcionRef.current.value;
+    if (!tituloRef.current || !descripcionRef.current || !tituloRef.current.value || !descripcionRef.current.value) {
+      toast.error('Por favor, completa todos los campos');
+      return;
+    }
+    const taskTitle: string = tituloRef.current.value;
+    const taskDescription: string = descripcionRef.current.value;
 
     if (isEditMode) {
       axiosRequest(
@@ -157,28 +168,22 @@ export default function Tareas() {
       <h2 className='modalTitulo'>
         {isEditMode ? 'Editar tarea' : 'Crear tarea'}
       </h2>
-      <form>
-        <div style={{ marginBottom: '0.75rem' }}>
-          <input
-            className='modalInput'
-            id='titulo'
-            ref={tituloRef}
-            placeholder='Título'
-          />
-        </div>
-        <div style={{ marginBottom: '0.75rem' }}>
-          <textarea
-            className='modalInput modalTextArea'
-            id='descripcion'
-            ref={descripcionRef}
-            placeholder='Descripción'
-          />
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <button type='submit' className='modalBoton' onClick={modalSubmit}>
-            {isEditMode ? 'Actualizar' : 'Crear'}
-          </button>
-        </div>
+      <form className='modalForm' onSubmit={modalSubmit}>
+        <input
+          className='modalInput'
+          id='titulo'
+          ref={tituloRef}
+          placeholder='Título'
+        />
+        <textarea
+          className='modalInput modalTextArea'
+          id='descripcion'
+          ref={descripcionRef}
+          placeholder='Descripción'
+        />
+        <button type='submit' className='modalBoton' onClick={modalSubmit}>
+          {isEditMode ? 'Actualizar' : 'Crear'}
+        </button>
       </form>
     </Modal>
   );

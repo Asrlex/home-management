@@ -22,7 +22,7 @@ import Login from './components/users/Login';
 import Signup from './components/users/Signup';
 import PrivateRoute from './components/users/PrivateRoute';
 import Portada from './components/menu/Portada';
-import Fichajes from './components/tasks/Fichajes';
+import Fichajes from './components/tasks/checkin/Shifts';
 import useUserStore from './store/UserStore';
 import useSettingsStore from './store/SettingsStore';
 import React from 'react';

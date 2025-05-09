@@ -5,6 +5,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React from 'react';
 
 export default function Tarea({
   tarea,
@@ -19,7 +20,6 @@ export default function Tarea({
       key={tarea.taskID}
       expanded={expanded === tarea.taskID}
       onChange={handleChange(tarea.taskID)}
-      slotProps={{ heading: { component: 'h4' } }}
       classes={{ root: `tarea ${tarea.taskCompleted ? 'opacity-30' : ''}` }}
       sx={{ backgroundColor: 'var(--item-bg-color)' }}
     >

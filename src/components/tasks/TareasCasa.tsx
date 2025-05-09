@@ -73,10 +73,10 @@ const TareasCasa = () => {
     setFilteredTaskName(filteredTaskName === taskName ? null : taskName);
   };
 
-  const checkDate = (date) => {
+  const checkDate = (date: string) => {
     const now = new Date();
     const taskDate = new Date(date);
-    const diffTime = Math.abs(now - taskDate);
+    const diffTime = Math.abs(now.getTime() - taskDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays > 7;
   };

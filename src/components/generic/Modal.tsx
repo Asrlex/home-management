@@ -1,15 +1,30 @@
 import { createPortal } from 'react-dom';
 import { useRef, forwardRef, useImperativeHandle } from 'react';
 import { MdClose } from 'react-icons/md';
+import React from 'react';
 
-const Modal = forwardRef(({ children }, ref) => {
-  const dialog = useRef();
+interface ModalProps {
+  children: React.ReactNode;
+}
+
+interface ModalHandle {
+  open: () => void;
+  close: () => void;
+}
+
+const Modal = forwardRef<ModalHandle, ModalProps>(({ children }, ref) => {
+  const dialog = useRef<HTMLDialogElement>(null);
+
   useImperativeHandle(ref, () => ({
     open: () => {
-      dialog.current.showModal();
+      if (dialog.current) {
+        dialog.current.showModal();
+      }
     },
     close: () => {
-      dialog.current.close();
+      if (dialog.current) {
+        dialog.current.close();
+      }
     }
   }));
 

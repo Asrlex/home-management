@@ -1,3 +1,5 @@
+import { GeneralParams } from "../enums/api.enums";
+
 export interface StockProductI {
   stockProductID: number;
   stockProductAmount: number;
@@ -139,5 +141,5 @@ export interface ShiftCheckinI {
   shiftCheckinID: number;
   shiftCheckinDate: string;
   shiftCheckinTimestamp: string;
-  shiftCheckinType: 'CLOCK_IN' | 'CLOCK_OUT';
+  shiftCheckinType: GeneralParams.ClockIn | GeneralParams.ClockOut;
 }
