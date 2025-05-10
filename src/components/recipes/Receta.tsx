@@ -11,8 +11,6 @@ import useEtiquetaStore from '../../store/TagStore';
 import React from 'react';
 import Modal from '../generic/Modal';
 import NuevaRecetaModal from './NuevaRecetaModal';
-import useUserStore from '../../store/UserStore';
-import { useNavigate } from 'react-router-dom';
 
 function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   const etiquetas = useEtiquetaStore((state) => state.etiquetas);
@@ -22,10 +20,8 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   const deleteItemTag = useEtiquetaStore(
     (state) => state.deleteItemTag
   );
-  const validateToken = useUserStore((state) => state.validateToken);
   const contextMenuRef = useRef(null);
   const recetaDialogRef = useRef(null);
-  const navigate = useNavigate();
 
   const addOrRemoveEtiqueta = (etiqueta_id: number, id: number) => {
     const body = {

@@ -1,5 +1,6 @@
 import Select from 'react-select';
 import { customStyles } from '../../styles/SelectStyles';
+import React from 'react';
 
 export default function GastosForm({
   crearGasto,

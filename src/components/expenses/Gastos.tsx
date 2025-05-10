@@ -18,6 +18,8 @@ import {
 import { TableStyles } from '../../styles/Table.Styles';
 import GastosForm from './GastosForm';
 import useExpenseStore from '../../store/ExpenseStore';
+import React from 'react';
+import { CreateExpenseDto } from '@/entities/dtos/expense.dto';
 
 function Gastos() {
   const expenses = useExpenseStore((state) => state.expenses);
@@ -33,10 +35,13 @@ function Gastos() {
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const up = <FaArrowUp className='tableHeaderIcon' />;
   const down = <FaArrowDown className='tableHeaderIcon' />;
-  const [expenseCategory, setExpenseCategory] = useState(0);
-  const expenseAmountRef = useRef();
-  const expenseDateRef = useRef();
-  const expenseDescriptionRef = useRef();
+  const [expenseCategory, setExpenseCategory] = useState({
+    value: 0,
+    label: '',
+  });
+  const expenseAmountRef = useRef<HTMLInputElement>(null);
+  const expenseDateRef = useRef<HTMLInputElement>(null);
+  const expenseDescriptionRef = useRef<HTMLInputElement>(null);
   const memoizedFetchExpenses = useCallback(fetchExpenses, []);
 
   useEffect(() => {
@@ -55,12 +60,12 @@ function Gastos() {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  const handleSort = (key) => {
+  const handleSort = (key: any) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
       direction = 'desc';
@@ -77,10 +82,10 @@ function Gastos() {
     return 0;
   });
 
-  const crearGasto = (e) => {
+  const crearGasto = (e: React.FormEvent) => {
     e.preventDefault();
-    const expense = {
-      expenseAmount: expenseAmountRef.current.value,
+    const expense: CreateExpenseDto = {
+      expenseAmount: parseInt(expenseAmountRef.current.value),
       expenseDate: expenseDateRef.current.value,
       expenseDescription: expenseDescriptionRef.current.value,
       categoryID: expenseCategory.value,
@@ -99,7 +104,7 @@ function Gastos() {
       });
   };
 
-  const eliminarGasto = (expenseID) => {
+  const eliminarGasto = (expenseID: number) => {
     deleteExpense(expenseID)
       .then(() => {
         toast.success('Gasto eliminado correctamente');

@@ -6,6 +6,9 @@ import { MdOutlineShoppingCart } from 'react-icons/md';
 import { PiHandSoap, PiBroom } from 'react-icons/pi';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, TareasEndpoints } from '@/config/apiconfig';
+import { ContextMenu } from 'primereact/contextmenu';
+import { RiDeleteBinLine } from 'react-icons/ri';
+import { HouseTaskI } from '@/entities/types/home-management.entity';
 
 const TareasCasa = () => {
   const [tasks, setTasks] = useState([]);
@@ -13,6 +16,8 @@ const TareasCasa = () => {
   const [expandedTask, setExpandedTask] = useState(null);
   const [shadow, setShadow] = useState({ top: false, bottom: false });
   const listRef = useRef(null);
+  const contextMenuRef = useRef(null);
+  const [activeHouseTask, setActiveHouseTask] = useState<HouseTaskI>(null);
 
   const tasksList = [
     {
@@ -33,11 +38,13 @@ const TareasCasa = () => {
     },
   ];
 
+
   useEffect(() => {
     axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.home)
       .then((response) => setTasks(response.data))
       .catch((error) => console.error('Error fetching tasks:', error));
   }, []);
+
 
   useEffect(() => {
     const updateShadow = () => {
@@ -53,13 +60,15 @@ const TareasCasa = () => {
     listRef.current.addEventListener('scroll', updateShadow);
   }, [tasks]);
 
-  const handleTaskClick = (taskName) => {
+
+  const handleTaskClick = (taskName: string) => {
     const task = {
       houseTaskName: taskName,
     };
 
     axiosRequest(HttpEnum.POST, ApiEndpoints.hm_url + TareasEndpoints.home, {}, task)
       .then((response) => {
+        console.log('Task added:', response.data);
         setTasks([response.data, ...tasks]);
         toast.success(`Task ${taskName} added successfully!`);
       })
@@ -69,9 +78,11 @@ const TareasCasa = () => {
       });
   };
 
+
   const handleTaskNameClick = (taskName) => {
     setFilteredTaskName(filteredTaskName === taskName ? null : taskName);
   };
+
 
   const checkDate = (date: string) => {
     const now = new Date();
@@ -81,17 +92,46 @@ const TareasCasa = () => {
     return diffDays > 7;
   };
 
+
   const filteredTasks = filteredTaskName
     ? tasks.filter((task) => task.houseTaskName === filteredTaskName)
     : tasks;
 
-  const handleDateClick = (taskId) => {
+
+  const handleDateClick = (taskId: number) => {
     setExpandedTask(expandedTask === taskId ? null : taskId);
   };
+
+  const handleTaskDelete = (taskId: number) => {
+    axiosRequest(HttpEnum.DELETE, ApiEndpoints.hm_url + TareasEndpoints.home + taskId)
+      .then(() => {
+        setTasks(tasks.filter((task) => task.id !== taskId));
+        toast.success('Task deleted successfully!');
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error(`Error deleting task: ${error.response.data.message}`);
+      });
+  };
+
+
+  const contextMenuModel = [
+    {
+      label: 'Delete',
+      icon: <RiDeleteBinLine className='customContextMenuIcon' />,
+      command: () => handleTaskDelete(activeHouseTask.houseTaskID),
+    },
+  ];
+
 
   return (
     <>
       <div className='tareas'>
+        <ContextMenu
+          className='customContextMenu'
+          model={contextMenuModel}
+          ref={contextMenuRef}
+        />
         <div className='houseTaskButtons'>
           {tasksList.map((task, index) => (
             <button
@@ -108,9 +148,8 @@ const TareasCasa = () => {
         <div className='houseTaskTitle'>Tareas completadas</div>
         <div
           ref={listRef}
-          className={`houseTaskList ${shadow.top ? 'shadow-top' : ''} ${
-            shadow.bottom ? 'shadow-bottom' : ''
-          }`}
+          className={`houseTaskList ${shadow.top ? 'shadow-top' : ''} ${shadow.bottom ? 'shadow-bottom' : ''
+            }`}
         >
           {filteredTasks.map((task, index) => (
             <div
@@ -119,6 +158,12 @@ const TareasCasa = () => {
                 'houseTaskItem ' +
                 (checkDate(task.houseTaskDate) ? 'houseTaskItemOld' : '')
               }
+              onContextMenu={(e) => {
+                e.preventDefault();
+                setActiveHouseTask(task);
+                console.log('Selected task:', task);
+                contextMenuRef.current.show(e);
+              }}
             >
               <span
                 className='houseTaskName'

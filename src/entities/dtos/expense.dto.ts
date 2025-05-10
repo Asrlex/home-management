@@ -19,8 +19,6 @@ export class GetExpenseDto {
 
 export class CreateExpenseDto {
   @IsString()
-  expenseTitle: string;
-  @IsString()
   expenseDescription: string;
   @IsNumber()
   expenseAmount: number;

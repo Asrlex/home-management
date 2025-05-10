@@ -17,6 +17,7 @@ import Modal from '../generic/Modal';
 import { FaPlus } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { TableStyles } from '../../styles/Table.Styles';
+import React from 'react';
 
 const ListaProductos = () => {
   const products = useProductStore((state) => state.products);
@@ -30,9 +31,9 @@ const ListaProductos = () => {
   const [unitError, setUnitError] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-  const productoDialogRef = useRef();
-  const nameRef = useRef();
-  const unitRef = useRef();
+  const productoDialogRef = useRef(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const unitRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -42,12 +43,12 @@ const ListaProductos = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  const handleSort = (key) => {
+  const handleSort = (key: any) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
       direction = 'desc';
@@ -64,7 +65,7 @@ const ListaProductos = () => {
     return 0;
   });
 
-  const handleAddProduct = async (e) => {
+  const handleAddProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     const name = nameRef.current.value;
     const unit = unitRef.current.value;

@@ -30,7 +30,7 @@ import useThemeStore from './store/ThemeStore';
 import { ApiPaths } from './entities/enums/api.enums';
 
 function App() {
-  const [selectedSection, setSelectedSection] = useState('');
+  const [selectedSection, setSelectedSection] = useState<string>('');
   const navigate = useNavigate();
   const location = useLocation();
   const publicRoutes = [ApiPaths.Login, ApiPaths.Signup, ApiPaths.Base];
