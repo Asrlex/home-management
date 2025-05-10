@@ -9,17 +9,23 @@ import ContadorProducto from './ContadorProducto';
 import useEtiquetaStore from '../../store/TagStore';
 import useDespensaStore from '../../store/StockStore';
 import SortableItem from '../generic/SortableItem';
+import React from 'react';
+import { StockProductI } from '@/entities/types/home-management.entity';
 
-const DespensaItem = forwardRef(
+interface DespensaItemProps {
+  producto: StockProductI;
+  handleEliminar: (stockProductID: string) => void;
+  handleAmount: (amount: number, producto: any) => void;
+  handleMover: (stockProductID: string) => void;
+  addOrRemoveTag: (tagID: string, producto: any) => void;
+}
+
+const DespensaItem = forwardRef<HTMLDivElement, DespensaItemProps>(
   (
     { producto, handleEliminar, handleAmount, handleMover, addOrRemoveTag },
     innerRef
   ) => {
     const etiquetas = useEtiquetaStore((state) => state.etiquetas);
-    const addOrRemoveListTag = useDespensaStore(
-      (state) => state.addOrRemoveListTag
-    );
-    const productID = producto.product.productID;
     const nombre = producto.product.productName;
     const fecha = new Date(producto.product.productDateLastBought);
     const fechaCompraFormat = `${fecha.getDate()}/${
@@ -31,12 +37,12 @@ const DespensaItem = forwardRef(
       {
         label: 'Eliminar',
         icon: <RiDeleteBinLine className='customContextMenuIcon' />,
-        command: () => handleEliminar(producto.stockProductID),
+        command: () => handleEliminar(producto.stockProductID.toString()),
       },
       {
         label: 'Añadir a la lista',
         icon: <CiBoxList className='customContextMenuIcon' />,
-        command: () => handleAddListaCompra(producto.stockProductID),
+        command: () => handleMover(producto.stockProductID.toString()),
       },
       {
         label: 'Etiquetas',
@@ -50,7 +56,7 @@ const DespensaItem = forwardRef(
               ? `${etiqueta.tagName} ✅`
               : `${etiqueta.tagName}`,
             icon: <FaTag className='customContextMenuIcon' />,
-            command: () => addOrRemoveTag(etiqueta.tagID, producto),
+            command: () => addOrRemoveTag(etiqueta.tagID.toString(), producto),
           })),
       },
     ];
@@ -70,7 +76,7 @@ const DespensaItem = forwardRef(
             />
             <div
               className='producto'
-              onContextMenu={(e) => {
+              onContextMenu={(e: React.MouseEvent) => {
                 e.preventDefault();
                 contextMenuRef.current.show(e);
               }}

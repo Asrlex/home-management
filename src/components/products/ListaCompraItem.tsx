@@ -6,10 +6,19 @@ import { memo } from 'react';
 import { ContextMenu } from 'primereact/contextmenu';
 import ContadorProducto from './ContadorProducto';
 import useEtiquetaStore from '../../store/TagStore';
-import useShoppingListStore from '../../store/ShoppingListStore';
 import SortableItem from '../generic/SortableItem';
+import React from 'react';
+import { ShoppingListProductI } from '@/entities/types/home-management.entity';
 
-const ListaCompraItem = forwardRef(
+interface ListaCompraItemProps {
+  producto: ShoppingListProductI;
+  handleEliminar: (shoppingListProductID: string) => void;
+  handleAmount: (amount: number, producto: any) => void;
+  handleMover: (shoppingListProductID: string) => void;
+  addOrRemoveTag: (tagID: string, producto: ShoppingListProductI) => void;
+}
+
+const ListaCompraItem = forwardRef<HTMLDivElement, ListaCompraItemProps>(
   (
     { producto, handleEliminar, handleAmount, handleMover, addOrRemoveTag },
     ref
@@ -21,12 +30,12 @@ const ListaCompraItem = forwardRef(
       {
         label: 'Eliminar',
         icon: <RiDeleteBinLine className='customContextMenuIcon' />,
-        command: () => handleEliminar(producto.shoppingListProductID),
+        command: () => handleEliminar(producto.shoppingListProductID.toString()),
       },
       {
         label: 'Comprar',
         icon: <RiShoppingCartLine className='customContextMenuIcon' />,
-        command: () => handleComprar(producto.shoppingListProductID),
+        command: () => handleMover(producto.shoppingListProductID.toString()),
       },
       {
         label: 'Etiquetas',
@@ -40,7 +49,7 @@ const ListaCompraItem = forwardRef(
               ? `${etiqueta.tagName} ✅`
               : `${etiqueta.tagName}`,
             icon: <FaTag className='customContextMenuIcon' />,
-            command: () => addOrRemoveTag(etiqueta.tagID, producto),
+            command: () => addOrRemoveTag(etiqueta.tagID.toString(), producto),
           })),
       },
     ];
