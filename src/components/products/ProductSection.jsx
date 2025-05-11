@@ -28,14 +28,14 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import Modal from '../generic/Modal';
-import ListaEtiquetas from '../ListaEtiquetas';
+import ListaEtiquetas from '../tags/TagSection';
 import FAB from '../generic/FloatingButton';
 import useProductStore from '../../store/ProductStore';
 import useEtiquetaStore from '../../store/TagStore';
 import useShoppingListStore from '../../store/ShoppingListStore';
 import useStockStore from '../../store/StockStore';
-import ListaCompraItem from './ListaCompraItem';
-import DespensaItem from './DespensaItem';
+import ListaCompraItem from './ShoppingListItem';
+import DespensaItem from './StockItem';
 import { axiosRequest } from '../../hooks/axiosRequest';
 import { customStyles } from '../../styles/SelectStyles';
 import { ApiEndpoints, DespensaEndpoints, ListaCompraEndpoints } from '@/config/apiconfig';

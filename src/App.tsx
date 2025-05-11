@@ -8,26 +8,26 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
-import BarraLateral from './components/menu/BarraLateral';
+import BarraLateral from './components/menu/Sidebar';
 import MainContent from './components/menu/MainContent';
-import ListaCompra from './components/products/ListaCompra';
-import Despensa from './components/products/Despensa';
-import Tareas from './components/tasks/Tareas';
-import TareasCasa from './components/tasks/TareasCasa';
-import Recetas from './components/recipes/Recetas';
-import Gastos from './components/expenses/Gastos';
-import Ajustes from './components/Ajustes';
-import ListaProductos from './components/products/ListaProductos';
+import ListaCompra from './components/products/ShoppingList';
+import Despensa from './components/products/Stock';
+import Tareas from './components/tasks/TaskSection';
+import TareasCasa from './components/tasks/HouseTasks';
+import Recetas from './components/recipes/RecipeSection';
+import Gastos from './components/expenses/ExpenseSection';
+import ListaProductos from './components/products/ProductMasterList';
 import Login from './components/users/Login';
 import Signup from './components/users/Signup';
 import PrivateRoute from './components/users/PrivateRoute';
-import Portada from './components/menu/Portada';
-import Fichajes from './components/tasks/checkin/Shifts';
+import Portada from './components/menu/Cover';
+import Fichajes from './components/tasks/checkin/ShiftSection';
 import useUserStore from './store/UserStore';
 import useSettingsStore from './store/SettingsStore';
 import React from 'react';
 import useThemeStore from './store/ThemeStore';
 import { ApiPaths } from './entities/enums/api.enums';
+import Ajustes from './components/menu/Ajustes';
 
 function App() {
   const [selectedSection, setSelectedSection] = useState<string>('');

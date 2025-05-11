@@ -1,13 +1,13 @@
 import useRecetasStore from '../../store/RecipeStore';
 import useEtiquetaStore from '../../store/TagStore';
-import Receta from './Receta';
+import Receta from './Recipe';
 import { useRef, useEffect } from 'react';
 import Modal from '../generic/Modal';
 import FAB from '../generic/FloatingButton';
 import { FaPlus } from 'react-icons/fa';
-import NuevaRecetaModal from './NuevaRecetaModal';
+import NuevaRecetaModal from './RecipeModal';
 import Loader from '../generic/Loader';
-import ListaEtiquetas from '../ListaEtiquetas';
+import ListaEtiquetas from '../tags/TagSection';
 import React from 'react';
 
 export default function Recetas() {

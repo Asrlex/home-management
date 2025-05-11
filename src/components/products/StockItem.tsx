@@ -5,7 +5,7 @@ import { CiBoxList } from 'react-icons/ci';
 import { useRef, forwardRef } from 'react';
 import { memo } from 'react';
 import { ContextMenu } from 'primereact/contextmenu';
-import ContadorProducto from './ContadorProducto';
+import ContadorProducto from './ProductCounter';
 import useEtiquetaStore from '../../store/TagStore';
 import useDespensaStore from '../../store/StockStore';
 import SortableItem from '../generic/SortableItem';

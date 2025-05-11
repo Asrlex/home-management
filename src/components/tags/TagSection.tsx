@@ -1,6 +1,6 @@
-import Etiqueta from './Etiqueta';
-import Modal from './generic/Modal';
-import useEtiquetaStore from '../store/TagStore';
+import Etiqueta from './Tag';
+import Modal from '../generic/Modal';
+import useEtiquetaStore from '../../store/TagStore';
 import { useEffect, useRef } from 'react';
 import React from 'react';
 

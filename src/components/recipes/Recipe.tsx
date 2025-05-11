@@ -10,7 +10,7 @@ import { FaTag } from 'react-icons/fa';
 import useEtiquetaStore from '../../store/TagStore';
 import React from 'react';
 import Modal from '../generic/Modal';
-import NuevaRecetaModal from './NuevaRecetaModal';
+import NuevaRecetaModal from './RecipeModal';
 
 function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   const etiquetas = useEtiquetaStore((state) => state.etiquetas);

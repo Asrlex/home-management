@@ -16,7 +16,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import { TableStyles } from '../../styles/Table.Styles';
-import GastosForm from './GastosForm';
+import GastosForm from './ExpenseForm';
 import useExpenseStore from '../../store/ExpenseStore';
 import React from 'react';
 import { CreateExpenseDto } from '@/entities/dtos/expense.dto';

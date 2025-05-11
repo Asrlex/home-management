@@ -1,4 +1,4 @@
-import BarraLateralItem from './BarraLateralItem';
+import BarraLateralItem from './SidebarItem';
 import AuthButton from '../users/AuthButton';
 import {
   FaHome,
@@ -11,7 +11,7 @@ import {
 import { PiCookingPotFill } from 'react-icons/pi';
 import { MdAddHome, MdWorkHistory } from 'react-icons/md';
 import { FaBoxes } from 'react-icons/fa';
-import ToggleMode from './ToggleMode';
+import ToggleMode from './TogglerSection';
 import React from 'react';
 
 const BarraLateral = ({ onSelectSection, section }) => {

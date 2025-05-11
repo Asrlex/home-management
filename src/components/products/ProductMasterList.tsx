@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import useProductStore from '../../store/ProductStore';
 import useEtiquetaStore from '../../store/TagStore';
-import ListaEtiquetas from '../ListaEtiquetas';
+import ListaEtiquetas from '../tags/TagSection';
 import FAB from '../generic/FloatingButton';
 import Modal from '../generic/Modal';
 import { FaPlus } from 'react-icons/fa';

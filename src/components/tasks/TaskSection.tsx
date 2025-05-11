@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
-import Tarea from './Tarea';
+import Tarea from './Task';
 import Modal from '../generic/Modal';
 import FAB from '../generic/FloatingButton';
 import { FaPlus } from 'react-icons/fa';

@@ -8,11 +8,11 @@ import {
   FormControlLabel,
   Button,
 } from "@mui/material";
-import useSettingsStore from "../store/SettingsStore";
-import useThemeStore from "../store/ThemeStore";
-import { formThemeVars, styles } from "../styles/Form.Styles";
 import toast from "react-hot-toast";
 import React from "react";
+import useSettingsStore from "@/store/SettingsStore";
+import useThemeStore from "@/store/ThemeStore";
+import { styles } from "@/styles/Form.Styles";
 
 export default function Ajustes() {
   const settings = useSettingsStore((state) => state.settings);
