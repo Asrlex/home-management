@@ -20,4 +20,6 @@ export enum ProductToastMessages {
   DeletedTagSuccess = 'Etiqueta eliminada correctamente',
   MovedProductError = 'Error al mover el producto',
   MovedProductSuccess = 'Producto movido correctamente',
+  ModifyAmountSuccess = 'Cantidad modificada correctamente',
+  ModifyAmountError = 'Error al modificar la cantidad',
 }

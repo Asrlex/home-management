@@ -10,12 +10,12 @@ import SortableItem from '../generic/SortableItem';
 import React from 'react';
 import { ShoppingListProductI } from '@/entities/types/home-management.entity';
 
-interface ListaCompraItemProps {
+export interface ListaCompraItemProps {
   producto: ShoppingListProductI;
-  handleEliminar: (shoppingListProductID: string) => void;
+  handleEliminar: (shoppingListProductID: number) => void;
   handleAmount: (amount: number, producto: any) => void;
-  handleMover: (shoppingListProductID: string) => void;
-  addOrRemoveTag: (tagID: string, producto: ShoppingListProductI) => void;
+  handleMover: (shoppingListProductID: number) => void;
+  addOrRemoveTag: (tagID: number, producto: ShoppingListProductI) => void;
 }
 
 const ListaCompraItem = forwardRef<HTMLDivElement, ListaCompraItemProps>(
@@ -30,12 +30,12 @@ const ListaCompraItem = forwardRef<HTMLDivElement, ListaCompraItemProps>(
       {
         label: 'Eliminar',
         icon: <RiDeleteBinLine className='customContextMenuIcon' />,
-        command: () => handleEliminar(producto.shoppingListProductID.toString()),
+        command: () => handleEliminar(producto.shoppingListProductID),
       },
       {
         label: 'Comprar',
         icon: <RiShoppingCartLine className='customContextMenuIcon' />,
-        command: () => handleMover(producto.shoppingListProductID.toString()),
+        command: () => handleMover(producto.shoppingListProductID),
       },
       {
         label: 'Etiquetas',
@@ -49,7 +49,7 @@ const ListaCompraItem = forwardRef<HTMLDivElement, ListaCompraItemProps>(
               ? `${etiqueta.tagName} ✅`
               : `${etiqueta.tagName}`,
             icon: <FaTag className='customContextMenuIcon' />,
-            command: () => addOrRemoveTag(etiqueta.tagID.toString(), producto),
+            command: () => addOrRemoveTag(etiqueta.tagID, producto),
           })),
       },
     ];

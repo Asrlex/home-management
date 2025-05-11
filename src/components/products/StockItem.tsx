@@ -7,17 +7,16 @@ import { memo } from 'react';
 import { ContextMenu } from 'primereact/contextmenu';
 import ContadorProducto from './ProductCounter';
 import useEtiquetaStore from '../../store/TagStore';
-import useDespensaStore from '../../store/StockStore';
 import SortableItem from '../generic/SortableItem';
 import React from 'react';
 import { StockProductI } from '@/entities/types/home-management.entity';
 
-interface DespensaItemProps {
+export interface DespensaItemProps {
   producto: StockProductI;
-  handleEliminar: (stockProductID: string) => void;
-  handleAmount: (amount: number, producto: any) => void;
-  handleMover: (stockProductID: string) => void;
-  addOrRemoveTag: (tagID: string, producto: any) => void;
+  handleEliminar: (stockProductID: number) => void;
+  handleAmount: (amount: number, producto: StockProductI) => void;
+  handleMover: (stockProductID: number) => void;
+  addOrRemoveTag: (tagID: number, producto: StockProductI) => void;
 }
 
 const DespensaItem = forwardRef<HTMLDivElement, DespensaItemProps>(
@@ -37,12 +36,12 @@ const DespensaItem = forwardRef<HTMLDivElement, DespensaItemProps>(
       {
         label: 'Eliminar',
         icon: <RiDeleteBinLine className='customContextMenuIcon' />,
-        command: () => handleEliminar(producto.stockProductID.toString()),
+        command: () => handleEliminar(producto.stockProductID),
       },
       {
         label: 'Añadir a la lista',
         icon: <CiBoxList className='customContextMenuIcon' />,
-        command: () => handleMover(producto.stockProductID.toString()),
+        command: () => handleMover(producto.stockProductID),
       },
       {
         label: 'Etiquetas',
@@ -56,7 +55,7 @@ const DespensaItem = forwardRef<HTMLDivElement, DespensaItemProps>(
               ? `${etiqueta.tagName} ✅`
               : `${etiqueta.tagName}`,
             icon: <FaTag className='customContextMenuIcon' />,
-            command: () => addOrRemoveTag(etiqueta.tagID.toString(), producto),
+            command: () => addOrRemoveTag(etiqueta.tagID, producto),
           })),
       },
     ];

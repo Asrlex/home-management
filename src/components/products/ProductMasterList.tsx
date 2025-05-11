@@ -18,6 +18,7 @@ import { FaPlus } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { TableStyles } from '../../styles/Table.Styles';
 import React from 'react';
+import { ProductToastMessages } from './entities/products.enum';
 
 const ListaProductos = () => {
   const products = useProductStore((state) => state.products);
@@ -93,11 +94,9 @@ const ListaProductos = () => {
     };
 
     addProduct(newProduct)
-      .then(() => {
-        toast.success('Producto creado con éxito');
-      })
+      .then(() => toast.success(ProductToastMessages.AddedProductSuccess))
       .catch((error) => {
-        toast.error('Error al crear el producto: ' + error.message);
+        toast.error(ProductToastMessages.AddedProductError + ': ' + error.message);
       });
     productoDialogRef.current.close();
     nameRef.current.value = '';

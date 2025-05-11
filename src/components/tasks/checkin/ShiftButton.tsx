@@ -8,6 +8,12 @@ import toast from "react-hot-toast";
 
 const ShiftButton = ({ checkinType, icon, fetchShifts }) => {
   const handleCLockIn = async (type: GeneralParams.ClockIn | GeneralParams.ClockOut) => {
+    const today = new Date();
+    const day = today.getDay();
+    if (day === 0 || day === 6) {
+      toast.error('No se puede fichar en fin de semana');
+      return;
+    }
     const shift: CreateShiftCheckinDto = {
       shiftDate: new Date().toISOString().split('T')[0],
       shiftTimestamp: new Date().toISOString(),

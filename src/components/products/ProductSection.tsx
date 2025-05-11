@@ -34,13 +34,13 @@ import useProductStore from '../../store/ProductStore';
 import useEtiquetaStore from '../../store/TagStore';
 import useShoppingListStore from '../../store/ShoppingListStore';
 import useStockStore from '../../store/StockStore';
-import ListaCompraItem from './ShoppingListItem';
-import DespensaItem from './StockItem';
 import { axiosRequest } from '../../hooks/axiosRequest';
 import { customStyles } from '../../styles/SelectStyles';
 import { ApiEndpoints, DespensaEndpoints, ListaCompraEndpoints } from '@/config/apiconfig';
 import { HttpEnum } from '@/entities/enums/http.enum';
-import { ProductsEnum, ProductToastMessages } from './products.enum';
+import { ProductsEnum, ProductToastMessages } from './entities/products.enum';
+import { ShoppingListProductI, StockProductI } from '@/entities/types/home-management.entity';
+import UnifiedItemComponent from './UnifiedItemComponent';
 
 export default function GestorProductos({ type }) {
   const [prodInView, setProdInView] = useState({
@@ -83,15 +83,14 @@ export default function GestorProductos({ type }) {
   );
   const reorderStockItems = useStockStore((state) => state.reorderStockItems);
   const fetchStockItems = useStockStore((state) => state.fetchStockItems);
-  const productoDialogRef = useRef();
-  const amountRef = useRef(0);
-  const lastRef = useRef();
-  const firstRef = useRef();
+  const productoDialogRef = useRef(null);
+  const amountRef = useRef<HTMLInputElement>(null);
+  const lastRef = useRef(null);
+  const firstRef = useRef(null);
   const fetchItems =
     type === ProductsEnum.listaCompra ? fetchShoppingListItems : fetchStockItems;
-  const items = type === ProductsEnum.listaCompra ? shoppingListItems : stockItems;
-  const ItemComponent =
-    type === ProductsEnum.listaCompra ? ListaCompraItem : DespensaItem;
+  const items: (StockProductI | ShoppingListProductI)[] =
+    type === ProductsEnum.listaCompra ? shoppingListItems : stockItems;
   const addOrRemoveListTag =
     type === ProductsEnum.listaCompra
       ? useShoppingListStore((state) => state.addOrRemoveListTag)
@@ -122,30 +121,30 @@ export default function GestorProductos({ type }) {
    * @param {object} event.active.id The ID of the active element
    * @param {object} event.over.id The ID of the element over which the active element is
    */
-  const handleDragEnd = (event) => {
+  const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (active.id !== over.id) {
       const oldIndex = (
         type === ProductsEnum.listaCompra ? shoppingListItems : stockItems
       ).findIndex(
-        (item) =>
+        (item: StockProductI | ShoppingListProductI) =>
           item[
-            type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID
+          type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID
           ] === active.id
       );
       const newIndex = (
         type === ProductsEnum.listaCompra ? shoppingListItems : stockItems
       ).findIndex(
-        (item) =>
+        (item: StockProductI | ShoppingListProductI) =>
           item[
-            type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID
+          type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID
           ] === over.id
       );
       const newItems = arrayMove(items, oldIndex, newIndex);
       const newOrder = newItems.map((item) =>
-        type === ProductsEnum.listaCompra
-          ? item.shoppingListProductID
-          : item.stockProductID
+        item[
+        type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID
+        ]
       );
 
       type === ProductsEnum.listaCompra
@@ -159,7 +158,7 @@ export default function GestorProductos({ type }) {
    * @param {number} id The product ID
    * @param {number} amount The amount of the product
    */
-  const handleAdd = (id, amount) => {
+  const handleAdd = (id: number, amount: number) => {
     const apiUrl =
       type === ProductsEnum.listaCompra
         ? ApiEndpoints.hm_url + ListaCompraEndpoints.base
@@ -180,11 +179,11 @@ export default function GestorProductos({ type }) {
     )
       .then((response) => {
         addItem(response.data);
-        toast.success('Producto añadido');
+        toast.success(ProductToastMessages.AddedProductSuccess);
       })
       .catch((error) => {
         console.error(error);
-        toast.error('Error al añadir producto');
+        toast.error(ProductToastMessages.AddedProductError);
       });
   };
 
@@ -192,10 +191,8 @@ export default function GestorProductos({ type }) {
    * Deletes a product from the list
    * @param {number} id The product ID
    */
-  const handleEliminar = (id) => {
-    const confirmacion = window.confirm(
-      '¿Estás seguro de eliminar este producto?'
-    );
+  const handleEliminar = (id: number) => {
+    const confirmacion = window.confirm(ProductToastMessages.DeleteProductConfirmation);
     if (confirmacion) {
       const apiUrl =
         type === ProductsEnum.listaCompra
@@ -220,7 +217,7 @@ export default function GestorProductos({ type }) {
    * @param {number} id The product ID
    * @param {number} amount The new amount
    */
-  const handleAmount = (id, amount) => {
+  const handleAmount = (id: number, amount: number) => {
     const apiUrl =
       type === ProductsEnum.listaCompra
         ? `${ApiEndpoints.hm_url + ListaCompraEndpoints.modifyAmount}${id}`
@@ -230,7 +227,7 @@ export default function GestorProductos({ type }) {
         ? modifyShoppingListItemAmount
         : modifyStockItemAmount;
 
-      axiosRequest(
+    axiosRequest(
       HttpEnum.PUT,
       apiUrl,
       { amount }
@@ -249,7 +246,7 @@ export default function GestorProductos({ type }) {
    * Moves a product from one list to the other
    * @param {number} id The product ID
    */
-  const handleMover = (id) => {
+  const handleMover = (id: number) => {
     const apiUrl =
       type === ProductsEnum.listaCompra
         ? `${ApiEndpoints.hm_url + ListaCompraEndpoints.buy}${id}`
@@ -274,7 +271,7 @@ export default function GestorProductos({ type }) {
    * Adds or removes an etiqueta (tag) from a product
    * @param {number} etiqueta_id The etiqueta ID
    * */
-  const addOrRemoveEtiqueta = (etiqueta_id, producto) => {
+  const addOrRemoveEtiqueta = (etiqueta_id: number, producto: StockProductI | ShoppingListProductI) => {
     const productID = producto.product.productID;
     const etiqueta = etiquetasSeleccionadas.find(
       (etiqueta) => etiqueta.tagID === etiqueta_id
@@ -284,7 +281,7 @@ export default function GestorProductos({ type }) {
         (prodEtiqueta) => prodEtiqueta.tagID === etiqueta_id
       )
     ) {
-      deleteItemTag(etiqueta_id, productID)
+      deleteItemTag({ tagID: etiqueta_id, itemID: productID })
         .then(() => {
           addOrRemoveListTag(etiqueta_id, productID);
           toast.success(ProductToastMessages.DeletedTagSuccess);
@@ -294,9 +291,9 @@ export default function GestorProductos({ type }) {
           toast.error(ProductToastMessages.DeletedTagError);
         });
     } else {
-      addItemTag(etiqueta_id, productID, etiqueta)
+      addItemTag({ tagID: etiqueta_id, itemID: productID })
         .then(() => {
-          axiosRequest(HttpEnum.GET, api_config.despensa.all)
+          axiosRequest(HttpEnum.GET, DespensaEndpoints.all)
             .then(() => {
               addOrRemoveListTag(etiqueta_id, productID);
               toast.success(ProductToastMessages.AddedTagSuccess);
@@ -316,12 +313,12 @@ export default function GestorProductos({ type }) {
    * Handles the submit event of the modal
    * @param {object} e The submit event
    */
-  const modalSubmit = (e) => {
+  const modalSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const handleAmount = parseInt(amountRef.current.value);
     handleAdd(selectedProduct.value, handleAmount);
     productoDialogRef.current.close();
-    amountRef.current.value = 0;
+    amountRef.current.value = '';
   };
 
   /**
@@ -340,7 +337,7 @@ export default function GestorProductos({ type }) {
   const popupProducto = (
     <Modal ref={productoDialogRef}>
       <h2 className='modalTitulo'>Añadir producto</h2>
-      <form className='modalSection'>
+      <form className='modalSection' onSubmit={modalSubmit}>
         <Select
           options={productOptions}
           onChange={setSelectedProduct}
@@ -355,7 +352,7 @@ export default function GestorProductos({ type }) {
           className='modalInputSmall'
           ref={amountRef}
         />
-        <button type='submit' className='modalBoton' onClick={modalSubmit}>
+        <button type='submit' className='modalBoton'>
           Crear
         </button>
       </form>
@@ -370,7 +367,7 @@ export default function GestorProductos({ type }) {
         {Array.isArray(items) && items.length === 0 && (
           <div style={{ textAlign: 'center' }}>
             No hay productos en la{' '}
-            {type === ProductsEnum.listaCompra ? 'lista de compra' : 'despensa'}
+            {type === ProductsEnum.listaCompra ? 'lista de la compra' : 'despensa'}
           </div>
         )}
         <span
@@ -394,13 +391,13 @@ export default function GestorProductos({ type }) {
             items={
               Array.isArray(items)
                 ? items.map(
-                    (item) =>
-                      item[
-                        type === ProductsEnum.listaCompra
-                          ? ProductsEnum.listaCompraID
-                          : ProductsEnum.stockID
-                      ]
-                  )
+                  (item) =>
+                    item[
+                    type === ProductsEnum.listaCompra
+                      ? ProductsEnum.listaCompraID
+                      : ProductsEnum.stockID
+                    ]
+                )
                 : []
             }
             strategy={verticalListSortingStrategy}
@@ -420,9 +417,9 @@ export default function GestorProductos({ type }) {
                   <Fragment
                     key={
                       producto[
-                        type === ProductsEnum.listaCompra
-                          ? ProductsEnum.listaCompraID
-                          : ProductsEnum.stockID
+                      type === ProductsEnum.listaCompra
+                        ? ProductsEnum.listaCompraID
+                        : ProductsEnum.stockID
                       ]
                     }
                   >
@@ -437,13 +434,13 @@ export default function GestorProductos({ type }) {
                         }}
                         threshold={0.5}
                       >
-                        <ItemComponent
+                        <UnifiedItemComponent
+                          ref={firstRef}
                           producto={producto}
                           handleEliminar={handleEliminar}
                           handleAmount={handleAmount}
                           handleMover={handleMover}
                           addOrRemoveTag={addOrRemoveEtiqueta}
-                          ref={firstRef}
                         />
                       </InView>
                     ) : index === items.length - 1 ? (
@@ -457,17 +454,17 @@ export default function GestorProductos({ type }) {
                         }}
                         threshold={0.5}
                       >
-                        <ItemComponent
+                        <UnifiedItemComponent
+                          ref={lastRef}
                           producto={producto}
                           handleEliminar={handleEliminar}
                           handleAmount={handleAmount}
                           handleMover={handleMover}
                           addOrRemoveTag={addOrRemoveEtiqueta}
-                          ref={lastRef}
                         />
                       </InView>
                     ) : (
-                      <ItemComponent
+                      <UnifiedItemComponent
                         producto={producto}
                         handleEliminar={handleEliminar}
                         handleAmount={handleAmount}
