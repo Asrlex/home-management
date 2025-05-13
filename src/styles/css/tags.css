@@ -1,0 +1,88 @@
+@import '../global/variables.css';
+
+/* ********************* */
+/* ETIQUETAS */
+/* ********************* */
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+  padding: 0.5rem 0;
+  z-index: 50;
+  overflow: auto;
+  background-color: var(--section-bg-color);
+  position: relative;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.etiqueta {
+  padding: 0.25rem 0.5rem;
+  background-color: var(--tag-bg-color);
+  color: var(--tag-text-color);
+  font-size: 0.65rem;
+  line-height: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.etiqueta:hover {
+  background-color: var(--tag-hover-bg-color);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.etiquetaSeleccionada {
+  font-weight: bold;
+  background-color: var(--tag-selected-bg-color);
+  color: var(--tag-selected-text-color);
+  font-size: 0.65rem;
+  line-height: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.etiquetaSeleccionada:hover {
+  background-color: var(--tag-selected-hover-bg-color);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.etiquetaAdd {
+  padding: 0.25rem 0.5rem;
+  background-color: var(--tag-selected-hover-bg-color);
+  color: var(--tag-selected-text-color);
+  font-size: 0.65rem;
+  line-height: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.etiquetaAddIcono {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Utilities */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}

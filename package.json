@@ -17,6 +17,7 @@
         "@fontsource/roboto": "^5.0.13",
         "@mui/icons-material": "^5.15.15",
         "@mui/material": "^5.15.15",
+        "@vitejs/plugin-react": "^4.4.1",
         "autoprefixer": "^10.4.19",
         "axios": "^1.6.8",
         "class-validator": "^0.14.1",
@@ -35,13 +36,14 @@
         "zustand": "^5.0.3"
     },
     "devDependencies": {
-        "@types/react": "^18.2.66",
-        "@types/react-dom": "^18.2.22",
-        "@vitejs/plugin-react": "^4.2.1",
+        "@types/node": "^22.14.1",
+        "@types/react": "^18.3.20",
+        "@types/react-dom": "^18.3.6",
         "eslint": "^8.57.0",
         "eslint-plugin-react": "^7.34.1",
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-react-refresh": "^0.4.6",
+        "typescript": "^5.8.3",
         "vite": "^5.2.0"
     }
 }
