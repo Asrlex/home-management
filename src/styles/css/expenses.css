@@ -5,13 +5,16 @@
 /* GASTOS */
 /* ********************* */
 .gastos {
-  height: 100%;
-  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  max-height: 90%;
   overflow: auto;
   position: relative;
 }
 
 .gastosForm {
+  flex-shrink: 0;
   opacity: 1;
   height: auto;
   margin: 0 0 1rem 0;
@@ -32,7 +35,8 @@
 }
 
 .gastosFormHidden {
-  margin-top: 0;
+  margin: 0;
+  padding: 0;
   opacity: 0;
   height: 0;
   overflow: hidden;
@@ -155,47 +159,14 @@
   color: var(--modal-button-text-color);
 }
 
-.gastosTableDiv {
-  width: 100%;
+.expenseTableDiv {
+  flex-grow: 1;
+  overflow: auto;
+  transition: all 0.2s;
+  width: 95%;
   height: 90%;
   max-height: 90%;
-}
-
-.gastosTablePlusForm {
-  height: 45%;
-  max-height: 45%;
-}
-
-@media (min-width: 1024px) {
-  .gastosTablePlusForm {
-    height: 60%;
-    max-height: 60%;
-  }
-}
-
-.gastosTable {
-  height: 100%;
-  overflow: auto;
-  position: relative;
-}
-
-.gastosTable::-webkit-scrollbar {
-  width: 0.25rem;
-  height: 0.5rem;
-}
-
-.gastosTable::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb-color);
-  border-radius: 9999px;
-}
-
-.gastosTable::-webkit-scrollbar-thumb:hover {
-  background-color: var(--scrollbar-thumb-hover-color);
-}
-
-.gastosTable::-webkit-scrollbar-track {
-  background-color: var(--scrollbar-track-color);
-  border-radius: 9999px;
+  margin: 0 auto;
 }
 
 .tableHeaderText {
@@ -204,25 +175,76 @@
   gap: 0.5rem;
 }
 
-.tableHeaderIcon {
-  width: 0.5rem;
-  height: 0.5rem;
-  color: var(--text-color);
+.expenseGroup {
+  margin-bottom: .5rem;
+}
+
+.expenseListItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: center;
+  padding: 0.25rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.375rem;
+  color: var(--task-text-color);
   transition: all 0.2s;
+  border: 1px solid var(--task-divider-color);
+  transition: all 0.2s;
+}
+@media (min-width: 768px) {
+  .expenseListItem {
+    padding: 0.5rem;
+  }
+}
+.expenseListItem:hover {
+  background-color: var(--item-hover-bg-color);
+}
+.expenseListItem.highlighted {
+  background-color: var(--item-hover-bg-color);
+  border-color: var(--highlight-border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.expenseDateHeader {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-align: flex-start;
+  color: var(--text-color);
+}
+
+.expenseListItemInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.25rem;
+  width: 90%;
+}
+
+.expenseListItemInfo > * {
+  flex: 0 0 30%;
+}
+
+.expenseListItemDate {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--form-input-text-color);
+}
+
+.expenseListItemTime {
+  font-size: 0.65rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--form-input-text-color);
 }
 
 @media (min-width: 768px) {
-  .tableHeaderIcon {
-    width: 0.75rem;
-    height: 0.75rem;
+  .expenseListItemDate {
+    font-size: 1.125rem;
   }
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  .expenseListItemTime {
+    font-size: 1rem;
+  }
 }

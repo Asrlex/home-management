@@ -95,4 +95,5 @@ export enum GastosEndpoints {
   all = '/expenses/all',
   byID = '/expenses/id/',
   categorias = '/expenses/all/categories',
+  byMonth = '/expenses/month/',
 }

@@ -157,7 +157,7 @@
   flex-direction: column;
   justify-content: stretch;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.25rem;
   margin-bottom: 0.5rem;
   border-radius: 0.375rem;
   color: var(--task-text-color);
@@ -182,7 +182,7 @@
 .shiftListItemInfo {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.25rem;
   width: 90%;
 }
@@ -196,13 +196,16 @@
 }
 
 .shiftListItemDate {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: bold;
   color: var(--form-input-text-color);
 }
 
 .shiftListItemTime {
-  font-size: 0.75rem;
+  font-size: 0.65rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--form-input-text-color);
 }
 

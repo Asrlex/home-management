@@ -5,6 +5,7 @@ import Modal from '../generic/Modal';
 import toast from 'react-hot-toast';
 import Loader from '../generic/Loader';
 import FAB from '../generic/FloatingButton';
+import MonthSelector from '../generic/MonthSelector'; // Import MonthSelector
 import {
   Paper,
   TableContainer,
@@ -20,10 +21,12 @@ import GastosForm from './ExpenseForm';
 import useExpenseStore from '../../store/ExpenseStore';
 import React from 'react';
 import { CreateExpenseDto } from '@/entities/dtos/expense.dto';
+import ExpensesTable from './ExpenseList';
+import ExpensesList from './ExpenseList';
 
 function Gastos() {
   const expenses = useExpenseStore((state) => state.expenses);
-  const fetchExpenses = useExpenseStore((state) => state.fetchExpenses);
+  const fetchExpensesByMonth = useExpenseStore((state) => state.fetchExpensesByMonth);
   const addExpense = useExpenseStore((state) => state.addExpense);
   const deleteExpense = useExpenseStore((state) => state.deleteExpense);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +36,7 @@ function Gastos() {
   });
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7)); // Add selectedMonth state
   const up = <FaArrowUp className='tableHeaderIcon' />;
   const down = <FaArrowDown className='tableHeaderIcon' />;
   const [expenseCategory, setExpenseCategory] = useState({
@@ -42,35 +46,22 @@ function Gastos() {
   const expenseAmountRef = useRef<HTMLInputElement>(null);
   const expenseDateRef = useRef<HTMLInputElement>(null);
   const expenseDescriptionRef = useRef<HTMLInputElement>(null);
-  const memoizedFetchExpenses = useCallback(fetchExpenses, []);
+  const memoizedFetchExpenses = useCallback(fetchExpensesByMonth, []);
 
   useEffect(() => {
-    memoizedFetchExpenses()
+    memoizedFetchExpenses(selectedMonth)
       .then(() => {
         setIsLoading(false);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error(error);
         toast.error('Error fetching data');
         setIsLoading(true);
       });
-  }, [memoizedFetchExpenses]);
+  }, [memoizedFetchExpenses, selectedMonth]);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const handleSort = (key: any) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    setSortConfig({ key, direction });
+  const handleMonthChange = (month: string) => {
+    setSelectedMonth(month);
   };
 
   const sortedItems = [...expenses].sort((a, b) => {
@@ -115,6 +106,15 @@ function Gastos() {
       });
   };
 
+
+  const changeMonth = (direction: 'prev' | 'next') => {
+    const [year, month] = selectedMonth.split('-').map(Number);
+    const newDate = new Date(Date.UTC(year, month - 1 + (direction === 'next' ? 1 : -1), 1));
+    const newMonth = newDate.toISOString().slice(0, 7);
+    setSelectedMonth(newMonth);
+  };
+
+
   const expenseCategoryOptions = [
     { value: 7, label: 'Bizum' },
     { value: 6, label: 'Regalos' },
@@ -127,9 +127,7 @@ function Gastos() {
   const handleShowForm = () => {
     const form = document.querySelector('.gastosForm');
     form.classList.toggle('gastosFormHidden');
-    const table = document.querySelector('.gastosTableDiv');
-    table.classList.toggle('gastosTablePlusForm');
-  }
+  };
 
   return (
     <>
@@ -137,6 +135,11 @@ function Gastos() {
         <Loader />
       ) : (
         <div className='gastos'>
+          <MonthSelector
+            selectedMonth={selectedMonth}
+            onMonthChange={handleMonthChange}
+            onChangeMonth={changeMonth}
+          />
           <GastosForm
             crearGasto={crearGasto}
             expenseCategoryOptions={expenseCategoryOptions}
@@ -146,111 +149,11 @@ function Gastos() {
             expenseDateRef={expenseDateRef}
             expenseDescriptionRef={expenseDescriptionRef}
           />
-          <div className='gastosTableDiv'>
-            <TableContainer component={Paper} sx={TableStyles.table}>
-              <Table stickyHeader aria-label='sticky table' size='small' className='gastosTable'>
-                <TableHead>
-                  <TableRow>
-                    <TableCell
-                      sx={TableStyles.tableHeaderCell}
-                      onClick={() => handleSort('categoryName')}
-                    >
-                      <span className='tableHeaderText'>
-                        <span>Categoría </span>
-                        {sortConfig.key === 'categoryName'
-                          ? sortConfig.direction === 'asc'
-                            ? up
-                            : down
-                          : ''}
-                      </span>
-                    </TableCell>
-                    <TableCell
-                      sx={TableStyles.tableHeaderCell}
-                      onClick={() => handleSort('expenseAmount')}
-                    >
-                      <span className='tableHeaderText'>
-                        <span>Cantidad </span>
-                        {sortConfig.key === 'expenseAmount'
-                          ? sortConfig.direction === 'asc'
-                            ? up
-                            : down
-                          : ''}
-                      </span>
-                    </TableCell>
-                    <TableCell
-                      sx={TableStyles.tableHeaderCell}
-                      onClick={() => handleSort('expenseDate')}
-                    >
-                      <span className='tableHeaderText'>
-                        <span>Fecha </span>
-                        {sortConfig.key === 'expenseDate'
-                          ? sortConfig.direction === 'asc'
-                            ? up
-                            : down
-                          : ''}
-                      </span>
-                    </TableCell>
-                    <TableCell
-                      sx={TableStyles.tableHeaderCell}
-                      onClick={() => handleSort('expenseDescription')}
-                    >
-                      <span className='tableHeaderText'>
-                        <span>Descripción </span>
-                        {sortConfig.key === 'expenseDescription'
-                          ? sortConfig.direction === 'asc'
-                            ? up
-                            : down
-                          : ''}
-                      </span>
-                    </TableCell>
-                    <TableCell sx={TableStyles.tableHeaderCell}>
-                      <span className='tableHeaderText'>
-                        <AiFillDelete />
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {sortedItems
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((expense) => (
-                      <TableRow
-                        hover
-                        key={expense.expenseID}
-                        sx={TableStyles.tableRow}
-                      >
-                        <TableCell sx={TableStyles.tableCell}>
-                          {expense.categoryName}
-                        </TableCell>
-                        <TableCell sx={TableStyles.tableCell}>
-                          {expense.expenseAmount}
-                        </TableCell>
-                        <TableCell sx={TableStyles.tableCell}>
-                          {expense.expenseDate.slice(0, 10)}
-                        </TableCell>
-                        <TableCell sx={TableStyles.tableCell}>
-                          {expense.expenseDescription}
-                        </TableCell>
-                        <TableCell sx={TableStyles.tableCell} onClick={() => eliminarGasto(expense.expenseID)}>
-                          <AiFillDelete />
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component='div'
-              count={expenses.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              sx={TableStyles.tablePagination}
-              slotProps={TableStyles.tablePaginationSlots}
-            />
-          </div>
+          <ExpensesList
+            expenses={expenses}
+            sortedItems={sortedItems}
+            eliminarGasto={eliminarGasto}
+          />
         </div>
       )}
       <div className='seccionBotones'>

@@ -10,6 +10,7 @@ import { ApiEndpoints, GastosEndpoints } from '@/config/apiconfig';
 interface ExpenseStore {
   expenses: ExpenseI[];
   fetchExpenses: () => Promise<void>;
+  fetchExpensesByMonth: (month: string) => Promise<void>;
   addExpense: (expense: CreateExpenseDto) => Promise<void>;
   deleteExpense: (expenseID: number) => Promise<void>;
 }
@@ -21,6 +22,20 @@ const useExpenseStore = create((set): ExpenseStore => ({
     await axiosRequest(
       HttpEnum.GET,
       ApiEndpoints.hm_url + GastosEndpoints.all
+    )
+      .then((response) => {
+        set({ expenses: response.data });
+      })
+      .catch((error) => {
+        throw new FetchExpensesException(
+          ExpenseExceptionMessages.FetchExpensesException + error
+        );
+      }),
+
+  fetchExpensesByMonth: async (month: string) =>
+    await axiosRequest(
+      HttpEnum.GET,
+      ApiEndpoints.hm_url + GastosEndpoints.byMonth + month
     )
       .then((response) => {
         set({ expenses: response.data });

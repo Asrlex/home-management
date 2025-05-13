@@ -26,8 +26,8 @@ const ShiftList: React.FC<ShiftListProps> = ({
         { length: new Date(parseInt(selectedMonth.split('-')[0]), parseInt(selectedMonth.split('-')[1]), 0).getDate() },
         (_, day) => {
           const year = parseInt(selectedMonth.split('-')[0]);
-          const month = parseInt(selectedMonth.split('-')[1]) - 1; // Month is zero-based
-          const date = new Date(Date.UTC(year, month, day + 1)); // Use UTC to avoid time zone issues
+          const month = parseInt(selectedMonth.split('-')[1]) - 1;
+          const date = new Date(Date.UTC(year, month, day + 1));
           const formattedDate = date.toISOString().split('T')[0];
           const shift: ShiftI = shifts?.find((s: ShiftI) => s.shiftDate === formattedDate);
 
