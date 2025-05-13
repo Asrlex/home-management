@@ -7,6 +7,7 @@ import {
   FaUtensils,
   FaDollarSign,
   FaCog,
+  FaCarSide,
 } from 'react-icons/fa';
 import { PiCookingPotFill } from 'react-icons/pi';
 import { MdAddHome, MdWorkHistory } from 'react-icons/md';
@@ -73,14 +74,20 @@ const BarraLateral = ({ onSelectSection, section }) => {
             selectSection={onSelectSection}
             section={section}
           />
-          <BarraLateralItem
-            texto='Fichajes'
-            icono={<MdWorkHistory className='iconoBarraLateral' />}
-            selectSection={onSelectSection}
-            section={section}
-          />
         </BarraLateralItem>
         <hr className='barraLateralSeparador' />
+        <BarraLateralItem
+          texto='Fichajes'
+          icono={<MdWorkHistory className='iconoBarraLateral' />}
+          selectSection={onSelectSection}
+          section={section}
+        />
+        <BarraLateralItem
+          texto='Coche'
+          icono={<FaCarSide className='iconoBarraLateral' />}
+          selectSection={onSelectSection}
+          section={section}
+        />
         <BarraLateralItem
           texto='Gastos'
           icono={<FaDollarSign className='iconoBarraLateral' />}

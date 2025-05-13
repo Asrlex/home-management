@@ -1,0 +1,162 @@
+@import '../global/variables.css';
+
+/* ********************* */
+/* CAR TASKS */
+/* ********************* */
+
+.carTaskContainer {
+  display: flex;
+  flex-direction: column;
+  height: 90vh; /* Full viewport height */
+  box-sizing: border-box;
+}
+
+/* Form Styles */
+.carTaskForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: .5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+.carTaskForm label {
+  font-weight: bold;
+  font-size: .75rem;
+  color: var(--modal-label-color);
+  margin-bottom: 0.25rem;
+}
+
+.carTaskForm .modalSelect {
+  width: 100%;
+}
+
+.carTaskForm .modalInputSmall {
+  width: calc(50% - 0.5rem);
+  margin-right: 0.5rem;
+}
+
+.carTaskFormInput {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+
+@media (min-width: 768px) {
+  .carTaskForm label {
+    font-size: 0.875rem;
+  }
+}
+
+.carTaskFormButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Task List Styles */
+.carTaskList {
+  padding: 0.5rem;
+  overflow-y: auto;
+  border: 1px solid var(--list-border-color);
+  border-radius: 0.5rem;
+  background-color: var(--list-bg-color);
+  gap: 0.5rem;
+  flex-grow: 1;
+}
+
+.carTaskList::-webkit-scrollbar {
+  width: 0.25rem;
+  height: 0.5rem;
+}
+
+.carTaskList::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-color);
+  border-radius: 9999px;
+}
+
+.carTaskList::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover-color);
+}
+
+.carTaskList::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-color);
+  border-radius: 9999px;
+}
+
+.carTaskListItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--list-item-border-color);
+  cursor: default;
+  margin-bottom: .5rem;
+  transition: all 0.3s ease;
+}
+
+.carTaskListItem:last-child {
+  margin-bottom: 0;
+}
+
+.carTaskListItem:hover {
+  background-color: var(--item-hover-bg-color);
+}
+
+.carTaskListItemName {
+  transition: background-color 0.3s ease font-size 0.3s ease;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.carTaskListItemInfo {
+  font-size: 0.65rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.carTaskListItemDate {
+  white-space: nowrap;
+}
+
+.carTaskListItemDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+}
+
+.carTaskListItemDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carTaskListItemCost {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+@media (min-width: 500px) {
+  .carTaskListItem {
+    font-size: 1rem;
+  }
+
+  .carTaskListItemName {
+    font-size: 1rem;
+  }
+
+  .carTaskListItemInfo {
+    font-size: 0.875rem;
+  }
+}

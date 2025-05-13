@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import React from 'react';
+import { IoMdArrowDropright } from 'react-icons/io';
 
 interface BarraLateralItemProps {
   texto: string;
@@ -24,16 +25,18 @@ export default function BarraLateralItem({
 
   return (
     <div
-      className={`itemBarraLateralWrapper ${
-        tipo === 'dropdown' ? 'dropdown' : ''
-      }`}
+      className={`itemBarraLateralWrapper ${tipo === 'dropdown' ? 'dropdown' : ''
+        }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {tipo === 'dropdown' ? (
         <div className='itemBarraLateral'>
           {icono}
-          <div className='itemBarraLateralTextHidden'>{texto}</div>
+          <div style={{ display: 'flex', alignItems: 'center', marginTop: '3px' }}>
+            <span className='itemBarraLateralTextHidden'>{texto}</span>
+            <span><IoMdArrowDropright /></span>
+          </div>
         </div>
       ) : (
         <Link

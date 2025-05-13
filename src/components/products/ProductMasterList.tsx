@@ -222,7 +222,7 @@ const ListaProductos = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody >
               {sortedItems
                 .filter((producto) => {
                   if (etiquetasSeleccionadas.length === 0) return true;

@@ -107,27 +107,6 @@ export default function Ajustes() {
         label="Push Notifications"
       />
 
-      {/* Language Selector */}
-      <FormControl
-        fullWidth
-        margin="normal"
-        variant="standard"
-        sx={styles.selectFormControlStyles}
-      >
-        <InputLabel id="language-label" sx={styles.inputLabelStyles}>
-          Idioma
-        </InputLabel>
-        <Select
-          labelId="language-label"
-          value={localSettings.language}
-          onChange={(e) => handleChange("language", e.target.value)}
-          sx={styles.selectStyles}
-        >
-          <MenuItem value="en">Inglés</MenuItem>
-          <MenuItem value="es">Español</MenuItem>
-        </Select>
-      </FormControl>
-
       {/* Icon Selector */}
       <FormControl
         fullWidth

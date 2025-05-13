@@ -21,13 +21,14 @@ import Login from './components/users/Login';
 import Signup from './components/users/Signup';
 import PrivateRoute from './components/users/PrivateRoute';
 import Portada from './components/menu/Cover';
-import Fichajes from './components/tasks/checkin/ShiftSection';
+import Ajustes from './components/menu/Settings';
+import Fichajes from './components/checkin/ShiftSection';
+import CarTasks from './components/tasks/car/CarTasks';
 import useUserStore from './store/UserStore';
 import useSettingsStore from './store/SettingsStore';
-import React from 'react';
 import useThemeStore from './store/ThemeStore';
 import { ApiPaths } from './entities/enums/api.enums';
-import Ajustes from './components/menu/Ajustes';
+import React from 'react';
 
 function App() {
   const [selectedSection, setSelectedSection] = useState<string>('');
@@ -41,11 +42,7 @@ function App() {
 
   useEffect(() => {
     const initializeApp = async () => {
-      const settings = await fetchSettings();
-
-      if (settings?.theme && settings.theme !== theme) {
-        toggleTheme();
-      }
+      await fetchSettings();
 
       const path = location.pathname.split(ApiPaths.Base)[1];
       const section = path.replace(/-/g, ' ');
@@ -137,6 +134,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Recetas />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path='/coche'
+                element={
+                  <PrivateRoute>
+                    <CarTasks />
                   </PrivateRoute>
                 }
               />

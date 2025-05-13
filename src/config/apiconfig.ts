@@ -26,6 +26,7 @@ export enum TareasEndpoints {
   completed = '/tasks/completitud',
   byID = '/tasks/id/',
   home = '/tasks/home/',
+  car = '/tasks/car/',
 }
 
 export enum FichajesEndpoints {

@@ -7,6 +7,8 @@ import { UserIDRequiredException, FetchSettingsException, UpdateSettingsExceptio
 import useUserStore from './UserStore';
 import { ApiEndpoints, SettingsEndpoints } from '@/config/apiconfig';
 import { SettingsI, UserI, UserSettingsI } from '@/entities/types/home-management.entity';
+import useThemeStore from './ThemeStore';
+import { StoreEnum } from './entities/enums/store.enum';
 
 interface SettingsStore {
   settings: UserSettingsI | null;
@@ -17,13 +19,13 @@ interface SettingsStore {
 
 const defaultSettings: UserSettingsI = {
   defaultPage: '',
-  theme: 'light',
+  theme: StoreEnum.LIGHT,
   notifications: {
     email: false,
     push: false,
   },
-  language: 'es',
-  icon: 'summer',
+  language: StoreEnum.LANGUAGE_ES,
+  icon: StoreEnum.SUMMER,
 };
 
 const useSettingsStore = create((set): SettingsStore => ({
@@ -39,13 +41,27 @@ const useSettingsStore = create((set): SettingsStore => ({
         set({ loading: false });
         return null;
       }
-  
-      const { data: response } = await axiosRequest<null>(
+
+      const { data: response } = await axiosRequest<SettingsI>(
         HttpEnum.GET,
         `${ApiEndpoints.hm_url + SettingsEndpoints.byID}${userID}`
       );
       const parsedSettings: UserSettingsI = JSON.parse(response.settings);
       set({ settings: parsedSettings, loading: false });
+
+      // Set theme
+      const currentTheme = useThemeStore.getState().theme;
+      const storedTheme = localStorage.getItem(StoreEnum.THEME) as StoreEnum.LIGHT | StoreEnum.DARK;
+      if (parsedSettings.theme) {
+        if (parsedSettings.theme !== currentTheme) {
+          useThemeStore.getState().setTheme(parsedSettings.theme);
+        }
+      } else if (storedTheme) {
+        useThemeStore.getState().setTheme(storedTheme);
+      } else {
+        useThemeStore.getState().setTheme(StoreEnum.LIGHT);
+      }
+
       return parsedSettings;
     } catch (error) {
       set({ loading: false });
@@ -79,6 +95,11 @@ const useSettingsStore = create((set): SettingsStore => ({
       .then((response) => {
         const parsedSettings: UserSettingsI = JSON.parse(response.data.settings);
         set({ settings: parsedSettings });
+
+        if (parsedSettings.theme !== useThemeStore.getState().theme) {
+          useThemeStore.getState().setTheme(parsedSettings.theme);
+        }
+
         return parsedSettings;
       })
       .catch((error) => {

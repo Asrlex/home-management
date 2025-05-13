@@ -29,7 +29,7 @@ export const customStyles = {
   }),
   singleValue: (provided) => ({
     ...provided,
-    color: 'var(--text-color)',
+    color: 'var(--modal-title-text-color)',
     '@media (max-width: 768px)': {
       fontSize: '12px',
     },

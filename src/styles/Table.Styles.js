@@ -1,24 +1,9 @@
 export const TableStyles = {
   table: {
     width: '100%',
-    maxHeight: '95%',
+    maxHeight: '85%',
     backgroundColor: 'var(--item-bg-color)',
     color: 'var(--text-color)',
-    '&::-webkit-scrollbar': {
-      width: '5px',
-      height: '8px',
-    },
-    '&::-webkit-scrollbar-track': {
-      backgroundColor: 'var(--scrollbar-track-color)',
-      borderRadius: '4px',
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: 'var(--scrollbar-thumb-color)',
-      borderRadius: '4px',
-    },
-    '&::-webkit-scrollbar-thumb:hover': {
-      backgroundColor: 'var(--scrollbar-thumb-hover-color)',
-    },
   },
   tableRow: {
     backgroundColor: 'var(--item-bg-color)',

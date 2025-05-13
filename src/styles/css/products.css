@@ -235,8 +235,8 @@
 }
 
 .productsTable {
-  height: 80%;
-  max-height: 80%;
+  height: 85%;
+  max-height: 85%;
   overflow: auto;
   position: relative;
 }

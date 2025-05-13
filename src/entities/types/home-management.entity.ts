@@ -1,3 +1,4 @@
+import { StoreEnum } from "@/store/entities/enums/store.enum";
 import { GeneralParams } from "../enums/api.enums";
 
 export interface StockProductI {
@@ -97,13 +98,13 @@ export interface SettingsI {
 }
 
 export interface UserSettingsI {
-  theme: 'light' | 'dark' | 'auto';
+  theme: StoreEnum.LIGHT | StoreEnum.DARK;
   notifications: {
     email: boolean;
     push: boolean;
   },
-  language: 'en' | 'es' | 'fr' | 'de',
-  icon: 'summer' | 'winter' | 'spring' | 'autumn' | 'default',
+  language: StoreEnum.LANGUAGE_EN | StoreEnum.LANGUAGE_ES,
+  icon: StoreEnum.SUMMER | StoreEnum.WINTER | StoreEnum.SPRING | StoreEnum.AUTUMN;
   defaultPage: '' | 'lista-compra' | 'despensa' | 'tareas' | 'tareas-casa' | 'fichajes' | 'recetas' | 'gastos' | 'ajustes',
 }
 
@@ -142,4 +143,18 @@ export interface ShiftCheckinI {
   shiftCheckinDate: string;
   shiftCheckinTimestamp: string;
   shiftCheckinType: GeneralParams.ClockIn | GeneralParams.ClockOut;
+}
+
+export interface CarTaskI {
+  carTaskID: number;
+  carTaskName:
+  | 'Golosinas'
+  | 'Cambio Aceite'
+  | 'Presión Ruedas'
+  | 'Sustitución Limpiaparabrisas'
+  | 'Revisión'
+  | 'ITV';
+  carTaskDetails: string;
+  carTaskCost: number;
+  carTaskDate: string;
 }
