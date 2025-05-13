@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import toast from 'react-hot-toast';
 import { HttpEnum } from '@/entities/enums/http.enum';
-import { ApiEndpoints, FichajesEndpoints, TareasEndpoints } from '@/config/apiconfig';
+import { ApiEndpoints, FichajesEndpoints } from '@/config/apiconfig';
 import { LuAlarmClockCheck, LuAlarmClockOff } from 'react-icons/lu';
-import { CreateShiftCheckinDto } from '@/entities/dtos/shift.dto';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import LiveClock from './LiveClock';
 import { GeneralParams } from '@/entities/enums/api.enums';
 import ShiftButton from './ShiftButton';
 import ShiftList from './ShiftList';
 import { axiosRequest } from '@/hooks/axiosRequest';
+import MonthSelector from '../generic/MonthSelector';
 
 
 const Fichajes = () => {
@@ -27,9 +26,8 @@ const Fichajes = () => {
   }, [selectedMonth]);
 
 
-  const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedMonth = event.target.value;
-    setSelectedMonth(selectedMonth);
+  const handleMonthChange = (month: string) => {
+    setSelectedMonth(month);
   };
 
 
@@ -47,7 +45,7 @@ const Fichajes = () => {
       `${ApiEndpoints.hm_url + FichajesEndpoints.byMonth}${month}`
     )
       .then((response) => setShifts(response.data))
-      .catch((error) => console.error('Error fetching tasks:', error));
+      .catch((error) => console.error('Error leyendo tareas:', error));
   };
 
 
@@ -84,25 +82,11 @@ const Fichajes = () => {
           />
         </div>
         <hr className='hrSeccion' />
-        <div className='shiftListTitle'>
-          <button
-            onClick={() => changeMonth('prev')}
-          >
-            <FaArrowLeft className='monthArrowButton' />
-          </button>
-          <input
-            type='month'
-            id='monthSelector'
-            className='monthSelector'
-            value={selectedMonth}
-            onChange={handleMonthChange}
-          />
-          <button
-            onClick={() => changeMonth('next')}
-          >
-            <FaArrowRight className='monthArrowButton' />
-          </button>
-        </div>
+        <MonthSelector
+          selectedMonth={selectedMonth}
+          onMonthChange={handleMonthChange}
+          onChangeMonth={changeMonth}
+        />
         <ShiftList
           shifts={shifts}
           selectedMonth={selectedMonth}

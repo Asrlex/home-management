@@ -114,6 +114,34 @@
   margin-bottom: 0.5rem;
 }
 
+input[type='month'] {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  font-weight: bold;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--modal-input-bg-color);
+  color: var(--modal-input-text-color);
+  border: 1px solid var(--modal-input-bg-color);
+  transition: all 0.2s;
+  margin-inline: 0.5rem;
+}
+@media (min-width: 768px) {
+  input[type='month'] {
+    padding: 0.75rem;
+  }
+}
+
+.monthArrowButton {
+  color: var(--task-text-color);
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
 /* Utilities */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
