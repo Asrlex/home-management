@@ -41,7 +41,14 @@ const TareasCasa = () => {
 
   useEffect(() => {
     axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.homeAll)
-      .then((response) => setTasks(response.data))
+      .then((response) => {
+        const sortedTasks = response.data.sort((a: HouseTaskI, b: HouseTaskI) => {
+          const dateA = new Date(a.houseTaskDate);
+          const dateB = new Date(b.houseTaskDate);
+          return dateB.getTime() - dateA.getTime();
+        });
+        setTasks(sortedTasks);
+      })
       .catch((error) => console.error('Error leyendo tareas:', error));
   }, []);
 

@@ -30,21 +30,32 @@ const CarTasks = () => {
     { value: 'ITV', label: 'ITV' },
   ];
 
+
   useEffect(() => {
     axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.carAll)
-      .then((response) => setTasks(response.data))
+      .then((response) => {
+        const sortedTasks = response.data.sort((a: CarTaskI, b: CarTaskI) => {
+          const dateA = new Date(a.carTaskDate);
+          const dateB = new Date(b.carTaskDate);
+          return dateB.getTime() - dateA.getTime();
+        });
+        setTasks(sortedTasks);
+      })
       .catch((error) => console.error('Error leyendo tareas:', error));
   }, []);
+
 
   const handleActionChange = (selectedOption: any) => {
     setSelectedAction(selectedOption?.value || null);
     setFormData(defaultCarTask);
   };
 
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,6 +85,7 @@ const CarTasks = () => {
       });
   };
 
+  
   return (
     <div className='carTaskContainer'>
       <form onSubmit={handleSubmit} className='carTaskForm'>
