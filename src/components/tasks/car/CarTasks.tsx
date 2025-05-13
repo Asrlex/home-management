@@ -95,7 +95,7 @@ const CarTasks = () => {
 
     await axiosRequest(
       HttpEnum.POST,
-      ApiEndpoints.hm_url + TareasEndpoints.car,
+      ApiEndpoints.hm_url + TareasEndpoints.carAll,
       {},
       newTask
     )
@@ -104,11 +104,11 @@ const CarTasks = () => {
         setTasks((prev) => [createdTask, ...prev]);
         setFormData(defaultCarTask);
         setSelectedAction(null);
-        toast.success('Task created successfully!');
+        toast.success('Tarea creada correctamente');
       })
       .catch((error) => {
-        console.error('Error creating task:', error);
-        toast.error('Error creating task');
+        console.error('Error creando la tarea:', error);
+        toast.error('Error creando la tarea');
       });
   };
 
@@ -222,7 +222,6 @@ const CarTasks = () => {
             </div>
           </>
         )}
-
       </form>
       <hr className='hrSeccion' />
       <div className={'carTaskList carTaskListEmpty ' + (selectedAction && selectedAction === 'Golosinas' ? 'carTaskListRefuel' : selectedAction === 'Revisión' ? 'carTaskListRevision' : selectedAction === 'Presión Ruedas' ? 'carTaskListPressure' : 'carTaskListDefault')}>

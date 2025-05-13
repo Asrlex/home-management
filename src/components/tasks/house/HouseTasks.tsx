@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { axiosRequest } from '../../hooks/axiosRequest';
+import { axiosRequest } from '../../../hooks/axiosRequest';
 import toast from 'react-hot-toast';
 import { LuWashingMachine, LuCookingPot, LuDog, LuBath } from 'react-icons/lu';
 import { MdOutlineShoppingCart } from 'react-icons/md';
@@ -40,9 +40,9 @@ const TareasCasa = () => {
 
 
   useEffect(() => {
-    axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.home)
+    axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.homeAll)
       .then((response) => setTasks(response.data))
-      .catch((error) => console.error('Error fetching tasks:', error));
+      .catch((error) => console.error('Error leyendo tareas:', error));
   }, []);
 
 
@@ -68,18 +68,17 @@ const TareasCasa = () => {
 
     axiosRequest(HttpEnum.POST, ApiEndpoints.hm_url + TareasEndpoints.home, {}, task)
       .then((response) => {
-        console.log('Task added:', response.data);
         setTasks([response.data, ...tasks]);
-        toast.success(`Task ${taskName} added successfully!`);
+        toast.success(`Tarea ${taskName} añadida correctamente`);
       })
       .catch((error) => {
-        console.error(error);
-        toast.error(`Error adding task: ${error.response.data.message}`);
+        toast.error(`Error añadiendo tarea`);
+        console.error(`Error añadiendo tarea: ${error.response.data.message}`);
       });
   };
 
 
-  const handleTaskNameClick = (taskName) => {
+  const handleTaskNameClick = (taskName: string) => {
     setFilteredTaskName(filteredTaskName === taskName ? null : taskName);
   };
 
@@ -106,11 +105,11 @@ const TareasCasa = () => {
     axiosRequest(HttpEnum.DELETE, ApiEndpoints.hm_url + TareasEndpoints.home + taskId)
       .then(() => {
         setTasks(tasks.filter((task) => task.id !== taskId));
-        toast.success('Task deleted successfully!');
+        toast.success('Tarea borrada correctamente');
       })
       .catch((error) => {
-        console.error(error);
-        toast.error(`Error deleting task: ${error.response.data.message}`);
+        toast.error(`Error borrando tarea`);
+        console.error(`Error borrando tarea: ${error.response.data.message}`);
       });
   };
 

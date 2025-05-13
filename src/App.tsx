@@ -13,7 +13,7 @@ import MainContent from './components/menu/MainContent';
 import ListaCompra from './components/products/ShoppingList';
 import Despensa from './components/products/Stock';
 import Tareas from './components/tasks/TaskSection';
-import TareasCasa from './components/tasks/HouseTasks';
+import TareasCasa from './components/tasks/house/HouseTasks';
 import Recetas from './components/recipes/RecipeSection';
 import Gastos from './components/expenses/ExpenseSection';
 import ListaProductos from './components/products/ProductMasterList';
