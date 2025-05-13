@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { CarTaskI } from '@/entities/types/home-management.entity';
 import { CreateCarTaskDto } from '@/entities/dtos/task.dto';
@@ -19,51 +19,7 @@ const defaultCarTask: CarTaskI = {
 const CarTasks = () => {
   const [selectedAction, setSelectedAction] = useState<string | null>(null);
   const [formData, setFormData] = useState<CreateCarTaskDto>(defaultCarTask);
-  const [tasks, setTasks] = useState<CarTaskI[]>([
-    {
-      carTaskID: 1,
-      carTaskName: 'Golosinas',
-      carTaskDetails: '50 litros',
-      carTaskCost: 75,
-      carTaskDate: '2025-05-10',
-    },
-    {
-      carTaskID: 2,
-      carTaskName: 'Revisión',
-      carTaskDetails: 'Cambio de aceite y filtros',
-      carTaskCost: 200,
-      carTaskDate: '2025-05-09',
-    },
-    {
-      carTaskID: 3,
-      carTaskName: 'Presión Ruedas',
-      carTaskDetails: '2.5 atm',
-      carTaskCost: 0,
-      carTaskDate: '2025-05-08',
-    },
-    {
-      carTaskID: 4,
-      carTaskName: 'Cambio Aceite',
-      carTaskDetails: 'Aceite sintético',
-      carTaskCost: 50,
-      carTaskDate: '2025-05-07',
-    },
-    {
-      carTaskID: 5,
-      carTaskName: 'Sustitución Limpiaparabrisas',
-      carTaskDetails: 'Limpiaparabrisas delantero y trasero',
-      carTaskCost: 30,
-      carTaskDate: '2025-05-06',
-    },
-    {
-      carTaskID: 6,
-      carTaskName: 'ITV',
-      carTaskDetails: '',
-      carTaskCost: 50,
-      carTaskDate: '2025-05-05',
-    },
-  ]);
-
+  const [tasks, setTasks] = useState<CarTaskI[]>([]);
   const actionOptions = [
     { value: null, label: 'Selecciona...' },
     { value: 'Golosinas', label: 'Golosinas' },
@@ -73,6 +29,12 @@ const CarTasks = () => {
     { value: 'Sustitución Limpiaparabrisas', label: 'Sustitución Limpiaparabrisas' },
     { value: 'ITV', label: 'ITV' },
   ];
+
+  useEffect(() => {
+    axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.carAll)
+      .then((response) => setTasks(response.data))
+      .catch((error) => console.error('Error leyendo tareas:', error));
+  }, []);
 
   const handleActionChange = (selectedOption: any) => {
     setSelectedAction(selectedOption?.value || null);
