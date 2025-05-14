@@ -125,6 +125,8 @@
   /* emerald-300 */
   --form-select-options-selected-bg-color: rgb(16 185 129);
   /* emerald-500 */
+  --current-day-border-color: rgb(16 185 129);
+  /* emerald-500 */
 }
 
 .dark {
@@ -251,6 +253,8 @@
   /* gray-600 */
   --form-select-options-selected-bg-color: rgb(107 114 128);
   /* gray-500 */
+  --current-day-border-color: rgb(16 185 129);
+  /* emerald-500 */
 }
 
 .light,

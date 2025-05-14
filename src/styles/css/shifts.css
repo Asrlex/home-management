@@ -103,10 +103,10 @@
 }
 
 .shiftList {
-  height: 80%;
-  max-height: 80%;
   overflow-y: auto;
   overflow-x: hidden;
+  height: 90%;
+  max-height: 90%;
   border-radius: 0.375rem;
   position: relative;
   margin-inline: 0.5rem;
@@ -133,20 +133,20 @@
 }
 
 @media (max-height: 700px) {
-  .shiftList {
-    height: 60%;
-    max-height: 60%;
+  .monthShifts {
+    height: 63%;
+    max-height: 63%;
   }
 }
 @media (min-height: 700px) {
-  .shiftList {
+  .monthShifts {
     margin-inline: 1rem;
-    height: 75%;
-    max-height: 75%;
+    height: 74%;
+    max-height: 74%;
   }
 }
 @media (min-width: 768px) and (min-height: 700px) {
-  .shiftList {
+  .monthShifts {
     height: 70%;
     max-height: 70%;
   }
@@ -177,6 +177,16 @@
   background-color: var(--item-hover-bg-color);
   border-color: var(--highlight-border-color);
   transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.shiftListItem.weekend,
+.shiftListItem.holiday {
+  opacity: 0.6;
+}
+
+.shiftListItem.currentDay {
+  border-color: var(--current-day-border-color);
+  border-width: 2px;
 }
 
 .shiftListItemInfo {
@@ -235,4 +245,14 @@
   .shiftCheckin {
     font-size: 1rem;
   }
+}
+
+.timeDifference {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: var(--task-text-color);
+  height: 10%;
+  max-height: 10%;
 }

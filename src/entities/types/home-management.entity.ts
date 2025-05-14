@@ -1,5 +1,5 @@
 import { StoreEnum } from "@/store/entities/enums/store.enum";
-import { GeneralParams } from "../enums/api.enums";
+import { AbsenceTypes, CarTaskTypes, GeneralParams } from "../enums/api.enums";
 
 export interface StockProductI {
   stockProductID: number;
@@ -147,16 +147,16 @@ export interface ShiftCheckinI {
 
 export interface CarTaskI {
   carTaskID: number;
-  carTaskName:
-  | 'Golosinas'
-  | 'Cambio Aceite'
-  | 'Presión Ruedas'
-  | 'Sustitución Limpiaparabrisas'
-  | 'Revisión'
-  | 'Cambio Ruedas'
-  | 'Cambio Filtro'
-  | 'ITV';
+  carTaskName: CarTaskTypes;
   carTaskDetails: string;
   carTaskCost: number;
   carTaskDate: string;
+}
+
+export interface AbsenceI {
+  absenceID: number;
+  absenceDate: string;
+  absenceType: AbsenceTypes;
+  absenceComment: string;
+  absenceHours: number;
 }

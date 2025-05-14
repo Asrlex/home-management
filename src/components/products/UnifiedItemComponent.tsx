@@ -15,7 +15,6 @@ interface UnifiedItemComponentProps {
 const UnifiedItemComponent = forwardRef<HTMLDivElement, UnifiedItemComponentProps>(
   ({ producto, handleEliminar, handleAmount, handleMover, addOrRemoveTag }, ref) => {
     if (ProductsEnum.listaCompraID in producto) {
-      // Render ShoppingListItem
       return (
         <ListaCompraItem
           ref={ref}
@@ -27,7 +26,6 @@ const UnifiedItemComponent = forwardRef<HTMLDivElement, UnifiedItemComponentProp
         />
       );
     } else {
-      // Render StockItem
       return (
         <DespensaItem
           ref={ref}

@@ -30,15 +30,7 @@ function Gastos() {
   const addExpense = useExpenseStore((state) => state.addExpense);
   const deleteExpense = useExpenseStore((state) => state.deleteExpense);
   const [isLoading, setIsLoading] = useState(true);
-  const [sortConfig, setSortConfig] = useState({
-    key: 'expenseDate',
-    direction: 'asc',
-  });
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7)); // Add selectedMonth state
-  const up = <FaArrowUp className='tableHeaderIcon' />;
-  const down = <FaArrowDown className='tableHeaderIcon' />;
+  const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
   const [expenseCategory, setExpenseCategory] = useState({
     value: 0,
     label: '',
@@ -64,14 +56,6 @@ function Gastos() {
     setSelectedMonth(month);
   };
 
-  const sortedItems = [...expenses].sort((a, b) => {
-    if (!sortConfig.key) return 0;
-    const aValue = a[sortConfig.key];
-    const bValue = b[sortConfig.key];
-    if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
-    if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
-    return 0;
-  });
 
   const crearGasto = (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,14 +91,6 @@ function Gastos() {
   };
 
 
-  const changeMonth = (direction: 'prev' | 'next') => {
-    const [year, month] = selectedMonth.split('-').map(Number);
-    const newDate = new Date(Date.UTC(year, month - 1 + (direction === 'next' ? 1 : -1), 1));
-    const newMonth = newDate.toISOString().slice(0, 7);
-    setSelectedMonth(newMonth);
-  };
-
-
   const expenseCategoryOptions = [
     { value: 7, label: 'Bizum' },
     { value: 6, label: 'Regalos' },
@@ -135,11 +111,7 @@ function Gastos() {
         <Loader />
       ) : (
         <div className='gastos'>
-          <MonthSelector
-            selectedMonth={selectedMonth}
-            onMonthChange={handleMonthChange}
-            onChangeMonth={changeMonth}
-          />
+          <MonthSelector onMonthChange={handleMonthChange} />
           <GastosForm
             crearGasto={crearGasto}
             expenseCategoryOptions={expenseCategoryOptions}
@@ -151,7 +123,6 @@ function Gastos() {
           />
           <ExpensesList
             expenses={expenses}
-            sortedItems={sortedItems}
             eliminarGasto={eliminarGasto}
           />
         </div>

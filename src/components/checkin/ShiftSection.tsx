@@ -2,23 +2,44 @@ import React, { useState, useEffect, useRef } from 'react';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, FichajesEndpoints } from '@/config/apiconfig';
 import { LuAlarmClockCheck, LuAlarmClockOff } from 'react-icons/lu';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 import LiveClock from './LiveClock';
-import { GeneralParams } from '@/entities/enums/api.enums';
+import { AbsenceTypes, GeneralParams } from '@/entities/enums/api.enums';
 import ShiftButton from './ShiftButton';
 import ShiftList from './ShiftList';
 import { axiosRequest } from '@/hooks/axiosRequest';
 import MonthSelector from '../generic/MonthSelector';
-
+import FAB from '../generic/FloatingButton';
+import Modal from '../generic/Modal';
+import { customStyles } from '@/styles/SelectStyles';
+import Select from 'react-select';
+import { CreateAbsenceDto } from '@/entities/dtos/shift.dto';
+import toast from 'react-hot-toast';
+import { AbsenceI, ShiftI } from '@/entities/types/home-management.entity';
 
 const Fichajes = () => {
-  const [shifts, setShifts] = useState([]);
+  const [shifts, setShifts] = useState<ShiftI[]>([]);
+  const [absences, setAbsences] = useState<AbsenceI[]>([]);
   const [expandedTask, setExpandedTask] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
+  const dialogRef = useRef(null);
+  const [selectedType, setSelectedType] = useState(null);
+  const dateRef = useRef(null);
+  const hoursRef = useRef(null);
+  const commentRef = useRef(null);
+
+
+  const selectOptions = [
+    { value: AbsenceTypes.Vacaciones, label: AbsenceTypes.Vacaciones },
+    { value: AbsenceTypes.FichajeExterno, label: AbsenceTypes.FichajeExterno },
+    { value: AbsenceTypes.HorasPersonales, label: AbsenceTypes.HorasPersonales },
+    { value: AbsenceTypes.Mudanza, label: AbsenceTypes.Mudanza },
+  ];
 
 
   useEffect(() => {
     fetchShiftsForMonth(selectedMonth);
+    fetchAbsences();
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
@@ -31,22 +52,24 @@ const Fichajes = () => {
   };
 
 
-  const changeMonth = (direction: 'prev' | 'next') => {
-    const [year, month] = selectedMonth.split('-').map(Number);
-    const newDate = new Date(Date.UTC(year, month - 1 + (direction === 'next' ? 1 : -1), 1));
-    const newMonth = newDate.toISOString().slice(0, 7);
-    setSelectedMonth(newMonth);
-  };
-
-
   const fetchShiftsForMonth = async (month: string = selectedMonth) => {
-    axiosRequest(
+    await axiosRequest(
       HttpEnum.GET,
       `${ApiEndpoints.hm_url + FichajesEndpoints.byMonth}${month}`
     )
       .then((response) => setShifts(response.data))
       .catch((error) => console.error('Error leyendo tareas:', error));
   };
+
+
+  const fetchAbsences = async () => {
+    axiosRequest(
+      HttpEnum.GET,
+      ApiEndpoints.hm_url + FichajesEndpoints.absence
+    )
+      .then((response) => setAbsences(response.data))
+      .catch((error) => console.error('Error leyendo ausencias:', error));
+  }
 
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -65,8 +88,87 @@ const Fichajes = () => {
   };
 
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!selectedType) {
+      alert('Por favor, selecciona un tipo de ausencia.');
+      return;
+    }
+    if (!dateRef.current) {
+      alert('Por favor, selecciona fecha(s).');
+      return;
+    }
+    const absence: CreateAbsenceDto = {
+      absenceType: selectedType.value,
+      absenceDate: dateRef.current.value,
+      absenceComment: commentRef.current?.value || '',
+      absenceHours: parseInt(hoursRef.current?.value) || 0,
+    };
+
+    await axiosRequest(
+      HttpEnum.POST,
+      ApiEndpoints.hm_url + FichajesEndpoints.absence,
+      {},
+      absence
+    )
+      .then(async () => {
+        toast.success('Ausencia creada correctamente');
+        await fetchAbsences();
+        dialogRef.current.close();
+      })
+      .catch((error) => {
+        console.error('Error creando ausencia:', error);
+        toast.error('Error creando ausencia');
+      });
+  };
+
+
+  const popup = (
+    <Modal ref={dialogRef}>
+      <h2 className='modalTitulo'>Añadir ausencia</h2>
+      <form className='modalForm' onSubmit={handleSubmit}>
+        <Select
+          options={selectOptions}
+          onChange={setSelectedType}
+          placeholder='Seleccionar tipo'
+          className='modalSelect'
+          styles={customStyles}
+          isSearchable
+        />
+        <div className='modalSection' style={{ marginTop: '1rem' }}>
+          <input
+            type='date'
+            id='dates'
+            ref={dateRef}
+            className='modalInput'
+            required
+          />
+        </div>
+        <textarea
+          id='comment'
+          ref={commentRef}
+          className='modalInput modalTextArea'
+          placeholder='Comentario'
+        />
+        <input
+          type='number'
+          id='hours'
+          ref={hoursRef}
+          className='modalInput'
+          placeholder='Horas'
+          required
+        />
+        <button type='submit' className='modalBoton'>
+          Crear
+        </button>
+      </form>
+    </Modal>
+  );
+
+
   return (
     <>
+      {popup}
       <div className='shifts'>
         <div className='shiftButtons'>
           <ShiftButton
@@ -82,17 +184,21 @@ const Fichajes = () => {
           />
         </div>
         <hr className='hrSeccion' />
-        <MonthSelector
-          selectedMonth={selectedMonth}
-          onMonthChange={handleMonthChange}
-          onChangeMonth={changeMonth}
-        />
+        <MonthSelector onMonthChange={handleMonthChange} />
         <ShiftList
           shifts={shifts}
+          absences={absences}
           selectedMonth={selectedMonth}
           expandedTask={expandedTask}
           setExpandedTask={setExpandedTask}
           formatShiftTime={formatShiftTime}
+        />
+      </div>
+      <div className='seccionBotones'>
+        <FAB
+          icon={<FaPlus />}
+          action={() => dialogRef.current.open()}
+          classes='floatingButton'
         />
       </div>
     </>

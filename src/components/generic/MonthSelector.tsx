@@ -1,20 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 interface MonthSelectorProps {
-  selectedMonth: string;
-  onMonthChange: (month: string) => void;
-  onChangeMonth: (direction: 'prev' | 'next') => void;
+  onMonthChange?: (month: string) => void;
 }
 
-const MonthSelector: React.FC<MonthSelectorProps> = ({ selectedMonth, onMonthChange, onChangeMonth }) => {
+const MonthSelector: React.FC<MonthSelectorProps> = ({ onMonthChange }) => {
+  const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
+
   const handleMonthInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onMonthChange(event.target.value);
+    const newMonth = event.target.value;
+    setSelectedMonth(newMonth);
+    if (onMonthChange) onMonthChange(newMonth);
+  };
+
+  const changeMonth = (direction: 'prev' | 'next') => {
+    const [year, month] = selectedMonth.split('-').map(Number);
+    const newDate = new Date(Date.UTC(year, month - 1 + (direction === 'next' ? 1 : -1), 1));
+    const newMonth = newDate.toISOString().slice(0, 7);
+    setSelectedMonth(newMonth);
+    if (onMonthChange) onMonthChange(newMonth);
   };
 
   return (
     <div className='shiftListTitle'>
-      <button onClick={() => onChangeMonth('prev')}>
+      <button onClick={() => changeMonth('prev')}>
         <FaArrowLeft className='monthArrowButton' />
       </button>
       <input
@@ -24,7 +34,7 @@ const MonthSelector: React.FC<MonthSelectorProps> = ({ selectedMonth, onMonthCha
         value={selectedMonth}
         onChange={handleMonthInputChange}
       />
-      <button onClick={() => onChangeMonth('next')}>
+      <button onClick={() => changeMonth('next')}>
         <FaArrowRight className='monthArrowButton' />
       </button>
     </div>

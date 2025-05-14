@@ -37,6 +37,7 @@ export enum FichajesEndpoints {
   all = '/shifts/all',
   byID = '/shifts/id/',
   byMonth = '/shifts/month/',
+  absence = '/shifts/absence/',
 }
 
 export enum TiendasEndpoints {

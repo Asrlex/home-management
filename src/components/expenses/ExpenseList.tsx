@@ -6,16 +6,15 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 
 interface ExpensesListProps {
   expenses: ExpenseI[];
-  sortedItems: ExpenseI[];
   eliminarGasto: (expenseID: number) => void;
 }
 
 const ExpensesList: React.FC<ExpensesListProps> = ({
-  sortedItems,
+  expenses,
   eliminarGasto,
 }) => {
   const contextMenuRef = useRef(null);
-  const groupedExpenses = sortedItems.reduce((acc: Record<string, any[]>, expense) => {
+  const groupedExpenses = expenses.reduce((acc: Record<string, any[]>, expense) => {
     const date = expense.expenseDate.slice(0, 10);
     if (!acc[date]) {
       acc[date] = [];

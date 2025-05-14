@@ -7,43 +7,6 @@ import {
   IsString,
 } from 'class-validator';
 
-export class GetRecipeDto {
-  @IsNumber()
-  recipeID: number;
-  @IsString()
-  recipeName: string;
-  @IsString()
-  recipeDescription: string;
-  @IsNumber()
-  ingredientID: number;
-  @IsNumber()
-  ingredientAmount: number;
-  @IsString()
-  ingredientUnit: string;
-  @IsBoolean()
-  ingredientIsOptional: boolean;
-  @IsNumber()
-  productID: number;
-  @IsString()
-  productName: string;
-  @IsNumber()
-  stepID: number;
-  @IsString()
-  stepName: string;
-  @IsString()
-  stepDescription: string;
-  @IsNumber()
-  stepOrder: number;
-  @IsBoolean()
-  stepIsOptional: boolean;
-  @IsNumber()
-  tagID: number;
-  @IsString()
-  tagName: string;
-  @IsString()
-  tagType: string;
-}
-
 export class CreateRecipeDto {
   @IsNumber()
   @IsOptional()

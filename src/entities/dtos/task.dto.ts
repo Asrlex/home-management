@@ -1,4 +1,5 @@
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { CarTaskTypes } from '../enums/api.enums';
 
 export class CreateTaskDto {
   @IsNumber()
@@ -13,29 +14,6 @@ export class CreateTaskDto {
   taskCompleted: boolean;
 }
 
-export class GetTaskDto {
-  @IsNumber()
-  taskID: number;
-  @IsString()
-  taskTitle: string;
-  @IsString()
-  taskDescription: string;
-  @IsBoolean()
-  taskCompleted: boolean;
-  @IsString()
-  taskCompletedAt: string;
-  @IsString()
-  taskDateCreated: string;
-  @IsString()
-  taskDateModified: string;
-  @IsNumber()
-  taskTagID: number;
-  @IsString()
-  taskTagName: string;
-  @IsString()
-  taskTagType: string;
-}
-
 export class CreateHouseTaskDto {
   @IsNumber()
   @IsOptional()
@@ -44,48 +22,12 @@ export class CreateHouseTaskDto {
   houseTaskName: string;
 }
 
-export class GetHouseTaskDto {
-  @IsNumber()
-  houseTaskID: number;
-  @IsString()
-  houseTaskName: string;
-  @IsString()
-  houseTaskDate: string;
-}
-
-export class GetCarTaskDto {
-  @IsNumber()
-  carTaskID: number;
-  @IsString()
-  carTaskName:
-    | 'Golosinas'
-    | 'Cambio Aceite'
-    | 'Presión Ruedas'
-    | 'Sustitución Limpiaparabrisas'
-    | 'Revisión'
-    | 'ITV';
-  @IsString()
-  carTaskDetails: string;
-  @IsNumber()
-  carTaskCost: number;
-  @IsString()
-  carTaskDate: string;
-}
-
 export class CreateCarTaskDto {
   @IsNumber()
   @IsOptional()
   carTaskID?: number;
   @IsString()
-  carTaskName:
-    | 'Golosinas'
-    | 'Cambio Aceite'
-    | 'Presión Ruedas'
-    | 'Sustitución Limpiaparabrisas'
-    | 'Revisión'
-    | 'Cambio Ruedas'
-    | 'Cambio Filtro'
-    | 'ITV';
+  carTaskName: CarTaskTypes;
   @IsString()
   carTaskDetails: string;
   @IsNumber()
