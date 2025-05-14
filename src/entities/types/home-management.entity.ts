@@ -153,6 +153,8 @@ export interface CarTaskI {
   | 'Presión Ruedas'
   | 'Sustitución Limpiaparabrisas'
   | 'Revisión'
+  | 'Cambio Ruedas'
+  | 'Cambio Filtro'
   | 'ITV';
   carTaskDetails: string;
   carTaskCost: number;

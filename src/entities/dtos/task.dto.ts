@@ -83,6 +83,8 @@ export class CreateCarTaskDto {
     | 'Presión Ruedas'
     | 'Sustitución Limpiaparabrisas'
     | 'Revisión'
+    | 'Cambio Ruedas'
+    | 'Cambio Filtro'
     | 'ITV';
   @IsString()
   carTaskDetails: string;

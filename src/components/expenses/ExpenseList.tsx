@@ -1,6 +1,8 @@
 import { ExpenseI } from '@/entities/types/home-management.entity';
-import React from 'react';
+import { ContextMenu } from 'primereact/contextmenu';
+import React, { useRef } from 'react';
 import { AiFillDelete } from 'react-icons/ai';
+import { RiDeleteBinLine } from 'react-icons/ri';
 
 interface ExpensesListProps {
   expenses: ExpenseI[];
@@ -12,9 +14,9 @@ const ExpensesList: React.FC<ExpensesListProps> = ({
   sortedItems,
   eliminarGasto,
 }) => {
-  // Group expenses by date
+  const contextMenuRef = useRef(null);
   const groupedExpenses = sortedItems.reduce((acc: Record<string, any[]>, expense) => {
-    const date = expense.expenseDate.slice(0, 10); // Extract the date (YYYY-MM-DD)
+    const date = expense.expenseDate.slice(0, 10);
     if (!acc[date]) {
       acc[date] = [];
     }
@@ -35,7 +37,24 @@ const ExpensesList: React.FC<ExpensesListProps> = ({
           </div>
 
           {expenses.map((expense) => (
-            <div key={expense.expenseID} className='expenseListItem'>
+            <div
+              key={expense.expenseID}
+              className='expenseListItem'
+              onContextMenu={(e) => contextMenuRef.current?.show(e)}
+            >
+              <ContextMenu
+                className='customContextMenu'
+                model={
+                  [
+                    {
+                      label: 'Delete',
+                      icon: <RiDeleteBinLine className='customContextMenuIcon' />,
+                      command: () => eliminarGasto(expense.expenseID),
+                    },
+                  ]
+                }
+                ref={contextMenuRef}
+              />
               <div className='expenseListItemInfo'>
                 <div className='expenseListItemDate'>
                   {expense.categoryName}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Select from 'react-select';
 import { CarTaskI } from '@/entities/types/home-management.entity';
 import { CreateCarTaskDto } from '@/entities/dtos/task.dto';
@@ -7,6 +7,8 @@ import { axiosRequest } from '@/hooks/axiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, TareasEndpoints } from '@/config/apiconfig';
 import toast from 'react-hot-toast';
+import { ContextMenu } from 'primereact/contextmenu';
+import { RiDeleteBinLine } from 'react-icons/ri';
 
 const defaultCarTask: CarTaskI = {
   carTaskID: 0,
@@ -20,6 +22,7 @@ const CarTasks = () => {
   const [selectedAction, setSelectedAction] = useState<string | null>(null);
   const [formData, setFormData] = useState<CreateCarTaskDto>(defaultCarTask);
   const [tasks, setTasks] = useState<CarTaskI[]>([]);
+  const contextMenuRef = useRef(null);
   const actionOptions = [
     { value: null, label: 'Selecciona...' },
     { value: 'Golosinas', label: 'Golosinas' },
@@ -27,6 +30,8 @@ const CarTasks = () => {
     { value: 'Presión Ruedas', label: 'Presión Ruedas' },
     { value: 'Cambio Aceite', label: 'Cambio Aceite' },
     { value: 'Sustitución Limpiaparabrisas', label: 'Sustitución Limpiaparabrisas' },
+    { value: 'Cambio Ruedas', label: 'Cambio Ruedas' },
+    { value: 'Cambio Filtro', label: 'Cambio Filtro' },
     { value: 'ITV', label: 'ITV' },
   ];
 
@@ -85,7 +90,24 @@ const CarTasks = () => {
       });
   };
 
-  
+
+  const handleDeleteTask = async (taskId: number) => {
+    await axiosRequest(
+      HttpEnum.DELETE,
+      ApiEndpoints.hm_url + TareasEndpoints.carAll + '/' + taskId,
+      {}
+    )
+      .then(() => {
+        setTasks((prev) => prev.filter((task) => task.carTaskID !== taskId));
+        toast.success('Tarea eliminada correctamente');
+      })
+      .catch((error) => {
+        console.error('Error eliminando la tarea:', error);
+        toast.error('Error eliminando la tarea');
+      });
+  }
+
+
   return (
     <div className='carTaskContainer'>
       <form onSubmit={handleSubmit} className='carTaskForm'>
@@ -128,7 +150,8 @@ const CarTasks = () => {
           </>
         )}
 
-        {selectedAction === 'Revisión' && (
+        {['Revisión', 'ITV', 'Cambio Filtro', 'Cambio Ruedas']
+          .includes(selectedAction) && (
           <>
             <div className='carTaskFormInput'>
               <label>Coste:</label>
@@ -145,7 +168,7 @@ const CarTasks = () => {
               <label>Detalles:</label>
               <textarea
                 name='carTaskDetails'
-                placeholder='Tasks performed'
+                placeholder=''
                 value={formData.carTaskDetails}
                 onChange={handleInputChange}
                 className='modalInput modalTextArea'
@@ -200,7 +223,24 @@ const CarTasks = () => {
       <hr className='hrSeccion' />
       <div className={'carTaskList carTaskListEmpty ' + (selectedAction && selectedAction === 'Golosinas' ? 'carTaskListRefuel' : selectedAction === 'Revisión' ? 'carTaskListRevision' : selectedAction === 'Presión Ruedas' ? 'carTaskListPressure' : 'carTaskListDefault')}>
         {tasks.map((task) => (
-          <div key={task.carTaskID} className='carTaskListItem'>
+          <div
+            key={task.carTaskID}
+            className='carTaskListItem'
+            onContextMenu={(e) => contextMenuRef.current?.show(e)}
+          >
+            <ContextMenu
+              className='customContextMenu'
+              model={
+                [
+                  {
+                    label: 'Delete',
+                    icon: <RiDeleteBinLine className='customContextMenuIcon' />,
+                    command: () => handleDeleteTask(task.carTaskID),
+                  },
+                ]
+              }
+              ref={contextMenuRef}
+            />
             <div className='carTaskListItemName'>
               {task.carTaskName}
             </div>
