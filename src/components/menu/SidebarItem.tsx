@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import React from 'react';
 import { IoMdArrowDropright } from 'react-icons/io';
+import useNotificationStore from '@/store/NotificationStore';
 
-interface BarraLateralItemProps {
+interface SidebarItemProps {
   texto: string;
   icono: React.ReactNode;
   tipo?: 'item' | 'dropdown';
@@ -12,16 +13,20 @@ interface BarraLateralItemProps {
   children?: React.ReactNode;
 }
 
-export default function BarraLateralItem({
+export default function SidebarItem({
   texto,
   icono,
   tipo = 'item',
   section,
   selectSection,
   children,
-}: BarraLateralItemProps) {
+}: SidebarItemProps) {
   const [isHovered, setIsHovered] = useState(false);
   const path = `/${texto.toLowerCase().replace(/\s+/g, '-')}`;
+
+  const notificationCount = useNotificationStore(
+    (state) => state.notifications[texto] || 0
+  );
 
   return (
     <div
@@ -51,6 +56,9 @@ export default function BarraLateralItem({
           <li className='itemBarraLateralText'>
             {icono}
             <div className='itemBarraLateralTextHidden'>{texto}</div>
+            {notificationCount > 0 && (
+              <span className='notificationBubble'>{notificationCount}</span>
+            )}
           </li>
         </Link>
       )}

@@ -8,7 +8,7 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
-import BarraLateral from './components/menu/Sidebar';
+import Sidebar from './components/menu/Sidebar';
 import MainContent from './components/menu/MainContent';
 import ListaCompra from './components/products/ShoppingList';
 import Despensa from './components/products/Stock';
@@ -74,7 +74,7 @@ function App() {
     <>
       <PrimeReactProvider>
         <main className='app'>
-          <BarraLateral
+          <Sidebar
             onSelectSection={handleSectionChange}
             section={selectedSection}
           />
