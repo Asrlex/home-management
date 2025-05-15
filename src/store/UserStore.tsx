@@ -1,12 +1,15 @@
 import { create } from 'zustand';
 import { axiosRequest } from '../hooks/axiosRequest';
-import { LoggedUserI, UserI } from '@/entities/types/home-management.entity';
+import { UserI } from '@/entities/types/home-management.entity';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { StoreEnum } from './entities/enums/store.enum';
 import { CreateUserDto } from '@/entities/dtos/user.dto';
-import { LoginException, SignupException, TokenExpiredOrInvalidException, TokenValidationException } from '@/common/exceptions/entities/enums/user-exception';
-import { UserExceptionMessages } from '@/common/exceptions/user.exception';
 import { ApiEndpoints, AuthEndpoints } from '@/config/apiconfig';
+import { UserExceptionMessages } from '@/common/exceptions/entities/enums/user-exception.enum';
+import { TokenExpiredOrInvalidException, TokenValidationException, LoginException, SignupException } from '@/common/exceptions/user-exception';
+import { RegistrationResponseJSON, startAuthentication, startRegistration } from '@simplewebauthn/browser';
+import { UpdateSettingsException } from '@/common/exceptions/settings.exception';
+import { SettingsExceptionMessages } from '@/common/exceptions/entities/enums/settings-exception.enum';
 
 interface UserStore {
   user: UserI | null;
@@ -16,6 +19,8 @@ interface UserStore {
   signup: (details: CreateUserDto) => Promise<void>;
   validateToken: () => Promise<boolean>;
   logout: () => void;
+  pairBiometrics: () => Promise<void>;
+  loginWithBiometrics: () => Promise<void>;
 }
 
 const useUserStore = create((set): UserStore => {
@@ -105,19 +110,86 @@ const useUserStore = create((set): UserStore => {
           });
         })
         .catch((error) => {
-          set({loginStatus: StoreEnum.STATUS_UNAUTHENTICATED});
+          set({ loginStatus: StoreEnum.STATUS_UNAUTHENTICATED });
           throw new SignupException(UserExceptionMessages.SignupException + error);
         }),
 
     validateToken,
 
     logout: () => {
-      set({ 
+      set({
         user: null,
         token: null,
         loginStatus: StoreEnum.STATUS_UNAUTHENTICATED
       });
       localStorage.removeItem(StoreEnum.TOKEN);
+    },
+
+    pairBiometrics: async () => {
+      const token: string = localStorage.getItem(StoreEnum.TOKEN);
+      if (!token) {
+        set({
+          loginStatus: StoreEnum.STATUS_UNAUTHENTICATED,
+          user: null,
+          token: null
+        });
+        return;
+      }
+
+      try {
+        const optionsResponse = await axiosRequest(
+          HttpEnum.POST,
+          ApiEndpoints.base + AuthEndpoints.pairBiometricsOptions,
+          {},
+          {},
+          token
+        );
+
+        const attestation: RegistrationResponseJSON = await startRegistration(optionsResponse.data);
+
+        await axiosRequest(
+          HttpEnum.POST,
+          ApiEndpoints.base + AuthEndpoints.pairBiometricsRegister,
+          {},
+          attestation,
+          token
+        );
+      } catch (error) {
+        throw new UpdateSettingsException(SettingsExceptionMessages.UpdateSettingsException + error);
+      }
+    },
+
+    loginWithBiometrics: async () => {
+      try {
+        const optionsResponse = await axiosRequest(
+          HttpEnum.GET,
+          ApiEndpoints.base + AuthEndpoints.biometricsAuthOptions,
+        );
+        
+        const options = await optionsResponse.data;
+        const assertion = await startAuthentication(options);
+
+        await axiosRequest(
+          HttpEnum.POST,
+          ApiEndpoints.base + AuthEndpoints.biometricsAuth,
+          {},
+          assertion,
+        )
+          .then((response) => {
+            localStorage.setItem(StoreEnum.TOKEN, response.data.token);
+            set({
+              user: response.data.user,
+              token: response.data.token,
+              loginStatus: StoreEnum.STATUS_AUTHENTICATED
+            });
+          })
+          .catch((error) => {
+            set({ loginStatus: StoreEnum.STATUS_UNAUTHENTICATED });
+            throw new LoginException(UserExceptionMessages.LoginException + error);
+          });
+      } catch (error) {
+        console.error('Error during biometrics login:', error);
+      }
     },
   };
 });

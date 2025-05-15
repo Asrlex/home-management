@@ -13,11 +13,13 @@ import React from "react";
 import useSettingsStore from "@/store/SettingsStore";
 import useThemeStore from "@/store/ThemeStore";
 import { styles } from "@/styles/Form.Styles";
+import useUserStore from "@/store/UserStore";
 
 export default function Ajustes() {
   const settings = useSettingsStore((state) => state.settings);
   const updateSettings = useSettingsStore((state) => state.updateSettings);
   const loading = useSettingsStore((state) => state.loading);
+  const pairBiometrics = useUserStore((state) => state.pairBiometrics);
   const { theme, toggleTheme } = useThemeStore();
   const [localSettings, setLocalSettings] = useState(null);
 
@@ -45,6 +47,16 @@ export default function Ajustes() {
       if (localSettings.theme !== theme) {
         toggleTheme();
       }
+    }
+  };
+
+  const handlePairBiometrics = async () => {
+    try {
+      pairBiometrics();
+      toast.success("Biometría emparejada correctamente.");
+    } catch (error) {
+      console.error("Error emparejando biometría:", error);
+      toast.error("Error emparejando biometría.");
     }
   };
 
@@ -156,6 +168,21 @@ export default function Ajustes() {
           <MenuItem value="/gastos">Gastos</MenuItem>
           <MenuItem value="/ajustes">Ajustes</MenuItem>
         </Select>
+      </FormControl>
+
+      {/* Biometrics */}
+      <FormControl
+        fullWidth
+        margin="normal"
+        variant="standard"
+      >
+        <Button
+          variant="contained"
+          onClick={handlePairBiometrics}
+          sx={styles.buttonStyles}
+        >
+          Emparejar Biometría
+        </Button>
       </FormControl>
 
       <Button
