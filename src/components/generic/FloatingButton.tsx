@@ -1,12 +1,17 @@
-import React from "react";
+import React from 'react';
 
-export default function FAB ({ icon, action, classes, ...props }) {
-    return (
-        <button
-            onClick={action}
-            className={classes}
-        >
-            {icon}
-        </button>
-    );
+interface FABProps {
+  icon: React.ReactNode;
+  action: () => void;
+  classes?: string;
 }
+
+const FAB: React.FC<FABProps> = ({ icon, action, classes }) => {
+  return (
+    <button onClick={action} className={classes}>
+      {icon}
+    </button>
+  );
+};
+
+export default FAB;

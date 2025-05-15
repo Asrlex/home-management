@@ -13,9 +13,9 @@ import { StockProductI } from '@/entities/types/home-management.entity';
 
 export interface DespensaItemProps {
   producto: StockProductI;
-  handleEliminar: (stockProductID: number) => void;
-  handleAmount: (amount: number, producto: StockProductI) => void;
-  handleMover: (stockProductID: number) => void;
+  handleEliminar: (id: number) => void;
+  handleAmount: (id: number, amount: number) => void;
+  handleMover: (id: number) => void;
   addOrRemoveTag: (tagID: number, producto: StockProductI) => void;
 }
 
@@ -35,17 +35,17 @@ const DespensaItem = forwardRef<HTMLDivElement, DespensaItemProps>(
     const contextModel = [
       {
         label: 'Eliminar',
-        icon: <RiDeleteBinLine className='customContextMenuIcon' />,
+        icon: <RiDeleteBinLine className="customContextMenuIcon" />,
         command: () => handleEliminar(producto.stockProductID),
       },
       {
         label: 'Añadir a la lista',
-        icon: <CiBoxList className='customContextMenuIcon' />,
+        icon: <CiBoxList className="customContextMenuIcon" />,
         command: () => handleMover(producto.stockProductID),
       },
       {
         label: 'Etiquetas',
-        icon: <FaTag className='customContextMenuIcon' />,
+        icon: <FaTag className="customContextMenuIcon" />,
         items: etiquetas
           .filter((etiqueta) => etiqueta.tagType === 'Product')
           .map((etiqueta) => ({
@@ -54,7 +54,7 @@ const DespensaItem = forwardRef<HTMLDivElement, DespensaItemProps>(
             )
               ? `${etiqueta.tagName} ✅`
               : `${etiqueta.tagName}`,
-            icon: <FaTag className='customContextMenuIcon' />,
+            icon: <FaTag className="customContextMenuIcon" />,
             command: () => addOrRemoveTag(etiqueta.tagID, producto),
           })),
       },
@@ -69,12 +69,12 @@ const DespensaItem = forwardRef<HTMLDivElement, DespensaItemProps>(
         {(setActivatorNodeRef, attributes, listeners) => (
           <>
             <ContextMenu
-              className='customContextMenu'
+              className="customContextMenu"
               model={contextModel}
               ref={contextMenuRef}
             />
             <div
-              className='producto'
+              className="producto"
               onContextMenu={(e: React.MouseEvent) => {
                 e.preventDefault();
                 contextMenuRef.current.show(e);
@@ -82,18 +82,18 @@ const DespensaItem = forwardRef<HTMLDivElement, DespensaItemProps>(
               ref={innerRef}
             >
               <span ref={setActivatorNodeRef} {...attributes} {...listeners}>
-                <BsThreeDotsVertical className='drag-handle' />
+                <BsThreeDotsVertical className="drag-handle" />
               </span>
-              <div className='productoName'>
+              <div className="productoName">
                 {nombre}{' '}
-                <span className='fechaCompra'>{fechaCompraFormat}</span>
+                <span className="fechaCompra">{fechaCompraFormat}</span>
               </div>
               <ContadorProducto
                 producto={producto}
                 handleEliminar={handleEliminar}
                 handleAmount={handleAmount}
                 handleMover={handleMover}
-                icono={<CiBoxList className='botonContadorIcono botonList' />}
+                icono={<CiBoxList className="botonContadorIcono botonList" />}
               />
             </div>
           </>
@@ -102,5 +102,7 @@ const DespensaItem = forwardRef<HTMLDivElement, DespensaItemProps>(
     );
   }
 );
+
+DespensaItem.displayName = 'DespensaItem';
 
 export default memo(DespensaItem);

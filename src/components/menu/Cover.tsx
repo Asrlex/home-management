@@ -17,14 +17,10 @@ const Portada = () => {
   const selectedIcon = icons[settings?.icon] || summerIcon;
 
   return (
-    <div className='portada'>
-      <img
-        src={selectedIcon}
-        alt='Logo'
-        className='portadaLogo'
-      />
-      <h1 className='portadaTitulo'>Bienvenido a Casa</h1>
-      <p className='portadaSubtitulo'>Tu asistente de hogar</p>
+    <div className="portada">
+      <img src={selectedIcon} alt="Logo" className="portadaLogo" />
+      <h1 className="portadaTitulo">Bienvenido a Casa</h1>
+      <p className="portadaSubtitulo">Tu asistente de hogar</p>
     </div>
   );
 };

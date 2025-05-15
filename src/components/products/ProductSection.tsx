@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  Fragment,
-  useEffect,
-} from 'react';
+import React, { useState, useRef, Fragment, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import Select from 'react-select';
 import {
@@ -20,6 +15,7 @@ import {
   useSensors,
   TouchSensor,
   MouseSensor,
+  DragEndEvent,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -35,13 +31,28 @@ import useShoppingListStore from '../../store/ShoppingListStore';
 import useStockStore from '../../store/StockStore';
 import { axiosRequest } from '../../hooks/axiosRequest';
 import { customStyles } from '../../styles/SelectStyles';
-import { ApiEndpoints, DespensaEndpoints, ListaCompraEndpoints } from '@/config/apiconfig';
+import {
+  ApiEndpoints,
+  DespensaEndpoints,
+  ListaCompraEndpoints,
+} from '@/config/apiconfig';
 import { HttpEnum } from '@/entities/enums/http.enum';
-import { ProductsEnum, ProductToastMessages } from './entities/products.enum';
-import { ShoppingListProductI, StockProductI } from '@/entities/types/home-management.entity';
+import {
+  ProductsEnum,
+  ProductToastMessages,
+  ProductTypes,
+} from './entities/products.enum';
+import {
+  ShoppingListProductI,
+  StockProductI,
+} from '@/entities/types/home-management.entity';
 import UnifiedItemComponent from './UnifiedItemComponent';
 
-export default function GestorProductos({ type }) {
+interface GestorProductosProps {
+  type: ProductTypes;
+}
+
+const GestorProductos: React.FC<GestorProductosProps> = ({ type }) => {
   const [prodInView, setProdInView] = useState({
     last: false,
     first: false,
@@ -53,9 +64,7 @@ export default function GestorProductos({ type }) {
   const addItemTag = useEtiquetaStore((state) => state.addItemTag);
   const deleteItemTag = useEtiquetaStore((state) => state.deleteItemTag);
   const products = useProductStore((state) => state.products);
-  const fetchProducts = useProductStore(
-    (state) => state.fetchProducts
-  );
+  const fetchProducts = useProductStore((state) => state.fetchProducts);
   const shoppingListItems = useShoppingListStore(
     (state) => state.shoppingListItems
   );
@@ -87,13 +96,23 @@ export default function GestorProductos({ type }) {
   const lastRef = useRef(null);
   const firstRef = useRef(null);
   const fetchItems =
-    type === ProductsEnum.listaCompra ? fetchShoppingListItems : fetchStockItems;
+    type === ProductTypes.ShoppingList
+      ? fetchShoppingListItems
+      : fetchStockItems;
   const items: (StockProductI | ShoppingListProductI)[] =
-    type === ProductsEnum.listaCompra ? shoppingListItems : stockItems;
+    type === ProductTypes.ShoppingList ? shoppingListItems : stockItems;
+
+  const addOrRemoveShoppingListTag = useShoppingListStore(
+    (state) => state.addOrRemoveListTag
+  );
+  const addOrRemoveStockTag = useStockStore(
+    (state) => state.addOrRemoveListTag
+  );
+
   const addOrRemoveListTag =
-    type === ProductsEnum.listaCompra
-      ? useShoppingListStore((state) => state.addOrRemoveListTag)
-      : useStockStore((state) => state.addOrRemoveListTag);
+    type === ProductTypes.ShoppingList
+      ? addOrRemoveShoppingListTag
+      : addOrRemoveStockTag;
 
   useEffect(() => {
     fetchItems();
@@ -120,35 +139,44 @@ export default function GestorProductos({ type }) {
    * @param {object} event.active.id The ID of the active element
    * @param {object} event.over.id The ID of the element over which the active element is
    */
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (active.id !== over.id) {
       const oldIndex = (
-        type === ProductsEnum.listaCompra ? shoppingListItems : stockItems
+        type === ProductTypes.ShoppingList ? shoppingListItems : stockItems
       ).findIndex(
         (item: StockProductI | ShoppingListProductI) =>
           item[
-          type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID
+            type === ProductTypes.ShoppingList
+              ? ProductsEnum.listaCompraID
+              : ProductsEnum.stockID
           ] === active.id
       );
       const newIndex = (
-        type === ProductsEnum.listaCompra ? shoppingListItems : stockItems
+        type === ProductTypes.ShoppingList ? shoppingListItems : stockItems
       ).findIndex(
         (item: StockProductI | ShoppingListProductI) =>
           item[
-          type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID
+            type === ProductTypes.ShoppingList
+              ? ProductsEnum.listaCompraID
+              : ProductsEnum.stockID
           ] === over.id
       );
       const newItems = arrayMove(items, oldIndex, newIndex);
-      const newOrder = newItems.map((item) =>
-        item[
-        type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID
-        ]
+      const newOrder = newItems.map(
+        (item) =>
+          item[
+            type === ProductTypes.ShoppingList
+              ? ProductsEnum.listaCompraID
+              : ProductsEnum.stockID
+          ]
       );
 
-      type === ProductsEnum.listaCompra
-        ? reorderShoppingListItems(newOrder)
-        : reorderStockItems(newOrder);
+      if (type === ProductTypes.ShoppingList) {
+        reorderShoppingListItems(newOrder);
+      } else {
+        reorderStockItems(newOrder);
+      }
     }
   };
 
@@ -159,25 +187,27 @@ export default function GestorProductos({ type }) {
    */
   const handleAdd = (id: number, amount: number) => {
     const apiUrl =
-      type === ProductsEnum.listaCompra
+      type === ProductTypes.ShoppingList
         ? ApiEndpoints.hm_url + ListaCompraEndpoints.base
         : ApiEndpoints.hm_url + DespensaEndpoints.base;
     const addItem =
-      type === ProductsEnum.listaCompra ? addShoppingListItem : addStockItem;
+      type === ProductTypes.ShoppingList ? addShoppingListItem : addStockItem;
     axiosRequest(
       HttpEnum.POST,
       apiUrl,
       {},
       {
-        [type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraAmount : ProductsEnum.stockAmount]:
-          amount,
+        [type === ProductTypes.ShoppingList
+          ? ProductsEnum.listaCompraAmount
+          : ProductsEnum.stockAmount]: amount,
         storeID: 2,
-        [type === ProductsEnum.listaCompra ? ProductsEnum.listaCompraID : ProductsEnum.stockID]:
-          id,
+        [type === ProductTypes.ShoppingList
+          ? ProductsEnum.listaCompraID
+          : ProductsEnum.stockID]: id,
       }
     )
       .then((response) => {
-        addItem(response.data);
+        addItem(response.data as StockProductI & ShoppingListProductI);
         toast.success(ProductToastMessages.AddedProductSuccess);
       })
       .catch((error) => {
@@ -191,14 +221,18 @@ export default function GestorProductos({ type }) {
    * @param {number} id The product ID
    */
   const handleEliminar = (id: number) => {
-    const confirmacion = window.confirm(ProductToastMessages.DeleteProductConfirmation);
+    const confirmacion = window.confirm(
+      ProductToastMessages.DeleteProductConfirmation
+    );
     if (confirmacion) {
       const apiUrl =
-        type === ProductsEnum.listaCompra
+        type === ProductTypes.ShoppingList
           ? `${ApiEndpoints.hm_url + ListaCompraEndpoints.base}/${id}`
           : `${ApiEndpoints.hm_url + DespensaEndpoints.base}/${id}`;
       const removeItem =
-        type === ProductsEnum.listaCompra ? removeShoppingListItem : removeStockItem;
+        type === ProductTypes.ShoppingList
+          ? removeShoppingListItem
+          : removeStockItem;
       axiosRequest(HttpEnum.DELETE, apiUrl)
         .then(() => {
           removeItem(id);
@@ -218,19 +252,15 @@ export default function GestorProductos({ type }) {
    */
   const handleAmount = (id: number, amount: number) => {
     const apiUrl =
-      type === ProductsEnum.listaCompra
+      type === ProductTypes.ShoppingList
         ? `${ApiEndpoints.hm_url + ListaCompraEndpoints.modifyAmount}${id}`
         : `${ApiEndpoints.hm_url + DespensaEndpoints.modifyAmount}${id}`;
     const modifyItemAmount =
-      type === ProductsEnum.listaCompra
+      type === ProductTypes.ShoppingList
         ? modifyShoppingListItemAmount
         : modifyStockItemAmount;
 
-    axiosRequest(
-      HttpEnum.PUT,
-      apiUrl,
-      { amount }
-    )
+    axiosRequest(HttpEnum.PUT, apiUrl, { amount })
       .then(() => {
         modifyItemAmount(id, amount);
         toast.success(ProductToastMessages.ModifyAmountSuccess);
@@ -247,17 +277,19 @@ export default function GestorProductos({ type }) {
    */
   const handleMover = (id: number) => {
     const apiUrl =
-      type === ProductsEnum.listaCompra
+      type === ProductTypes.ShoppingList
         ? `${ApiEndpoints.hm_url + ListaCompraEndpoints.buy}${id}`
         : `${ApiEndpoints.hm_url + DespensaEndpoints.toList}${id}`;
     const removeItem =
-      type === ProductsEnum.listaCompra ? removeShoppingListItem : removeStockItem;
+      type === ProductTypes.ShoppingList
+        ? removeShoppingListItem
+        : removeStockItem;
     const addItem =
-      type === ProductsEnum.listaCompra ? addStockItem : addShoppingListItem;
+      type === ProductTypes.ShoppingList ? addStockItem : addShoppingListItem;
     axiosRequest(HttpEnum.PUT, apiUrl)
       .then((response) => {
         removeItem(id);
-        addItem(response.data);
+        addItem(response.data as StockProductI & ShoppingListProductI);
         toast.success(ProductToastMessages.MovedProductSuccess);
       })
       .catch((error) => {
@@ -270,11 +302,11 @@ export default function GestorProductos({ type }) {
    * Adds or removes an etiqueta (tag) from a product
    * @param {number} etiqueta_id The etiqueta ID
    * */
-  const addOrRemoveEtiqueta = (etiqueta_id: number, producto: StockProductI | ShoppingListProductI) => {
+  const addOrRemoveEtiqueta = (
+    etiqueta_id: number,
+    producto: StockProductI | ShoppingListProductI
+  ) => {
     const productID = producto.product.productID;
-    const etiqueta = etiquetasSeleccionadas.find(
-      (etiqueta) => etiqueta.tagID === etiqueta_id
-    );
     if (
       producto.product.tags?.some(
         (prodEtiqueta) => prodEtiqueta.tagID === etiqueta_id
@@ -320,9 +352,6 @@ export default function GestorProductos({ type }) {
     amountRef.current.value = '';
   };
 
-  /**
-   * Options for the Select component
-   */
   const productOptions = products
     .sort((a, b) => a.productName.localeCompare(b.productName))
     .map((product) => ({
@@ -335,23 +364,23 @@ export default function GestorProductos({ type }) {
    */
   const popupProducto = (
     <Modal ref={productoDialogRef}>
-      <h2 className='modalTitulo'>Añadir producto</h2>
-      <form className='modalSection' onSubmit={modalSubmit}>
+      <h2 className="modalTitulo">Añadir producto</h2>
+      <form className="modalSection" onSubmit={modalSubmit}>
         <Select
           options={productOptions}
           onChange={setSelectedProduct}
-          placeholder='Seleccionar producto'
-          className='modalSelect'
+          placeholder="Seleccionar producto"
+          className="modalSelect"
           styles={customStyles}
           isSearchable
         />
         <input
-          type='number'
-          placeholder='Cantidad'
-          className='modalInputSmall'
+          type="number"
+          placeholder="Cantidad"
+          className="modalInputSmall"
           ref={amountRef}
         />
-        <button type='submit' className='modalBoton'>
+        <button type="submit" className="modalBoton">
           Crear
         </button>
       </form>
@@ -361,12 +390,18 @@ export default function GestorProductos({ type }) {
   return (
     <>
       {popupProducto}
-      <ListaEtiquetas tipo='Product' />
-      <div className={type === ProductsEnum.listaCompra ? 'listaCompra' : 'despensa'}>
+      <ListaEtiquetas tipo="Product" />
+      <div
+        className={
+          type === ProductTypes.ShoppingList ? 'listaCompra' : 'despensa'
+        }
+      >
         {Array.isArray(items) && items.length === 0 && (
           <div style={{ textAlign: 'center' }}>
             No hay productos en la{' '}
-            {type === ProductsEnum.listaCompra ? 'lista de la compra' : 'despensa'}
+            {type === ProductTypes.ShoppingList
+              ? 'lista de la compra'
+              : 'despensa'}
           </div>
         )}
         <span
@@ -390,13 +425,13 @@ export default function GestorProductos({ type }) {
             items={
               Array.isArray(items)
                 ? items.map(
-                  (item) =>
-                    item[
-                    type === ProductsEnum.listaCompra
-                      ? ProductsEnum.listaCompraID
-                      : ProductsEnum.stockID
-                    ]
-                )
+                    (item) =>
+                      item[
+                        type === ProductTypes.ShoppingList
+                          ? ProductsEnum.listaCompraID
+                          : ProductsEnum.stockID
+                      ]
+                  )
                 : []
             }
             strategy={verticalListSortingStrategy}
@@ -416,15 +451,15 @@ export default function GestorProductos({ type }) {
                   <Fragment
                     key={
                       producto[
-                      type === ProductsEnum.listaCompra
-                        ? ProductsEnum.listaCompraID
-                        : ProductsEnum.stockID
+                        type === ProductTypes.ShoppingList
+                          ? ProductsEnum.listaCompraID
+                          : ProductsEnum.stockID
                       ]
                     }
                   >
                     {index === 0 ? (
                       <InView
-                        as='div'
+                        as="div"
                         onChange={(inView) => {
                           setProdInView((state) => ({
                             last: state.last,
@@ -444,7 +479,7 @@ export default function GestorProductos({ type }) {
                       </InView>
                     ) : index === items.length - 1 ? (
                       <InView
-                        as='div'
+                        as="div"
                         onChange={(inView) => {
                           setProdInView((state) => ({
                             last: inView,
@@ -488,21 +523,23 @@ export default function GestorProductos({ type }) {
           />
         </span>
       </div>
-      <div className='seccionBotones'>
+      <div className="seccionBotones">
         <FAB
           icon={<IoIosRefresh />}
           action={() => fetchItems()}
-          classes='refreshButton'
+          classes="refreshButton"
         />
         <FAB
           icon={<FaPlus />}
           action={async () => {
             await fetchProducts();
-            productoDialogRef.current.open()
+            productoDialogRef.current.open();
           }}
-          classes='floatingButton'
+          classes="floatingButton"
         />
       </div>
     </>
   );
-}
+};
+
+export default GestorProductos;

@@ -35,31 +35,28 @@ const ListaProductos = () => {
   const unitRef = useRef<HTMLInputElement>(null);
   const [formError, setFormError] = useState(false);
 
-  
   useEffect(() => {
     fetchProducts();
-  }, []);
-
+  }, [fetchProducts]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-
-  const handleSort = (key: any) => {
+  const handleSort = (key: string) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
       direction = 'desc';
     }
     setSortConfig({ key, direction });
   };
-
 
   const sortedItems = [...products].sort((a, b) => {
     if (!sortConfig.key) return 0;
@@ -70,14 +67,17 @@ const ListaProductos = () => {
     return 0;
   });
 
-
   const handleAddProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     const name = nameRef.current.value;
     const unit = unitRef.current.value;
     setFormError(false);
 
-    if (!name || !unit || products.some((product) => product.productName === name)) {
+    if (
+      !name ||
+      !unit ||
+      products.some((product) => product.productName === name)
+    ) {
       setFormError(true);
       return;
     }
@@ -90,17 +90,18 @@ const ListaProductos = () => {
     addProduct(newProduct)
       .then(() => toast.success(ProductToastMessages.AddedProductSuccess))
       .catch((error) => {
-        toast.error(ProductToastMessages.AddedProductError + ': ' + error.message);
+        toast.error(
+          ProductToastMessages.AddedProductError + ': ' + error.message
+        );
       });
     productoDialogRef.current.close();
     nameRef.current.value = '';
     unitRef.current.value = '';
   };
 
-
   const popup = (
     <Modal ref={productoDialogRef}>
-      <h2 className='modalTitulo'>Crear producto</h2>
+      <h2 className="modalTitulo">Crear producto</h2>
       <form>
         <div
           style={{
@@ -110,10 +111,10 @@ const ListaProductos = () => {
           }}
         >
           <input
-            className='modalInput'
-            id='titulo'
+            className="modalInput"
+            id="titulo"
             ref={nameRef}
-            placeholder='Nombre'
+            placeholder="Nombre"
             style={{
               borderColor: formError ? 'red' : '',
               borderWidth: formError ? '2px' : '',
@@ -132,16 +133,16 @@ const ListaProductos = () => {
         </div>
         <div style={{ marginBottom: '0.75rem' }}>
           <input
-            className='modalInput'
-            id='unidad'
+            className="modalInput"
+            id="unidad"
             ref={unitRef}
-            placeholder='Unidad'
+            placeholder="Unidad"
           />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <button
-            type='submit'
-            className='modalBoton'
+            type="submit"
+            className="modalBoton"
             onClick={handleAddProduct}
           >
             Crear
@@ -154,10 +155,10 @@ const ListaProductos = () => {
   return (
     <>
       {popup}
-      <ListaEtiquetas tipo='Product' />
-      <div className='productsTable'>
+      <ListaEtiquetas tipo="Product" />
+      <div className="productsTable">
         <TableContainer component={Paper} sx={TableStyles.table}>
-          <Table stickyHeader aria-label='sticky table' size='small'>
+          <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
               <TableRow>
                 <TableCell
@@ -217,7 +218,7 @@ const ListaProductos = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
-            <TableBody >
+            <TableBody>
               {sortedItems
                 .filter((producto) => {
                   if (etiquetasSeleccionadas.length === 0) return true;
@@ -228,7 +229,7 @@ const ListaProductos = () => {
                   );
                 })
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((product, index) => (
+                .map((product) => (
                   <TableRow
                     hover
                     key={product.productID}
@@ -256,7 +257,7 @@ const ListaProductos = () => {
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
-          component='div'
+          component="div"
           count={products.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -266,11 +267,11 @@ const ListaProductos = () => {
           slotProps={TableStyles.tablePaginationSlots}
         />
       </div>
-      <div className='seccionBotones'>
+      <div className="seccionBotones">
         <FAB
           icon={<FaPlus />}
           action={() => productoDialogRef.current.open()}
-          classes='floatingButton'
+          classes="floatingButton"
         />
       </div>
     </>

@@ -7,9 +7,7 @@ const AuthenticatedProviders = ({ children }) => {
     return children;
   }
 
-  return (
-    { children }
-  );
+  return { children };
 };
 
 export default AuthenticatedProviders;

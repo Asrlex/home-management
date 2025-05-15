@@ -22,36 +22,37 @@ const TareasCasa = () => {
   const tasksList = [
     {
       name: 'Lavadora',
-      icon: <LuWashingMachine className='houseTaskIcon' />,
+      icon: <LuWashingMachine className="houseTaskIcon" />,
     },
     {
       name: 'Lavaplatos',
-      icon: <PiHandSoap className='houseTaskIcon' />,
+      icon: <PiHandSoap className="houseTaskIcon" />,
     },
-    { name: 'Baños', icon: <LuBath className='houseTaskIcon' /> },
-    { name: 'Barrer', icon: <PiBroom className='houseTaskIcon' /> },
-    { name: 'Cocinar', icon: <LuCookingPot className='houseTaskIcon' /> },
-    { name: 'Pasear', icon: <LuDog className='houseTaskIcon' /> },
+    { name: 'Baños', icon: <LuBath className="houseTaskIcon" /> },
+    { name: 'Barrer', icon: <PiBroom className="houseTaskIcon" /> },
+    { name: 'Cocinar', icon: <LuCookingPot className="houseTaskIcon" /> },
+    { name: 'Pasear', icon: <LuDog className="houseTaskIcon" /> },
     {
       name: 'Compra',
-      icon: <MdOutlineShoppingCart className='houseTaskIcon' />,
+      icon: <MdOutlineShoppingCart className="houseTaskIcon" />,
     },
   ];
-
 
   useEffect(() => {
     axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.homeAll)
       .then((response) => {
-        const sortedTasks = response.data.sort((a: HouseTaskI, b: HouseTaskI) => {
-          const dateA = new Date(a.houseTaskDate);
-          const dateB = new Date(b.houseTaskDate);
-          return dateB.getTime() - dateA.getTime();
-        });
+        const responseData = response.data as HouseTaskI[];
+        const sortedTasks = responseData.sort(
+          (a: HouseTaskI, b: HouseTaskI) => {
+            const dateA = new Date(a.houseTaskDate);
+            const dateB = new Date(b.houseTaskDate);
+            return dateB.getTime() - dateA.getTime();
+          }
+        );
         setTasks(sortedTasks);
       })
       .catch((error) => console.error('Error leyendo tareas:', error));
   }, []);
-
 
   useEffect(() => {
     const updateShadow = () => {
@@ -67,13 +68,17 @@ const TareasCasa = () => {
     listRef.current.addEventListener('scroll', updateShadow);
   }, [tasks]);
 
-
   const handleTaskClick = (taskName: string) => {
     const task = {
       houseTaskName: taskName,
     };
 
-    axiosRequest(HttpEnum.POST, ApiEndpoints.hm_url + TareasEndpoints.home, {}, task)
+    axiosRequest(
+      HttpEnum.POST,
+      ApiEndpoints.hm_url + TareasEndpoints.home,
+      {},
+      task
+    )
       .then((response) => {
         setTasks([response.data, ...tasks]);
         toast.success(`Tarea ${taskName} añadida correctamente`);
@@ -84,11 +89,9 @@ const TareasCasa = () => {
       });
   };
 
-
   const handleTaskNameClick = (taskName: string) => {
     setFilteredTaskName(filteredTaskName === taskName ? null : taskName);
   };
-
 
   const checkDate = (date: string) => {
     const now = new Date();
@@ -98,18 +101,19 @@ const TareasCasa = () => {
     return diffDays > 7;
   };
 
-
   const filteredTasks = filteredTaskName
     ? tasks.filter((task) => task.houseTaskName === filteredTaskName)
     : tasks;
-
 
   const handleDateClick = (taskId: number) => {
     setExpandedTask(expandedTask === taskId ? null : taskId);
   };
 
   const handleTaskDelete = (taskId: number) => {
-    axiosRequest(HttpEnum.DELETE, ApiEndpoints.hm_url + TareasEndpoints.home + taskId)
+    axiosRequest(
+      HttpEnum.DELETE,
+      ApiEndpoints.hm_url + TareasEndpoints.home + taskId
+    )
       .then(() => {
         setTasks(tasks.filter((task) => task.id !== taskId));
         toast.success('Tarea borrada correctamente');
@@ -120,42 +124,41 @@ const TareasCasa = () => {
       });
   };
 
-
   const contextMenuModel = [
     {
       label: 'Delete',
-      icon: <RiDeleteBinLine className='customContextMenuIcon' />,
+      icon: <RiDeleteBinLine className="customContextMenuIcon" />,
       command: () => handleTaskDelete(activeHouseTask.houseTaskID),
     },
   ];
 
-
   return (
     <>
-      <div className='tareas'>
+      <div className="tareas">
         <ContextMenu
-          className='customContextMenu'
+          className="customContextMenu"
           model={contextMenuModel}
           ref={contextMenuRef}
         />
-        <div className='houseTaskButtons'>
+        <div className="houseTaskButtons">
           {tasksList.map((task, index) => (
             <button
               key={index}
               onClick={() => handleTaskClick(task.name)}
-              className='houseTaskButton'
+              className="houseTaskButton"
             >
               {task.icon}
-              <span className='houseTaskButtonText'>{task.name}</span>
+              <span className="houseTaskButtonText">{task.name}</span>
             </button>
           ))}
         </div>
-        <hr className='hrSeccion' />
-        <div className='houseTaskTitle'>Tareas completadas</div>
+        <hr className="hrSeccion" />
+        <div className="houseTaskTitle">Tareas completadas</div>
         <div
           ref={listRef}
-          className={`houseTaskList ${shadow.top ? 'shadow-top' : ''} ${shadow.bottom ? 'shadow-bottom' : ''
-            }`}
+          className={`houseTaskList ${shadow.top ? 'shadow-top' : ''} ${
+            shadow.bottom ? 'shadow-bottom' : ''
+          }`}
         >
           {filteredTasks.map((task, index) => (
             <div
@@ -172,13 +175,13 @@ const TareasCasa = () => {
               }}
             >
               <span
-                className='houseTaskName'
+                className="houseTaskName"
                 onClick={() => handleTaskNameClick(task.houseTaskName)}
               >
                 {task.houseTaskName}
               </span>
               <span
-                className='houseTaskDate'
+                className="houseTaskDate"
                 title={task.houseTaskDate}
                 onClick={() => handleDateClick(task.id)}
               >

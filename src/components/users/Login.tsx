@@ -4,7 +4,13 @@ import useSettingsStore from '../../store/SettingsStore';
 import useThemeStore from '../../store/ThemeStore';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { TextField, Button, Box,InputAdornment, IconButton } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Box,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { formThemeVars, styles } from '../../styles/Form.Styles';
 import React from 'react';
@@ -14,7 +20,7 @@ export default function Login() {
   const login = useUserStore((state) => state.login);
   const fetchSettings = useSettingsStore((state) => state.fetchSettings);
   const { theme, toggleTheme } = useThemeStore();
-const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -32,12 +38,13 @@ const [credentials, setCredentials] = useState({ email: '', password: '' });
       toast.success('Inicio de sesión exitoso!');
     } catch (error) {
       toast.error('Error al iniciar sesión. Verifica tus credenciales.');
+      console.error('Error al iniciar sesión:', error);
     }
   };
 
   return (
     <Box
-      component='form'
+      component="form"
       onSubmit={handleSubmit}
       sx={{
         display: 'flex',
@@ -50,32 +57,32 @@ const [credentials, setCredentials] = useState({ email: '', password: '' });
       }}
     >
       <TextField
-        label='Email'
-        type='email'
+        label="Email"
+        type="email"
         value={credentials.email}
         onChange={(e) =>
           setCredentials({ ...credentials, email: e.target.value })
         }
-        variant='outlined'
+        variant="outlined"
         fullWidth
         sx={styles.textFieldStyles}
       />
       <TextField
-        label='Contraseña'
+        label="Contraseña"
         type={showPassword ? 'text' : 'password'}
         value={credentials.password}
         onChange={(e) =>
           setCredentials({ ...credentials, password: e.target.value })
         }
-        variant='outlined'
+        variant="outlined"
         fullWidth
         sx={styles.textFieldStyles}
         InputProps={{
           endAdornment: (
-            <InputAdornment position='end'>
+            <InputAdornment position="end">
               <IconButton
                 onClick={() => setShowPassword(!showPassword)}
-                edge='end'
+                edge="end"
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
@@ -84,8 +91,8 @@ const [credentials, setCredentials] = useState({ email: '', password: '' });
         }}
       />
       <Button
-        type='submit'
-        variant='contained'
+        type="submit"
+        variant="contained"
         sx={{
           backgroundColor: formThemeVars.buttonBgColor,
           color: formThemeVars.buttonTextColor,
@@ -94,7 +101,7 @@ const [credentials, setCredentials] = useState({ email: '', password: '' });
         Iniciar sesión
       </Button>
       <Button
-        variant='text'
+        variant="text"
         onClick={() => navigate(ApiPaths.Signup)}
         sx={{
           textTransform: 'none',

@@ -13,54 +13,54 @@ const ExpensesList: React.FC<ExpensesListProps> = ({
   eliminarGasto,
 }) => {
   const contextMenuRef = useRef(null);
-  const groupedExpenses = expenses.reduce((acc: Record<string, any[]>, expense) => {
-    const date = expense.expenseDate.slice(0, 10);
-    if (!acc[date]) {
-      acc[date] = [];
-    }
-    acc[date].push(expense);
-    return acc;
-  }, {});
+  const groupedExpenses = expenses.reduce(
+    (acc: Record<string, ExpenseI[]>, expense) => {
+      const date = expense.expenseDate.slice(0, 10);
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(expense);
+      return acc;
+    },
+    {}
+  );
 
   return (
-    <div className='expenseTableDiv'>
+    <div className="expenseTableDiv">
       {Object.entries(groupedExpenses).map(([date, expenses]) => (
-        <div key={date} className='expenseGroup'>
-
-          <div className='expenseDateHeader'>
+        <div key={date} className="expenseGroup">
+          <div className="expenseDateHeader">
             {new Date(date).toLocaleDateString('es-ES', {
               day: '2-digit',
-              month: 'long'
+              month: 'long',
             })}
           </div>
 
           {expenses.map((expense) => (
             <div
               key={expense.expenseID}
-              className='expenseListItem'
+              className="expenseListItem"
               onContextMenu={(e) => contextMenuRef.current?.show(e)}
             >
               <ContextMenu
-                className='customContextMenu'
-                model={
-                  [
-                    {
-                      label: 'Delete',
-                      icon: <RiDeleteBinLine className='customContextMenuIcon' />,
-                      command: () => eliminarGasto(expense.expenseID),
-                    },
-                  ]
-                }
+                className="customContextMenu"
+                model={[
+                  {
+                    label: 'Delete',
+                    icon: <RiDeleteBinLine className="customContextMenuIcon" />,
+                    command: () => eliminarGasto(expense.expenseID),
+                  },
+                ]}
                 ref={contextMenuRef}
               />
-              <div className='expenseListItemInfo'>
-                <div className='expenseListItemDate'>
+              <div className="expenseListItemInfo">
+                <div className="expenseListItemDate">
                   {expense.categoryName}
                 </div>
                 <div className={`expenseListItemTime`}>
                   {expense.expenseAmount}€
                 </div>
-                <div className='expenseListItemTime'>
+                <div className="expenseListItemTime">
                   {expense.expenseDescription}
                 </div>
               </div>

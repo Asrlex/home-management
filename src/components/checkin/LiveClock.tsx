@@ -23,9 +23,9 @@ const LiveClock = () => {
   }, []);
 
   return (
-    <div className='liveClock'>
+    <div className="liveClock">
       {currentTime.split(':').map((time, index) => (
-        <span key={index} className='clockTime'>
+        <span key={index} className="clockTime">
           {time}
           {index < 2 && ':'}
         </span>

@@ -30,17 +30,22 @@ export default function SidebarItem({
 
   return (
     <div
-      className={`itemBarraLateralWrapper ${tipo === 'dropdown' ? 'dropdown' : ''
-        }`}
+      className={`itemBarraLateralWrapper ${
+        tipo === 'dropdown' ? 'dropdown' : ''
+      }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {tipo === 'dropdown' ? (
-        <div className='itemBarraLateral'>
+        <div className="itemBarraLateral">
           {icono}
-          <div style={{ display: 'flex', alignItems: 'center', marginTop: '3px' }}>
-            <span className='itemBarraLateralTextHidden'>{texto}</span>
-            <span><IoMdArrowDropright /></span>
+          <div
+            style={{ display: 'flex', alignItems: 'center', marginTop: '3px' }}
+          >
+            <span className="itemBarraLateralTextHidden">{texto}</span>
+            <span>
+              <IoMdArrowDropright />
+            </span>
           </div>
         </div>
       ) : (
@@ -53,17 +58,17 @@ export default function SidebarItem({
               : 'itemBarraLateral'
           }
         >
-          <li className='itemBarraLateralText'>
+          <li className="itemBarraLateralText">
             {icono}
-            <div className='itemBarraLateralTextHidden'>{texto}</div>
+            <div className="itemBarraLateralTextHidden">{texto}</div>
             {notificationCount > 0 && (
-              <span className='notificationBubble'>{notificationCount}</span>
+              <span className="notificationBubble">{notificationCount}</span>
             )}
           </li>
         </Link>
       )}
       {tipo === 'dropdown' && isHovered && (
-        <ul className='dropdownMenu'>{children}</ul>
+        <ul className="dropdownMenu">{children}</ul>
       )}
     </div>
   );

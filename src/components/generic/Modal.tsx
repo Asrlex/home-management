@@ -25,24 +25,20 @@ const Modal = forwardRef<ModalHandle, ModalProps>(({ children }, ref) => {
       if (dialog.current) {
         dialog.current.close();
       }
-    }
+    },
   }));
 
   return createPortal(
-    <dialog
-      ref={dialog}
-      className='modal'
-      autoFocus={false}
-    >
-      <button
-        onClick={() => dialog.current.close()}
-        className='modalCerrar'
-      >
+    <dialog ref={dialog} className="modal" autoFocus={false}>
+      <button onClick={() => dialog.current.close()} className="modalCerrar">
         <MdClose />
       </button>
       {children}
-    </dialog>
-    , document.getElementById('modal-root'));
+    </dialog>,
+    document.getElementById('modal-root')
+  );
 });
+
+Modal.displayName = 'Modal';
 
 export default Modal;

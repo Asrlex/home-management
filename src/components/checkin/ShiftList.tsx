@@ -27,9 +27,17 @@ const ShiftList: React.FC<ShiftListProps> = ({
     const currentDate = new Date();
     const selectedYear = parseInt(selectedMonth.split('-')[0]);
     const selectedMonthIndex = parseInt(selectedMonth.split('-')[1]) - 1;
-    const daysInMonth = new Date(selectedYear, selectedMonthIndex + 1, 0).getDate();
+    const daysInMonth = new Date(
+      selectedYear,
+      selectedMonthIndex + 1,
+      0
+    ).getDate();
 
-    if (selectedYear > currentDate.getFullYear() || (selectedYear === currentDate.getFullYear() && selectedMonthIndex > currentDate.getMonth())) {
+    if (
+      selectedYear > currentDate.getFullYear() ||
+      (selectedYear === currentDate.getFullYear() &&
+        selectedMonthIndex > currentDate.getMonth())
+    ) {
       return null;
     }
 
@@ -42,9 +50,12 @@ const ShiftList: React.FC<ShiftListProps> = ({
       const isWorkDay =
         date.getUTCDay() !== 0 &&
         date.getUTCDay() !== 6 &&
-        !absences?.some((a) =>
-          a.absenceDate === formattedDate &&
-          [AbsenceTypes.Festivo, AbsenceTypes.Vacaciones].includes(a.absenceType)
+        !absences?.some(
+          (a) =>
+            a.absenceDate === formattedDate &&
+            [AbsenceTypes.Festivo, AbsenceTypes.Vacaciones].includes(
+              a.absenceType
+            )
         );
 
       if (
@@ -82,19 +93,28 @@ const ShiftList: React.FC<ShiftListProps> = ({
     return `${difference > 0 ? '+' : '-'}${hours}h ${minutes}m`;
   }, [shifts, absences, selectedMonth]);
 
-
   return (
     <div className="monthShifts">
-      <div className='shiftList'>
+      <div className="shiftList">
         {Array.from(
-          { length: new Date(parseInt(selectedMonth.split('-')[0]), parseInt(selectedMonth.split('-')[1]), 0).getDate() },
+          {
+            length: new Date(
+              parseInt(selectedMonth.split('-')[0]),
+              parseInt(selectedMonth.split('-')[1]),
+              0
+            ).getDate(),
+          },
           (_, day) => {
             const year = parseInt(selectedMonth.split('-')[0]);
             const month = parseInt(selectedMonth.split('-')[1]) - 1;
             const date = new Date(Date.UTC(year, month, day + 1));
             const formattedDate = date.toISOString().split('T')[0];
-            const shift: ShiftI = shifts?.find((s: ShiftI) => s.shiftDate === formattedDate);
-            const absence: AbsenceI = absences?.find((a: AbsenceI) => a.absenceDate === formattedDate);
+            const shift: ShiftI = shifts?.find(
+              (s: ShiftI) => s.shiftDate === formattedDate
+            );
+            const absence: AbsenceI = absences?.find(
+              (a: AbsenceI) => a.absenceDate === formattedDate
+            );
 
             return (
               <div
@@ -107,9 +127,9 @@ const ShiftList: React.FC<ShiftListProps> = ({
                   ${formattedDate === new Date().toISOString().split('T')[0] ? 'currentDay' : ''}
                   `}
               >
-                <div className='shiftListItemInfo'>
-                  <div className='shiftListItemDate'>{formattedDate}</div>
-                  <div className='shiftListItemTime'>
+                <div className="shiftListItemInfo">
+                  <div className="shiftListItemDate">{formattedDate}</div>
+                  <div className="shiftListItemTime">
                     {shift
                       ? `${formatShiftTime(shift.shiftTime + (absence?.absenceType === AbsenceTypes.HorasPersonales ? absence.absenceHours * 3600 : 0))}`
                       : absence
@@ -122,38 +142,47 @@ const ShiftList: React.FC<ShiftListProps> = ({
                   </div>
                   {shift && (
                     <button
-                      onClick={() => setExpandedTask(expandedTask === shift.shiftID ? null : shift.shiftID)}
-                      className='expandButton'
+                      onClick={() =>
+                        setExpandedTask(
+                          expandedTask === shift.shiftID ? null : shift.shiftID
+                        )
+                      }
+                      className="expandButton"
                     >
                       <motion.div
-                        animate={{ rotate: expandedTask === shift.shiftID ? 180 : 0 }}
+                        animate={{
+                          rotate: expandedTask === shift.shiftID ? 180 : 0,
+                        }}
                         transition={{ duration: 0.3 }}
                       >
-                        <MdOutlineExpandMore className='shiftListItemExpand' />
+                        <MdOutlineExpandMore className="shiftListItemExpand" />
                       </motion.div>
                     </button>
                   )}
                 </div>
                 {shift && expandedTask === shift.shiftID && (
-                  <div className='shiftListItemDetails'>
+                  <div className="shiftListItemDetails">
                     {shift.shiftCheckins.map((checkin) => (
                       <motion.div
                         key={checkin.shiftCheckinID}
-                        className='shiftCheckin'
+                        className="shiftCheckin"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <div className='shiftCheckinType'>
-                          {checkin.shiftCheckinType === GeneralParams.ClockIn ? (
-                            <CiLogin className='shiftListItemExpand' />
+                        <div className="shiftCheckinType">
+                          {checkin.shiftCheckinType ===
+                          GeneralParams.ClockIn ? (
+                            <CiLogin className="shiftListItemExpand" />
                           ) : (
-                            <CiLogout className='shiftListItemExpand' />
+                            <CiLogout className="shiftListItemExpand" />
                           )}
                         </div>
-                        <div className='shiftCheckinTime'>
-                          {new Date(checkin.shiftCheckinTimestamp).toLocaleTimeString('es-ES', {
+                        <div className="shiftCheckinTime">
+                          {new Date(
+                            checkin.shiftCheckinTimestamp
+                          ).toLocaleTimeString('es-ES', {
                             hour: '2-digit',
                             minute: '2-digit',
                             second: '2-digit',
@@ -163,14 +192,14 @@ const ShiftList: React.FC<ShiftListProps> = ({
                     ))}
                     {absence?.absenceType === AbsenceTypes.HorasPersonales && (
                       <motion.div
-                        className='shiftCheckin'
+                        className="shiftCheckin"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <div className='shiftCheckinType'>Horas Personales</div>
-                        <div className='shiftCheckinTime'>{`${absence.absenceHours}h`}</div>
+                        <div className="shiftCheckinType">Horas Personales</div>
+                        <div className="shiftCheckinTime">{`${absence.absenceHours}h`}</div>
                       </motion.div>
                     )}
                   </div>

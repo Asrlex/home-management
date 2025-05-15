@@ -35,10 +35,7 @@
     "src/**/*.jsx",
     "src/**/*.tsx",
     "src/api/auth/express.d.ts",
-    "test/**/*",
+    "test/**/*"
   ],
-  "exclude": [
-    "dist",
-    "node_modules"
-  ]
+  "exclude": ["dist", "node_modules"]
 }

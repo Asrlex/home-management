@@ -53,8 +53,8 @@ export const customStyles = {
     backgroundColor: state.isSelected
       ? 'var(--modal-button-bg-color)'
       : state.isFocused
-      ? 'var(--modal-button-hover-bg-color)'
-      : 'var(--modal-button-bg-color)',
+        ? 'var(--modal-button-hover-bg-color)'
+        : 'var(--modal-button-bg-color)',
     color: 'var(--modal-button-text-color)',
     '&:hover': {
       backgroundColor: 'var(--modal-button-hover-bg-color)',

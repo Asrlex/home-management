@@ -1,5 +1,5 @@
-import { CustomBaseException } from "./base.exception";
-import { UserExceptionNames } from "./entities/enums/user-exception.enum";
+import { CustomBaseException } from './base.exception';
+import { UserExceptionNames } from './entities/enums/user-exception.enum';
 
 export class LoginException extends CustomBaseException {
   constructor(message: string) {

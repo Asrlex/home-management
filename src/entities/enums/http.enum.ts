@@ -14,7 +14,6 @@ export enum HttpEnum {
   ACCEPT = 'Accept',
   AUTH = 'Authorization',
   BEARER = 'Bearer',
-  CONTENT_TYPE_JSON = 'application/json',
   APPLICATION_JSON = 'application/json',
   CONTENT_TYPE_FORM_URLENCODED = 'application/x-www-form-urlencoded',
   CONTENT_TYPE_MULTIPART = 'multipart/form-data',

@@ -1,5 +1,4 @@
 export enum ProductsEnum {
-  listaCompra = 'lista-compra',
   listaCompraID = 'shoppingListProductID',
   stockID = 'stockProductID',
   listaCompraAmount = 'shoppingListAmount',
@@ -20,6 +19,11 @@ export enum ProductToastMessages {
   DeletedTagSuccess = 'Etiqueta eliminada correctamente',
   MovedProductError = 'Error al mover el producto',
   MovedProductSuccess = 'Producto movido correctamente',
-  ModifyAmountSuccess = 'Cantidad modificada correctamente',
+  ModifyAmountSuccess = 'Cantidad modificada',
   ModifyAmountError = 'Error al modificar la cantidad',
+}
+
+export enum ProductTypes {
+  Stock = 'despensa',
+  ShoppingList = 'lista-compra',
 }

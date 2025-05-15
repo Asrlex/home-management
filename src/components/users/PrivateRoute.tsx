@@ -18,12 +18,11 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
     validateToken();
   }, [validateToken]);
 
-  return loginStatus === StoreEnum.STATUS_AUTHENTICATED ?
-    (
-      <>{children}</>
-    ) : loginStatus === StoreEnum.STATUS_LOADING ? (
-      <Loader />
-    ) : (
-      <Navigate to={ApiPaths.Login} replace />
-    );
+  return loginStatus === StoreEnum.STATUS_AUTHENTICATED ? (
+    <>{children}</>
+  ) : loginStatus === StoreEnum.STATUS_LOADING ? (
+    <Loader />
+  ) : (
+    <Navigate to={ApiPaths.Login} replace />
+  );
 }

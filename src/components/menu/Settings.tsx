@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import {
   MenuItem,
   Select,
@@ -7,28 +7,33 @@ import {
   Checkbox,
   FormControlLabel,
   Button,
-} from "@mui/material";
-import toast from "react-hot-toast";
-import React from "react";
-import useSettingsStore from "@/store/SettingsStore";
-import useThemeStore from "@/store/ThemeStore";
-import { styles } from "@/styles/Form.Styles";
-import useUserStore from "@/store/UserStore";
+} from '@mui/material';
+import toast from 'react-hot-toast';
+import React from 'react';
+import useSettingsStore from '@/store/SettingsStore';
+import useThemeStore from '@/store/ThemeStore';
+import { styles } from '@/styles/Form.Styles';
+import useUserStore from '@/store/UserStore';
+import { UserSettingsI } from '@/entities/types/home-management.entity';
+import { StoreEnum } from '@/store/entities/enums/store.enum';
 
 export default function Ajustes() {
-  const settings = useSettingsStore((state) => state.settings);
+  const settings = useSettingsStore<UserSettingsI>((state) => state.settings);
   const updateSettings = useSettingsStore((state) => state.updateSettings);
   const loading = useSettingsStore((state) => state.loading);
   const pairBiometrics = useUserStore((state) => state.pairBiometrics);
   const { theme, toggleTheme } = useThemeStore();
-  const [localSettings, setLocalSettings] = useState(null);
+  const [localSettings, setLocalSettings] = useState<UserSettingsI>(null);
 
   useEffect(() => {
     setLocalSettings(settings);
   }, [settings]);
 
-  const handleChange = (key: string, value: any) => {
-    setLocalSettings((prev: any) => ({
+  const handleChange = (
+    key: keyof UserSettingsI,
+    value: UserSettingsI[keyof UserSettingsI]
+  ) => {
+    setLocalSettings((prev: UserSettingsI) => ({
       ...prev,
       [key]: value,
     }));
@@ -38,11 +43,11 @@ export default function Ajustes() {
     if (localSettings) {
       await updateSettings(localSettings)
         .then(() => {
-          toast.success("Ajustes guardados correctamente.");
+          toast.success('Ajustes guardados correctamente.');
         })
         .catch((error) => {
-          console.error("Error actualizando ajustes:", error);
-          toast.error("Error guardando ajustes.");
+          console.error('Error actualizando ajustes:', error);
+          toast.error('Error guardando ajustes.');
         });
       if (localSettings.theme !== theme) {
         toggleTheme();
@@ -53,10 +58,10 @@ export default function Ajustes() {
   const handlePairBiometrics = async () => {
     try {
       pairBiometrics();
-      toast.success("Biometría emparejada correctamente.");
+      toast.success('Biometría emparejada correctamente.');
     } catch (error) {
-      console.error("Error emparejando biometría:", error);
-      toast.error("Error emparejando biometría.");
+      console.error('Error emparejando biometría:', error);
+      toast.error('Error emparejando biometría.');
     }
   };
 
@@ -79,11 +84,24 @@ export default function Ajustes() {
         <Select
           labelId="theme-label"
           value={localSettings.theme}
-          onChange={(e) => handleChange("theme", e.target.value)}
+          onChange={(e) =>
+            handleChange(
+              'theme',
+              e.target.value as UserSettingsI[keyof UserSettingsI]
+            )
+          }
           sx={styles.selectStyles}
+          MenuProps={{
+            PaperProps: {
+              sx: styles.selectMenuStyles,
+            },
+            MenuListProps: {
+              sx: styles.menuItemStyles,
+            },
+          }}
         >
-          <MenuItem value="light">Claro</MenuItem>
-          <MenuItem value="dark">Oscuro</MenuItem>
+          <MenuItem value={StoreEnum.LIGHT}>Claro</MenuItem>
+          <MenuItem value={StoreEnum.DARK}>Oscuro</MenuItem>
         </Select>
       </FormControl>
 
@@ -93,7 +111,7 @@ export default function Ajustes() {
           <Checkbox
             checked={localSettings.notifications.email}
             onChange={(e) =>
-              handleChange("notifications", {
+              handleChange('notifications', {
                 ...localSettings.notifications,
                 email: e.target.checked,
               })
@@ -108,7 +126,7 @@ export default function Ajustes() {
           <Checkbox
             checked={localSettings.notifications.push}
             onChange={(e) =>
-              handleChange("notifications", {
+              handleChange('notifications', {
                 ...localSettings.notifications,
                 push: e.target.checked,
               })
@@ -132,13 +150,26 @@ export default function Ajustes() {
         <Select
           labelId="icon-label"
           value={localSettings.icon}
-          onChange={(e) => handleChange("icon", e.target.value)}
+          onChange={(e) =>
+            handleChange(
+              'icon',
+              e.target.value as UserSettingsI[keyof UserSettingsI]
+            )
+          }
           sx={styles.selectStyles}
+          MenuProps={{
+            PaperProps: {
+              sx: styles.selectMenuStyles,
+            },
+            MenuListProps: {
+              sx: styles.menuItemStyles,
+            },
+          }}
         >
-          <MenuItem value="winter">Invierno</MenuItem>
-          <MenuItem value="spring">Primavera</MenuItem>
-          <MenuItem value="summer">Verano</MenuItem>
-          <MenuItem value="autumn">Otoño</MenuItem>
+          <MenuItem value={StoreEnum.WINTER}>Invierno</MenuItem>
+          <MenuItem value={StoreEnum.SPRING}>Primavera</MenuItem>
+          <MenuItem value={StoreEnum.SUMMER}>Verano</MenuItem>
+          <MenuItem value={StoreEnum.AUTUMN}>Otoño</MenuItem>
         </Select>
       </FormControl>
 
@@ -155,8 +186,21 @@ export default function Ajustes() {
         <Select
           labelId="default-page-label"
           value={localSettings.defaultPage}
-          onChange={(e) => handleChange("defaultPage", e.target.value)}
+          onChange={(e) =>
+            handleChange(
+              'defaultPage',
+              e.target.value as UserSettingsI[keyof UserSettingsI]
+            )
+          }
           sx={styles.selectStyles}
+          MenuProps={{
+            PaperProps: {
+              sx: styles.selectMenuStyles,
+            },
+            MenuListProps: {
+              sx: styles.menuItemStyles,
+            },
+          }}
         >
           <MenuItem value="/productos">Productos</MenuItem>
           <MenuItem value="/lista-compra">Lista Compra</MenuItem>
@@ -171,11 +215,7 @@ export default function Ajustes() {
       </FormControl>
 
       {/* Biometrics */}
-      <FormControl
-        fullWidth
-        margin="normal"
-        variant="standard"
-      >
+      <FormControl fullWidth margin="normal" variant="standard">
         <Button
           variant="contained"
           onClick={handlePairBiometrics}

@@ -3,16 +3,19 @@ import { FaTimes } from 'react-icons/fa';
 import ConnectionStatusIcon from '../generic/ConnectionStatusIcon';
 import React from 'react';
 
-export default function MainContent({ titulo, children }) {
+interface MainContentProps {
+  titulo?: string;
+  children: React.ReactNode;
+}
+
+const MainContent: React.FC<MainContentProps> = ({ titulo, children }) => {
   return (
-    <div className='seccionPrincipal'>
+    <div className="seccionPrincipal">
       <ConnectionStatusIcon />
-      {titulo && <h1 className='tituloSeccion'>
-        {titulo}
-      </h1>}
+      {titulo && <h1 className="tituloSeccion">{titulo}</h1>}
       <div>
         <Toaster
-          position='top-right'
+          position="top-right"
           reverseOrder={false}
           toastOptions={{
             duration: 2000,
@@ -23,7 +26,7 @@ export default function MainContent({ titulo, children }) {
             },
           }}
         >
-          {t => (
+          {(t) => (
             <ToastBar toast={t}>
               {({ icon, message }) => (
                 <>
@@ -41,9 +44,9 @@ export default function MainContent({ titulo, children }) {
         </Toaster>
       </div>
 
-      <div className='contenidoPrincipal'>
-        {children}
-      </div>
+      <div className="contenidoPrincipal">{children}</div>
     </div>
-  )
-}
+  );
+};
+
+export default MainContent;

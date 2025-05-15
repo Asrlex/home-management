@@ -12,11 +12,15 @@ import ExpensesList from './ExpenseList';
 
 function Gastos() {
   const expenses = useExpenseStore((state) => state.expenses);
-  const fetchExpensesByMonth = useExpenseStore((state) => state.fetchExpensesByMonth);
+  const fetchExpensesByMonth = useExpenseStore(
+    (state) => state.fetchExpensesByMonth
+  );
   const addExpense = useExpenseStore((state) => state.addExpense);
   const deleteExpense = useExpenseStore((state) => state.deleteExpense);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().toISOString().slice(0, 7)
+  );
   const [expenseCategory, setExpenseCategory] = useState({
     value: 0,
     label: '',
@@ -24,14 +28,16 @@ function Gastos() {
   const expenseAmountRef = useRef<HTMLInputElement>(null);
   const expenseDateRef = useRef<HTMLInputElement>(null);
   const expenseDescriptionRef = useRef<HTMLInputElement>(null);
-  const memoizedFetchExpenses = useCallback(fetchExpensesByMonth, []);
+  const memoizedFetchExpenses = useCallback(fetchExpensesByMonth, [
+    fetchExpensesByMonth,
+  ]);
 
   useEffect(() => {
     memoizedFetchExpenses(selectedMonth)
       .then(() => {
         setIsLoading(false);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error(error);
         toast.error('Error fetching data');
         setIsLoading(true);
@@ -42,7 +48,6 @@ function Gastos() {
     setSelectedMonth(month);
   };
 
-
   const crearGasto = (e: React.FormEvent) => {
     e.preventDefault();
     const expense: CreateExpenseDto = {
@@ -51,7 +56,11 @@ function Gastos() {
       expenseDescription: expenseDescriptionRef.current.value,
       categoryID: expenseCategory.value,
     };
-    if (!expense.expenseAmount || !expense.expenseDate || !expense.expenseDescription) {
+    if (
+      !expense.expenseAmount ||
+      !expense.expenseDate ||
+      !expense.expenseDescription
+    ) {
       toast.error('Por favor, completa todos los campos');
       return;
     }
@@ -76,7 +85,6 @@ function Gastos() {
       });
   };
 
-
   const expenseCategoryOptions = [
     { value: 7, label: 'Bizum' },
     { value: 6, label: 'Regalos' },
@@ -96,7 +104,7 @@ function Gastos() {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className='gastos'>
+        <div className="gastos">
           <MonthSelector onMonthChange={handleMonthChange} />
           <GastosForm
             crearGasto={crearGasto}
@@ -107,18 +115,15 @@ function Gastos() {
             expenseDateRef={expenseDateRef}
             expenseDescriptionRef={expenseDescriptionRef}
           />
-          <ExpensesList
-            expenses={expenses}
-            eliminarGasto={eliminarGasto}
-          />
+          <ExpensesList expenses={expenses} eliminarGasto={eliminarGasto} />
         </div>
       )}
-      <div className='seccionBotones'>
+      <div className="seccionBotones">
         <FAB
           icon={<FaPlus />}
           action={handleShowForm}
-          tooltip='Añadir gasto'
-          classes='floatingButton'
+          tooltip="Añadir gasto"
+          classes="floatingButton"
         />
       </div>
     </>

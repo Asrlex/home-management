@@ -8,8 +8,7 @@ export const formThemeVars = {
   selectOptionsBgColor: 'var(--form-select-options-bg-color)',
   selectOptionsTextColor: 'var(--form-select-options-text-color)',
   selectOptionsHoverBgColor: 'var(--form-select-options-hover-bg-color)',
-  selectOptionsSelectedBgColor:
-    'var(--form-select-options-selected-bg-color)',
+  selectOptionsSelectedBgColor: 'var(--form-select-options-selected-bg-color)',
   buttonBgColor: 'var(--form-button-bg-color)',
   buttonTextColor: 'var(--form-button-text-color)',
   buttonHoverBgColor: 'var(--form-button-hover-bg-color)',
@@ -59,7 +58,7 @@ export const styles = {
       fontSize: '.875rem',
     },
     '& .MuiSelect-select': {
-      padding: '.875rem',
+      padding: '.75rem',
     },
     '& .MuiSelect-select:focus': {
       backgroundColor: formThemeVars.selectBgColor,
@@ -75,10 +74,9 @@ export const styles = {
     },
   },
   menuItemStyles: {
-    backgroundColor: formThemeVars.selectOptionsBgColor,
-    color: formThemeVars.selectOptionsTextColor,
-    '&:hover': {
-      backgroundColor: formThemeVars.selectOptionsHoverBgColor,
+    '&.MuiMenuItem-root': {
+      backgroundColor: formThemeVars.selectOptionsBgColor,
+      color: formThemeVars.selectOptionsTextColor,
     },
     '&.Mui-selected': {
       backgroundColor: formThemeVars.selectOptionsSelectedBgColor,

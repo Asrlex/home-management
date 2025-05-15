@@ -1,34 +1,47 @@
+import {
+  ShoppingListProductI,
+  StockProductI,
+} from '@/entities/types/home-management.entity';
 import React, { useState, useEffect, useRef } from 'react';
 import { RiDeleteBinLine, RiSubtractLine, RiAddLine } from 'react-icons/ri';
 
-export default function ContadorProducto({
+interface ContadorProductoProps {
+  producto: ShoppingListProductI | StockProductI;
+  handleEliminar: (id: number) => void;
+  handleAmount: (id: number, amount: number) => void;
+  handleMover: (id: number) => void;
+  icono: React.ReactNode;
+}
+
+const ContadorProducto: React.FC<ContadorProductoProps> = ({
   producto,
   handleEliminar,
   handleAmount,
   handleMover,
   icono,
-}) {
-  const [inputValue, setInputValue] = useState(
-    producto.shoppingListProductAmount
-      ? producto.shoppingListProductAmount
-      : producto.stockProductAmount
-  );
+}) => {
+  const idName = Object.hasOwnProperty.call(producto, 'shoppingListProductID')
+    ? 'shoppingListProductID'
+    : 'stockProductID';
+  const idAmount = Object.hasOwnProperty.call(
+    producto,
+    'shoppingListProductAmount'
+  )
+    ? 'shoppingListProductAmount'
+    : 'stockProductAmount';
+  const [inputValue, setInputValue] = useState(producto[idAmount] || 1);
   const isMounted = useRef(false);
   const previousValue = useRef(inputValue);
-  const amount = producto.shoppingListProductAmount
-    ? producto.shoppingListProductAmount
-    : producto.stockProductAmount;
-  const id = producto.shoppingListProductID
-    ? producto.shoppingListProductID
-    : producto.stockProductID;
+  const id = producto[idName];
+  const amount = producto[idAmount];
   const fontSize =
     amount > 9999
       ? '8px'
       : amount > 999
-      ? '9px'
-      : amount > 99
-      ? '11px'
-      : '14px';
+        ? '9px'
+        : amount > 99
+          ? '11px'
+          : '14px';
 
   useEffect(() => {
     if (isMounted.current) {
@@ -68,29 +81,31 @@ export default function ContadorProducto({
   };
 
   return (
-    <div className='contador' data-no-dnd='true'>
-      <button onClick={handleDecrement} className='botonContador'>
+    <div className="contador" data-no-dnd="true">
+      <button onClick={handleDecrement} className="botonContador">
         {amount === 1 ? (
-          <RiDeleteBinLine className='botonContadorIcono botonRemoveIcono' />
+          <RiDeleteBinLine className="botonContadorIcono botonRemoveIcono" />
         ) : (
-          <RiSubtractLine className='botonContadorIcono botonRemoveIcono' />
+          <RiSubtractLine className="botonContadorIcono botonRemoveIcono" />
         )}
       </button>
       <div>
         <input
-          className='amount'
-          type='number'
+          className="amount"
+          type="number"
           value={inputValue}
           style={{ fontSize }}
           onChange={(e) => setInputValue(e.target.value)}
         />
       </div>
-      <button onClick={handleIncrement} className='botonContador'>
-        <RiAddLine className='botonContadorIcono botonAdd' />
+      <button onClick={handleIncrement} className="botonContador">
+        <RiAddLine className="botonContadorIcono botonAdd" />
       </button>
-      <button onClick={() => handleMover(id)} className='botonContador'>
+      <button onClick={() => handleMover(id)} className="botonContador">
         {icono}
       </button>
     </div>
   );
-}
+};
+
+export default ContadorProducto;

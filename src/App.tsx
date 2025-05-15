@@ -34,15 +34,15 @@ function App() {
   const [selectedSection, setSelectedSection] = useState<string>('');
   const navigate = useNavigate();
   const location = useLocation();
-  const publicRoutes = [ApiPaths.Login, ApiPaths.Signup, ApiPaths.Base];
   const validateToken = useUserStore((state) => state.validateToken);
   const fetchSettings = useSettingsStore((state) => state.fetchSettings);
 
   useEffect(() => {
+    const publicRoutes = [ApiPaths.Login, ApiPaths.Signup, ApiPaths.Base];
     const initializeApp = async () => {
       await fetchSettings();
       await useNotificationStore.getState().requestPermission();
-      
+
       const path = location.pathname.split(ApiPaths.Base)[1];
       const section = path.replace(/-/g, ' ');
       setSelectedSection(section.charAt(0).toUpperCase() + section.slice(1));
@@ -62,7 +62,7 @@ function App() {
     };
 
     initializeApp();
-  }, [location.pathname, navigate]);
+  }, [fetchSettings, location.pathname, navigate, validateToken]);
 
   const handleSectionChange = (section: string) => {
     setSelectedSection(section);
@@ -72,7 +72,7 @@ function App() {
   return (
     <>
       <PrimeReactProvider>
-        <main className='app'>
+        <main className="app">
           <Sidebar
             onSelectSection={handleSectionChange}
             section={selectedSection}
@@ -81,7 +81,7 @@ function App() {
             <Routes>
               <Route path={ApiPaths.Base} element={<Portada />} />
               <Route
-                path='/productos'
+                path="/productos"
                 element={
                   <PrivateRoute>
                     <ListaProductos />
@@ -89,7 +89,7 @@ function App() {
                 }
               />
               <Route
-                path='/lista-compra'
+                path="/lista-compra"
                 element={
                   <PrivateRoute>
                     <ListaCompra />
@@ -97,7 +97,7 @@ function App() {
                 }
               />
               <Route
-                path='/despensa'
+                path="/despensa"
                 element={
                   <PrivateRoute>
                     <Despensa />
@@ -105,7 +105,7 @@ function App() {
                 }
               />
               <Route
-                path='/tareas-pendientes'
+                path="/tareas-pendientes"
                 element={
                   <PrivateRoute>
                     <Tareas />
@@ -113,7 +113,7 @@ function App() {
                 }
               />
               <Route
-                path='/tareas-casa'
+                path="/tareas-casa"
                 element={
                   <PrivateRoute>
                     <TareasCasa />
@@ -121,7 +121,7 @@ function App() {
                 }
               />
               <Route
-                path='/fichajes'
+                path="/fichajes"
                 element={
                   <PrivateRoute>
                     <Fichajes />
@@ -129,7 +129,7 @@ function App() {
                 }
               />
               <Route
-                path='/recetas'
+                path="/recetas"
                 element={
                   <PrivateRoute>
                     <Recetas />
@@ -137,7 +137,7 @@ function App() {
                 }
               />
               <Route
-                path='/coche'
+                path="/coche"
                 element={
                   <PrivateRoute>
                     <CarTasks />
@@ -145,7 +145,7 @@ function App() {
                 }
               />
               <Route
-                path='/gastos'
+                path="/gastos"
                 element={
                   <PrivateRoute>
                     <Gastos />
@@ -153,7 +153,7 @@ function App() {
                 }
               />
               <Route
-                path='/ajustes'
+                path="/ajustes"
                 element={
                   <PrivateRoute>
                     <Ajustes />
@@ -162,8 +162,11 @@ function App() {
               />
               <Route path={ApiPaths.Login} element={<Login />} />
               <Route path={ApiPaths.Signup} element={<Signup />} />
-              <Route path={ApiPaths.Base} element={<Navigate to={ApiPaths.Base} />} />
-              <Route path='*' element={<Navigate to={ApiPaths.Base} />} />
+              <Route
+                path={ApiPaths.Base}
+                element={<Navigate to={ApiPaths.Base} />}
+              />
+              <Route path="*" element={<Navigate to={ApiPaths.Base} />} />
             </Routes>
           </MainContent>
         </main>

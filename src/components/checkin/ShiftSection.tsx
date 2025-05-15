@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, FichajesEndpoints } from '@/config/apiconfig';
 import { LuAlarmClockCheck, LuAlarmClockOff } from 'react-icons/lu';
@@ -21,21 +21,36 @@ const Fichajes = () => {
   const [shifts, setShifts] = useState<ShiftI[]>([]);
   const [absences, setAbsences] = useState<AbsenceI[]>([]);
   const [expandedTask, setExpandedTask] = useState(null);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().toISOString().slice(0, 7)
+  );
   const dialogRef = useRef(null);
   const [selectedType, setSelectedType] = useState(null);
   const dateRef = useRef(null);
   const hoursRef = useRef(null);
   const commentRef = useRef(null);
 
-
   const selectOptions = [
     { value: AbsenceTypes.Vacaciones, label: AbsenceTypes.Vacaciones },
     { value: AbsenceTypes.FichajeExterno, label: AbsenceTypes.FichajeExterno },
-    { value: AbsenceTypes.HorasPersonales, label: AbsenceTypes.HorasPersonales },
+    {
+      value: AbsenceTypes.HorasPersonales,
+      label: AbsenceTypes.HorasPersonales,
+    },
     { value: AbsenceTypes.Mudanza, label: AbsenceTypes.Mudanza },
   ];
 
+  const fetchShiftsForMonth = useCallback(
+    async (month: string = selectedMonth) => {
+      await axiosRequest(
+        HttpEnum.GET,
+        `${ApiEndpoints.hm_url + FichajesEndpoints.byMonth}${month}`
+      )
+        .then((response) => setShifts(response.data as ShiftI[]))
+        .catch((error) => console.error('Error leyendo tareas:', error));
+    },
+    [selectedMonth]
+  );
 
   useEffect(() => {
     fetchShiftsForMonth(selectedMonth);
@@ -44,33 +59,17 @@ const Fichajes = () => {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [selectedMonth]);
-
+  }, [fetchShiftsForMonth, selectedMonth]);
 
   const handleMonthChange = (month: string) => {
     setSelectedMonth(month);
   };
 
-
-  const fetchShiftsForMonth = async (month: string = selectedMonth) => {
-    await axiosRequest(
-      HttpEnum.GET,
-      `${ApiEndpoints.hm_url + FichajesEndpoints.byMonth}${month}`
-    )
-      .then((response) => setShifts(response.data))
-      .catch((error) => console.error('Error leyendo tareas:', error));
-  };
-
-
   const fetchAbsences = async () => {
-    axiosRequest(
-      HttpEnum.GET,
-      ApiEndpoints.hm_url + FichajesEndpoints.absence
-    )
-      .then((response) => setAbsences(response.data))
+    axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + FichajesEndpoints.absence)
+      .then((response) => setAbsences(response.data as AbsenceI[]))
       .catch((error) => console.error('Error leyendo ausencias:', error));
-  }
-
+  };
 
   const handleClickOutside = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
@@ -79,14 +78,12 @@ const Fichajes = () => {
     }
   };
 
-
   const formatShiftTime = (shiftTime: number) => {
     const hours = Math.floor(shiftTime / 3600);
     const minutes = Math.floor((shiftTime % 3600) / 60);
     const seconds = Math.floor(shiftTime % 60);
     return `${hours}h ${minutes}m ${seconds}s`;
   };
-
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -122,68 +119,66 @@ const Fichajes = () => {
       });
   };
 
-
   const popup = (
     <Modal ref={dialogRef}>
-      <h2 className='modalTitulo'>Añadir ausencia</h2>
-      <form className='modalForm' onSubmit={handleSubmit}>
+      <h2 className="modalTitulo">Añadir ausencia</h2>
+      <form className="modalForm" onSubmit={handleSubmit}>
         <Select
           options={selectOptions}
           onChange={setSelectedType}
-          placeholder='Seleccionar tipo'
-          className='modalSelect'
+          placeholder="Seleccionar tipo"
+          className="modalSelect"
           styles={customStyles}
           isSearchable
         />
-        <div className='modalSection' style={{ marginTop: '1rem' }}>
+        <div className="modalSection" style={{ marginTop: '1rem' }}>
           <input
-            type='date'
-            id='dates'
+            type="date"
+            id="dates"
             ref={dateRef}
-            className='modalInput'
+            className="modalInput"
             required
           />
         </div>
         <textarea
-          id='comment'
+          id="comment"
           ref={commentRef}
-          className='modalInput modalTextArea'
-          placeholder='Comentario'
+          className="modalInput modalTextArea"
+          placeholder="Comentario"
         />
         <input
-          type='number'
-          id='hours'
+          type="number"
+          id="hours"
           ref={hoursRef}
-          className='modalInput'
-          placeholder='Horas'
+          className="modalInput"
+          placeholder="Horas"
           required
         />
-        <button type='submit' className='modalBoton'>
+        <button type="submit" className="modalBoton">
           Crear
         </button>
       </form>
     </Modal>
   );
 
-
   return (
     <>
       {popup}
-      <div className='shifts'>
-        <div className='shiftButtons'>
+      <div className="shifts">
+        <div className="shiftButtons">
           <ShiftButton
             checkinType={GeneralParams.ClockIn}
-            icon={<LuAlarmClockCheck className='clockInIcon' />}
+            icon={<LuAlarmClockCheck className="clockInIcon" />}
             fetchShifts={fetchShiftsForMonth}
           />
           <LiveClock />
           <ShiftButton
             checkinType={GeneralParams.ClockOut}
-            icon={<LuAlarmClockOff className='clockInIcon' />}
+            icon={<LuAlarmClockOff className="clockInIcon" />}
             fetchShifts={fetchShiftsForMonth}
           />
         </div>
-        <hr className='hrSeccion' />
+        <hr className="hrSeccion" />
         <MonthSelector onMonthChange={handleMonthChange} />
         <ShiftList
           shifts={shifts}
@@ -194,11 +189,11 @@ const Fichajes = () => {
           formatShiftTime={formatShiftTime}
         />
       </div>
-      <div className='seccionBotones'>
+      <div className="seccionBotones">
         <FAB
           icon={<FaPlus />}
           action={() => dialogRef.current.open()}
-          classes='floatingButton'
+          classes="floatingButton"
         />
       </div>
     </>

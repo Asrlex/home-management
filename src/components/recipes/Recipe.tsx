@@ -11,15 +11,26 @@ import useEtiquetaStore from '../../store/TagStore';
 import React from 'react';
 import Modal from '../generic/Modal';
 import NuevaRecetaModal from './RecipeModal';
+import { RecipeDetailI, TagI } from '@/entities/types/home-management.entity';
 
-function Receta({ receta, handleEliminar, addOrRemoveTag }) {
+interface RecetaProps {
+  receta: RecipeDetailI;
+  handleEliminar: (id: number) => void;
+  addOrRemoveTag: (
+    recetaID: number,
+    etiquetaID: number,
+    etiquetas: TagI[]
+  ) => void;
+}
+
+const Receta: React.FC<RecetaProps> = ({
+  receta,
+  handleEliminar,
+  addOrRemoveTag,
+}) => {
   const etiquetas = useEtiquetaStore((state) => state.etiquetas);
-  const addItemTag = useEtiquetaStore(
-    (state) => state.addItemTag
-  );
-  const deleteItemTag = useEtiquetaStore(
-    (state) => state.deleteItemTag
-  );
+  const addItemTag = useEtiquetaStore((state) => state.addItemTag);
+  const deleteItemTag = useEtiquetaStore((state) => state.deleteItemTag);
   const contextMenuRef = useRef(null);
   const recetaDialogRef = useRef(null);
 
@@ -51,17 +62,17 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   const contextModel = [
     {
       label: 'Eliminar',
-      icon: <RiDeleteBinLine className='customContextMenuIcon' />,
+      icon: <RiDeleteBinLine className="customContextMenuIcon" />,
       command: () => handleEliminar(receta.recipeID),
     },
     {
       label: 'Editar',
-      icon: <FaTag className='customContextMenuIcon' />,
+      icon: <FaTag className="customContextMenuIcon" />,
       command: () => handleEditar(),
     },
     {
       label: 'Etiquetas',
-      icon: <FaTag className='customContextMenuIcon' />,
+      icon: <FaTag className="customContextMenuIcon" />,
       items: etiquetas
         .filter((etiqueta) => etiqueta.tagType === 'Recipe')
         .map((etiqueta) => ({
@@ -70,7 +81,7 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
           )
             ? `${etiqueta.tagName} ✅`
             : `${etiqueta.tagName}`,
-          icon: <FaTag className='customContextMenuIcon' />,
+          icon: <FaTag className="customContextMenuIcon" />,
           command: () => addOrRemoveEtiqueta(etiqueta.tagID, receta.recipeID),
         })),
     },
@@ -90,24 +101,24 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
   };
 
   return (
-    <div className='recetaDiv'>
+    <div className="recetaDiv">
       {popupReceta}
       <ContextMenu
-        className='customContextMenu'
+        className="customContextMenu"
         model={contextModel}
         ref={contextMenuRef}
       />
       <Accordion
         key={receta.recipeID}
         sx={{ backgroundColor: 'var(--item-bg-color)' }}
-        className='receta'
+        className="receta"
         onContextMenu={(e) => {
           e.preventDefault();
           contextMenuRef.current.show(e);
         }}
       >
         <AccordionSummary
-          className='tituloReceta'
+          className="tituloReceta"
           component={'div'}
           expandIcon={<ExpandMoreIcon />}
           aria-controls={`${receta.recipeID}-content`}
@@ -120,16 +131,16 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
             '.MuiAccordionSummary-content': { margin: 0 },
           }}
         >
-          <span className='recetaName'>{receta.recipeName}</span>
+          <span className="recetaName">{receta.recipeName}</span>
         </AccordionSummary>
         <AccordionDetails sx={{ padding: '0.5rem' }} component={'div'}>
           <div className={`recetaDesc`}>{receta.recipeDescription}</div>
-          <div className='recetaTags'>
+          <div className="recetaTags">
             {receta.tags.map((tag) => (
               <Chip
                 key={tag.tagID}
                 label={tag.tagName}
-                className='tagPill'
+                className="tagPill"
                 sx={{
                   fontSize: '0.70rem',
                   padding: '0.1rem',
@@ -140,9 +151,9 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
               />
             ))}
           </div>
-          <div className='recetaIngredients'>
-            <span className='tituloSeccionReceta'>Ingredientes</span>
-            <div className='contenidoSeccionReceta'>
+          <div className="recetaIngredients">
+            <span className="tituloSeccionReceta">Ingredientes</span>
+            <div className="contenidoSeccionReceta">
               {receta.ingredients.map((ingrediente) => (
                 <div key={ingrediente.recipeIngredientID}>
                   <span>
@@ -155,13 +166,13 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
               ))}
             </div>
           </div>
-          <div className='recetaSteps'>
-            <span className='tituloSeccionReceta'>Pasos</span>
-            <div className='contenidoSeccionReceta'>
+          <div className="recetaSteps">
+            <span className="tituloSeccionReceta">Pasos</span>
+            <div className="contenidoSeccionReceta">
               {receta.steps
                 .sort((a, b) => a.recipeStepOrder - b.recipeStepOrder)
                 .map((paso) => (
-                  <div key={paso.recipeStepID} className='recetaStep'>
+                  <div key={paso.recipeStepID} className="recetaStep">
                     <strong>
                       {paso.recipeStepOrder}. {paso.recipeStepName}
                     </strong>
@@ -174,6 +185,6 @@ function Receta({ receta, handleEliminar, addOrRemoveTag }) {
       </Accordion>
     </div>
   );
-}
+};
 
 export default React.memo(Receta);

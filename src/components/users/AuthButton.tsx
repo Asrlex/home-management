@@ -36,7 +36,7 @@ const AuthButton = () => {
 
   return isCompact ? (
     <button
-      className='authButtonCompact'
+      className="authButtonCompact"
       onClick={handleAuthAction}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -48,17 +48,17 @@ const AuthButton = () => {
           <FaSignInAlt />
         )
       ) : (
-        <div className='authPill'>
+        <div className="authPill">
           {loginStatus === 'authenticated' && user.userEmail.slice(0, 2)}
         </div>
       )}
     </button>
   ) : (
-    <div className='authButtonContainer'>
-      <div className='authPill'>
+    <div className="authButtonContainer">
+      <div className="authPill">
         {loginStatus === 'authenticated' && user.userEmail.slice(0, 2)}
       </div>
-      <button className='authButton' onClick={handleAuthAction}>
+      <button className="authButton" onClick={handleAuthAction}>
         {loginStatus === 'authenticated' ? <FaSignOutAlt /> : <FaSignInAlt />}
       </button>
     </div>

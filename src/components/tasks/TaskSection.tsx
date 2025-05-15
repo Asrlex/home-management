@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import Tarea from './Task';
 import Modal from '../generic/Modal';
@@ -9,6 +8,7 @@ import { axiosRequest } from '../../hooks/axiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, TareasEndpoints } from '@/config/apiconfig';
 import React from 'react';
+import { TaskI } from '@/entities/types/home-management.entity';
 
 interface ModalHandle {
   open: () => void;
@@ -17,21 +17,22 @@ interface ModalHandle {
 
 export default function Tareas() {
   const [tareas, setTareas] = useState([]);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState<number | false>(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentTaskId, setCurrentTaskId] = useState(null);
   const dialog = useRef<ModalHandle>();
   const tituloRef = useRef<HTMLInputElement>(null);
   const descripcionRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleChange = (panel: boolean) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  const handleChange =
+    (panel: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   useEffect(() => {
     axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + TareasEndpoints.all)
       .then((response) => {
-        setTareas(response.data);
+        setTareas(response.data as TaskI[]);
       })
       .catch((error) => {
         console.error(error);
@@ -42,7 +43,7 @@ export default function Tareas() {
     axiosRequest(
       HttpEnum.PATCH,
       `${ApiEndpoints.hm_url + TareasEndpoints.base}/${id}`,
-      { taskCompleted: !completada },
+      { taskCompleted: !completada }
     )
       .then(() => {
         setTareas(
@@ -101,7 +102,12 @@ export default function Tareas() {
 
   const modalSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!tituloRef.current || !descripcionRef.current || !tituloRef.current.value || !descripcionRef.current.value) {
+    if (
+      !tituloRef.current ||
+      !descripcionRef.current ||
+      !tituloRef.current.value ||
+      !descripcionRef.current.value
+    ) {
       toast.error('Por favor, completa todos los campos');
       return;
     }
@@ -165,23 +171,23 @@ export default function Tareas() {
 
   const popup = (
     <Modal ref={dialog}>
-      <h2 className='modalTitulo'>
+      <h2 className="modalTitulo">
         {isEditMode ? 'Editar tarea' : 'Crear tarea'}
       </h2>
-      <form className='modalForm' onSubmit={modalSubmit}>
+      <form className="modalForm" onSubmit={modalSubmit}>
         <input
-          className='modalInput'
-          id='titulo'
+          className="modalInput"
+          id="titulo"
           ref={tituloRef}
-          placeholder='Título'
+          placeholder="Título"
         />
         <textarea
-          className='modalInput modalTextArea'
-          id='descripcion'
+          className="modalInput modalTextArea"
+          id="descripcion"
           ref={descripcionRef}
-          placeholder='Descripción'
+          placeholder="Descripción"
         />
-        <button type='submit' className='modalBoton' onClick={modalSubmit}>
+        <button type="submit" className="modalBoton" onClick={modalSubmit}>
           {isEditMode ? 'Actualizar' : 'Crear'}
         </button>
       </form>
@@ -191,11 +197,11 @@ export default function Tareas() {
   return (
     <>
       {popup}
-      <div className='tareas'>
-        <h1 className='h1Seccion'>Tareas abiertas</h1>
-        <div className='tareasAbiertas'>
+      <div className="tareas">
+        <h1 className="h1Seccion">Tareas abiertas</h1>
+        <div className="tareasAbiertas">
           {tareas.filter((t) => !t.taskCompleted).length === 0 && (
-            <li className='sinContenido'>No hay tareas pendientes</li>
+            <li className="sinContenido">No hay tareas pendientes</li>
           )}
           {tareas
             .filter((t) => !t.taskCompleted)
@@ -211,11 +217,11 @@ export default function Tareas() {
               />
             ))}
         </div>
-        <hr className='hrSeccion' />
-        <h1 className='h1Seccion'>Tareas cerradas</h1>
-        <div className='tareasCerradas'>
+        <hr className="hrSeccion" />
+        <h1 className="h1Seccion">Tareas cerradas</h1>
+        <div className="tareasCerradas">
           {tareas.filter((t) => t.taskCompleted).length === 0 && (
-            <li className='sinContenido'>No hay tareas completadas</li>
+            <li className="sinContenido">No hay tareas completadas</li>
           )}
           {tareas
             .filter((t) => t.taskCompleted)
@@ -232,7 +238,7 @@ export default function Tareas() {
             ))}
         </div>
       </div>
-      <div className='seccionBotones'>
+      <div className="seccionBotones">
         <FAB
           icon={<FaPlus />}
           action={() => {
@@ -242,7 +248,7 @@ export default function Tareas() {
             descripcionRef.current.value = '';
             dialog.current.open();
           }}
-          classes='floatingButton'
+          classes="floatingButton"
         />
       </div>
     </>

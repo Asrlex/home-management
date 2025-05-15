@@ -1,5 +1,5 @@
-import { StoreEnum } from "@/store/entities/enums/store.enum";
-import { AbsenceTypes, CarTaskTypes, GeneralParams } from "../enums/api.enums";
+import { StoreEnum } from '@/store/entities/enums/store.enum';
+import { AbsenceTypes, CarTaskTypes, GeneralParams } from '../enums/api.enums';
 
 export interface StockProductI {
   stockProductID: number;
@@ -102,10 +102,23 @@ export interface UserSettingsI {
   notifications: {
     email: boolean;
     push: boolean;
-  },
-  language: StoreEnum.LANGUAGE_EN | StoreEnum.LANGUAGE_ES,
-  icon: StoreEnum.SUMMER | StoreEnum.WINTER | StoreEnum.SPRING | StoreEnum.AUTUMN;
-  defaultPage: '' | 'lista-compra' | 'despensa' | 'tareas' | 'tareas-casa' | 'fichajes' | 'recetas' | 'gastos' | 'ajustes',
+  };
+  language: StoreEnum.LANGUAGE_EN | StoreEnum.LANGUAGE_ES;
+  icon:
+    | StoreEnum.SUMMER
+    | StoreEnum.WINTER
+    | StoreEnum.SPRING
+    | StoreEnum.AUTUMN;
+  defaultPage:
+    | ''
+    | '/lista-compra'
+    | '/despensa'
+    | '/tareas'
+    | '/tareas-casa'
+    | '/fichajes'
+    | '/recetas'
+    | '/gastos'
+    | '/ajustes';
 }
 
 export interface UserI {

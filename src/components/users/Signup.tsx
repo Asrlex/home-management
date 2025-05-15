@@ -2,7 +2,13 @@ import { useState } from 'react';
 import useUserStore from '../../store/UserStore';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { TextField, Button, Box, InputAdornment, IconButton } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Box,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { formThemeVars, styles } from '../../styles/Form.Styles';
 import React from 'react';
@@ -66,12 +72,13 @@ export default function Signup() {
       toast.success('¡Registro exitoso! Por favor, inicia sesión.');
     } catch (error) {
       toast.error('El registro falló. Por favor, inténtalo de nuevo.');
+      console.error('Error during signup:', error);
     }
   };
 
   return (
     <Box
-      component='form'
+      component="form"
       onSubmit={handleSubmit}
       sx={{
         display: 'flex',
@@ -84,32 +91,32 @@ export default function Signup() {
       }}
     >
       <TextField
-        label='Email'
-        type='email'
+        label="Email"
+        type="email"
         value={details.email}
         onChange={(e) => setDetails({ ...details, email: e.target.value })}
         error={!!errors.email}
         helperText={errors.email}
-        variant='outlined'
+        variant="outlined"
         fullWidth
         sx={styles.textFieldStyles}
       />
       <TextField
-        label='Contraseña'
+        label="Contraseña"
         type={showPassword ? 'text' : 'password'}
         value={details.password}
         onChange={(e) => setDetails({ ...details, password: e.target.value })}
         error={!!errors.password}
         helperText={errors.password}
-        variant='outlined'
+        variant="outlined"
         fullWidth
         sx={styles.textFieldStyles}
         InputProps={{
           endAdornment: (
-            <InputAdornment position='end'>
+            <InputAdornment position="end">
               <IconButton
                 onClick={() => setShowPassword(!showPassword)}
-                edge='end'
+                edge="end"
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
@@ -118,8 +125,8 @@ export default function Signup() {
         }}
       />
       <Button
-        type='submit'
-        variant='contained'
+        type="submit"
+        variant="contained"
         sx={{
           backgroundColor: formThemeVars.buttonBgColor,
           color: formThemeVars.buttonTextColor,
@@ -128,7 +135,7 @@ export default function Signup() {
         Registrarse
       </Button>
       <Button
-        variant='text'
+        variant="text"
         onClick={() => navigate(ApiPaths.Login)}
         sx={{
           textTransform: 'none',

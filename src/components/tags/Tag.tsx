@@ -3,8 +3,19 @@ import { useRef } from 'react';
 import { ContextMenu } from 'primereact/contextmenu';
 import React from 'react';
 import useEtiquetaStore from '@/store/TagStore';
+import { TagI } from '@/entities/types/home-management.entity';
 
-export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
+interface EtiquetaProps {
+  etiqueta: TagI;
+  seleccionada: boolean;
+  handleModal: () => void;
+}
+
+const Etiqueta: React.FC<EtiquetaProps> = ({
+  etiqueta,
+  seleccionada,
+  handleModal,
+}) => {
   const { tagName } = etiqueta;
   const addToSeleccionadas = useEtiquetaStore(
     (state) => state.addToSeleccionadas
@@ -17,7 +28,7 @@ export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
   const contextModel = [
     {
       label: 'Eliminar',
-      icon: <RiDeleteBinLine className='customContextMenuIcon' />,
+      icon: <RiDeleteBinLine className="customContextMenuIcon" />,
       command: () => deleteEtiqueta(etiqueta.tagID),
     },
   ];
@@ -26,7 +37,7 @@ export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
     <>
       {tagName !== 'Añadir etiqueta' && (
         <ContextMenu
-          className='customContextMenu'
+          className="customContextMenu"
           model={contextModel}
           ref={cm}
         />
@@ -52,11 +63,13 @@ export default function Etiqueta({ etiqueta, seleccionada, handleModal }) {
         }}
       >
         {tagName === 'Añadir etiqueta' ? (
-          <RiAddLine className='etiquetaAddIcono' />
+          <RiAddLine className="etiquetaAddIcono" />
         ) : (
           tagName
         )}
       </div>
     </>
   );
-}
+};
+
+export default Etiqueta;

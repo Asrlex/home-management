@@ -29,13 +29,16 @@ export default function Recetas() {
   return (
     <>
       <Modal ref={recetaDialogRef}>
-        <NuevaRecetaModal closeModal={() => recetaDialogRef.current.close()} receta={null}/>
+        <NuevaRecetaModal
+          closeModal={() => recetaDialogRef.current.close()}
+          receta={null}
+        />
       </Modal>
-      <ListaEtiquetas tipo='Recipe' />
+      <ListaEtiquetas tipo="Recipe" />
       {isLoading ? (
         <Loader />
       ) : (
-        <div className='recetas'>
+        <div className="recetas">
           {recetas
             .filter((receta) => {
               if (etiquetasSeleccionadas.length === 0) return true;
@@ -57,11 +60,11 @@ export default function Recetas() {
             ))}
         </div>
       )}
-      <div className='seccionBotones'>
+      <div className="seccionBotones">
         <FAB
           icon={<FaPlus />}
           action={() => recetaDialogRef.current.open()}
-          classes='floatingButton'
+          classes="floatingButton"
         />
       </div>
     </>

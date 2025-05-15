@@ -28,7 +28,7 @@ export interface SearchCriteriaI {
 
 export interface FormattedResponseI {
   statusCode: number;
-  data: any;
+  data: unknown;
   pagination?: {
     total?: number;
     offset?: number;

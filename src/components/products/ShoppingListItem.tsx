@@ -12,9 +12,9 @@ import { ShoppingListProductI } from '@/entities/types/home-management.entity';
 
 export interface ListaCompraItemProps {
   producto: ShoppingListProductI;
-  handleEliminar: (shoppingListProductID: number) => void;
-  handleAmount: (amount: number, producto: any) => void;
-  handleMover: (shoppingListProductID: number) => void;
+  handleEliminar: (id: number) => void;
+  handleAmount: (id: number, amount: number) => void;
+  handleMover: (id: number) => void;
   addOrRemoveTag: (tagID: number, producto: ShoppingListProductI) => void;
 }
 
@@ -29,17 +29,17 @@ const ListaCompraItem = forwardRef<HTMLDivElement, ListaCompraItemProps>(
     const contextModel = [
       {
         label: 'Eliminar',
-        icon: <RiDeleteBinLine className='customContextMenuIcon' />,
+        icon: <RiDeleteBinLine className="customContextMenuIcon" />,
         command: () => handleEliminar(producto.shoppingListProductID),
       },
       {
         label: 'Comprar',
-        icon: <RiShoppingCartLine className='customContextMenuIcon' />,
+        icon: <RiShoppingCartLine className="customContextMenuIcon" />,
         command: () => handleMover(producto.shoppingListProductID),
       },
       {
         label: 'Etiquetas',
-        icon: <FaTag className='customContextMenuIcon' />,
+        icon: <FaTag className="customContextMenuIcon" />,
         items: etiquetas
           .filter((etiqueta) => etiqueta.tagType === 'Product')
           .map((etiqueta) => ({
@@ -48,7 +48,7 @@ const ListaCompraItem = forwardRef<HTMLDivElement, ListaCompraItemProps>(
             )
               ? `${etiqueta.tagName} ✅`
               : `${etiqueta.tagName}`,
-            icon: <FaTag className='customContextMenuIcon' />,
+            icon: <FaTag className="customContextMenuIcon" />,
             command: () => addOrRemoveTag(etiqueta.tagID, producto),
           })),
       },
@@ -62,12 +62,12 @@ const ListaCompraItem = forwardRef<HTMLDivElement, ListaCompraItemProps>(
         {(setActivatorNodeRef, attributes, listeners) => (
           <>
             <ContextMenu
-              className='customContextMenu'
+              className="customContextMenu"
               model={contextModel}
               ref={cm}
             />
             <div
-              className='producto'
+              className="producto"
               onContextMenu={(e) => {
                 e.preventDefault();
                 cm.current.show(e);
@@ -75,15 +75,15 @@ const ListaCompraItem = forwardRef<HTMLDivElement, ListaCompraItemProps>(
               ref={ref}
             >
               <span ref={setActivatorNodeRef} {...attributes} {...listeners}>
-                <BsThreeDotsVertical className='drag-handle' />
+                <BsThreeDotsVertical className="drag-handle" />
               </span>
-              <div className='productoName'>{producto.product.productName}</div>
+              <div className="productoName">{producto.product.productName}</div>
               <ContadorProducto
                 producto={producto}
                 handleEliminar={handleEliminar}
                 handleAmount={handleAmount}
                 handleMover={handleMover}
-                icono={<RiShoppingCartLine className='botonContadorIcono' />}
+                icono={<RiShoppingCartLine className="botonContadorIcono" />}
               />
             </div>
           </>
@@ -92,5 +92,8 @@ const ListaCompraItem = forwardRef<HTMLDivElement, ListaCompraItemProps>(
     );
   }
 );
+
+// Set the display name for the component
+ListaCompraItem.displayName = 'ListaCompraItem';
 
 export default memo(ListaCompraItem);
