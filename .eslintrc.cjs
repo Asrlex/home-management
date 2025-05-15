@@ -24,7 +24,7 @@ module.exports = {
     'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-unused-vars': ['warn'],
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': 'off',
   },
   settings: {
     react: {
