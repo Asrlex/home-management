@@ -28,26 +28,29 @@ const ListaProductos = () => {
   );
   const fetchProducts = useProductStore((state) => state.fetchProducts);
   const [page, setPage] = useState(0);
-  const [nameError, setNameError] = useState(false);
-  const [unitError, setUnitError] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const productoDialogRef = useRef(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const unitRef = useRef<HTMLInputElement>(null);
+  const [formError, setFormError] = useState(false);
 
+  
   useEffect(() => {
     fetchProducts();
   }, []);
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
+
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
 
   const handleSort = (key: any) => {
     let direction = 'asc';
@@ -56,6 +59,7 @@ const ListaProductos = () => {
     }
     setSortConfig({ key, direction });
   };
+
 
   const sortedItems = [...products].sort((a, b) => {
     if (!sortConfig.key) return 0;
@@ -66,28 +70,18 @@ const ListaProductos = () => {
     return 0;
   });
 
+
   const handleAddProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     const name = nameRef.current.value;
     const unit = unitRef.current.value;
-    setNameError(false);
-    setUnitError(false);
+    setFormError(false);
 
-    let hasError = false;
-    if (!name) {
-      setNameError(true);
-      hasError = true;
-    }
-    if (!unit) {
-      setUnitError(true);
-      hasError = true;
-    }
-    if (products.some((product) => product.productName === name)) {
-      setNameError(true);
-      hasError = true;
+    if (!name || !unit || products.some((product) => product.productName === name)) {
+      setFormError(true);
+      return;
     }
 
-    if (hasError) return;
     const newProduct = {
       productName: name,
       productUnit: unit,
@@ -102,6 +96,7 @@ const ListaProductos = () => {
     nameRef.current.value = '';
     unitRef.current.value = '';
   };
+
 
   const popup = (
     <Modal ref={productoDialogRef}>
@@ -120,11 +115,11 @@ const ListaProductos = () => {
             ref={nameRef}
             placeholder='Nombre'
             style={{
-              borderColor: nameError ? 'red' : '',
-              borderWidth: nameError ? '2px' : '',
+              borderColor: formError ? 'red' : '',
+              borderWidth: formError ? '2px' : '',
             }}
           />
-          {nameError && (
+          {formError && (
             <span style={{ color: 'red', fontSize: '0.8rem' }}>
               {products.some(
                 (product) =>

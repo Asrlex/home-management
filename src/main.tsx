@@ -22,6 +22,19 @@ import './styles/css/shifts.css';
 import './styles/css/settings.css';
 import './styles/css/car.css';
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/service-worker.js')
+      .then((registration) => {
+        console.log('Service Worker registered:', registration);
+      })
+      .catch((error) => {
+        console.error('Service Worker registration failed:', error);
+      });
+  });
+}
+
 const { theme } = useThemeStore.getState();
 document.documentElement.className = theme;
 

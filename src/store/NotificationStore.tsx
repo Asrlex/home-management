@@ -4,6 +4,7 @@ interface NotificationStore {
   notifications: Record<string, number>;
   setNotification: (section: string, count: number) => void;
   clearNotification: (section: string) => void;
+  requestPermission: () => Promise<void>;
 }
 
 const useNotificationStore = create((set): NotificationStore => ({
@@ -23,6 +24,15 @@ const useNotificationStore = create((set): NotificationStore => ({
       delete updatedNotifications[section];
       return { notifications: updatedNotifications };
     }),
+
+  requestPermission: async () => {
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      console.log('Notification permission granted.');
+    } else {
+      console.error('Notification permission denied.');
+    }
+  },
 }));
 
 export default useNotificationStore;

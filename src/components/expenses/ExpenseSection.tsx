@@ -1,27 +1,13 @@
 import { useRef, useEffect, useState, useCallback, memo } from 'react';
-import { FaPlus, FaArrowUp, FaArrowDown } from 'react-icons/fa';
-import { AiFillDelete } from 'react-icons/ai';
-import Modal from '../generic/Modal';
+import { FaPlus } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import Loader from '../generic/Loader';
 import FAB from '../generic/FloatingButton';
-import MonthSelector from '../generic/MonthSelector'; // Import MonthSelector
-import {
-  Paper,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TablePagination,
-} from '@mui/material';
-import { TableStyles } from '../../styles/Table.Styles';
+import MonthSelector from '../generic/MonthSelector';
 import GastosForm from './ExpenseForm';
 import useExpenseStore from '../../store/ExpenseStore';
 import React from 'react';
 import { CreateExpenseDto } from '@/entities/dtos/expense.dto';
-import ExpensesTable from './ExpenseList';
 import ExpensesList from './ExpenseList';
 
 function Gastos() {

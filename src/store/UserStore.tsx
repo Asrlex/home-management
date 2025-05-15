@@ -139,7 +139,7 @@ const useUserStore = create((set): UserStore => {
       try {
         const optionsResponse = await axiosRequest(
           HttpEnum.POST,
-          ApiEndpoints.base + AuthEndpoints.pairBiometricsOptions,
+          ApiEndpoints.base + AuthEndpoints.biometricsAuthOptions,
           {},
           {},
           token

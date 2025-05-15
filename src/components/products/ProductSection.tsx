@@ -1,7 +1,6 @@
 import React, {
   useState,
   useRef,
-  useContext,
   Fragment,
   useEffect,
 } from 'react';

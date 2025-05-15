@@ -11,10 +11,9 @@ export enum AuthEndpoints {
   login = '/auth/login',
   signup = '/auth/signup',
   logout = '/auth/logout',
-  pairBiometricsOptions = '/auth/biometrics/options',
   pairBiometricsRegister = '/auth/biometrics/register',
   biometricsAuth = '/auth/biometrics/authenticate',
-  biometricsAuthOptions = '/auth/biometrics/authenticate/options',
+  biometricsAuthOptions = '/auth/biometrics/options',
 }
 
 export enum SettingsEndpoints {

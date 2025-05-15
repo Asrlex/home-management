@@ -26,9 +26,9 @@ import Fichajes from './components/checkin/ShiftSection';
 import CarTasks from './components/tasks/car/CarTasks';
 import useUserStore from './store/UserStore';
 import useSettingsStore from './store/SettingsStore';
-import useThemeStore from './store/ThemeStore';
 import { ApiPaths } from './entities/enums/api.enums';
 import React from 'react';
+import useNotificationStore from './store/NotificationStore';
 
 function App() {
   const [selectedSection, setSelectedSection] = useState<string>('');
@@ -37,13 +37,12 @@ function App() {
   const publicRoutes = [ApiPaths.Login, ApiPaths.Signup, ApiPaths.Base];
   const validateToken = useUserStore((state) => state.validateToken);
   const fetchSettings = useSettingsStore((state) => state.fetchSettings);
-  const theme = useSettingsStore((state) => state.settings?.theme);
-  const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   useEffect(() => {
     const initializeApp = async () => {
       await fetchSettings();
-
+      await useNotificationStore.getState().requestPermission();
+      
       const path = location.pathname.split(ApiPaths.Base)[1];
       const section = path.replace(/-/g, ' ');
       setSelectedSection(section.charAt(0).toUpperCase() + section.slice(1));
