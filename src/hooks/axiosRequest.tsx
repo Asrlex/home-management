@@ -20,6 +20,10 @@ export const axiosRequest = async <T = any>(
   token: string = ''
 ): Promise<FormattedResponseI> => {
   try {
+    if (!navigator.onLine) {
+      throw new RequestException('No internet connection.');
+    }
+    
     const authToken = token || localStorage.getItem(StoreEnum.TOKEN) || '';
 
     const response = await axios({
