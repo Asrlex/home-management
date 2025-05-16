@@ -1,9 +1,16 @@
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList;
+  type: string;
+  error: string;
+  timeStamp: number;
+}
+
 interface ISpeechRecognition extends EventTarget {
   lang: string;
   interimResults: boolean;
   maxAlternatives: number;
-  onresult: ((event: any) => void) | null;
-  onerror: ((event: any) => void) | null;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onerror: ((event: SpeechRecognitionEvent) => void) | null;
   start(): void;
   stop(): void;
 }
@@ -29,7 +36,7 @@ export function useSpeechRecognition(onCommand: (text: string) => void) {
       const transcript = event.results[0][0].transcript.trim();
       onCommand(transcript);
     };
-    recognition.onerror = (event: unknown) => {
+    recognition.onerror = (event) => {
       console.error('Speech recognition error', event);
     };
     recognition.start();

@@ -1,11 +1,11 @@
 import { CreateShiftCheckinDto } from '@/entities/dtos/shift.dto';
-import { GeneralParams } from '@/entities/enums/api.enums';
+import { ShiftTypes } from '@/entities/enums/api.enums';
 import useShiftStore from '@/store/ShiftStore';
 import React from 'react';
 import toast from 'react-hot-toast';
 
 interface ShiftButtonProps {
-  checkinType: GeneralParams.ClockIn | GeneralParams.ClockOut;
+  checkinType: ShiftTypes.ClockIn | ShiftTypes.ClockOut;
   icon: React.ReactNode;
   fetchShifts: () => Promise<void>;
 }
@@ -17,7 +17,7 @@ const ShiftButton: React.FC<ShiftButtonProps> = ({
 }) => {
   const addShift = useShiftStore((state) => state.addShift);
   const handleCLockIn = async (
-    type: GeneralParams.ClockIn | GeneralParams.ClockOut
+    type: ShiftTypes.ClockIn | ShiftTypes.ClockOut
   ) => {
     const today = new Date();
     const day = today.getDay();

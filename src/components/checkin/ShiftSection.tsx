@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { LuAlarmClockCheck, LuAlarmClockOff } from 'react-icons/lu';
 import { FaPlus } from 'react-icons/fa';
 import LiveClock from './LiveClock';
-import { AbsenceTypes, GeneralParams } from '@/entities/enums/api.enums';
+import { AbsenceTypes, ShiftTypes } from '@/entities/enums/api.enums';
 import ShiftButton from './ShiftButton';
 import ShiftList from './ShiftList';
 import MonthSelector from '../generic/MonthSelector';
@@ -153,13 +153,13 @@ const Fichajes = () => {
       <div className="shifts">
         <div className="shiftButtons">
           <ShiftButton
-            checkinType={GeneralParams.ClockIn}
+            checkinType={ShiftTypes.ClockIn}
             icon={<LuAlarmClockCheck className="clockInIcon" />}
             fetchShifts={fetchMonth}
           />
           <LiveClock />
           <ShiftButton
-            checkinType={GeneralParams.ClockOut}
+            checkinType={ShiftTypes.ClockOut}
             icon={<LuAlarmClockOff className="clockInIcon" />}
             fetchShifts={fetchMonth}
           />

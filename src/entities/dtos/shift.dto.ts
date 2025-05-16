@@ -1,5 +1,5 @@
 import { IsNumber, IsString } from 'class-validator';
-import { AbsenceTypes, GeneralParams } from '../enums/api.enums';
+import { AbsenceTypes, ShiftTypes } from '../enums/api.enums';
 
 export class CreateShiftCheckinDto {
   @IsString()
@@ -7,7 +7,7 @@ export class CreateShiftCheckinDto {
   @IsString()
   shiftTimestamp: string;
   @IsString()
-  shiftType: GeneralParams.ClockIn | GeneralParams.ClockOut;
+  shiftType: ShiftTypes.ClockIn | ShiftTypes.ClockOut;
 }
 
 export class CreateAbsenceDto {

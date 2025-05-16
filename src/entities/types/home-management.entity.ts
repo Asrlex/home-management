@@ -1,5 +1,5 @@
 import { StoreEnum } from '@/store/entities/enums/store.enum';
-import { AbsenceTypes, CarTaskTypes, GeneralParams } from '../enums/api.enums';
+import { AbsenceTypes, CarTaskTypes, ShiftTypes } from '../enums/api.enums';
 
 export interface StockProductI {
   stockProductID: number;
@@ -155,7 +155,7 @@ export interface ShiftCheckinI {
   shiftCheckinID: number;
   shiftCheckinDate: string;
   shiftCheckinTimestamp: string;
-  shiftCheckinType: GeneralParams.ClockIn | GeneralParams.ClockOut;
+  shiftCheckinType: ShiftTypes.ClockIn | ShiftTypes.ClockOut;
 }
 
 export interface CarTaskI {

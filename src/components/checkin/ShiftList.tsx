@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { MdOutlineExpandMore } from 'react-icons/md';
 import { CiLogin, CiLogout } from 'react-icons/ci';
 import { AbsenceI, ShiftI } from '@/entities/types/home-management.entity';
-import { GeneralParams, AbsenceTypes } from '@/entities/enums/api.enums';
+import { ShiftTypes, AbsenceTypes } from '@/entities/enums/api.enums';
 
 interface ShiftListProps {
   shifts: ShiftI[];
@@ -173,7 +173,7 @@ const ShiftList: React.FC<ShiftListProps> = ({
                       >
                         <div className="shiftCheckinType">
                           {checkin.shiftCheckinType ===
-                          GeneralParams.ClockIn ? (
+                          ShiftTypes.ClockIn ? (
                             <CiLogin className="shiftListItemExpand" />
                           ) : (
                             <CiLogout className="shiftListItemExpand" />
