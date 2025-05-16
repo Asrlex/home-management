@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { HttpEnum } from '@/entities/enums/http.enum';
-import { ApiEndpoints, FichajesEndpoints } from '@/config/apiconfig';
 import { LuAlarmClockCheck, LuAlarmClockOff } from 'react-icons/lu';
 import { FaPlus } from 'react-icons/fa';
 import LiveClock from './LiveClock';
 import { AbsenceTypes, GeneralParams } from '@/entities/enums/api.enums';
 import ShiftButton from './ShiftButton';
 import ShiftList from './ShiftList';
-import { axiosRequest } from '@/hooks/axiosRequest';
 import MonthSelector from '../generic/MonthSelector';
 import FAB from '../generic/FloatingButton';
 import Modal from '../generic/Modal';
@@ -16,10 +13,16 @@ import Select from 'react-select';
 import { CreateAbsenceDto } from '@/entities/dtos/shift.dto';
 import toast from 'react-hot-toast';
 import { AbsenceI, ShiftI } from '@/entities/types/home-management.entity';
+import useShiftStore from '@/store/ShiftStore';
 
 const Fichajes = () => {
-  const [shifts, setShifts] = useState<ShiftI[]>([]);
-  const [absences, setAbsences] = useState<AbsenceI[]>([]);
+  const shifts: ShiftI[] = useShiftStore((state) => state.shifts);
+  const absences: AbsenceI[] = useShiftStore((state) => state.absences);
+  const fetchShiftsForMonth = useShiftStore(
+    (state) => state.fetchShiftsForMonth
+  );
+  const fetchAbsences = useShiftStore((state) => state.fetchAbsences);
+  const addAbsence = useShiftStore((state) => state.addAbsence);
   const [expandedTask, setExpandedTask] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toISOString().slice(0, 7)
@@ -40,35 +43,23 @@ const Fichajes = () => {
     { value: AbsenceTypes.Mudanza, label: AbsenceTypes.Mudanza },
   ];
 
-  const fetchShiftsForMonth = useCallback(
-    async (month: string = selectedMonth) => {
-      await axiosRequest(
-        HttpEnum.GET,
-        `${ApiEndpoints.hm_url + FichajesEndpoints.byMonth}${month}`
-      )
-        .then((response) => setShifts(response.data as ShiftI[]))
-        .catch((error) => console.error('Error leyendo tareas:', error));
-    },
-    [selectedMonth]
+  const fetchMonth = useCallback(
+    async (month: string = selectedMonth) => fetchShiftsForMonth(month),
+    [fetchShiftsForMonth, selectedMonth]
   );
 
   useEffect(() => {
-    fetchShiftsForMonth(selectedMonth);
+    fetchMonth(selectedMonth);
     fetchAbsences();
+
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [fetchShiftsForMonth, selectedMonth]);
+  }, [fetchAbsences, fetchMonth, selectedMonth]);
 
   const handleMonthChange = (month: string) => {
     setSelectedMonth(month);
-  };
-
-  const fetchAbsences = async () => {
-    axiosRequest(HttpEnum.GET, ApiEndpoints.hm_url + FichajesEndpoints.absence)
-      .then((response) => setAbsences(response.data as AbsenceI[]))
-      .catch((error) => console.error('Error leyendo ausencias:', error));
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -102,15 +93,10 @@ const Fichajes = () => {
       absenceHours: parseInt(hoursRef.current?.value) || 0,
     };
 
-    await axiosRequest(
-      HttpEnum.POST,
-      ApiEndpoints.hm_url + FichajesEndpoints.absence,
-      {},
-      absence
-    )
-      .then(async () => {
+    addAbsence(absence)
+      .then(() => {
         toast.success('Ausencia creada correctamente');
-        await fetchAbsences();
+        fetchAbsences();
         dialogRef.current.close();
       })
       .catch((error) => {
@@ -169,13 +155,13 @@ const Fichajes = () => {
           <ShiftButton
             checkinType={GeneralParams.ClockIn}
             icon={<LuAlarmClockCheck className="clockInIcon" />}
-            fetchShifts={fetchShiftsForMonth}
+            fetchShifts={fetchMonth}
           />
           <LiveClock />
           <ShiftButton
             checkinType={GeneralParams.ClockOut}
             icon={<LuAlarmClockOff className="clockInIcon" />}
-            fetchShifts={fetchShiftsForMonth}
+            fetchShifts={fetchMonth}
           />
         </div>
         <hr className="hrSeccion" />
