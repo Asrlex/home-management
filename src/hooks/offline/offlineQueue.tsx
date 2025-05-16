@@ -11,7 +11,7 @@ export interface RequestData {
     Accept: HttpEnum;
   };
   params: Record<string, string | number | boolean>;
-  body: Record<string, object>;
+  body: object;
 }
 
 const dbPromise = openDB('offline-queue', 1, {

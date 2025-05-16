@@ -5,7 +5,7 @@ import { StoreEnum } from '@/store/entities/enums/store.enum';
 import axios from 'axios';
 import { addRequest } from './offline/offlineQueue';
 
-export const axiosRequest = async <T extends Record<string, object>>(
+export const axiosRequest = async <T extends object>(
   method: HttpEnum,
   url: string,
   params: Record<string, string | number | boolean> = {},
@@ -22,7 +22,7 @@ export const axiosRequest = async <T extends Record<string, object>>(
         Authorization: `${HttpEnum.BEARER} ${authToken}`,
       }),
     };
-    if (!navigator.onLine) {
+    if (method === HttpEnum.POST && !navigator.onLine) {
       await addRequest({ method, url, headers, params, body });
       console.log('Request queued for offline sync:', { method, url });
       return;

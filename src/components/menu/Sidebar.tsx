@@ -14,6 +14,7 @@ import { FaBoxes } from 'react-icons/fa';
 import ToggleMode from './TogglerSection';
 import React, { useEffect } from 'react';
 import useNotificationStore from '@/store/NotificationStore';
+import Microphone from './Microphone';
 
 interface SidebarProps {
   onSelectSection: (section: string) => void;
@@ -137,6 +138,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectSection, section }) => {
       <div className="toggleMode">
         <ToggleMode />
         <AuthButton />
+        <Microphone />
       </div>
     </div>
   );

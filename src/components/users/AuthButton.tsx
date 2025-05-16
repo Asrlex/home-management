@@ -34,7 +34,7 @@ const AuthButton = () => {
     };
   }, []);
 
-  return isCompact ? (
+  return (
     <button
       className="authButtonCompact"
       onClick={handleAuthAction}
@@ -53,15 +53,6 @@ const AuthButton = () => {
         </div>
       )}
     </button>
-  ) : (
-    <div className="authButtonContainer">
-      <div className="authPill">
-        {loginStatus === 'authenticated' && user.userEmail.slice(0, 2)}
-      </div>
-      <button className="authButton" onClick={handleAuthAction}>
-        {loginStatus === 'authenticated' ? <FaSignOutAlt /> : <FaSignInAlt />}
-      </button>
-    </div>
   );
 };
 
