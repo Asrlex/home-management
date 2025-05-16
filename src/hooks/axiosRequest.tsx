@@ -3,8 +3,9 @@ import { HttpEnum } from '@/entities/enums/http.enum';
 import { FormattedResponseI } from '@/entities/types/api.entity';
 import { StoreEnum } from '@/store/entities/enums/store.enum';
 import axios from 'axios';
+import { addRequest } from './offline/offlineQueue';
 
-export const axiosRequest = async <T,>(
+export const axiosRequest = async <T extends Record<string, object>>(
   method: HttpEnum,
   url: string,
   params: Record<string, string | number | boolean> = {},
@@ -12,23 +13,25 @@ export const axiosRequest = async <T,>(
   token: string = ''
 ): Promise<FormattedResponseI> => {
   try {
-    if (!navigator.onLine) {
-      throw new RequestException('No internet connection.');
-    }
-
     const authToken = token || localStorage.getItem(StoreEnum.TOKEN) || '';
+    const headers = {
+      'X-api-key': import.meta.env.VITE_API_KEY as string,
+      'Content-Type': HttpEnum.APPLICATION_JSON,
+      Accept: HttpEnum.APPLICATION_JSON,
+      ...(authToken && {
+        Authorization: `${HttpEnum.BEARER} ${authToken}`,
+      }),
+    };
+    if (!navigator.onLine) {
+      await addRequest({ method, url, headers, params, body });
+      console.log('Request queued for offline sync:', { method, url });
+      return;
+    }
 
     const response = await axios({
       method,
       url,
-      headers: {
-        'X-api-key': import.meta.env.VITE_API_KEY,
-        'Content-Type': HttpEnum.APPLICATION_JSON,
-        Accept: HttpEnum.APPLICATION_JSON,
-        ...(authToken && {
-          Authorization: `${HttpEnum.BEARER} ${authToken}`,
-        }),
-      },
+      headers,
       params,
       data: body,
     });
