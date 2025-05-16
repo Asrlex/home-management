@@ -122,7 +122,6 @@ function Gastos() {
         <FAB
           icon={<FaPlus />}
           action={handleShowForm}
-          tooltip="Añadir gasto"
           classes="floatingButton"
         />
       </div>
