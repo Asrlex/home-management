@@ -5,7 +5,7 @@ import {
 } from '@/entities/dtos/shift.dto';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ShiftI, AbsenceI } from '@/entities/types/home-management.entity';
-import { axiosRequest } from '@/hooks/axiosRequest';
+import { axiosRequest } from '@/hooks/useAxiosRequest';
 import { create } from 'zustand';
 
 type UndoAction =

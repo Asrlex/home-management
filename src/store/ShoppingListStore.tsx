@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/axiosRequest';
+import { axiosRequest } from '../hooks/useAxiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import {
   ApiEndpoints,

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { axiosRequest } from '@/hooks/axiosRequest';
+import { axiosRequest } from '@/hooks/useAxiosRequest';
 import { clearRequests, getRequests } from './offlineQueue';
 
 export function useOfflineSync() {

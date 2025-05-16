@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { CarTaskI } from '@/entities/types/home-management.entity';
 import { CreateCarTaskDto } from '@/entities/dtos/task.dto';
 import { customStyles } from '@/styles/SelectStyles';
-import { axiosRequest } from '@/hooks/axiosRequest';
+import { axiosRequest } from '@/hooks/useAxiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, TareasEndpoints } from '@/config/apiconfig';
 import toast from 'react-hot-toast';

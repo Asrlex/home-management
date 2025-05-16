@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/axiosRequest';
+import { axiosRequest } from '../hooks/useAxiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ConnectionException } from '@/common/exceptions/connection.exception';
 import { ConnectionExceptionMessages } from '@/common/exceptions/entities/enums/connection-exception.enum';

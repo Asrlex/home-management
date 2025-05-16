@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/axiosRequest';
+import { axiosRequest } from '../hooks/useAxiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { SettingsExceptionMessages } from '@/common/exceptions/entities/enums/settings-exception.enum';
 import { CreateSettingsDto } from '@/entities/dtos/settings.dto';

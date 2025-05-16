@@ -4,7 +4,7 @@ import Modal from '../generic/Modal';
 import FAB from '../generic/FloatingButton';
 import { FaPlus } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { axiosRequest } from '../../hooks/axiosRequest';
+import { axiosRequest } from '../../hooks/useAxiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, TareasEndpoints } from '@/config/apiconfig';
 import React from 'react';

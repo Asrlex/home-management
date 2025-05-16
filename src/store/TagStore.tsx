@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/axiosRequest';
+import { axiosRequest } from '../hooks/useAxiosRequest';
 import { TagI } from '@/entities/types/home-management.entity';
 import {
   FetchTagsException,

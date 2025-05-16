@@ -1,8 +1,19 @@
-# React + Vite
+ZUSTAND
+  - Zustand stores for global handling of state
+  - Zustand undo/redo in every store
+  - Logger middleware
+  - Zustand persist for local storage
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+STYLING
+  - Styled-components for global styling
+  - Theme provider for dark/light mode
+  - CSS reset for consistent styling across browsers
 
-Currently, two official plugins are available:
+LINTING
+  - ESLint for code quality
+  - Prettier for code formatting
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+TYPING
+  - TypeScript for type safety
+  - Type definitions for all external libraries
+

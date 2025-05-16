@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { axiosRequest } from '../hooks/axiosRequest';
+import { axiosRequest } from '../hooks/useAxiosRequest';
 import { LoggedUserI, UserI } from '@/entities/types/home-management.entity';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { StoreEnum } from './entities/enums/store.enum';

@@ -29,7 +29,7 @@ import useProductStore from '../../store/ProductStore';
 import useEtiquetaStore from '../../store/TagStore';
 import useShoppingListStore from '../../store/ShoppingListStore';
 import useStockStore from '../../store/StockStore';
-import { axiosRequest } from '../../hooks/axiosRequest';
+import { axiosRequest } from '../../hooks/useAxiosRequest';
 import { customStyles } from '../../styles/SelectStyles';
 import {
   ApiEndpoints,
