@@ -4,7 +4,6 @@ import { FormattedResponseI } from '@/entities/types/api.entity';
 import { StoreEnum } from '@/store/entities/enums/store.enum';
 import axios from 'axios';
 import { addRequest } from './offline/offlineQueue';
-import { logEvent } from './useLogger';
 import useUserStore from '@/store/UserStore';
 
 export const axiosRequest = async <T extends object>(
@@ -38,18 +37,6 @@ export const axiosRequest = async <T extends object>(
       params,
       data: body,
     });
-
-    if (method !== HttpEnum.GET && !url.includes('auth')) {
-      const typedBody = body as T;
-      logEvent({
-        method,
-        url,
-        params,
-        body: typedBody,
-        timestamp: new Date().toISOString(),
-        user: user.userEmail,
-      });
-    }
 
     const formattedResponse: FormattedResponseI =
       response.data as FormattedResponseI;

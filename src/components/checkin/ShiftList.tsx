@@ -172,8 +172,7 @@ const ShiftList: React.FC<ShiftListProps> = ({
                         transition={{ duration: 0.3 }}
                       >
                         <div className="shiftCheckinType">
-                          {checkin.shiftCheckinType ===
-                          ShiftTypes.ClockIn ? (
+                          {checkin.shiftCheckinType === ShiftTypes.ClockIn ? (
                             <CiLogin className="shiftListItemExpand" />
                           ) : (
                             <CiLogout className="shiftListItemExpand" />

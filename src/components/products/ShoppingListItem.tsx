@@ -93,7 +93,6 @@ const ListaCompraItem = forwardRef<HTMLDivElement, ListaCompraItemProps>(
   }
 );
 
-// Set the display name for the component
 ListaCompraItem.displayName = 'ListaCompraItem';
 
 export default memo(ListaCompraItem);

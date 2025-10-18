@@ -29,7 +29,8 @@ const Fichajes = () => {
   );
   const dialogRef = useRef(null);
   const [selectedType, setSelectedType] = useState(null);
-  const dateRef = useRef(null);
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
   const hoursRef = useRef(null);
   const commentRef = useRef(null);
 
@@ -82,27 +83,41 @@ const Fichajes = () => {
       alert('Por favor, selecciona un tipo de ausencia.');
       return;
     }
-    if (!dateRef.current) {
-      alert('Por favor, selecciona fecha(s).');
+    if (!startDateRef.current || !endDateRef.current) {
+      alert('Por favor, selecciona un rango de fechas.');
       return;
     }
-    const absence: CreateAbsenceDto = {
-      absenceType: selectedType.value,
-      absenceDate: dateRef.current.value,
-      absenceComment: commentRef.current?.value || '',
-      absenceHours: parseInt(hoursRef.current?.value) || 0,
-    };
 
-    addAbsence(absence)
-      .then(() => {
-        toast.success('Ausencia creada correctamente');
-        fetchAbsences();
-        dialogRef.current.close();
-      })
-      .catch((error) => {
-        console.error('Error creando ausencia:', error);
-        toast.error('Error creando ausencia');
-      });
+    const startDate = new Date(startDateRef.current.value);
+    const endDate = new Date(endDateRef.current.value);
+    const currentDate = new Date(startDate);
+    while (currentDate <= endDate) {
+      const absence: CreateAbsenceDto = {
+        absenceType: selectedType.value,
+        absenceDate: currentDate.toISOString().split('T')[0],
+        absenceComment: commentRef.current.value || '',
+        absenceHours:
+          selectedType.value === AbsenceTypes.Vacaciones
+            ? 0
+            : parseInt(hoursRef.current.value, 10) || 0,
+      };
+
+      try {
+        await addAbsence(absence);
+        toast.success(`Ausencia creada para ${absence.absenceDate}`);
+      } catch (error) {
+        console.error(
+          `Error creando ausencia para ${absence.absenceDate}:`,
+          error
+        );
+        toast.error(`Error creando ausencia para ${absence.absenceDate}`);
+      }
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    fetchAbsences();
+    dialogRef.current.close();
   };
 
   const popup = (
@@ -117,11 +132,21 @@ const Fichajes = () => {
           styles={customStyles}
           isSearchable
         />
-        <div className="modalSection" style={{ marginTop: '1rem' }}>
+        <div
+          className="modalSection"
+          style={{ marginTop: '1rem', display: 'flex', flexDirection: 'row' }}
+        >
           <input
             type="date"
-            id="dates"
-            ref={dateRef}
+            id="startDate"
+            ref={startDateRef}
+            className="modalInput"
+            required
+          />
+          <input
+            type="date"
+            id="endDate"
+            ref={endDateRef}
             className="modalInput"
             required
           />
@@ -138,7 +163,7 @@ const Fichajes = () => {
           ref={hoursRef}
           className="modalInput"
           placeholder="Horas"
-          required
+          required={selectedType?.value !== AbsenceTypes.Vacaciones}
         />
         <button type="submit" className="modalBoton">
           Crear

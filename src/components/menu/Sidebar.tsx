@@ -27,27 +27,27 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectSection, section }) => {
   );
 
   useEffect(() => {
-    setNotification('Productos', 2);
-    setNotification('Lista compra', 5);
-    setNotification('Despensa', 0);
-    setNotification('Recetas', 1);
-    setNotification('Tareas pendientes', 3);
-    setNotification('Tareas casa', 0);
-    setNotification('Fichajes', 0);
-    setNotification('Coche', 1);
-    setNotification('Gastos', 4);
-    setNotification('Ajustes', 0);
-
-    // setNotification('Productos', 0);
-    // setNotification('Lista compra', 0);
+    // setNotification('Productos', 2);
+    // setNotification('Lista compra', 5);
     // setNotification('Despensa', 0);
-    // setNotification('Recetas', 0);
-    // setNotification('Tareas pendientes', 0);
+    // setNotification('Recetas', 1);
+    // setNotification('Tareas pendientes', 3);
     // setNotification('Tareas casa', 0);
     // setNotification('Fichajes', 0);
-    // setNotification('Coche', 0);
-    // setNotification('Gastos', 0);
+    // setNotification('Coche', 1);
+    // setNotification('Gastos', 4);
     // setNotification('Ajustes', 0);
+
+    setNotification('Productos', 0);
+    setNotification('Lista compra', 0);
+    setNotification('Despensa', 0);
+    setNotification('Recetas', 0);
+    setNotification('Tareas pendientes', 0);
+    setNotification('Tareas casa', 0);
+    setNotification('Fichajes', 0);
+    setNotification('Coche', 0);
+    setNotification('Gastos', 0);
+    setNotification('Ajustes', 0);
   }, [setNotification]);
 
   return (
