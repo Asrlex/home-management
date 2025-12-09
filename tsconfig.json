@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "module": "commonjs",
+    "module": "es2022",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -10,7 +10,6 @@
     "target": "es2022",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -22,8 +21,8 @@
     "checkJs": false,
     "noEmit": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@test/*": ["test/*"]
+      "@/*": ["./src/*"],
+      "@test/*": ["./test/*"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

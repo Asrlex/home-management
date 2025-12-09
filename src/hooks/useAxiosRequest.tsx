@@ -14,7 +14,6 @@ export const axiosRequest = async <T extends object>(
   token: string = ''
 ): Promise<FormattedResponseI> => {
   try {
-    const user = useUserStore.getState().user;
     const authToken = token || localStorage.getItem(StoreEnum.TOKEN) || '';
     const headers = {
       'X-api-key': import.meta.env.VITE_API_KEY as string,

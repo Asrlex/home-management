@@ -1,5 +1,5 @@
 const API_BASE_URL: string =
-  process.env.VITE_API_URL || 'http://localhost:3002';
+  import.meta.env.VITE_API_URL || 'http://localhost:3002';
 
 export const ApiEndpoints = {
   base: API_BASE_URL,
