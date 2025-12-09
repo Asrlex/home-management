@@ -1,9 +1,12 @@
-export enum ApiEndpoints {
-  base = 'http://localhost:3002',
-  hm = '/home-management',
-  hm_url = 'http://localhost:3002/home-management',
-  health_check_url = 'http://localhost:3002/control/health',
-}
+const API_BASE_URL: string =
+  process.env.VITE_API_URL || 'http://localhost:3002';
+
+export const ApiEndpoints = {
+  base: API_BASE_URL,
+  hm: '/home-management',
+  hm_url: `${API_BASE_URL}/home-management`,
+  health_check_url: `${API_BASE_URL}/control/health`,
+} as const;
 
 export enum AuthEndpoints {
   // base_url
