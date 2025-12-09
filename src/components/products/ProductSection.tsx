@@ -1,4 +1,5 @@
-import React, { useState, useRef, Fragment, useEffect } from 'react';
+import { useState, useRef, Fragment, useEffect } from 'react';
+import * as React from 'react';
 import toast from 'react-hot-toast';
 import Select from 'react-select';
 import {

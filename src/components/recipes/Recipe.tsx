@@ -8,7 +8,7 @@ import { ContextMenu } from 'primereact/contextmenu';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { FaTag } from 'react-icons/fa';
 import useEtiquetaStore from '../../store/TagStore';
-import React from 'react';
+import * as React from 'react';
 import Modal from '../generic/Modal';
 import NuevaRecetaModal from './RecipeModal';
 import { RecipeDetailI, TagI } from '@/entities/types/home-management.entity';

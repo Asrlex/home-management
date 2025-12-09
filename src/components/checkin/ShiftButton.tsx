@@ -1,7 +1,7 @@
 import { CreateShiftCheckinDto } from '@/entities/dtos/shift.dto';
 import { ShiftTypes } from '@/entities/enums/api.enums';
 import useShiftStore from '@/store/ShiftStore';
-import React from 'react';
+import * as React from 'react';
 import toast from 'react-hot-toast';
 
 interface ShiftButtonProps {

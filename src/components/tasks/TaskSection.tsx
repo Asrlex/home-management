@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { axiosRequest } from '../../hooks/useAxiosRequest';
 import { HttpEnum } from '@/entities/enums/http.enum';
 import { ApiEndpoints, TareasEndpoints } from '@/config/apiconfig';
-import React from 'react';
+import * as React from 'react';
 import { TaskI } from '@/entities/types/home-management.entity';
 
 interface ModalHandle {

@@ -1,6 +1,6 @@
 import Select from 'react-select';
 import { customStyles } from '../../styles/SelectStyles';
-import React from 'react';
+import * as React from 'react';
 
 interface GastosFormProps {
   crearGasto: (e: React.FormEvent) => void;

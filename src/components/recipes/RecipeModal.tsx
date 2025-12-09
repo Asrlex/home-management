@@ -5,7 +5,7 @@ import { AiFillDelete, AiOutlineEdit } from 'react-icons/ai';
 import { customStyles } from '../../styles/SelectStyles';
 import useRecetasStore from '../../store/RecipeStore';
 import toast from 'react-hot-toast';
-import React from 'react';
+import * as React from 'react';
 import { CreateRecipeDto } from '@/entities/dtos/recipe.dto';
 import { RecipeDetailI } from '@/entities/types/home-management.entity';
 

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import * as React from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 interface MonthSelectorProps {

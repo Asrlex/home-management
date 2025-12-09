@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import React from 'react';
+import * as React from 'react';
 import { IoMdArrowDropright } from 'react-icons/io';
 import useNotificationStore from '@/store/NotificationStore';
 

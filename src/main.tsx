@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import * as React from 'react';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import App from './App';
 import '@fontsource/roboto/300.css';
@@ -13,7 +13,6 @@ import './styles/css/products.css';
 import './styles/css/recipes.css';
 import './styles/css/tasks.css';
 import './styles/css/mainContent.css';
-import './styles/css/expenses.css';
 import './styles/css/context.css';
 import './styles/css/sidebar.css';
 import './styles/css/tags.css';
@@ -40,7 +39,7 @@ document.documentElement.className = theme;
 
 useConnectionStore.getState().initializeConnectionCheck();
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router>
       <Routes>

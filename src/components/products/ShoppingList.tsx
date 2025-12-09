@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import GestorProductos from './ProductSection';
 import { ProductTypes } from './entities/products.enum';
 

@@ -1,6 +1,7 @@
 import { ExpenseI } from '@/entities/types/home-management.entity';
 import { ContextMenu } from 'primereact/contextmenu';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
+import * as React from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
 
 interface ExpensesListProps {

@@ -2,7 +2,8 @@ import {
   ShoppingListProductI,
   StockProductI,
 } from '@/entities/types/home-management.entity';
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import * as React from 'react';
 import { RiDeleteBinLine, RiSubtractLine, RiAddLine } from 'react-icons/ri';
 
 interface ContadorProductoProps {

@@ -6,7 +6,7 @@ import FAB from '../generic/FloatingButton';
 import MonthSelector from '../generic/MonthSelector';
 import GastosForm from './ExpenseForm';
 import useExpenseStore from '../../store/ExpenseStore';
-import React from 'react';
+import * as React from 'react';
 import { CreateExpenseDto } from '@/entities/dtos/expense.dto';
 import ExpensesList from './ExpenseList';
 

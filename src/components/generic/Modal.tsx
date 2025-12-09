@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useRef, forwardRef, useImperativeHandle } from 'react';
 import { MdClose } from 'react-icons/md';
-import React from 'react';
+import * as React from 'react';
 
 interface ModalProps {
   children: React.ReactNode;

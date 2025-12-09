@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { formThemeVars, styles } from '../../styles/Form.Styles';
-import React from 'react';
+import * as React from 'react';
 import { ApiPaths } from '@/entities/enums/api.enums';
 
 export default function Login() {

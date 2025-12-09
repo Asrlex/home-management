@@ -4,7 +4,6 @@ import { FormattedResponseI } from '@/entities/types/api.entity';
 import { StoreEnum } from '@/store/entities/enums/store.enum';
 import axios from 'axios';
 import { addRequest } from './offline/offlineQueue';
-import useUserStore from '@/store/UserStore';
 
 export const axiosRequest = async <T extends object>(
   method: HttpEnum,

@@ -5,7 +5,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React from 'react';
+import * as React from 'react';
 import { TaskI } from '@/entities/types/home-management.entity';
 
 interface TareaProps {

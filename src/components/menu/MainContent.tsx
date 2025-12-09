@@ -1,7 +1,7 @@
 import { toast, Toaster, ToastBar } from 'react-hot-toast';
 import { FaTimes } from 'react-icons/fa';
 import ConnectionStatusIcon from '../generic/ConnectionStatusIcon';
-import React from 'react';
+import * as React from 'react';
 
 interface MainContentProps {
   titulo?: string;

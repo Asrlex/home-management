@@ -1,7 +1,7 @@
 import { RiAddLine, RiDeleteBinLine } from 'react-icons/ri';
 import { useRef } from 'react';
 import { ContextMenu } from 'primereact/contextmenu';
-import React from 'react';
+import * as React from 'react';
 import useEtiquetaStore from '@/store/TagStore';
 import { TagI } from '@/entities/types/home-management.entity';
 

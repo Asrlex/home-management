@@ -8,7 +8,7 @@ import { FaPlus } from 'react-icons/fa';
 import NuevaRecetaModal from './RecipeModal';
 import Loader from '../generic/Loader';
 import ListaEtiquetas from '../tags/TagSection';
-import React from 'react';
+import * as React from 'react';
 
 export default function Recetas() {
   const recetas = useRecetasStore((state) => state.recetas);

@@ -27,7 +27,7 @@ import CarTasks from './components/tasks/car/CarTasks';
 import useUserStore from './store/UserStore';
 import useSettingsStore from './store/SettingsStore';
 import { ApiPaths } from './entities/enums/api.enums';
-import React from 'react';
+import * as React from 'react';
 import useNotificationStore from './store/NotificationStore';
 
 function App() {

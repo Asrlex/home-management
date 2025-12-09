@@ -12,7 +12,8 @@ import { PiCookingPotFill } from 'react-icons/pi';
 import { MdAddHome, MdEuroSymbol, MdWorkHistory } from 'react-icons/md';
 import { FaBoxes } from 'react-icons/fa';
 import ToggleMode from './TogglerSection';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import * as React from 'react';
 import useNotificationStore from '@/store/NotificationStore';
 import Microphone from './Microphone';
 

@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import * as React from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { MdOutlineExpandMore } from 'react-icons/md';
 import { CiLogin, CiLogout } from 'react-icons/ci';

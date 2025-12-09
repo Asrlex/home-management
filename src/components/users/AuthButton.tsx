@@ -2,9 +2,9 @@ import useUserStore from '../../store/UserStore';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
-import React from 'react';
 import { StoreEnum } from '@/store/entities/enums/store.enum';
 import { ApiPaths } from '@/entities/enums/api.enums';
+import * as React from 'react';
 
 const AuthButton = () => {
   const loginStatus = useUserStore((state) => state.loginStatus);

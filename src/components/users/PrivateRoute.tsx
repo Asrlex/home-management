@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import useUserStore from '../../store/UserStore';
 import Loader from '../generic/Loader';
-import React from 'react';
+import * as React from 'react';
 import { StoreEnum } from '@/store/entities/enums/store.enum';
 import { ApiPaths } from '@/entities/enums/api.enums';
 

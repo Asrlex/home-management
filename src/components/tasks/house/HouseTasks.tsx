@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import * as React from 'react';
 import { axiosRequest } from '../../../hooks/useAxiosRequest';
 import toast from 'react-hot-toast';
 import { LuWashingMachine, LuCookingPot, LuDog, LuBath } from 'react-icons/lu';

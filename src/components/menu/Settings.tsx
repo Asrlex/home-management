@@ -9,7 +9,7 @@ import {
   Button,
 } from '@mui/material';
 import toast from 'react-hot-toast';
-import React from 'react';
+import * as React from 'react';
 import useSettingsStore from '@/store/SettingsStore';
 import useThemeStore from '@/store/ThemeStore';
 import { styles } from '@/styles/Form.Styles';

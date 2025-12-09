@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import * as React from 'react';
 import { LuAlarmClockCheck, LuAlarmClockOff } from 'react-icons/lu';
 import { FaPlus } from 'react-icons/fa';
 import LiveClock from './LiveClock';

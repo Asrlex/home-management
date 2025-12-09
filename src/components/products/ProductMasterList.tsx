@@ -17,7 +17,7 @@ import Modal from '../generic/Modal';
 import { FaPlus } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { TableStyles } from '../../styles/Table.Styles';
-import React from 'react';
+import * as React from 'react';
 import { ProductToastMessages } from './entities/products.enum';
 
 const ListaProductos = () => {

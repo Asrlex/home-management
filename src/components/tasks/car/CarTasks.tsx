@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 import Select from 'react-select';
 import { CarTaskI } from '@/entities/types/home-management.entity';
 import { CreateCarTaskDto } from '@/entities/dtos/task.dto';

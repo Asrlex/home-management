@@ -7,7 +7,7 @@ import { ContextMenu } from 'primereact/contextmenu';
 import ContadorProducto from './ProductCounter';
 import useEtiquetaStore from '../../store/TagStore';
 import SortableItem from '../generic/SortableItem';
-import React from 'react';
+import * as React from 'react';
 import { ShoppingListProductI } from '@/entities/types/home-management.entity';
 
 export interface ListaCompraItemProps {
